@@ -58,8 +58,10 @@ class Tours2Controller extends Controller
 
         Tourist::create(request(['name', 'lastName', 'nameEng', 'lastNameEng', 'birth_date']));
 
-        $tour = Tour2::find(latest);
-        $tour->tourists()->sync($tourist_id);
+        $latest_tour = Tour2::count();
+        $latest_tourist = Tourist::count();
+        $tour = Tour2::find($latest_tour);
+        $tour->tourists()->sync($latest_tourist);
 
 
         return redirect()->route('tours2_index');
