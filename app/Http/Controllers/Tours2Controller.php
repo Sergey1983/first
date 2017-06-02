@@ -51,15 +51,19 @@ class Tours2Controller extends Controller
     {
         Tour2::create(request(['сity_from', 'hotel']) );
 
-        $tours = Tour2::all();
-
         $nameEng = Translit::translit($request['name']); 
-        $lastNameEng = Translit::translit($request['lastName']);        
+        $lastNameEng = Translit::translit($request['lastName']);
+
         $request->request->add(['nameEng' => $nameEng, 'lastNameEng' => $lastNameEng]);
 
         Tourist::create(request(['name', 'lastName', 'nameEng', 'lastNameEng', 'birth_date']));
 
-        return view('Tours2.tours2', compact('tours'));
+        $tour = Tour2::find(latest);
+        $tour->tourists()->sync($tourist_id);
+
+
+        return redirect()->route('tours2_index');
+
     }
 
     /**
