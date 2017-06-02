@@ -1,0 +1,45 @@
+body
+{
+    font-family: Arial;
+    text-align: center;
+
+}
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    padding: 5px;
+    border: 1px solid black;
+}
+
+.colortext {
+    color: red;
+}
+
+.table-name {
+    text-align: left;
+}
+
+.a-button {
+	text-decoration: none;
+}
+
+.hover {
+	font-weight: bold;
+}
+
+.active {
+	text-decoration: underline;
+}
+.SelectAndPager{
+	padding: 5px;
+}
+
+.inline {
+	display:inline;
+}
+
