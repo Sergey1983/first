@@ -48,23 +48,45 @@ class Tours2Controller extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
+
     {
-        Tour2::create(request(['сity_from', 'hotel']) );
+        // Tour2::create(request(['сity_from', 'hotel']) );
 
-        $nameEng = Translit::translit($request['name']); 
-        $lastNameEng = Translit::translit($request['lastName']);
+        $tourist_nubmer = count($request->name);
 
-        $request->request->add(['nameEng' => $nameEng, 'lastNameEng' => $lastNameEng]);
+        $request->request->add(['nameEng' => array() , 'lastNameEng'=> array()]);
 
-        Tourist::create(request(['name', 'lastName', 'nameEng', 'lastNameEng', 'birth_date']));
+        for ($i=0; $i < $tourist_nubmer; $i++ ) {
 
-        $latest_tour = Tour2::count();
-        $latest_tourist = Tourist::count();
-        $tour = Tour2::find($latest_tour);
-        $tour->tourists()->sync($latest_tourist);
+            $nameEng = Translit::translit($request['name'][$i]); 
+            $lastNameEng = Translit::translit($request['lastName'][$i]);
 
 
-        return redirect()->route('tours2_index');
+
+            $request->request->add(['nameEng'[$i] => $nameEng, 'lastNameEng'[$i] => $lastNameEng]);
+
+        }
+
+        // for ($i=0; $i < $tourist_nubmer; $i++ ) {
+
+
+
+        //     Tourist::create(request(['name', 'lastName', 'nameEng', 'lastNameEng', 'birth_date']));
+
+        //     $latest_tour = Tour2::count();
+        //     $latest_tourist = Tourist::count();
+
+        //     $tour = Tour2::find($latest_tour);
+        //     $tour->tourists()->sync($latest_tourist);
+
+        //     }
+
+        $r=$request->all();
+        $tours=Tour2::all();
+
+return view ('Tours2.tours2', compact('r', 'tours', 'tourist_nubmer'));
+
+        // return redirect()->route('tours2_index');
 
     }
 
