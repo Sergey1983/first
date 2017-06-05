@@ -54,16 +54,14 @@ class Tours2Controller extends Controller
 
         $tourist_nubmer = count($request->name);
 
-        $request->request->add(['nameEng' => array() , 'lastNameEng'=> array()]);
+        $request->request->add(['nameEng' => array() , 'lastNameEng'=> array() ]);
 
         for ($i=0; $i < $tourist_nubmer; $i++ ) {
 
             $nameEng = Translit::translit($request['name'][$i]); 
             $lastNameEng = Translit::translit($request['lastName'][$i]);
 
-
-
-            $request->request->add(['nameEng'[$i] => $nameEng, 'lastNameEng'[$i] => $lastNameEng]);
+            $request->request->add(['nameEng' => $nameEng, 'lastNameEng' => $lastNameEng]);
 
         }
 
