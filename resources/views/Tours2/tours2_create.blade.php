@@ -5,7 +5,13 @@
 @include('layouts.tours2_create_table')
 
 
+<?= dump($errors); ?>
 
+@if($errors->has())
+   @foreach ($errors->all() as $error)
+      <div>{{ $error }}</div>
+  @endforeach
+@endif
 
 
 <script type="text/javascript">

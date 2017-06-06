@@ -25,7 +25,7 @@ class tours2_create_tableRequest extends FormRequest
     {
         return [
 
-            'doc_fullnumber' => 'unique'
+            'doc_fullnumber' => 'unique:tourists'
             
         ];
     }

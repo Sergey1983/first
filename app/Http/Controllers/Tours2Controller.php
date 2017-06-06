@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-// use App\Http\Requests\tours2_create_tableRequest;
+use App\Http\Requests\tours2_create_tableRequest;
 
 use Validator;
 
@@ -56,17 +56,12 @@ class Tours2Controller extends Controller
     {
 
 $data=$request->all();
-for ($i=0; $i < count($request->doc_fullnumber); $i++ ) {
- $validator = Validator::make($data[$i], [
-  'doc_fullnumber' => 'unique:tourists,doc_fullnumber',
- ], [
-  'doc_fullnumber.unique' => 'Такой турист уже есть!'
- ]);
-
- if ($validator->fails()) {
-  return back()->withErrors($validator)->withInput();
- }
-}
+        $rules = [];
+        foreach (range(0, count($data['doc_fullnumber']) - 1) as $index) $rules['doc_fullnumber.'.$index] = 'unique:tourists,doc_fullnumber';
+        $validator = Validator::make($data, $rules, [
+            'doc_fullnumber.unique' => 'Такой турист уже есть!'
+        ]);
+        if ($validator->fails()) return back()->withErrors($validator)->withInput();
 
 
         Tour2::create(request(['сity_from', 'hotel']) );
