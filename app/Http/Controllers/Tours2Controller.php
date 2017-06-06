@@ -55,8 +55,9 @@ class Tours2Controller extends Controller
 
     {
 
-        for ($i=0; $i < count($request->doc_fullnumber); $i++ ) {
- $validator = Validator::make($request->all()[$i], [
+$data=$request->all();
+for ($i=0; $i < count($request->doc_fullnumber); $i++ ) {
+ $validator = Validator::make($data[$i], [
   'doc_fullnumber' => 'unique:tourists,doc_fullnumber',
  ], [
   'doc_fullnumber.unique' => 'Такой турист уже есть!'
