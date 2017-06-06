@@ -5,6 +5,9 @@
 @include('layouts.tours2_create_table')
 
 
+
+
+
 <script type="text/javascript">
 	
 

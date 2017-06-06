@@ -1,9 +1,3 @@
-		@if(session()->has('message'))
-    <div class="alert alert-success">
-        {{ session()->get('message') }}
-    </div>
-@endif
-
 		<h1>Конструктор пакетного тура</h1>
 			<form class="inline" method='POST'>
 

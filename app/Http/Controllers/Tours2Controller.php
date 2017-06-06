@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\tours2_create_tableRequest;
+// use App\Http\Requests\tours2_create_tableRequest;
+
+use Validator;
 
 use App\Tour2;
 
@@ -53,11 +55,18 @@ class Tours2Controller extends Controller
 
     {
 
-         $doc_num = Tourist::where('doc_fullnumber', '=', $request->input('doc_fullnumber'));
-         
-         if(is_null($doc_num)) {
-             return redirect()->back()->with('message', 'Такой турист уже есть!');
-         }
+        for ($i=0; $i < count($request->doc_fullnumber); $i++ ) {
+ $validator = Validator::make($request->all()[$i], [
+  'doc_fullnumber' => 'unique:tourists,doc_fullnumber',
+ ], [
+  'doc_fullnumber.unique' => 'Такой турист уже есть!'
+ ]);
+
+ if ($validator->fails()) {
+  return back()->withErrors($validator)->withInput();
+ }
+}
+
 
         Tour2::create(request(['сity_from', 'hotel']) );
 
