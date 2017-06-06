@@ -61,7 +61,7 @@ $data=$request->all();
         $validator = Validator::make($data, $rules, [
             'doc_fullnumber.unique' => 'Такой турист уже есть!'
         ]);
-        if ($validator->fails()) return back()->withErrors($validator)->withInput();
+        if ($validator->fails()) return back()->withErrors($validator->all())->withInput();
 
 
         Tour2::create(request(['сity_from', 'hotel']) );
