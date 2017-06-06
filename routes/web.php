@@ -36,3 +36,7 @@ Route::get('/tours_2', 'Tours2Controller@index')->name('tours2_index');;
 Route::get('/tours_2/create', 'Tours2Controller@create');
 Route::get('/tours_2/{id}', 'Tours2Controller@show');
 Route::post('/tours_2/create', 'Tours2Controller@store');
+
+
+
+

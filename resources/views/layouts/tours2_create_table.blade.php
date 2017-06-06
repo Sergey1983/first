@@ -1,8 +1,4 @@
-@if($errors->has())
-   @foreach ($errors->all() as $error)
-      <div>{{ $error }}</div>
-  @endforeach
-@endif
+
 
 		<h1>Конструктор пакетного тура</h1>
 			<form class="inline" method='POST'>

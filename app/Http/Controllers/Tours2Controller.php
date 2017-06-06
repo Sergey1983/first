@@ -51,21 +51,20 @@ class Tours2Controller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(tours2_create_tableRequest $request)
 
     {
 
-$data=$request->all();
-        $rules = [];
-        foreach (range(0, count($data['doc_fullnumber']) - 1) as $index) $rules['doc_fullnumber.'.$index] = 'unique:tourists,doc_fullnumber';
-        $validator = Validator::make($data, $rules, [
-            'doc_fullnumber.unique' => 'Такой турист уже есть!'
-        ]);
-        if ($validator->fails()) return back()->withErrors($validator->all())->withInput();
+// $data=$request->all();
+//         $rules = [];
+//         foreach (range(0, count($data['doc_fullnumber']) - 1) as $index) $rules['doc_fullnumber.'.$index] = 'unique:tourists,doc_fullnumber';
+//         $validator = Validator::make($data, $rules, [
+//             'doc_fullnumber.unique' => 'Такой турист уже есть!'
+//         ]);
+//         if ($validator->fails()) return back()->withErrors($validator)->withInput();
 
 
         Tour2::create(request(['сity_from', 'hotel']) );
-
 
 
         $tourists_tocreate = count($request->name);

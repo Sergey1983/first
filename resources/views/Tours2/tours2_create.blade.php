@@ -4,9 +4,15 @@
 
 @include('layouts.tours2_create_table')
 
+@if($errors->count() > 0 )
+	<div>
+   @foreach ($errors->all() as $error)
+      {{ $error }}
+   @endforeach
+  	</div>
+@endif
 
-<?= dump($errors); ?>
-
+<?=dump($errors); ?>
 
 
 
