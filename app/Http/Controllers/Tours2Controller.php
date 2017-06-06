@@ -50,8 +50,12 @@ class Tours2Controller extends Controller
     public function store(Request $request)
 
     {
+        $doc_num = Tourist::where('doc_fullnumber', '=', '$request->input('doc_fullnumber'));
+        if(is_null($doc_num)) {
+            return redirect()->back()->with('message', 'Такой турист уже есть!');
+        }
         Tour2::create(request(['сity_from', 'hotel']) );
-
+        
 
 
         $tourists_tocreate = count($request->name);
@@ -90,7 +94,7 @@ class Tours2Controller extends Controller
 
             $latest_tour = Tour2::count();
             $latest_tourist = Tourist::count();
-
+            
             $tour = Tour2::find($latest_tour);
             $tour->tourists()->attach($latest_tourist);
 
