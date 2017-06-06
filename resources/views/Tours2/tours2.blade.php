@@ -6,7 +6,7 @@
 
 @include('layouts.tours2_table')
 
-<?=dump($r); ?>;
-<?=dump($tourist_nubmer); ?>;
-
 @endsection
+
+
+

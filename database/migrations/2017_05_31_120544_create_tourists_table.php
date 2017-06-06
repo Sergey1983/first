@@ -22,7 +22,7 @@ class CreateTouristsTable extends Migration
             // $table->integer('doc_number_num');
             // $table->string('doc_starts');
             // $table->string('doc_expires');
-            // $table->biginteger('doc_fullnumber');
+            $table->biginteger('doc_fullnumber')->unique();
             $table->timestamps();
         });
     }

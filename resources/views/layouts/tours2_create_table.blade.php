@@ -21,20 +21,26 @@
 Пассажиры
 <br><br>
 				
-
+	
+			<div class="inputs">
 
 				<span>Имя: </span><input type="text" name="name[]" placeholder="Имя"><br><br>
 				<span>Фамилия: </span><input type="text" name="lastName[]" placeholder="Фамилия"><br><br>	
 				<span>Дата рождения: </span><input type="date" name="birth_date[]" value="" placeholder="Дата рождения"><br><br>
+				<span>Номер док-та: </span><input type="text" name="doc_fullnumber[]" placeholder="Номер док-та"><br><br>	
 
+
+			</div>
+				
+				<button id='add_passenger'>+1 пассажир</button>
 				<br><br>
-				<span>Имя: </span><input type="text" name="name[]" placeholder="Имя"><br><br>
-				<span>Фамилия: </span><input type="text" name="lastName[]" placeholder="Фамилия"><br><br>	
-				<span>Дата рождения: </span><input type="date" name="birth_date[]" value="" placeholder="Дата рождения"><br><br>
+
 				
 				<input type="submit" value="Создать тур">
 
 			</form>
+
+
 
 
 

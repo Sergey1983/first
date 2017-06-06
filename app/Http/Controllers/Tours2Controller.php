@@ -50,41 +50,56 @@ class Tours2Controller extends Controller
     public function store(Request $request)
 
     {
-        // Tour2::create(request(['сity_from', 'hotel']) );
+        Tour2::create(request(['сity_from', 'hotel']) );
 
-        $tourist_nubmer = count($request->name);
 
-        $request->request->add(['nameEng' => array() , 'lastNameEng'=> array() ]);
 
-        for ($i=0; $i < $tourist_nubmer; $i++ ) {
+        $tourists_tocreate = count($request->name);
 
-            $nameEng = Translit::translit($request['name'][$i]); 
-            $lastNameEng = Translit::translit($request['lastName'][$i]);
 
-            $request->request->add(['nameEng' => $nameEng, 'lastNameEng' => $lastNameEng]);
+        /// ADDING TRANSLITERATED NAME + LASTNAME:
+
+        for ($i=0; $i < $tourists_tocreate; $i++ ) {
+
+            $nameEng[$i] = Translit::translit($request['name'][$i]); 
+            $lastNameEng[$i] = Translit::translit($request['lastName'][$i]);
 
         }
 
-        // for ($i=0; $i < $tourist_nubmer; $i++ ) {
+        $request->request->add(['nameEng' => $nameEng, 'lastNameEng' =>  $lastNameEng]);
 
 
 
-        //     Tourist::create(request(['name', 'lastName', 'nameEng', 'lastNameEng', 'birth_date']));
-
-        //     $latest_tour = Tour2::count();
-        //     $latest_tourist = Tourist::count();
-
-        //     $tour = Tour2::find($latest_tour);
-        //     $tour->tourists()->sync($latest_tourist);
-
-        //     }
+        // ADD TOUR, ADD TOURISTS, ADD TOUR-TOURISTS RELATIONS:
 
         $r=$request->all();
-        $tours=Tour2::all();
 
-return view ('Tours2.tours2', compact('r', 'tours', 'tourist_nubmer'));
 
-        // return redirect()->route('tours2_index');
+
+        for ($i=0; $i < $tourists_tocreate; $i++ ) {
+
+
+
+            Tourist::create([   'name' => $r['name'][$i], 
+                                'lastName' => $r['lastName'][$i],
+                                'nameEng' => $r['nameEng'][$i],
+                                'lastNameEng' => $r['lastNameEng'][$i],
+                                'birth_date' => $r['birth_date'][$i],
+                                'doc_fullnumber' => $r['doc_fullnumber'][$i]
+                             ]);
+
+            $latest_tour = Tour2::count();
+            $latest_tourist = Tourist::count();
+
+            $tour = Tour2::find($latest_tour);
+            $tour->tourists()->attach($latest_tourist);
+
+            }
+
+
+
+
+        return redirect()->route('tours2_index');
 
     }
 
