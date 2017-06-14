@@ -30,6 +30,7 @@ class TouristsTableSeeder extends Seeder
 			// 'doc_starts' => $faker->date($format = 'd-m-Y', $max = 'now'),
 			// 'doc_expires' => $faker->date($format = 'd-m-Y', $max = '+10 years'),
 			// 'doc_fullnumber' => $c.''.$d,
+            'doc_fullnumber' => $faker->randomNumber($nbDigits = 6, $strict=true),
     		'created_at' => \Carbon\Carbon::now(),
     		'updated_at' => \Carbon\Carbon::now(),
 

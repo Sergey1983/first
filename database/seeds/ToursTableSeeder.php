@@ -16,7 +16,7 @@ class ToursTableSeeder extends Seeder
 
     	$faker = Faker::create('ru_RU');
 
-    	for ($i=1; $i <=1000; $i++) {
+    	for ($i=1; $i <=100; $i++) {
 
       	DB::table('tours')->insert([
 

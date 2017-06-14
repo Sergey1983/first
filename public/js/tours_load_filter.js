@@ -34,7 +34,8 @@ $(document).ready(function () {
 							type: 'get',
 							url: 'load_tours',
 							data: $('#search-form').serialize(),
-							success:function (data) {
+							})
+							.done(function (data) {
 
 								$('#tours_table').empty();
 
@@ -42,8 +43,8 @@ $(document).ready(function () {
 
 
 
-								}			
-							});
+							});			
+							
 
 			};
 

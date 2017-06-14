@@ -1,7 +1,7 @@
 
 
 		<h1>Конструктор пакетного тура</h1>
-			<form class="inline" method='POST'>
+			<form id="tour_and_passengers_form" class="inline" method='POST'>
 
 				{{ csrf_field() }}
 
@@ -26,19 +26,22 @@
 	
 			<div class="inputs">
 
-				<span>Имя: </span><input type="text" name="name[]" placeholder="Имя"><br><br>
-				<span>Фамилия: </span><input type="text" name="lastName[]" placeholder="Фамилия"><br><br>	
-				<span>Дата рождения: </span><input type="date" name="birth_date[]" value="" placeholder="Дата рождения"><br><br>
-				<span>Номер док-та: </span><input type="text" name="doc_fullnumber[]" placeholder="Номер док-та"><br><br>	
-
+				<label>Имя: </label> <input type="text" name="name[1]" placeholder="Имя" value="{{old('name.1')}}"> <br><br>
+				<label>Фамилия: </label><input type="text" name="lastName[1]" placeholder="Фамилия" value="{{old('lastName.1')}}"><br><br>	
+				<label>Дата рождения: </label> <input type="date" name="birth_date[1]"  placeholder="Дата рождения" value="{{old('birth_date.1')}}"><br><br>
+				<label>Doc number: </label><input type="text" name="doc_fullnumber[1]" placeholder="Doc number" value="{{old('doc_fullnumber.1')}}">
+			    <p id="error_1" class="p-error inline"></p>
+{{-- 				@if ($errors->has('doc_fullnumber')) <p class="inline">
+				{{ $errors->first('doc_fullnumber') }}
+				</p>@endif<br><br>	 --}}
 
 			</div>
 				
-				<button id='add_passenger'>+1 пассажир</button>
+				<button id='add_passenger'>+Еще турист</button>
 				<br><br>
 
 				
-				<input type="submit" value="Создать тур">
+				<input id="submit_button" type="submit" value="Submit">
 
 			</form>
 
