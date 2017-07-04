@@ -34,15 +34,27 @@ Route::get('/test3/result', 'TestFormController@search');
 
 
 
-Route::get('/tours_2', 'Tours2Controller@index')->name('tours2_index');;
-// Route::group(['middleware' => ['web']], function () {
-	Route::get('/tours_2/create', 'Tours2Controller@create');	
-    Route::post('/tours_2/create', 'Tours2Controller@store');
- // });
+Route::get('/tours_2', 'Tours2Controller@index')->name('tours2_index');
+Route::get('/tours_2/create', 'Tours2Controller@create');	
+Route::post('/tours_2/create', 'Tours2Controller@store');
 Route::get('/tours_2/{id}', 'Tours2Controller@show');
+Route::get('/tours_2/{id}/edit/', 'Tours2Controller@edit');
+Route::post('/tours_2/{id}','Tours2Controller@update');
 
 
 
 
+
+Route::post('/checkpassport_function', "FunctionsController@check_passport");
+Route::post('/load_tours_function', 'FunctionsController@load_tours');
+Route::post('/tours_2/find_passengers', 'FunctionsController@find_passengers');
+Route::post('/edit_tour_prepare_data', 'FunctionsController@edit_tour_prepare_data');
+
+
+Route::get('/testform', 'FormController@create');
+Route::post('/testform', 'FormController@store');
+
+
+// Route::post('/addtourist', 'TouristController@store');
 
 

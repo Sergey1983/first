@@ -30,3 +30,29 @@
 		@endforeach
 
 		</table>
+
+
+	<h1>Список туров 2</h1>
+
+		<table id ='load_tours_table'>
+		
+			<thead id='load_tours_table_thead'>
+			
+				<tr>
+				    <th id='id'>Id заявки</th>
+				    <th id='city_from'>Вылет из:</th>
+				    <th id='hotel'>Отель</th>
+				    <th></th>
+			  	</tr>
+
+			</thead>
+
+			<tbody id='load_tours_table_tbody'>
+
+
+		  	</tbody>
+
+		</table>
+
+
+<script type="text/javascript" src='{{URL::asset('js/load_tours/load_tours.js')}}'></script>

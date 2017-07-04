@@ -97,10 +97,10 @@ return [
     |
     */
 
-    'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
+   'custom' => [
+        'document_num.*' => [
+            'document_num_fail' => 'Input-ed user name doesn`t match his/her name in DB for specified :attribute (field position/number: :index)',
+        ]
     ],
 
     /*
@@ -114,6 +114,10 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+
+        'document_num.*' => 'document number',
+        
+    ],
 
 ];

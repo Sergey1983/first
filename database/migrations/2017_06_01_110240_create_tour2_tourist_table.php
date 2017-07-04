@@ -19,6 +19,8 @@ class CreateTour2TouristTable extends Migration
           $table->foreign('tourist_id')->references('id')
             ->on('tourists')->onDelete('cascade');
 
+          $table->integer('is_buyer')->unsigned()->nullable();
+          $table->integer('is_tourist')->unsigned()->nullable();
 
           $table->timestamps();
 

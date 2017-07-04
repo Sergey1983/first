@@ -10,9 +10,32 @@
 </head>
 <body>
 
-<h2>ВИСТА-ТУР-ОРЕНБУРГ</h2>
+<h2>Тестовая форма</h2>
 
-@yield('content')
+
+
+
+{!! Form::open(['action' => 'FormController@store']) !!}
+
+@for ($i=0; $i<2; $i++) 
+
+	<div class='input'>
+		{!! Form::label('Имя '.$i.'')!!}
+		{!! Form::text('fullname['.$i.']')!!}
+
+		{!!Form::label('Документ '.$i.'' )!!}
+		{!! Form::text('document_num['.$i.']')!!}
+	</div>	
+
+@endfor
+
+	<br>
+	<br>
+	<button type="submit">Добавить</button>
+
+{!! Form::close() !!}
+
+
 
 
 </body>

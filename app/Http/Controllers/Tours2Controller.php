@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\tours2_create_tableRequest;
+use App\Http\Requests\tourRequest;
 
 use Validator;
 
@@ -13,6 +13,8 @@ use App\Tour2;
 use App\Tourist;
 
 use App\Translit;
+
+use App\Cities;
 
 class Tours2Controller extends Controller
 {
@@ -40,8 +42,10 @@ class Tours2Controller extends Controller
     public function create()
     
     {
+
+        $cities = Cities::all()->pluck('city', 'city');
         
-        return view('Tours2.tours2_create');
+        return view('Tours2.tours2_create', compact('cities'));
     
     }
 
@@ -51,98 +55,96 @@ class Tours2Controller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(tours2_create_tableRequest $request)
+    public function store(tourRequest $request)
     // public function store(Request $request)
     {
 
-        //     foreach ($request->get('doc_fullnumber') as $key => $val)
-
-        //       {
-        //         // $rules['doc_fullnumber['. $key .']'] = 'unique:tourists';
-        //         $rules[$val] = 'unique:tourists';
-        //       }
-
-        //     dump( $rules );
 
 
-        // $this->validate($request,
-
-        //     // 'doc_fullnumber' => 'unique:tourists'
-
-        //     $rules
-
-
-        //     , ['doc_fullnumber.unique' => 'Паспорт уже есть в базе данных!']);
-
-
-        // $validator = Validator::make($request->all(), 
-        //     ['doc_fullnumber' => 'unique:tourists'], 
-        //     ['doc_fullnumber.unique' => 'Паспорт уже есть в базе данных!']);
-
-        // if ($validator->fails()) {
-        //     return redirect('tours_2/create')
-        //             ->withErrors($validator)
-        //             ->withInput($request->all());
-        // }
-// dump ($request->get('doc_fullnumber') );
-
-          // foreach($request->get('doc_fullnumber') as $key => $val)
-          //     {
-          //       dump('doc_fullnumber['. $key .']');
-          //       dump($val);
-          //     }
-       
-        Tour2::create(request(['сity_from', 'hotel']) );
-
+        // ADDING TOUR AND STORING IT INTO $tour (we'll use it later)
+        $tour = Tour2::create(request(['сity_from', 'hotel']) );
 
         $tourists_tocreate = count($request->name);
 
-        dump($tourists_tocreate);
+        // ADDING TRANSLITERATED NAME + LASTNAME:
 
-        /// ADDING TRANSLITERATED NAME + LASTNAME:
-
-        for ($i=1; $i <= $tourists_tocreate; $i++ ) {
+        for ($i=0; $i < $tourists_tocreate; $i++ ) {
 
             $nameEng[$i] = Translit::translit($request['name'][$i]); 
             $lastNameEng[$i] = Translit::translit($request['lastName'][$i]);
 
         }
 
+        
         $request->request->add(['nameEng' => $nameEng, 'lastNameEng' =>  $lastNameEng]);
-
 
 
         // ADD TOUR, ADD TOURISTS, ADD TOUR-TOURISTS RELATIONS:
 
-        $r=$request->all();
+
+        $r = $request->all();
 
 
+        for ($i=0; $i < $tourists_tocreate; $i++ ) {
 
-        for ($i=1; $i <= $tourists_tocreate; $i++ ) {
+        
+        // If tourist exists, then just get their id:
+            
+
+            if( Tourist::all()->contains('doc_fullnumber', $r['doc_fullnumber'][$i]) ) {
+
+                $tourist_id = Tourist::
+
+                                    where('doc_fullnumber', '=', $r['doc_fullnumber'][$i])
+
+                                    ->value('id');
+
+            }
+
+        // If tourist doesn't exists, then add it to Database:
+
+            else {
+
+                Tourist::create([   'name' => $r['name'][$i], 
+                                    'lastName' => $r['lastName'][$i],
+                                    'nameEng' => $r['nameEng'][$i],
+                                    'lastNameEng' => $r['lastNameEng'][$i],
+                                    'birth_date' => $r['birth_date'][$i],
+                                    'doc_fullnumber' => $r['doc_fullnumber'][$i]
+                                     ]);
+
+                $tourist_id = Tourist::count();
 
 
+            }
 
-            Tourist::create([   'name' => $r['name'][$i], 
-                                'lastName' => $r['lastName'][$i],
-                                'nameEng' => $r['nameEng'][$i],
-                                'lastNameEng' => $r['lastNameEng'][$i],
-                                'birth_date' => $r['birth_date'][$i],
-                                'doc_fullnumber' => $r['doc_fullnumber'][$i]
-                             ]);
+            //TOUR-TOURISTS RELATIONS:
 
-            $latest_tour = Tour2::count();
-            $latest_tourist = Tourist::count();
 
-            $tour = Tour2::find($latest_tour);
-            $tour->tourists()->attach($latest_tourist);
+            if ($r['is_buyer'] == $i) {
+
+                $is_buyer = 1;
+
+                $is_tourist = $r['is_tourist']; // Buyer can be a tourist or not (1 or 0)
+
+            } else {
+
+                $is_buyer = 0;
+
+                $is_tourist = 1; // Tourist is alwasy tourist (always 1)
+
 
             }
 
 
 
 
-        // return redirect()->route('tours2_index');
-           
+            $tour->tourists()
+
+                ->attach($tourist_id, ['is_buyer' => $is_buyer, 'is_tourist' => $is_tourist]);
+
+        }
+          
 
     }
 
@@ -169,7 +171,10 @@ class Tours2Controller extends Controller
      */
     public function edit($id)
     {
-        //
+  
+        $cities = Cities::all()->pluck('city', 'city');
+        
+        return view('Tours2.tours2_edit', compact('cities'));
     }
 
     /**
@@ -179,9 +184,13 @@ class Tours2Controller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(tourRequest $request, $id)
     {
-        //
+        
+
+        
+
+        
     }
 
     /**
@@ -194,4 +203,10 @@ class Tours2Controller extends Controller
     {
         //
     }
+
+
+
+
+
+
 }
