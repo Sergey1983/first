@@ -33,9 +33,15 @@ class FormController extends Controller
 	
 
 
-			Test::create($request->all());
+			for ($i=0; $i < count($request); $i++) {
 
-		    return redirect('/testform');
+			 Test::create(['fullname' => $request['fullname'][$i],
+			 				'document_num' => $request['document_num'][$i]
+			 				]);
+
+			}
+
+		     return redirect('/testform');
 	}
 
 
