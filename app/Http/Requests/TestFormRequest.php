@@ -26,7 +26,7 @@ class TestFormRequest extends FormRequest
             $rules = [
 
                 'fullname.*' => 'required', 
-                'document_num.*' => 'required|integer',
+                'document_num.*' => 'required|digits_between:3,15',
 
             ];
 
@@ -48,4 +48,37 @@ class TestFormRequest extends FormRequest
         return $rules;
 
     }
+
+    
+    public function messages()
+    
+    {
+        return [
+
+            'document_num.*' => [
+                'document_num_fail' => 'Input-ed user name doesn`t match his/her name in DB for specified :attribute (field position/number: :index)',
+            ]
+
+        ];
+    }
+
+    public function attributes()
+   
+    {
+        return [
+
+        'document_num.*' => 'document number',
+
+        ];
+    }
+
+
+
+
+
+
+
+
+
+
 }
