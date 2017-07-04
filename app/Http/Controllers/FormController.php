@@ -17,8 +17,12 @@ class FormController extends Controller
 		public function create()
 	
 	{
-		    
-		return view ('form');
+
+		$tests = Test::all();
+
+
+
+		return view ('form', compact('tests'));
 	}
 
 
@@ -26,10 +30,12 @@ class FormController extends Controller
 		public function store(TestFormRequest $request)
 	
 	{
-		    
+	
+
+
 			Test::create($request->all());
 
-		    return redirect()->back();
+		    return redirect('/testform');
 	}
 
 

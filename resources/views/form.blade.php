@@ -29,14 +29,40 @@
 
 @endfor
 
-	<br>
-	<br>
+
 	<button type="submit">Добавить</button>
 
 {!! Form::close() !!}
 
 
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
+<br><br>
+<table> 
+	<thead>
+		<th>id</th>
+		<th>fullname</th>
+		<th>document_num</th>
+	</thead>
+
+	<tbody>
+@foreach ($tests as $test)
+		<tr>
+			<td>{!! $test->id !!}</td>
+			<td>{!! $test->fullname !!}</td>
+			<td>{!! $test->document_num !!}</td>
+		</tr>
+@endforeach
+	</tbody>
+</table>
 
 </body>
 </html>
