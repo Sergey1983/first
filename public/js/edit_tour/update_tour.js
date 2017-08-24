@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
 
-	console.log("edit_tour.js loaded");
+	console.log("update_tour.js loaded");
 
 	// AJAX REQUEST (TO ADD TOUR & PASSENGER OR TO GET VALIDATION ERROR)
 
@@ -9,11 +9,16 @@ $(document).ready(function() {
 
 					event.preventDefault();
 
+					id = get_tour_id();
+
 					update_tour_and_passengers();
 
 					// console.log($('#tour_form, #passengers_form').serialize());
 
-					id = get_tour_id();
+
+
+
+				});
 
 
 				function update_tour_and_passengers () {
@@ -23,19 +28,24 @@ $(document).ready(function() {
 						$(this).empty();
 					})
 
+					var request = $('#tour_form, #passengers_form').serializeArray();
+					
+					request.push({name: 'tour_id', value: id});
+
+
 
 
 					$.ajax({
 
 						type: 'post',
 						url: '/tours_2/'+id+'' ,
-						data: $('#tour_form, #passengers_form').serialize(),
+						data: request,
 
 						})
 
 						.done(function (data) {
 
-							// console.log(data);
+							 console.log(data);
 
 							window.location.href = '/tours_2';
 
@@ -47,8 +57,6 @@ $(document).ready(function() {
 						.fail(function (data) {
 
 							var errors = data.responseJSON;
-
-							console.log(errors);
 
 							///CHANGING ERROR PROPERTIES FROM 'name=name.1'-kind to 'name=name[1]'-kind
 
@@ -66,8 +74,6 @@ $(document).ready(function() {
 							    }
 							}
 
-
-							// console.log(errors);
 
 							// ADDING ERRORS ON PAGE
 
@@ -95,11 +101,10 @@ $(document).ready(function() {
 
 							// MESSAGE ABOUT ERRORS NEAR "SUBMIT" BUTTON
 
-							$('#submit_button').after("<p class='p-error'>В форме есть ошибки! См. выше!</p>");
+							$('#update_button').after("<p class='p-error'>В форме есть ошибки! См. выше!</p>");
 
 						});			
 
 				};
 
-		});
 });

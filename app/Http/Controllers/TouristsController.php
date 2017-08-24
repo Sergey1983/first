@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Tourist;
 
-class 
- extends Controller
+class TouristsController extends Controller
 
 {
    
@@ -20,5 +19,10 @@ class
             return redirect('/tours_2');
 
     }
+
+
+
+
+
 
 }

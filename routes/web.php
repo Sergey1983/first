@@ -3,7 +3,14 @@
 
 
 
-Route::get('/', 'WelcomeController@index');
+Route::get('/', function()
+{
+	return view('welcome');
+});
+
+Route::post('/login', ['as' => 'sessions.login', 'uses' => 'SessionsController@login']);
+
+Route::get('/logout', ['as' => 'sessions.logout', 'uses' => 'SessionsController@logout']);
 
 
 
@@ -32,29 +39,49 @@ Route::get('/load_tours', 'TestController2@load_tours');
 Route::get('/test3', 'TestFormController@index');
 Route::get('/test3/result', 'TestFormController@search');
 
+Route::group(['middleware' => 'auth'], function () {
+
+	Route::get('/tours_2', 'Tours2Controller@index')->name('tours2_index');
+	Route::get('/tours_2/create', ['as' => 'tour.create', 'uses' => 'Tours2Controller@create']);	
+	Route::post('/tours_2/create', ['as' => 'tour.store', 'uses' => 'Tours2Controller@store']);
 
 
-Route::get('/tours_2', 'Tours2Controller@index')->name('tours2_index');
-Route::get('/tours_2/create', 'Tours2Controller@create');	
-Route::post('/tours_2/create', 'Tours2Controller@store');
-Route::get('/tours_2/{id}', 'Tours2Controller@show');
-Route::get('/tours_2/{id}/edit/', 'Tours2Controller@edit');
-Route::post('/tours_2/{id}','Tours2Controller@update');
+	Route::group(['middleware' => 'App\Http\Middleware\TourAccessMiddleware'], function () {
+
+		Route::get('/tours_2/{id}', 'Tours2Controller@show');
+		Route::get('/tours_2/{id}/edit/', 'Tours2Controller@edit');
+		Route::post('/tours_2/{id}','Tours2Controller@update');
+		Route::get('/tours_2/{id}/versions', ['as' => 'tour.version', 'uses' => 'VersionsController@show']);
 
 
+	});
 
 
+		Route::group(['middleware' => 'App\Http\Middleware\AdminMiddleware'], function () {
+			
 
-Route::post('/checkpassport_function', "FunctionsController@check_passport");
-Route::post('/load_tours_function', 'FunctionsController@load_tours');
-Route::post('/tours_2/find_passengers', 'FunctionsController@find_passengers');
-Route::post('/edit_tour_prepare_data', 'FunctionsController@edit_tour_prepare_data');
+			Route::get('/admin/user/all', ['as' => 'user.index', 'uses' => 'UserController@index']);
+			Route::get('/admin/user/create', ['as' => 'user.create', 'uses' => 'UserController@create']);
+			Route::post('/admin/user/create', ['as' => 'user.store', 'uses' => 'UserController@store']);
+			Route::get('/admin/user/{id}/edit', ['as' => 'user.edit', 'uses' => 'UserController@edit']);
+			Route::post('/admin/user/{id}', ['as' => 'user.update', 'uses' => 'UserController@update']);
+			Route::post('/admin/user/{id}/update_permission', ['as' => 'user.update_permission', 'uses' => 'UserController@update_permission']);
+			Route::post('/admin/user/{id}/destroy', ['as' => 'user.destroy', 'uses' => 'UserController@destroy']);
+
+			
+
+		});
+
+	Route::post('/checkpassport_function', "FunctionsController@check_passport");
+	Route::post('/load_tours_function', 'FunctionsController@load_tours');
+	Route::post('/find_passengers', 'FunctionsController@find_passengers');
+	Route::post('/edit_tour_prepare_data', 'FunctionsController@edit_tour_prepare_data');
 
 
-Route::get('/testform', 'FormController@create');
-Route::post('/testform', 'FormController@store');
+	Route::get('/testform', ['as' => 'testform', 'uses' => 'FormController@create']);
+	Route::post('/testform', 'FormController@store');
+	Route::post('/loadtestform', ['as' => 'loadtests', 'uses' => 'FormController@loadtests']);
 
-
-// Route::post('/addtourist', 'TouristController@store');
+});
 
 

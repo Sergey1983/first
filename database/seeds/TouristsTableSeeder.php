@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Translit;
+use App\Services\Translit;
 use Faker\Factory as Faker;
 
 class TouristsTableSeeder extends Seeder
@@ -22,7 +22,7 @@ class TouristsTableSeeder extends Seeder
     		'lastName' => ($b = $faker->lastName),
       		'nameEng' => Translit::translit($a),
       		'lastNameEng' => Translit::translit($b),
-			'birth_date' => $faker->date($format = 'd-m-Y', $max = 'now'),
+			'birth_date' => $faker->date($format = 'Y-m-d', $max = 'now'),
 			// 'citizenship' => $faker->randomElement($array = array ('Россия','Беларусь','Украина')),
 			// 'doc_type' => $faker->randomElement($array = array ('РФ загранпаспорт','РФ свидетельство о рождении','Другой документ')),
 			// 'doc_number_ser'  => ($c = $faker->randomNumber($nbDigits = 4, $strict=true)),

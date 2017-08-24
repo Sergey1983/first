@@ -15,31 +15,94 @@ $(document).ready(function() {
 
 			'<div class="inputs_'+i+' padding">'+
 
-			'<br><br>'+
-				'<label>Имя: </label>'+
-				'<input type="text" name="name['+i+']" placeholder="Имя">'+
+				'<div class="form-group">'+
 
-			'<br><br>'+
-			'<label>Фамилия: </label>'+
-			'<input type="text" name="lastName['+i+']" placeholder="Фамилия">'+
+					'<label class="control-label col-md-1">Имя: </label>'+
+						
+					'<div class="col-md-3">'+
+					
+							'<input type="text" class="form-control" name="name['+i+']" placeholder="Имя">'+
+					
+					'</div>'+
 
-			'<br><br>'+
-			'<label>Дата рождения: </label>'+
-			'<input type="date" name="birth_date['+i+']" value="" placeholder="Дата рождения">'+
+				'</div>'+
 
-			'<br><br>'+
-			'<label>Doc number: </label>'+ 
-			'<input type="text" name="doc_fullnumber['+i+']" placeholder="Doc number">'+
-			'<button type="button" class="check_doc"> Проверить? </button>'+
 
-			'<br><br>'+
-			'<label>Заказчик?: </label>'+ 
-			'<input type="radio" name="is_buyer" value="'+i+'">'+
+				
+				'<div class="form-group">'+
+	
+					'<label class="control-label col-md-1">Фамилия: </label>'+
+					
+					'<div class="col-md-3">'+
+					
+						'<input type="text" class="form-control" name="lastName['+i+']" placeholder="Фамилия">'+
+					
+					'</div>'+
 
-			'<br><br>'+
-			'<button type="button" class="delete_passenger"> Удалить туриста? </button>'+
+				'</div>'+
+
+
+
+				'<div class="form-group">'+
+	
+					'<label class="control-label col-md-1">Дата рождения: </label>'+
+					
+					'<div class="col-md-3">'+
+					
+						'<input type="date" class="form-control" name="birth_date['+i+']" value="" placeholder="Дата рождения">'+
+					
+					'</div>'+
+
+				'</div>'+
+
+
+
+				'<div class="form-group">'+
+
+					'<label class="control-label col-md-1" for="doc_fullnumber['+i+']">Номер паспорта</label>'+ 
+					
+					'<div class="col-md-3">'+
+					
+						'<input type="text" class="form-control" name="doc_fullnumber['+i+']" placeholder="Номер паспорта">'+
+					
+					'</div>'+
+
+					'<button id="check_doc" class="btn btn-default">Проверить <span class="glyphicon glyphicon-search"></span></button>'+
+
+				'</div>'+
+
+
+
+				'<div class="form-group" id="payer">'+
+	
+					'<label class="control-label col-md-1">Заказчик?: </label>'+ 
+					
+					'<div class="col-md-3">'+
+					
+						'<input type="radio" name="is_buyer" value="'+i+'">'+
+					
+					'</div>'+
+
+				'</div>'+
+
+
+				
+				'<div class="form-group">'+
+					
+					'<div class="col-md-3">'+
+					
+						'<button type="button" class="delete_passenger btn btn-default"> Удалить туриста? </button>'+
+					
+					'</div>'+
+
+				'</div>'+
+
+
 
 			'</div>'
+
+
+
 
 			);
 

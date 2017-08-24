@@ -19,9 +19,16 @@ class FunctionsController extends Controller
 
     {
 
-    	$r = $request->doc_fullnumber;
 
-    	$tourist = Tourist::where('doc_fullnumber', '=', $r)->get();
+        $r = $request->doc_fullnumber;
+
+
+
+    	if(!$tourist = Tourist::where('doc_fullnumber', '=', $r)->get()->toArray() ) {
+
+            $a = 'not found';
+            return $a;
+        }
 
     	return $tourist;
     	

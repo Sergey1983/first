@@ -4,10 +4,10 @@
 
 @section ('content')
 
-@include('layouts.tours2_create_table')
+@include('layouts.tours2_create_or_update_table', ['verb' =>'Создать', 'button' =>'submit_button', 'is_update'=> 0])
 
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/add_passenger.js') }}"></script>
-<script type="text/javascript" src="{{ URL::asset('js/create_tour/create_tour.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/create_tour/create_or_update_tour.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/find_passengers.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/delete_passengers.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/is_tourist.js') }}"></script>

@@ -8,21 +8,18 @@ $(document).ready(function() {
 
 		$('div[class~="is_tourist"]').remove();
 
-		$(this).after('<div class="is_tourist inline">'+
+		$(this).closest('#payer').after('<div class="form-group is_tourist">'+
+	
+							'<label class="control-label col-md-1">Заказчик едет в тур?</label>'+
+							
+							'<div class="col-md-3">'+
 
-						  '<div class="is_tourist_radio">'+
-
-							  '<label>Заказчик едет в тур?</label>'+
-
-							  '<label>Да</label>'+
-							  '<input type="radio" name="is_tourist" value="1">'+
-
-							  '<label>Нет</label>'+
-							  '<input type="radio" name="is_tourist" value="0">'+
-
+								'<label class="radio-inline"><input type="radio" name="is_tourist" value="1">Да</label>'+
+								'<label class="radio-inline"><input type="radio" name="is_tourist" value="0">Нет</label>'+
+							
 							'</div>'+
 
-					  '</div>'
+						'</div>'
 					  );
 
 	});

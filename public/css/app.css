@@ -1,20 +1,25 @@
 body
 {
-    font-family: Arial;
+/*    font-family: Arial;
     text-align: center;
-
+*/
 }
 
 
-table {
+/*table {
     border-collapse: collapse;
     width: 100%;
-}
+}*/
 
-td, th {
+/*td, th {
     padding: 5px;
     border: 1px solid black;
-}
+}*/
+
+
+/*thead {
+    background-color: #f9f9f9;
+}*/
 
 .colortext {
     color: red;
@@ -40,13 +45,7 @@ td, th {
 	padding: 5px;
 }
 
-.is_tourist {
-    margin-left: 5px;
-}
 
-.is_tourist_radio {
-    margin-left: 5px;
-}
 
 .inline {
 	display:inline;
@@ -58,17 +57,25 @@ td, th {
     padding: 10px;
 
 }
+
 .padding {
+
     padding: 10px;
 }
 
 [class*=inputs_] {
 
-    border:1px solid brown;
-    width: 30%;
+    border:1px solid grey;
     margin: 5px auto;
+    border-radius:5px;
 }
 
+.tour {
+
+    border:1px solid grey;
+    margin: 5px auto;
+    border-radius:5px;
+}
 .p-error {
 
         color: red;

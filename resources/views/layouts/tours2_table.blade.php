@@ -1,38 +1,56 @@
-		<h1>Список туров</h1>
+<div class="container-fluid">
 
-		<table>
-		
-			<tr>
-		    <th>Id заявки</th>
-		    <th>Вылет из:</th>
-		    <th>Отель</th>
-		    <th></th>
-		  	</tr>
+	<div class="row">
 
-		@foreach ($tours as $tour)
+		<div class="col-md-12">
 
+			<h1>Список туров</h1>
 
+		</div>
 
+	</div>
 
-			<tr>
+	<div class="row">
 
-			<td><?= $tour->id ?></td>
-			<td><?= $tour->сity_from ?></td>
-			<td><?= $tour->hotel ?></td>
-			<td><?= '<a href="/tours_2/' . $tour->id . '">
-			<button>Подробнее</button> 
-			</a>' ?></td>
+		<div class="col-md-12">
+	
+			<table class='table table-striped table-hover table-responsive'>
+				
+				<thead>
+					<tr >
+					    <th>Id заявки</th>
+					    <th>Вылет из:</th>
+					    <th>Отель</th>
+					    <th></th>
+				  	</tr>
+				</thead>
+			@foreach ($tours as $tour)
+				<tbody>
+				
+					<tr>
 
-			</tr>
+						<td><?= $tour->id ?></td>
+						<td><?= $tour->сity_from ?></td>
+						<td><?= $tour->hotel ?></td>
+						<td><?= '<a class="btn btn-sm btn-info" href="/tours_2/' . $tour->id . '">
+						Подробнее
+						</a>' ?></td>
 
+					</tr>
 
+				</tbody>
 
-		@endforeach
+			@endforeach
 
-		</table>
+			</table>
 
+		</div>
 
-	<h1>Список туров 2</h1>
+	</div>
+
+</div>
+
+{{-- 	<h1>Список туров 2</h1>
 
 		<table id ='load_tours_table'>
 		
@@ -53,6 +71,5 @@
 		  	</tbody>
 
 		</table>
+ --}}
 
-
-<script type="text/javascript" src='{{URL::asset('js/load_tours/load_tours.js')}}'></script>

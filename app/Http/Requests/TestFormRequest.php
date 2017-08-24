@@ -11,6 +11,7 @@ class TestFormRequest extends FormRequest
 
 {
 
+
     public function authorize()
 
     {
@@ -21,56 +22,68 @@ class TestFormRequest extends FormRequest
     public function rules()
     
     {
-        
+
            
             $rules = [
 
                 'fullname.*' => 'required', 
+                'smth.*'=> 'required',
                 'document_num.*' => 'required|digits_between:3,15',
 
             ];
 
-            $documentNums = request()->get('document_num');
             $fullnames = request()->get('fullname');
+            $smths = request()->get('smth');
+            $documentNums = request()->get('document_num');
+
+
 
             for ($i = 0; $i <count($documentNums); $i++) {
 
                 $user = Test::where('document_num', $documentNums[$i])->first();
 
-                
-                if($user && ($user->fullname != $fullnames[$i])) {
 
-                    $rules['document_num.'.$i] = 'document_num_fail:'.$i.'';
+                
+                if($user) {
+
+                    if($user->fullname != $fullnames[$i]) {
+
+                        $rules['fullname.'.$i] = "fullname_fail:$user->fullname";
+
+                    } 
+
+                    if ($user->smth != $smths[$i]) {
+
+                        $rules['smth.'.$i] = "smth_fail:$user->smth";
+
+                    }
+
 
                 }
             }
 
         return $rules;
 
+  
+                          
+
     }
 
-    
-    public function messages()
-    
-    {
-        return [
 
-            'document_num.*' => [
-                'document_num_fail' => 'Input-ed user name doesn`t match his/her name in DB for specified :attribute (field position/number: :index)',
-            ]
+    public function messages() {
+
+        return 
+
+        [
+             'fullname.*fullname_fail' => 'Прежнее имя :index',
+             'smth.*smth_fail' => 'Прежнее smth :index',
 
         ];
+
     }
 
-    public function attributes()
-   
-    {
-        return [
 
-        'document_num.*' => 'document number',
 
-        ];
-    }
 
 
 

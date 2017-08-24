@@ -12,24 +12,68 @@ use App\Tour2;
 
 use App\Tourist;
 
-use App\Translit;
+use App\Http\Controllers\TouristsController;
+
+use App\Services\Translit;
+
+use App\Services\IsBuyerIsTourist;
+
+use App\Services\TouristServices;
+
+use App\Services\PreviousVersions;
 
 use App\Cities;
 
+use App\Test;
+
+use App\previousversionstour2;
+
+use App\previoustourists;
+
+use App\previoustour2_tourist;
+
+use App\Events\TouristUpdated;
+
+use App\Listeners\ExtractUpdatedTourist;
+
+use Event;
+
+
+
 class Tours2Controller extends Controller
+
 {
+
+
+
+
+
+    public $keys_tour = ['сity_from', 'hotel'];
+
+
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
+
     {
+
+        $user = auth()->user();
+
+
+        if($user->role_id == 1 OR $user->permission ==1) {
 
             $tours = Tour2::all();
 
-            return view('Tours2.tours2', compact('tours'));
+        } else {
 
+            $tours = Tour2::where('user_id', $user->id)->get();
+        }
+
+            return view('Tours2.tours2', compact('tours'));
 
         
     }
@@ -43,9 +87,7 @@ class Tours2Controller extends Controller
     
     {
 
-        $cities = Cities::all()->pluck('city', 'city');
-        
-        return view('Tours2.tours2_create', compact('cities'));
+        return view('Tours2.tours2_create');
     
     }
 
@@ -56,95 +98,101 @@ class Tours2Controller extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(tourRequest $request)
-    // public function store(Request $request)
+
     {
 
+        $keys_tourist = ['name', 'lastName', 'birth_date', 'doc_fullnumber'];
+        $keys_tourist_eng = ['nameEng', 'lastNameEng'];
+        $keys_tour = ['сity_from', 'hotel'];
+        $keys_buyer = ['is_buyer', 'is_tourist'];
+        $keys_timestamps = ['created_at', 'updated_at'];
+        $keys_hidden = ['cannot_change_old_tourists', 'tour_exists', 'is_update'];
 
 
-        // ADDING TOUR AND STORING IT INTO $tour (we'll use it later)
-        $tour = Tour2::create(request(['сity_from', 'hotel']) );
+        $request_array = request()->all();
 
-        $tourists_tocreate = count($request->name);
+        $request_array_tour = array_intersect_key($request_array, array_flip($keys_tour));
+        $request_array_tourist = array_intersect_key($request_array, array_flip($keys_tourist));
+        $request_array_buyer = array_intersect_key($request_array, array_flip($keys_buyer));
 
-        // ADDING TRANSLITERATED NAME + LASTNAME:
+        $user = request()->user();
 
-        for ($i=0; $i < $tourists_tocreate; $i++ ) {
+        $tour = Tour2::create(array_merge(request(['сity_from', 'hotel']), ['user_id' => $user->id]));
 
-            $nameEng[$i] = Translit::translit($request['name'][$i]); 
-            $lastNameEng[$i] = Translit::translit($request['lastName'][$i]);
+        $number_of_tourists = count($request->name);
+              
+
+        $previousVersions = new PreviousVersions;
+
+        $tours_to_update_ids = $previousVersions->GetIdsOfToursToSavePreviousVersionsOf($number_of_tourists, $request_array_tourist);
+
+
+        // Saving previous versions of tours where exist tourists from request who are going to be updated (not those who stay the same)
+
+        foreach ($tours_to_update_ids as $tour_to_update_id) {
+
+            $tour_to_save_version = Tour2::find($tour_to_update_id);
+
+            $previousVersions = new PreviousVersions;
+
+            $previousVersions->createVersion($tour_to_save_version);
+
 
         }
 
-        
-        $request->request->add(['nameEng' => $nameEng, 'lastNameEng' =>  $lastNameEng]);
+
+        for ($i=0; $i < $number_of_tourists; $i++ ) {
 
 
-        // ADD TOUR, ADD TOURISTS, ADD TOUR-TOURISTS RELATIONS:
 
+            // If tourist with such passport exists, then just get it from DB.
+ 
+            if ($tourist = Tourist::where('doc_fullnumber', '=', $request['doc_fullnumber'][$i])->first()) {
 
-        $r = $request->all();
+                $tourist_to_update = $request->only("name.$i", "lastName.$i", "birth_date.$i");
 
+                Tourist::updateTouristWithThisDoc($tourist_to_update, $tourist->id);
 
-        for ($i=0; $i < $tourists_tocreate; $i++ ) {
-
-        
-        // If tourist exists, then just get their id:
-            
-
-            if( Tourist::all()->contains('doc_fullnumber', $r['doc_fullnumber'][$i]) ) {
-
-                $tourist_id = Tourist::
-
-                                    where('doc_fullnumber', '=', $r['doc_fullnumber'][$i])
-
-                                    ->value('id');
 
             }
 
-        // If tourist doesn't exists, then add it to Database:
+
+            // If tourist doesn't exists, then add it to Database:
 
             else {
 
-                Tourist::create([   'name' => $r['name'][$i], 
-                                    'lastName' => $r['lastName'][$i],
-                                    'nameEng' => $r['nameEng'][$i],
-                                    'lastNameEng' => $r['lastNameEng'][$i],
-                                    'birth_date' => $r['birth_date'][$i],
-                                    'doc_fullnumber' => $r['doc_fullnumber'][$i]
-                                     ]);
+                $tourist = new Tourist;
 
-                $tourist_id = Tourist::count();
+                $tourist = $tourist->createFromRequest($request->all(), $i);
 
 
             }
 
-            //TOUR-TOURISTS RELATIONS:
+
+            // Check if tourist is a buyer, and if so, if the buyer is a tourist.
 
 
-            if ($r['is_buyer'] == $i) {
+            if ($request['is_buyer'] == $i) { 
 
                 $is_buyer = 1;
 
-                $is_tourist = $r['is_tourist']; // Buyer can be a tourist or not (1 or 0)
+                $is_tourist = $request['is_tourist']; // Buyer can be a tourist or not (1 or 0)
 
             } else {
 
                 $is_buyer = 0;
 
-                $is_tourist = 1; // Tourist is alwasy tourist (always 1)
-
+                $is_tourist = 1; // Tourist (no buyer) is always tourist
 
             }
 
 
 
-
             $tour->tourists()
 
-                ->attach($tourist_id, ['is_buyer' => $is_buyer, 'is_tourist' => $is_tourist]);
+                ->save($tourist, ['is_buyer' => $is_buyer, 'is_tourist' => $is_tourist, 'user_id' => $user->id ]);              
 
         }
-          
 
     }
 
@@ -155,12 +203,27 @@ class Tours2Controller extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
+    
     {
         $tour = Tour2::find($id);
 
+        $user = $tour->users;
+
+
         $tour_tourists = $tour->tourists;
 
-        return view('Tours2.tours2_show', compact('tour', 'tour_tourists'));
+        $is_versions = 0;
+
+        $versions = previousversionstour2::where('tour2_id', $tour->id)->orderBy('version', 'desc')->first();
+
+        if(count($versions) > 0) {
+
+            $is_versions = 1;
+        } 
+
+
+
+        return view('Tours2.tours2_show', compact('tour', 'tour_tourists', 'is_versions', 'user'));
     }
 
     /**
@@ -172,9 +235,8 @@ class Tours2Controller extends Controller
     public function edit($id)
     {
   
-        $cities = Cities::all()->pluck('city', 'city');
         
-        return view('Tours2.tours2_edit', compact('cities'));
+        return view('Tours2.tours2_edit');
     }
 
     /**
@@ -185,10 +247,198 @@ class Tours2Controller extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(tourRequest $request, $id)
+
     {
         
+        $keys_tourist = ['name', 'lastName', 'birth_date', 'doc_fullnumber'];
+        $keys_tourist_eng = ['nameEng', 'lastNameEng'];
+        $keys_tour = ['сity_from', 'hotel'];
+        $keys_buyer = ['is_buyer', 'is_tourist'];
+        $keys_timestamps = ['created_at', 'updated_at'];
+        $keys_hidden = ['cannot_change_old_tourists', 'tour_exists', 'is_update'];
 
-        
+
+        $request_array = request()->all();
+
+        $request_array_tour = array_intersect_key($request_array, array_flip($keys_tour));
+        $request_array_tourist = array_intersect_key($request_array, array_flip($keys_tourist));
+        $request_array_buyer = array_intersect_key($request_array, array_flip($keys_buyer));
+
+        $user = request()->user();
+
+
+        $number_of_tourists = count(request()->name);
+
+//RECORDING VERSION OF TOUR-TOURIST
+
+        $tour=Tour2::find($id);
+
+
+        $previousVersions = new PreviousVersions;
+
+        $previousVersions->createVersion($tour);
+
+
+// UPDATING TOUR-TOURIST
+
+        $tour=Tour2::find($id);
+
+        $tour->update($request_array_tour);
+
+
+
+        $sync_tourist_array = [];
+
+        $updated = [];
+
+
+        // app()->singleton('touristsCollector', function ($app) {
+
+        //     $collector = new \stdClass;
+        //     $collector->updated = [];
+
+        //     return $collector;
+
+        // });
+
+
+        $previousVersions = new PreviousVersions;
+
+        $tours_to_update_ids = $previousVersions->GetIdsOfToursToSavePreviousVersionsOf($number_of_tourists, $request_array_tourist);
+
+
+
+
+        // $ids_of_tourists_to_be_updated = [];
+
+
+        // for($i=0; $i<$number_of_tourists; $i++) {
+
+        //     // Create array ['attributeN' => 'valueN',
+        //    //                'attributeN+1' => 'valueN+1']
+
+        //     foreach ($request_array_tourist as $key => $value) {
+                
+        //             $tourist_to_update[$key] = $value[$i];
+  
+        //     }
+
+
+
+        //     if ($tourist_checked = Tourist::where('doc_fullnumber', $tourist_to_update['doc_fullnumber'])->first() ) {
+
+        //             if(Tourist::where($tourist_to_update)->count() === 0 ) 
+        //                 // Executed when we have a tourist with doc_fullnubmer from request, but other fields for this tourist are different
+        //                 // I.e. - this tourist is being updated during this sesssion
+        //             {
+
+        //                 $ids_of_tourists_to_be_updated[] = $tourist_checked->id;
+
+        //             }
+
+        //         }
+
+        // }
+
+        // //getting models of tourist to be updated
+        // $non_existing_tourists = Tourist::find($ids_of_tourists_to_be_updated);
+
+        // $tours_to_update_ids = [];
+
+
+        // foreach ($non_existing_tourists as $non_existing_tourist) {
+
+        //      foreach ($non_existing_tourist->tour2s as $key => $value) {
+              
+
+        //          if(!in_array($value->id, $tours_to_update_ids)) {
+
+        //             $tours_to_update_ids[]=$value->id;
+
+        //             }
+
+        //      };
+
+             
+        // }
+
+        // Erase current tour $id from $tours_to_update, because we have updated it earlier (and we have to update it before, because it may be updated due to $tour-info update, not due to $tourist-info update)
+
+        $tours_to_update_ids = array_diff($tours_to_update_ids, [0=>$id]) ;
+
+        // Saving previous versions of tours where exist tourists from request who are going to be updated (not those who stay the same)
+
+        foreach ($tours_to_update_ids as $tour_to_update_id) {
+
+            $tour_to_save_version = Tour2::find($tour_to_update_id);
+
+            $previousVersions = new PreviousVersions;
+
+            $previousVersions->createVersion($tour_to_save_version);
+
+
+        }
+
+
+
+
+
+
+        for($i=0; $i<$number_of_tourists; $i++) {
+
+            // Create array ['attribute' => request_value]
+
+            foreach ($request_array_tourist as $key => $value) {
+                
+                    $tourist_to_update[$key] = $value[$i];
+  
+            }
+
+            $tourist_to_update['nameEng'] = Translit::translit($tourist_to_update['name']);
+            $tourist_to_update['lastNameEng'] = Translit::translit($tourist_to_update['lastName']);
+
+
+            $tourist = Tourist::updateOrCreate(['doc_fullnumber' => $request['doc_fullnumber'][$i]], $tourist_to_update);
+
+
+            // Check if tourist is a buyer, and if so, if the buyer is a tourist.
+
+
+
+
+            // if ($request['is_buyer'] == $i) { 
+
+            //     $is_buyer = 1;
+
+            //     $is_tourist = $request['is_tourist']; // Buyer can be a tourist or not (1 or 0)
+
+            // } else {
+
+            //     $is_buyer = 0;
+
+            //     $is_tourist = 1; // Tourist (no buyer) is always tourist
+
+            // }
+
+            
+
+            $is_buyer_tourist = IsBuyerIsTourist::buyer($request_array_buyer, $i);
+            
+            $sync_tourist_array[$tourist->id] = array_merge($is_buyer_tourist, ['user_id'=>$user->id]);
+
+            // $sync_tourist_array[$tourist->id] = ['is_buyer' => $is_buyer, 'is_tourist' => $is_tourist];
+
+
+        };
+
+        // $collector = resolve('touristsCollector');
+
+
+        // $something = TouristServices::UpdateOtherToursWithTourists($collector->updated);
+
+
+        $tour->tourists()->sync($sync_tourist_array);
+
 
         
     }

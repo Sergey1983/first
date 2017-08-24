@@ -32,7 +32,7 @@ class findPassengersRequest extends FormRequest
     {
         return [
             'tour.required' => 'Введите номер заявки!',
-            'tour.exists:tour2s,id' => 'Заявки нет в базе!',
+            'tour.exists' => 'Заявки нет в базе!',
 
         ];
 

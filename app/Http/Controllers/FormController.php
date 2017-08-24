@@ -14,39 +14,42 @@ use App\Test;
 class FormController extends Controller
 {
 
-		public function create()
+	public function create()
 	
 	{
 
 		$tests = Test::all();
-
-
 
 		return view ('form', compact('tests'));
 	}
 
 
 
-		public function store(TestFormRequest $request)
+	public function store(TestFormRequest $request)
 	
 	{
-	
+
+				for ($i=0; $i < count($request->fullname); $i++) {
+
+				 Test::create([ 'fullname' => $request['fullname'][$i],
+        				 				'smth' => $request['smth'][$i],
+        				 				'document_num' => $request['document_num'][$i]
+				 				]);
+
+					}
+
+          return redirect()->route('testform');
+
+  }
 
 
-			for ($i=0; $i < count($request); $i++) {
 
-			 Test::create(['fullname' => $request['fullname'][$i],
-			 				'document_num' => $request['document_num'][$i]
-			 				]);
+	public function loadtests(Request $request) 
 
-			}
-
-		     return redirect('/testform');
-	}
-
-
-	public function new(Request $request) 
 	{
-		return redirect('/tours_2');		
+
+		$tests= Test::exclude(['created_at', 'updated_at'])->get();
+
+		return $tests;		
 	}
 }

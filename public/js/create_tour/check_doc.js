@@ -5,7 +5,7 @@ $(document).ready(function() {
 	console.log("check_doc.js loaded");
 
 
-	$(document).on('click', '.check_doc', function (event) {
+	$(document).on('click', '#check_doc', function (event) {
 
 		event.preventDefault();
 
@@ -15,20 +15,24 @@ $(document).ready(function() {
 			$(this).empty();
 		})
 
-		var tourist_fields = $(this).parent();
+		var tourist_fields = $(this).parent().parent();
 
-		var doc_fullnumber_input = $(this).parent().children('input[name*=doc_fullnumber]');	
-		
-		console.log(tourist_fields);	
+		var doc_fullnumber_input =  $(this).parent().find('input[name*=doc_fullnumber]').val();	
+
+		var block = $(this).parent();
+
 
 		$.ajax ({
 			type: 'POST',
 			url: '/checkpassport_function',
-			data: doc_fullnumber_input.serialize(),
+			data: {doc_fullnumber: doc_fullnumber_input},
 
 		})
 
 		.done (function (data) {
+
+
+			if(data!='not found') {
 
 			var data = data[0];
 
@@ -36,19 +40,28 @@ $(document).ready(function() {
 
 				if (data.hasOwnProperty(property)) {
 
-
-
-
-					tourist_fields.children('input[name*='+property+']').val(data[property]);
-
-					
+					 tourist_fields.find('input[name*='+property+']').val(data[property]);					
 
 					}
 
 				}
 
+			} else { 
+
+					 tourist_fields.find('input').val('');		
+
+					 $('<div class="form-group" style="padding-left: 10px">'+
+					 	'<span class="col-md-1"></span>'+
+						'<div class="alert alert-warning col-md-3">'+
+  							'Нет туриста с таким номером паспорта.'+ 
+						'</div>'+
+					   '</div>'
+					).insertAfter(block).delay(1000).fadeOut();
+
+
+			}
+
 					
-			// console.log(data);
 
 
 

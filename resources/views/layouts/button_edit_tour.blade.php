@@ -1,6 +1,5 @@
-<div class='padding button-center' >
-	<a id='edit_button' href="/tours_2/edit/<?= $tour->id ?>">
-		<button>Редактировать тур</button>
+	<a id='edit_button' class = 'btn btn-primary' href="/tours_2/<?= $tour->id ?>/edit">
+		Редактировать тур
 	</a>
-</div>
+
 

@@ -31,7 +31,7 @@ $(document).ready(function() {
 
 			add_passenger_from_response(tourists);
 
-			console.log(tourists);
+			// console.log(tourists);
 	
 
 		 })

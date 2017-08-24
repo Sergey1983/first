@@ -8,7 +8,7 @@
 
 
 		{!! Form::label('сity_from', 'Город отправления')!!}
-		{!! Form::select('сity_from', $cities, isset($tour->сity_from) ? $tour->сity_from : null, ['placeholder' =>  'Выберите город'] )  !!}
+		{!! Form::select('сity_from', $cities, ['placeholder' =>  'Выберите город'] )  !!}
 
 
 		{!! Form::label('hotel', 'Отель')!!}
@@ -22,18 +22,15 @@
 
 <h2> Туристы </h2>
 
-{{-- 	{!! Form::open(['id' => 'find_passengers', 'class' => 'inline'])!!}
-
-
-		{!! Form::label('tour', 'Вставить туристов из заявки №:')!!}
-		{!! Form::text('tour') !!}
-		{!! Form::submit('Загрузить', ['id' => 'submit_find_passengers']) !!}
-
-	{!! Form::close()!!} --}}
-
 
 <br>
 		{!! Form::open(['id' => 'passengers_form', 'class' => 'inline' ] ) !!}
+
+
+		{!! Form::hidden ('cannot_change_old_tourists', 'true')!!}
+		{!! Form::hidden ('tour_exists')!!}
+		{!! Form::hidden ('is_update', '1')!!}
+
 
 		<div class="inputs_0 padding">
 
@@ -76,7 +73,7 @@
 		</div>
 
 		
-		<div class='input'>
-			{!! Form::submit('Создать тур', ['id' => 'update_button']) !!}
+		<div class='input submit'>
+			{!! Form::submit('Обновить тур', ['id' => 'update_button']) !!}
 		</div>
 		{!! Form::close()!!}

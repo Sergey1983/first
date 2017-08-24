@@ -1,6 +1,8 @@
 
 				function add_passenger_from_response (data) {
 
+					console.log('add_passenger_from_response.js loaded');
+
 
 						/// ADDING TOURIST FIELDS IF NEEDED
 						number_of_tourists = data.length;
@@ -21,7 +23,8 @@
 								 	$('[name="'+property+'['+index+']"]').val(item[property]);
 
 
-								 		if(property == 'is_buyer') {
+
+									if(property == 'is_buyer') {
 
 										 	if(item['is_buyer']==1) {
 

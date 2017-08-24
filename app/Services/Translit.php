@@ -1,10 +1,13 @@
 <?php
 
-namespace App;
+namespace App\Services;
 
-use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Model;
 
-class Translit extends Model
+
+//   
+
+class Translit
 
 {
 

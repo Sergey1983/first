@@ -12,7 +12,7 @@
 
 			$.ajax({
 						type: 'post',
-						url: '/tours_2/find_passengers',
+						url: '/find_passengers',
 						data: $('#find_passengers').serialize(),
 					})
 
@@ -48,7 +48,27 @@
 							    
 						    if (errors.hasOwnProperty(property)) {
 
-							    $('#submit_find_passengers').after('<p class="p-error">'+errors[property]+'</p>');
+						    	$('<div class="form-group">'+
+															
+															'<div class="alert alert-warning" style="margin-left:5px">'+
+																
+																	''+errors[property]+''+ 
+																
+																'</div>'+
+
+														'</div>').insertAfter(
+
+															$('#submit_find_passengers').parent()
+
+														).delay(1000).fadeOut();
+
+								// $('<div class="alert alert-warning col-md-3 style="padding:10px">'+
+			  			// 				''+errors[property]+''+ 
+								// 	'</div>'
+								// ).insertAfter($('#submit_find_passengers').closest('form')).delay(1000).fadeOut();
+
+
+							    // $('#submit_find_passengers').after('<p class="p-error">'+errors[property]+'</p>');
 
 							}
 							        
