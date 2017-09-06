@@ -7,6 +7,8 @@ use Illuminate\Support\ServiceProvider;
 use \Validator;
 
 use App\Services\CustomValidator;
+use App\Services\TooMuchValidator;
+
 
 use App\Tourist;
 
@@ -39,6 +41,8 @@ class AppServiceProvider extends ServiceProvider
 
             Validator::extend("tour_exists", "App\Services\CustomValidator@tourexistsValidate");
             Validator::replacer("tour_exists", "App\Services\CustomValidator@tourexistsReplace");
+
+            Validator::extend("toomuch", "App\Services\TooMuchValidator@toomuchValidate");
 
         // Validator::extend("lastName_fail", "App\Services\CustomValidator@lastNameFailValidate");
 

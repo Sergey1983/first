@@ -13,7 +13,7 @@ public function boot()
     {
         // Using class based composers...
         View::composer(
-            ['Tours2.tours2_create', 'Tours2.tours2_edit'], 'App\Http\ViewComposers\CityComposer'
+            ['Tours2.tours2_create', 'Tours2.tours2_edit'], 'App\Http\ViewComposers\CreateUpdateViewComposer'
         );
 
     }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use App\Tour2;
+use App\Tour;
 
-use App\previoustour2_tourist;
+use App\previous_tour_tourist;
 
 use Closure;
 
@@ -23,8 +23,8 @@ class TourAccessMiddleware
 
         // dump($request->user()->tours);
         // dump($request->id);
-        // dump(Tour2::find($request->id));
-        // dump($request->user()->tours->contains(Tour2::find($request->id)));
+        // dump(Tour::find($request->id));
+        // dump($request->user()->tours->contains(Tour::find($request->id)));
 
 
         $user = $request->user();
@@ -38,9 +38,9 @@ class TourAccessMiddleware
                 return redirect('/');
             }  
 
-            elseif (previoustour2_tourist::where('tour2_id', $id)->get()->count() == 0) {
+            elseif (previous_tour_tourist::where('tour_id', $id)->get()->count() == 0) {
 
-                if(!($user->tours->contains(Tour2::find($id))) ) {
+                if(!($user->tours->contains(Tour::find($id))) ) {
 
                     return redirect('/');
 
@@ -48,13 +48,13 @@ class TourAccessMiddleware
 
             }
 
-            elseif($user->previoustour2_tourist->count()==0) {
+            elseif($user->previous_tour_tourist->count()==0) {
 
                 return redirect('/');
 
             }
 
-            elseif(!Tour2::find($id)->previoustour2_tourist->sortBy('this_version')->first()->user->is($user))
+            elseif(!Tour::find($id)->previous_tour_tourist->sortBy('this_version')->first()->user->is($user))
 
                 {
                     return redirect('/');

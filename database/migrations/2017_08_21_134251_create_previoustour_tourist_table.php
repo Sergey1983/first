@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePrevioustour2TouristTable extends Migration
+class CreatePrevioustourTouristTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreatePrevioustour2TouristTable extends Migration
      */
     public function up()
     {
-        Schema::create('previoustour2_tourists', function (Blueprint $table) {
+        Schema::create('previous_tour_tourists', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('tour2_id')->unsigned()->nullable();
-            $table->foreign('tour2_id')->references('id')
-            ->on('tour2s')->onDelete('cascade');
+            $table->integer('tour_id')->unsigned()->nullable();
+            $table->foreign('tour_id')->references('id')
+            ->on('tours')->onDelete('cascade');
 
-            $table->integer('tour2_version')->unsigned()->nullable();
+            $table->integer('tour_version')->unsigned()->nullable();
 
 
             $table->integer('tourist_id')->unsigned()->nullable();
@@ -51,6 +51,6 @@ class CreatePrevioustour2TouristTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('previoustour2_tourists');
+        Schema::dropIfExists('previous_tour_tourists');
     }
 }

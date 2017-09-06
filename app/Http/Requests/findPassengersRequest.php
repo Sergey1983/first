@@ -24,7 +24,7 @@ class findPassengersRequest extends FormRequest
         public function rules()
     {
         return [
-            'tour' => 'required|exists:tour2s,id'
+            'tour' => 'required|exists:tours,id'
         ];
     }
 

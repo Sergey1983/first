@@ -7,8 +7,8 @@
 	{!!Form::open(['id' => 'tour_form', 'class' =>'inline'])!!}
 
 
-		{!! Form::label('сity_from', 'Город отправления')!!}
-		{!! Form::select('сity_from', $cities, ['placeholder' =>  'Выберите город'] )  !!}
+		{!! Form::label('city_from', 'Город отправления')!!}
+		{!! Form::select('city_from', $cities, ['placeholder' =>  'Выберите город'] )  !!}
 
 
 		{!! Form::label('hotel', 'Отель')!!}

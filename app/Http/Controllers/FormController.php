@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests\TestFormRequest;
 
-use App\Tour2;
+use App\Tour;
 
 use App\Test;
 
@@ -40,7 +40,7 @@ class FormController extends Controller
 
           return redirect()->route('testform');
 
-  }
+	}
 
 
 
@@ -52,4 +52,8 @@ class FormController extends Controller
 
 		return $tests;		
 	}
+
+
+
+
 }

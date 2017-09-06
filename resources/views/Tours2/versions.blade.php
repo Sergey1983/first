@@ -30,7 +30,7 @@
 				<tr>
 
 					<td><?= $id ?></td>
-					<td><?= $versions[$i]['tour']['сity_from'] ?></td>
+					<td><?= $versions[$i]['tour']['city_from'] ?></td>
 					<td><?= $versions[$i]['tour']['hotel'] ?></td>
 					<td><?= $versions[$i]['user'] ?></td>
 

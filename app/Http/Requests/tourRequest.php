@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Tourist;
 
-use App\Tour2;
+use App\Tour;
 
 
 
@@ -36,7 +36,7 @@ class tourRequest extends FormRequest
         $rules = 
 
           [
-            'сity_from' => 'required',
+            'city_from' => 'required',
             'hotel' => 'required',
             'name.*' => 'required',
             'lastName.*' => 'required',
@@ -51,14 +51,16 @@ class tourRequest extends FormRequest
 
 
 
-           $request_array['сity_from']= request()->input('сity_from'); // city_from to be 'null' or value
+           $request_array['city_from']= request()->input('city_from'); // city_from to be 'null' or value
            $request_array['is_buyer']= request()->input('is_buyer'); // is_buyer to be 'null' or value
            $request_array['is_tourist']= request()->input('is_tourist'); // is_tourist  to be 'null' or value
+
+
 
            $update = request()->input('is_update'); // is_update to be '0' (CREATE) or 1 (UPDATE)
    
            $keys_tourist = ['name', 'lastName', 'birth_date', 'doc_fullnumber'];
-           $keys_tour = ['сity_from', 'hotel'];
+           $keys_tour = ['city_from', 'hotel'];
            $keys_buyer = ['is_buyer', 'is_tourist'];
            $keys_timestamps = ['created_at', 'updated_at'];
            $keys_hidden = ['cannot_change_old_tourists', 'tour_exists', 'is_update'];
@@ -110,7 +112,7 @@ class tourRequest extends FormRequest
                                       if($cannot_changetourist) {
 
 
-                                        if($tourist->tour2s->count() > $update) {
+                                        if($tourist->tours->count() > $update) {
 
                                         // If other field is different, create a rule (always returns false) with value from DB:
 
@@ -187,7 +189,7 @@ class tourRequest extends FormRequest
 
 
 
-             $tour_duplicates = Tour2::where($tour_where_clause)->get();
+             $tour_duplicates = Tour::where($tour_where_clause)->get();
 
 
              if(empty($tour_duplicates->toArray() ) ) {
@@ -202,7 +204,7 @@ class tourRequest extends FormRequest
 
                     foreach ($tour_duplicate->tourists as $tourist) {
 
-                      $tour_duplicate_pivot_array[] = array_diff_key($tourist->pivot->toArray(), array_flip($keys_timestamps), ['tour2_id'=>0]);
+                      $tour_duplicate_pivot_array[] = array_diff_key($tourist->pivot->toArray(), array_flip($keys_timestamps), ['tour_id'=>0]);
 
                     }
 
@@ -253,10 +255,9 @@ class tourRequest extends FormRequest
           // Если да, выкинуть правило "Точно такая же заявка уже существует в базе!"
 
 
-           // dump($rules);
+         
 
 // 
-
 
 
 
@@ -270,7 +271,7 @@ class tourRequest extends FormRequest
     {
 
       $messages = [
-                'сity_from.required' => 'Введите значение!',
+                'city_from.required' => 'Введите значение!',
                 'hotel.required' => 'Введите значение!',
                 'doc_fullnumber.*distinct' => 'В одном туре не может быть 2-х одинаковых паспортов!',
                 'doc_fullnumber.*required' => 'Введите значение!',

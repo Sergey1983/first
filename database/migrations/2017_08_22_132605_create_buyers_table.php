@@ -15,9 +15,9 @@ class CreateBuyersTable extends Migration
     {
         Schema::create('buyers', function (Blueprint $table) {
 
-            $table->integer('tour2_id')->unsigned()->nullable();
-            $table->foreign('tour2_id')->references('id')
-            ->on('tour2s')->onDelete('cascade');
+            $table->integer('tour_id')->unsigned()->nullable();
+            $table->foreign('tour_id')->references('id')
+            ->on('tours')->onDelete('cascade');
 
             $table->integer('tourist_id')->unsigned()->nullable();
             $table->foreign('tourist_id')->references('id')

@@ -5,7 +5,7 @@ namespace App;
 use App\Traits\Excludable;
 
 
-class previoustourists extends Model
+class previous_tourist extends Model
 {
     use Excludable;
 }

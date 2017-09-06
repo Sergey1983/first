@@ -3,17 +3,38 @@
 
 @section('content')
 
-		<h1>Список менеджеров</h1>
+
+<div class="container-fluid">
+
+	<div class="col-md-12">
+
+		<h3>Список менеджеров</h3>
+
+	</div>
+
+</div>
+
+
+<div class="container-fluid margin-bottom-10px">
+
+	<div class="col-md-12">
+
 
 		{!! Form::open(['id'=>'create_user', 'class'=>'inline', 'method'=>'get', 'route'=>array('user.create')])!!}
 
-		{!! Form::submit('Создать менеджера') !!}
+		{!! Form::submit('Создать менеджера', ['class'=>'btn btn-primary']) !!}
 
 		{!! Form::close() !!}
 
-		<br><br>
+	</div>
 
-		<table>
+</div>
+
+<div class="container-fluid">
+
+	<div class="col-md-12">
+
+		<table class="table table-responsive table-bordered table-striped col-md-12">
 		
 			<tr>
 		    <th>Id менеджера</th>
@@ -36,6 +57,9 @@
 
 		@endforeach
 
+</div>
+
+</div>
 
 @include('layouts.errors')
 

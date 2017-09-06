@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\SortNullAlwaysLast;
+
 use Illuminate\Http\Request;
 
 use App\Http\Requests\check_docRequest;
@@ -10,7 +12,10 @@ use App\Http\Requests\findPassengersRequest;
 
 use App\Tourist;
 
-use App\Tour2;
+use App\Tour;
+
+use App\Airport;
+
 
 class FunctionsController extends Controller
 
@@ -38,7 +43,7 @@ class FunctionsController extends Controller
 
      {
      	
-     	$tours = Tour2::exclude(['created_at', 'updated_at'])->get();
+     	$tours = Tour::exclude(['created_at', 'updated_at'])->get();
 
      	return $tours;
      }
@@ -49,7 +54,7 @@ class FunctionsController extends Controller
     
         $tour_id = $request->tour;
 
-        $tour = Tour2::find($tour_id);
+        $tour = Tour::find($tour_id);
         
         $tourists = $tour->tourists;
 
@@ -65,10 +70,10 @@ class FunctionsController extends Controller
             $id = $request->input(0);
 
             
-            $tour = Tour2::find($id);
+            $tour = Tour::find($id);
 
             // Tour info Array (without tourists info):
-            $tour_array = collect($tour)->only(['сity_from', 'hotel'])->toArray();
+            $tour_array = collect($tour)->only(['city_from', 'hotel'])->toArray();
 
             $tour_tourists = $tour->tourists->toArray();
 
@@ -88,7 +93,7 @@ class FunctionsController extends Controller
                 
                 $tourist = array_merge($tourist, $pivot);
 
-                $removeKeys = array('id', 'nameEng', 'lastNameEng', 'created_at', 'updated_at', 'tour2_id', 'tourist_id');
+                $removeKeys = array('id', 'nameEng', 'lastNameEng', 'created_at', 'updated_at', 'tour_id', 'tourist_id');
 
                     foreach($removeKeys as $key) {
                         unset($tourist[$key]);
@@ -106,5 +111,39 @@ class FunctionsController extends Controller
     }
 
 
+    public function airport_load (Request $request) 
+
+    {
+
+        $country = $request->country;
+
+        $airports = Airport::where('country', $country)->get()->toArray();
+
+        usort($airports, 'App\Services\SortNullAlwaysLast::cmp');
+
+
+        foreach ($airports as $key => $value) {
+            
+            $code = $value['code'];
+
+            $name = $value['name'];
+
+            $city = $value['city'];
+
+            $country = $value['country'];
+
+            unset($airports[$key]);
+
+            $airports[$code] = $code.', '.$name.', '.$city.', '.$country;
+
+        }
+
+
+        return $airports;
+
+    }
+
     
+
+
 }

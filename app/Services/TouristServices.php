@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Tourist;
 
-use App\Tour2;
+use App\Tour;
 
 
 class TouristServices {
@@ -17,7 +17,7 @@ public static function UpdateOtherToursWithTourists($tourists)
 
 		foreach ($tourists as $tourist) {
 
-			$tours[] = $tourist->tour2s;
+			$tours[] = $tourist->tours;
 
 		}
 

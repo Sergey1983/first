@@ -13,10 +13,10 @@ class PreviousTourist extends Migration
      */
     public function up()
     {
-        Schema::create('previoustourists', function (Blueprint $table) {
+        Schema::create('previous_tourists', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('tourist_id')->unsigned();
-            $table->foreign('tourist_id')->references('id')->on('tourists');
+            $table->foreign('tourist_id')->references('id')->on('tourists')->onDelete('cascade');;
             $table->integer('version')->unsigned();
             $table->string('name');
             $table->string('lastName');
@@ -35,7 +35,7 @@ class PreviousTourist extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('previoustourists');
+        Schema::dropIfExists('previous_tourists');
 
     }
 }

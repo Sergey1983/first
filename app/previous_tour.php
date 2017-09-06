@@ -2,7 +2,7 @@
 
 namespace App;
 
-class previousversionstour2 extends Model
+class previous_tour extends Model
 {
 
 

@@ -17,7 +17,7 @@ class Tour2sTableSeeder extends Seeder
 
       	DB::table('tour2s')->insert([
 
-      		'сity_from' => $faker->randomElement($array = array ('Оренбург','Москва','Минск', 'Актобе')),
+      		'city_from' => $faker->randomElement($array = array ('Оренбург','Москва','Минск', 'Актобе')),
       		'hotel' => $faker->sentence($nbWords = 2, $variableNbWords = true),
       		'created_at' => \Carbon\Carbon::now(),
       		'updated_at' => \Carbon\Carbon::now(),

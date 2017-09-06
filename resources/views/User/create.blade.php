@@ -3,27 +3,56 @@
 @section('content')
 
 
-<h2>Создать пользователя:</h2>
+<div class="container-fluid">
+
+	<h2>Создать пользователя:</h2>
+
+</div>
+
+<div class="container-fluid">
+
+	<div class="col-md-3">
+
+		{!! Form::open(['id'=>'register_user', 'class'=>'inline form-horizontal', 'method'=>'post'])!!}
 
 
-{!! Form::open(['id'=>'register_user', 'class'=>'inline', 'method'=>'post'])!!}
+		<div class="form-group">
+			
+			{!! Form::text('name', null, ['Placeholder'=>'имя девачки', "class"=>"form-control"]) !!}
 
-{!! Form::text('name', null, ['Placeholder'=>'имя девачки']) !!}
-<br><br>
+		</div>
 
 
-{!! Form::text('email', null, ['Placeholder'=>'email']) !!}
-<br><br>
+		<div class="form-group">
 
-{!! Form::password('password', ['Placeholder'=>'password']) !!}
-<br><br>
+		{!! Form::text('email', null, ['Placeholder'=>'email', "class"=>"form-control"]) !!}
 
-{!! Form::password('password_confirmation', ['Placeholder'=>'password confirmation']) !!}
-<br><br>
+		</div>
 
-{!! Form::submit('Создать!') !!}
 
-{!! Form::close() !!}
+		<div class="form-group">
+
+		{!! Form::password('password', ['Placeholder'=>'password', "class"=>"form-control"]) !!}
+
+		</div>
+
+		<div class="form-group">
+
+		{!! Form::password('password_confirmation', ['Placeholder'=>'password confirmation', "class"=>"form-control"]) !!}
+
+		</div>
+
+		<div class="form-group">
+
+			{!! Form::submit('Создать!', ["class"=>'btn btn-primary']) !!}
+
+		</div>
+
+		{!! Form::close() !!}
+
+	</div>
+
+</div>
 
 
 @include('layouts.errors')

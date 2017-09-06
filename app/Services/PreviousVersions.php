@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
-use App\previousversionstour2;
+use App\previous_tour;
 
-use App\previoustourists;
+use App\previous_tourist;
 
-use App\previoustour2_tourist;
+use App\previous_tour_tourist;
 
-use App\Tour2;
+use App\Tour;
 
 use App\Tourist;
 
-use App\Tour2_tourist;
+use App\Tour_tourist;
 
 
 
@@ -21,7 +21,7 @@ class PreviousVersions {
 
         public $keys_tourist = ['name', 'lastName', 'birth_date', 'doc_fullnumber'];
         public $keys_tourist_eng = ['nameEng', 'lastNameEng'];
-        public $keys_tour = ['сity_from', 'hotel'];
+        public $keys_tour = ['city_from', 'hotel'];
         public $keys_user = ['user_id']; 
         public $keys_buyer = ['is_buyer', 'is_tourist'];
         public $keys_timestamps = ['created_at', 'updated_at'];
@@ -34,7 +34,7 @@ class PreviousVersions {
             $last_version_creation_time = $tour->tourists[0]->updated_at->toDateTimeString();
 
 
-            $version_last_saved = previoustour2_tourist::where('tour2_id', $tour->id)->orderBy('this_version', 'desc')->first();
+            $version_last_saved = previous_tour_tourist::where('tour_id', $tour->id)->orderBy('this_version', 'desc')->first();
 
             if(empty($version_last_saved)) {
 
@@ -46,7 +46,7 @@ class PreviousVersions {
 
             }
 
-            $user_created_version_id = Tour2_tourist::where('tour2_id', $tour->id)->first()->user_id;
+            $user_created_version_id = Tour_tourist::where('tour_id', $tour->id)->first()->user_id;
 
             // dd($user_created_version_id);
 
@@ -54,19 +54,19 @@ class PreviousVersions {
 
 
             //find last version if exists
-            $tour_last_saved = previousversionstour2::where('tour2_id', $tour->id)->orderBy('version', 'desc')->first();
+            $tour_last_saved = previous_tour::where('tour_id', $tour->id)->orderBy('version', 'desc')->first();
 
 
             if(empty($tour_last_saved) ) {
 
-                $tour_last_saved = previousversionstour2::create(array_merge($tour_array, ['version'=>1, 'tour2_id' => $tour->id]));
+                $tour_last_saved = previous_tour::create(array_merge($tour_array, ['version'=>1, 'tour_id' => $tour->id]));
 
             } else {
 
 
                 $version_new = $tour_last_saved->version+1;
 
-                $tour_last_saved = previousversionstour2::firstOrCreate(array_merge($tour_array, ['tour2_id'=>$tour->id]), ['version'=> $version_new]);
+                $tour_last_saved = previous_tour::firstOrCreate(array_merge($tour_array, ['tour_id'=>$tour->id]), ['version'=> $version_new]);
 
             };
 
@@ -86,11 +86,11 @@ class PreviousVersions {
             for ($i=0; $i < count($tourists); $i++) { 
 
 
-                $tourist_last_saved = previoustourists::where('tourist_id', $tourists[$i]->id)->orderBy('version', 'desc')->first();
+                $tourist_last_saved = previous_tourist::where('tourist_id', $tourists[$i]->id)->orderBy('version', 'desc')->first();
 
                 if(empty($tourist_last_saved) ) {
 
-                     $tourist_last_saved = previoustourists::create(array_merge($tourists_array[$i], ['version'=>1, 'tourist_id' => $tourists[$i]->id]));
+                     $tourist_last_saved = previous_tourist::create(array_merge($tourists_array[$i], ['version'=>1, 'tourist_id' => $tourists[$i]->id]));
 
 
                 } else {
@@ -98,13 +98,13 @@ class PreviousVersions {
 
                     $version_new = $tourist_last_saved->version+1;
 
-                    $tourist_last_saved = previoustourists::firstOrCreate(array_merge($tourists_array[$i], ['tourist_id'=>$tourists[$i]->id]), ['version'=>$version_new]);
+                    $tourist_last_saved = previous_tourist::firstOrCreate(array_merge($tourists_array[$i], ['tourist_id'=>$tourists[$i]->id]), ['version'=>$version_new]);
 
                 };
 
 
 
-                previoustour2_tourist::create(['tour2_id'=>$tour->id, 'tour2_version' => $tour_last_saved->version, 
+                previous_tour_tourist::create(['tour_id'=>$tour->id, 'tour_version' => $tour_last_saved->version, 
                                                 'tourist_id'=>$tourists[$i]->id, 'tourist_version'=>$tourist_last_saved->version, 
                                                 'is_buyer'=> $tourists[$i]->pivot->is_buyer, 'is_tourist'=> $tourists[$i]->pivot->is_tourist, 'version_created'=>$last_version_creation_time, 'this_version' => $version_last_saved, 'user_id'=> $user_created_version_id]);
 
@@ -135,7 +135,6 @@ class PreviousVersions {
             }
 
 
-
             if ($tourist_checked = Tourist::where('doc_fullnumber', $tourist_to_update['doc_fullnumber'])->first() ) {
 
                     if(Tourist::where($tourist_to_update)->count() === 0 ) 
@@ -160,7 +159,7 @@ class PreviousVersions {
 
         foreach ($non_existing_tourists as $non_existing_tourist) {
 
-             foreach ($non_existing_tourist->tour2s as $key => $value) {
+             foreach ($non_existing_tourist->tours as $key => $value) {
               
 
                  if(!in_array($value->id, $tours_to_update_ids)) {

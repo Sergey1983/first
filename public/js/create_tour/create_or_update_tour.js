@@ -84,7 +84,7 @@ $(document).ready(function() {
 
 						.done(function (data) {
 
-								// window.location.href = '/tours_2';
+								window.location.href = '/tours_2';
 
 						})			
 

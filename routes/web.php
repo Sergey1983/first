@@ -37,7 +37,7 @@ Route::get('/load_tours', 'TestController2@load_tours');
 
 
 Route::get('/test3', 'TestFormController@index');
-Route::get('/test3/result', 'TestFormController@search');
+Route::get('/test3/result', 'TestFormContPaymentTouristControllerroller@search');
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -48,10 +48,25 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::group(['middleware' => 'App\Http\Middleware\TourAccessMiddleware'], function () {
 
-		Route::get('/tours_2/{id}', 'Tours2Controller@show');
+		Route::get('/tours_2/{id}', ['as'=> 'tour.show', 'uses'=>'Tours2Controller@show']);
 		Route::get('/tours_2/{id}/edit/', 'Tours2Controller@edit');
 		Route::post('/tours_2/{id}','Tours2Controller@update');
 		Route::get('/tours_2/{id}/versions', ['as' => 'tour.version', 'uses' => 'VersionsController@show']);
+
+
+		Route::get('/tours_2/{id}/booking', ['as' => 'booking.edit', 'uses' =>'BookingController@bookingEdit']);
+		Route::post('/tours_2/{id}/booking', ['as' => 'booking.update', 'uses' =>'BookingController@bookingUpdate']);
+
+		Route::get('/tours_2/{id}/pay_tourist', ['as' => 'payment_tourist.create', 'uses' =>'PaymentTouristController@create']);
+		Route::post('/tours_2/{id}/pay_tourist/with_deleted', ['as' => 'payment_tourist.create.with_deleted', 'uses' =>'PaymentTouristController@create_with_deleted']);
+		Route::post('/tours_2/{id}/pay_tourist', ['as' => 'payment_tourist.store', 'uses' =>'PaymentTouristController@store']);
+		Route::post('/tours_2/{id}/pay_tourist/{payment_id}/delete', ['as' => 'payment_tourist.delete', 'uses' =>'PaymentTouristController@delete']);
+
+		Route::get('/tours_2/{id}/pay_operator', ['as' => 'payment_operator.create', 'uses' =>'PaymentOperatorController@create']);
+		Route::post('/tours_2/{id}/pay_operator/with_deleted', ['as' => 'payment_operator.create.with_deleted', 'uses' =>'PaymentOperatorController@create_with_deleted']);
+		Route::post('/tours_2/{id}/pay_operator', ['as' => 'payment_operator.store', 'uses' =>'PaymentOperatorController@store']);
+		Route::post('/tours_2/{id}/pay_operator/{payment_id}/delete', ['as' => 'payment_operator.delete', 'uses' =>'PaymentOperatorController@delete']);
+
 
 
 	});
@@ -76,11 +91,14 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/load_tours_function', 'FunctionsController@load_tours');
 	Route::post('/find_passengers', 'FunctionsController@find_passengers');
 	Route::post('/edit_tour_prepare_data', 'FunctionsController@edit_tour_prepare_data');
+	Route::post('/airport_load', 'FunctionsController@airport_load');
 
 
 	Route::get('/testform', ['as' => 'testform', 'uses' => 'FormController@create']);
 	Route::post('/testform', 'FormController@store');
 	Route::post('/loadtestform', ['as' => 'loadtests', 'uses' => 'FormController@loadtests']);
+
+	Route::get('/sometest', 'FormController@sometest');
 
 });
 

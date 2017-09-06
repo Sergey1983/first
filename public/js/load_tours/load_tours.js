@@ -19,7 +19,7 @@ $(document).ready(function () {
 		for (var i = 0; i < data.length; i++) {
 
 			var id = data[i]['id'];
-			var city_from = data[i]['сity_from'];
+			var city_from = data[i]['city_from'];
 			var hotel = data[i]['hotel'];
 
 			tbody.append('<tr id="'+i+'">'+

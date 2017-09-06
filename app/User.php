@@ -38,25 +38,44 @@ class User extends Authenticatable
 
     public function tours() {
 
-        return $this->hasMany('App\Tour2');
+        return $this->hasMany('App\Tour');
 
     }
 
     public function previous_tours () {
 
-        return $this->hasMany('App\previousversionstour2');
+        return $this->hasMany('App\previous_tour');
 
     }
 
-    public function previoustour2_tourist () {
+    public function previous_tour_tourist () {
 
-        return $this->hasMany('App\previoustour2_tourist', 'user_id', 'id');
+        return $this->hasMany('App\previous_tour_tourist', 'user_id', 'id');
 
     }
 
-    public function tour2_tourist () {
+    public function tour_tourist () {
 
-        return $this->hasMany('App\tour2_tourist');
+        return $this->hasMany('App\tour_tourist');
     }
 
+    public function payments_from_tourists () {
+
+        return $this->hasMany('App\Payments_from_tourist', 'user_id');
+    }
+
+    public function payments_from_tourists_deleted_by () {
+
+        return $this->hasMany('App\Payments_from_tourist', 'deleted_by', 'id')->withTrashed();
+    }
+
+    public function payments_to_operator () {
+
+        return $this->hasMany('App\Payments_to_operator', 'user_id');
+    }
+
+    public function payments_to_operator_deleted_by () {
+
+        return $this->hasMany('App\Payments_to_operator', 'deleted_by', 'id')->withTrashed();
+    }
 }

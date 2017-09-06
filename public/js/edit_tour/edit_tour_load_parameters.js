@@ -22,7 +22,7 @@ $(document).ready(function() {
 
 			var tour = data[0];
 			$('input[name=hotel]').val(tour['hotel']);
-			$('option[value='+tour['сity_from']+']').attr('selected', 'selected');
+			$('option[value='+tour['city_from']+']').attr('selected', 'selected');
 
 			/// Tourists info filling: 
 

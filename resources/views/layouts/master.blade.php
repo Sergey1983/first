@@ -31,7 +31,7 @@
 @endif
 
 
-<div class = 'container-fluid'>
+<div class = 'container-fluid margin-bottom-10px'>
 
 	<div class="row text-center">
 		<div class="col-md-12">		

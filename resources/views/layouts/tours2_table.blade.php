@@ -30,7 +30,7 @@
 					<tr>
 
 						<td><?= $tour->id ?></td>
-						<td><?= $tour->сity_from ?></td>
+						<td><?= $tour->city_from ?></td>
 						<td><?= $tour->hotel ?></td>
 						<td><?= '<a class="btn btn-sm btn-info" href="/tours_2/' . $tour->id . '">
 						Подробнее
