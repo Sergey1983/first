@@ -37,7 +37,22 @@ class tourRequest extends FormRequest
 
           [
             'city_from' => 'required',
+            'country' => 'required',
+            'airport' => 'required',
+            'operator' => 'required',
+            'nights' => 'required',
+            'date_depart' => 'required',
             'hotel' => 'required',
+            'room' => 'required',
+            'food_type' => 'required',
+            'currency' => 'required',
+            'price_rub' => 'required',
+            'transfer' => 'required',
+            'noexit_insurance' => 'required',
+            'med_insurance' => 'required',
+            'visa' => 'required',
+
+
             'name.*' => 'required',
             'lastName.*' => 'required',
             'birth_date.*' => 'required',
@@ -46,6 +61,39 @@ class tourRequest extends FormRequest
             'is_tourist' => 'required',   
            ];
 
+
+           if(request()->currency != 'rub') {
+
+            $rules['price'] = 'required';
+
+           }
+
+           if(request()->is_credit == 1) {
+
+            $rules['first_payment'] = 'required';
+            $rules['bank'] = 'required';
+
+           }
+
+
+           if(request()->noexit_insurance_add_people == 1) {
+
+            $rules['noexit_insurance_people'] = 'required';
+
+           }
+
+
+           if(request()->visa_add_people == 1) {
+
+            $rules['visa_people'] = 'required';
+
+           }
+
+           if(request()->change_sightseeing == 1) {
+
+            $rules['sightseeing'] = 'required';
+
+           }
            
            $request_array = request()->all();
 
@@ -271,6 +319,7 @@ class tourRequest extends FormRequest
     {
 
       $messages = [
+                '*.required' => 'Введите значение!',
                 'city_from.required' => 'Введите значение!',
                 'hotel.required' => 'Введите значение!',
                 'doc_fullnumber.*distinct' => 'В одном туре не может быть 2-х одинаковых паспортов!',

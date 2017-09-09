@@ -34,6 +34,13 @@ class Tour extends Model
     }
 
 
+    public function country_model() {
+
+        return $this->belongsTo('App\Country', 'country', 'country');
+
+    }
+
+
     public function tour_tourist() {
 
       return $this->hasOne('App\Tour_tourist');
@@ -51,6 +58,8 @@ class Tour extends Model
     return $this->hasOne('App\Airport', 'code', 'airport');
     
     }
+
+ 
 
     public function payments_from_tourists () {
 

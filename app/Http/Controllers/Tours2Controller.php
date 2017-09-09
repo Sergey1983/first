@@ -46,6 +46,39 @@ class Tours2Controller extends Controller
 
 
 
+    static function sort_request(Request $request)
+    
+    {
+
+        $keys_tourist = ['name', 'lastName', 'birth_date', 'doc_fullnumber'];
+        $keys_tourist_eng = ['nameEng', 'lastNameEng'];
+        $keys_tour = ['city_from', 'country', 'airport', 'operator', 'nights', 'date_depart', 'date_hotel', 'hotel', 'room', 'add_rooms', 'food_type', 'change_food_type' , 'currency', 'price', 'price_rub', 'is_credit', 'transfer', 'noexit_insurance', 'noexit_insurance_add_people', 'noexit_insurance_people', 'med_insurance', 'visa', 'visa_people', 'visa_add_people', 'change_sightseeing',  'sightseeing', 'extra_info'];
+        $keys_buyer = ['is_buyer', 'is_tourist'];
+        $keys_timestamps = ['created_at', 'updated_at'];
+        $keys_hidden = ['cannot_change_old_tourists', 'tour_exists', 'is_update'];
+
+
+        $request_array = request()->all();
+
+        $request_sorted = [];
+
+        $request_sorted['tour'] = array_intersect_key($request_array, array_flip($keys_tour));
+
+            $request_sorted['tour']['price'] = $request->price?: $request->price_rub;
+            $request_sorted['tour']['first_payment'] = $request->first_payment ?: null;
+            $request_sorted['tour']['bank'] = $request->bank ?: null;
+            $request_sorted['tour']['noexit_insurance_people'] = $request->noexit_insurance_people ?: null;
+            $request_sorted['tour']['visa_people'] = $request->visa_people ?: null;
+
+        $request_sorted['tourists'] = array_intersect_key($request_array, array_flip($keys_tourist));
+        $request_sorted['buyer'] = array_intersect_key($request_array, array_flip($keys_buyer));
+
+        return $request_sorted;
+
+    }
+
+
+
 
 
     public $keys_tour = ['city_from', 'hotel'];
@@ -101,37 +134,12 @@ class Tours2Controller extends Controller
 
     {
 
-        $keys_tourist = ['name', 'lastName', 'birth_date', 'doc_fullnumber'];
-        $keys_tourist_eng = ['nameEng', 'lastNameEng'];
-        $keys_tour = ['city_from', 'country', 'airport', 'operator', 'nights', 'date_depart', 'date_hotel', 'hotel', 'room', 'food_type', 'currency', 'price', 'price_rub', 'transfer', 'noexit_insurance', 'noexit_insurance_people', 'med_insurance', 'visa', 'visa_people', 'sightseeing', 'extra_info'];
-        $keys_buyer = ['is_buyer', 'is_tourist'];
-        $keys_timestamps = ['created_at', 'updated_at'];
-        $keys_hidden = ['cannot_change_old_tourists', 'tour_exists', 'is_update'];
-
-
-        $request_array = request()->all();
-
-        $Date = $request_array['date_depart'];
-        $request_array['date_hotel'] = isset($request_array['date_hotel']) ? date('Y-m-d', strtotime($Date. ' + 1 days')) : $Date;
-
-
-        $request_array_tour = array_intersect_key($request_array, array_flip($keys_tour));
-
-            if(isset($request->first_payment)) {$request_array_tour['first_payment'] =  $request->first_payment; }
-            if(isset($request->bank)) {$request_array_tour['bank'] =  $request->bank; }
-            if(!isset($request->price)) {$request_array_tour['price'] =  $request->price_rub; }
-
-        $request_array_tourist = array_intersect_key($request_array, array_flip($keys_tourist));
-        $request_array_buyer = array_intersect_key($request_array, array_flip($keys_buyer));
-
+        $request_sorted = self::sort_request($request);
 
         $user = request()->user();
 
 
-
-
-        $tour = Tour::create(array_merge($request_array_tour, ['user_id' => $user->id]));
-
+        $tour = Tour::create(array_merge($request_sorted['tour'], ['user_id' => $user->id]));
 
 
 
@@ -141,7 +149,7 @@ class Tours2Controller extends Controller
 
         $previousVersions = new PreviousVersions;
 
-        $tours_to_update_ids = $previousVersions->GetIdsOfToursToSavePreviousVersionsOf($number_of_tourists, $request_array_tourist);
+        $tours_to_update_ids = $previousVersions->GetIdsOfToursToSavePreviousVersionsOf($number_of_tourists, $request_sorted['tourists']);
 
 
         // Saving previous versions of tours where exist tourists from request who are going to be updated (not those who stay the same)
@@ -252,8 +260,9 @@ class Tours2Controller extends Controller
     public function edit($id)
     {
   
+        $tour = Tour::find($id);
         
-        return view('Tours2.tours2_edit');
+        return view('Tours2.tours2_edit', compact('tour'));
     }
 
     /**
@@ -267,21 +276,24 @@ class Tours2Controller extends Controller
 
     {
         
-        $keys_tourist = ['name', 'lastName', 'birth_date', 'doc_fullnumber'];
-        $keys_tourist_eng = ['nameEng', 'lastNameEng'];
-        $keys_tour = ['city_from', 'hotel'];
-        $keys_buyer = ['is_buyer', 'is_tourist'];
-        $keys_timestamps = ['created_at', 'updated_at'];
-        $keys_hidden = ['cannot_change_old_tourists', 'tour_exists', 'is_update'];
+        // $keys_tourist = ['name', 'lastName', 'birth_date', 'doc_fullnumber'];
+        // $keys_tourist_eng = ['nameEng', 'lastNameEng'];
+        // $keys_tour = ['city_from', 'country', 'airport', 'operator', 'nights', 'date_depart', 'date_hotel', 'hotel', 'room', 'add_rooms', 'food_type', 'change_food_type' , 'currency', 'price', 'price_rub', 'is_credit', 'transfer', 'noexit_insurance', 'noexit_insurance_add_people', 'noexit_insurance_people', 'med_insurance', 'visa', 'visa_people', 'visa_add_people', 'change_sightseeing',  'sightseeing', 'extra_info'];
+        // $keys_buyer = ['is_buyer', 'is_tourist'];
+        // $keys_timestamps = ['created_at', 'updated_at'];
+        // $keys_hidden = ['cannot_change_old_tourists', 'tour_exists', 'is_update'];
 
 
-        $request_array = request()->all();
+        // $request_array = request()->all();
 
 
 
-        $request_array_tour = array_intersect_key($request_array, array_flip($keys_tour));
-        $request_array_tourist = array_intersect_key($request_array, array_flip($keys_tourist));
-        $request_array_buyer = array_intersect_key($request_array, array_flip($keys_buyer));
+        // $request_array_tour = array_intersect_key($request_array, array_flip($keys_tour));
+        // $request_array_tourist = array_intersect_key($request_array, array_flip($keys_tourist));
+        // $request_array_buyer = array_intersect_key($request_array, array_flip($keys_buyer));
+
+        $request_sorted = self::sort_request($request);
+
 
         $user = request()->user();
 
@@ -302,7 +314,7 @@ class Tours2Controller extends Controller
 
         $tour=Tour::find($id);
 
-        $tour->update($request_array_tour);
+        $tour->update($request_sorted['tour']);
 
 
 
@@ -323,7 +335,7 @@ class Tours2Controller extends Controller
 
         $previousVersions = new PreviousVersions;
 
-        $tours_to_update_ids = $previousVersions->GetIdsOfToursToSavePreviousVersionsOf($number_of_tourists, $request_array_tourist);
+        $tours_to_update_ids = $previousVersions->GetIdsOfToursToSavePreviousVersionsOf($number_of_tourists, $request_sorted['tourists']);
 
 
 
@@ -407,7 +419,7 @@ class Tours2Controller extends Controller
 
             // Create array ['attribute' => request_value]
 
-            foreach ($request_array_tourist as $key => $value) {
+            foreach ($request_sorted['tourists'] as $key => $value) {
                 
                     $tourist_to_update[$key] = $value[$i];
   
@@ -441,7 +453,7 @@ class Tours2Controller extends Controller
 
             
 
-            $is_buyer_tourist = IsBuyerIsTourist::buyer($request_array_buyer, $i);
+            $is_buyer_tourist = IsBuyerIsTourist::buyer($request_sorted['buyer'], $i);
             
             $sync_tourist_array[$tourist->id] = array_merge($is_buyer_tourist, ['user_id'=>$user->id]);
 

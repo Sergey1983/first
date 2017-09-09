@@ -171,6 +171,12 @@
 				</tr>
 
 				<tr>
+					<td>Пребывание в отеле</td>
+					<td>{{ $date = $tour->date_hotel ? date('d-m-Y', strtotime($tour->date_depart. ' + 1 days')) : date_format($date, 'd-m-Y') }}</td>
+				</tr>
+
+
+				<tr>
 					<td>Ночей</td>
 					<td>{{$tour->nights}}</td>
 				</tr>

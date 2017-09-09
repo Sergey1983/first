@@ -84,7 +84,7 @@ $(document).ready(function() {
 
 						.done(function (data) {
 
-								window.location.href = '/tours_2';
+								// window.location.href = '/tours_2';
 
 						})			
 
@@ -174,9 +174,10 @@ $(document).ready(function() {
 
 
 							// ADDING ERRORS ON PAGE
+							$('div[class*="alert-validation"]').remove();
+
 
 							for (var property in errors) {
-
 
 							    
 							    if (errors.hasOwnProperty(property)) {
@@ -201,8 +202,11 @@ $(document).ready(function() {
 
 									else {
 
-								    $('[name="'+property+'"]').after('<p class="p-error inline">'+' '+errors[property]+'</p>');
+								    // $('[name="'+property+'"]').after('<p class="p-error inline">'+' '+errors[property]+'</p>');
 
+									
+								    $('[name="'+property+'"]').after('<div class="alert-validation">'+''+errors[property]+'</div>');
+								    
 
 									}
 
@@ -212,7 +216,7 @@ $(document).ready(function() {
 
 							// MESSAGE ABOUT ERRORS NEAR "SUBMIT" BUTTON
 
-							$('div[class="input submit"]').append("<p class='p-error'>В форме есть ошибки! См. выше!</p>");
+							$('div[class="input submit"]').append('<div class="row"><div class="col-md-3"><div class="alert-validation">В форме есть ошибки! См. выше!</div></div></div>');
 
 						});			
 

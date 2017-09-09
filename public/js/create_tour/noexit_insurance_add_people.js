@@ -19,7 +19,7 @@ $(document).ready(function() {
 
 				'<div class="col-md-12 text-right">'+
 
-					'<small>Виза нужна не всем туристам? <input id="noexit_insurance_add_people" name="noexit_insurance_add_people" type="checkbox" value="1"></small>'+
+					'<small> Страховка от невыезда нужна не всем туристам? <input id="noexit_insurance_add_people" name="noexit_insurance_add_people" type="checkbox" value="1"></small>'+
 
 				'</div>'+
 

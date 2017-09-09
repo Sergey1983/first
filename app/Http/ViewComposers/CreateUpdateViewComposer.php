@@ -4,7 +4,7 @@ namespace App\Http\ViewComposers;
 
 use Illuminate\View\View;
 use App\Cities;
-use App\Countries;
+use App\Country;
 use App\Food;
 use App\Operator;
 use App\Airport;
@@ -56,7 +56,7 @@ class CreateUpdateViewComposer
 
         
 
-        $countries = Countries::select('country', 'popularity')->get()->toArray();
+        $countries = Country::select('country', 'popularity')->get()->toArray();
 
         usort($countries, 'App\Services\SortNullAlwaysLast::cmp');
 
@@ -116,7 +116,7 @@ class CreateUpdateViewComposer
 
         'med_insurance' => [0 =>'Нет', 1 => 'Есть'], 
 
-        'noexit_insurance' => ['Есть'=>'Есть', 'Есть страховка "визовый риск"'=>'Есть страховка "визовый риск"', 'Есть с франшизой 15%'=>'Есть с франшизой 15%', 'Нет'=> 'Нет'],
+        'noexit_insurance' => ['Есть'=>'Есть', 'Есть страховка визовый риск'=>'Есть страховка "визовый риск"', 'Есть с франшизой 15%'=>'Есть с франшизой 15%', 'Нет'=> 'Нет'],
 
         'visa'=> ['Есть'=>'Есть', 'Есть Pro-Visa'=>'Есть Pro-Visa', 'Нет'=>'Нет', 'Визовая поддержка'=>"Визовая поддержка"]
 

@@ -16,6 +16,8 @@ use App\Tour;
 
 use App\Airport;
 
+use App\Country;
+
 
 class FunctionsController extends Controller
 
@@ -69,16 +71,15 @@ class FunctionsController extends Controller
 
             $id = $request->input(0);
 
-            
+
             $tour = Tour::find($id);
 
-            // Tour info Array (without tourists info):
-            $tour_array = collect($tour)->only(['city_from', 'hotel'])->toArray();
+            $tour_array = collect($tour)->except(['id', 'user_id', 'updated_at', 'created_at'])->toArray();
 
             $tour_tourists = $tour->tourists->toArray();
 
             // We'll put all tour params in this array:
-                $tourist_array = array(0 => $tour_array);
+                $tour_tourist_array = array(0 => $tour_array);
 
 
             $j = 1;
@@ -99,7 +100,7 @@ class FunctionsController extends Controller
                         unset($tourist[$key]);
                     }
 
-                $tourist_array[$j]=$tourist;
+                $tour_tourist_array[$j]=$tourist;
 
                 $j++;
 
@@ -107,7 +108,7 @@ class FunctionsController extends Controller
        
                
 
-             return $tourist_array;
+             return $tour_tourist_array;
     }
 
 
@@ -115,31 +116,9 @@ class FunctionsController extends Controller
 
     {
 
-        $country = $request->country;
+        $country = Country::where('country', $request->country)->first();
 
-        $airports = Airport::where('country', $country)->get()->toArray();
-
-        usort($airports, 'App\Services\SortNullAlwaysLast::cmp');
-
-
-        foreach ($airports as $key => $value) {
-            
-            $code = $value['code'];
-
-            $name = $value['name'];
-
-            $city = $value['city'];
-
-            $country = $value['country'];
-
-            unset($airports[$key]);
-
-            $airports[$code] = $code.', '.$name.', '.$city.', '.$country;
-
-        }
-
-
-        return $airports;
+        return $country->airports_array();
 
     }
 

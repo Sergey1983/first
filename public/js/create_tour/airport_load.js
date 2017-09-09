@@ -5,10 +5,9 @@ $(document).ready(function() {
 	console.log("airport_load.js loaded");
 
 
-	$('#country').change(function () {
+	$(document).on('change', '#country', function  () {
 		
-	var country_val = $(this).val();
-
+		var country_val = $(this).val();
 
 		$.ajax ({
 			
@@ -22,7 +21,6 @@ $(document).ready(function() {
 
 				$('#airport').find('option').remove();
 				$('#airport').append('<option selected="selected" disabled="disabled" hidden="hidden" value="">Выберите аэропорт</option>');
-				$('#airport').append('<option value="-">-</option>');
 
 
 				$.each(data,function(key, value) 
@@ -45,12 +43,7 @@ $(document).ready(function() {
 		})
 
 
-
-
 	});
-
-
-
 
 
 

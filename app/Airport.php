@@ -10,8 +10,11 @@ use App\Tour;
 class Airport extends Model
 {
     
-    public function tours () {
+    public function tours ()
+
+    {
 
 		return $this->hasMany('App\Tour');
 	}
+
 }

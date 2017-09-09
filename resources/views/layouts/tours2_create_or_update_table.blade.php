@@ -70,7 +70,11 @@
 
 							<div class="col-md-8">
 
-						 		{!! Form::select('airport', [0=>'Сначала выберите страну'], null, ['class'=>"form-control", 'id'=>'airport'] )  !!}
+						 		@php $airports = isset($tour) ? $tour->country_model->airports_array() : [0=>'Сначала выберите страну'] @endphp
+
+							
+
+						 		{!! Form::select('airport', $airports, null, ['class'=>"form-control", 'id'=>'airport'] )  !!}
 
 						 	</div>
 
@@ -112,9 +116,16 @@
 
 								<div class="row ">
 
+
 									<div class="col-md-12 text-right">	
+
+@php 
+
+	$checked = ( (isset($tour)) && ($tour->date_hotel == 1)) ? true : false
+
+@endphp
 									
-									<small>Заселение в отель на день позже {!! Form::checkbox ('date_hotel', 1, false, ['id'=>'date_hotel'])!!}</small>
+									<small>Заселение в отель на день позже {!! Form::checkbox ('date_hotel', 1, $checked, ['id'=>'date_hotel'])!!}</small>
 
 									</div>
 
@@ -144,13 +155,28 @@
 
 							<div class="col-md-8">	
 
+@php 
+
+	$checked = ( (isset($tour)) && ($tour->add_rooms == 1)) ? true : false
+
+@endphp
+
+
+@if($checked)
+
+						 		{!! Form::textarea('room', null, ['placeholder' =>  'Введите типы номеров', 'class'=>"form-control", 'id'=>'room', 'rows' => '4'] )  !!}
+								
+
+@else
+
 								{!! Form::text('room', null, ['placeholder' => 'Тип номера', 'class'=>"form-control", 'id'=>'room']) !!}
 
+@endif
 								<div class="row ">
 
 									<div class="col-md-12 text-right">	
-									
-										<small>Ввести больше одного номера {!! Form::checkbox ('add_rooms', 1, false, ['id'=>'add_rooms'])!!}</small>
+
+										<small>Ввести больше одного номера {!! Form::checkbox ('add_rooms', 1, $checked, ['id'=>'add_rooms'])!!}</small>
 
 									</div>
 
@@ -167,14 +193,28 @@
 
 							<div class="col-md-8">	
 
+@php 
+
+	$checked = ( (isset($tour)) && ($tour->change_food_type == 1)) ? true : false
+
+@endphp
+
+
+
+@if ($checked)
+
+						 		{!! Form::text('food_type', null, ['placeholder' =>  'Тип питания', 'class'=>"form-control", 'id'=>'food_type'] )  !!}
+
+@else 
+
 								{!! Form::select('food_type', $food_type, null, ['placeholder' => 'Тип питания', 'class'=>"form-control", 'id'=>'food_type']) !!}
 
-
+@endif
 								<div class="row">
 
 									<div class="col-md-12 text-right">	
 									
-										<small>Ввести другой тип питания {!! Form::checkbox ('change_food_type', 1, false, ['id'=>'change_food_type'])!!}</small>
+										<small>Ввести другой тип питания {!! Form::checkbox ('change_food_type', 1, $checked, ['id'=>'change_food_type'])!!}</small>
 
 									</div>
 
@@ -223,8 +263,13 @@
 								<div class="row ">
 
 									<div class="col-md-12 text-right">	
+@php 
+
+	$checked = ( (isset($tour)) && ($tour->is_credit == 1)) ? true : false
+
+@endphp
 									
-									<small>Тур преобретается в кредит {!! Form::checkbox ('is_credit', 1, false, ['id'=>'is_credit'])!!}</small>
+									<small>Тур преобретается в кредит {!! Form::checkbox ('is_credit', 1, $checked, ['id'=>'is_credit'])!!}</small>
 
 									</div>
 
@@ -233,6 +278,47 @@
 						 	</div>
 
 						</div>
+
+
+@if($checked)
+
+						<div class="form-group" id="first_payment">
+
+							<label for="first_payment" class="control-label col-md-4">Первый взнос</label>
+
+							<div class="col-md-8">
+
+								<input placeholder="Введите первый взнос" class="form-control" id="first_payment" name="first_payment" type="text">
+
+							</div>
+
+						</div>
+
+
+						<div class="form-group" id="bank">
+
+							<label for="bank" class="control-label col-md-4">Первый взнос</label>
+
+								<div class="col-md-8">
+
+									<select class="form-control" id="bank" name="bank">
+
+										<option selected="selected" disabled="disabled" hidden="hidden" value="">Выберите банк</option>
+
+										<option value="ООО Хоум кредит энд финанс банк">ООО Хоум кредит энд финанс банк</option>
+
+										<option value="ООО КБ Ренессанс кредит">ООО КБ Ренессанс кредит</option>
+
+										<option value="ПАО Почта банк">ПАО Почта банк</option>
+
+									</select>
+
+								</div>
+
+						</div>
+
+
+@endif
 				
 
 				</div>
@@ -262,9 +348,50 @@
 
 								{!! Form::select('noexit_insurance', $noexit_insurance , null, ['placeholder' => 'Выберите тип', 'class'=>"form-control", 'id'=>'noexit_insurance']) !!}
 
+@php 
+
+	$checked = ( (isset($tour)) && ($tour->noexit_insurance_add_people == 1)) ? 'checked' : null
+
+@endphp
+
+@if(isset($tour))
+
+							<div class="row" id="noexit_insurance_add_people_div">
+
+								<div class="col-md-12 text-right">
+
+									<small> Страховка от невыезда нужна не всем туристам? 
+
+										<input id="noexit_insurance_add_people" name="noexit_insurance_add_people" type="checkbox" value="1" {{$checked}}>
+
+									</small>
+
+								</div>
+
+							</div>
+
+@endif
+
 						 	</div>
 							
 						</div>
+
+@if($checked)
+
+
+							<div class="form-group" id="noexit_insurance_people_form_group">
+
+								<div class="col-md-8 col-md-offset-4">
+
+									<textarea rows="4" placeholder="Введите имена туристов, которым нужна услуга" class="form-control" id="noexit_insurance_people" name="noexit_insurance_people">
+
+									</textarea>
+
+								</div>
+
+							</div>
+
+@endif
 
 
 						<div class="form-group">
@@ -275,9 +402,12 @@
 
 								{!! Form::select('med_insurance', $med_insurance, null, ['placeholder' => 'Выберите', 'class'=>"form-control", 'id'=>'med_insurance']) !!}
 
+
 						 	</div>
 
 						</div>
+
+
 
 						<div class="form-group" id='visa_form_group'>
 
@@ -287,10 +417,52 @@
 							<div class="col-md-8" id="visa_div">
 
 								{!! Form::select('visa', $visa, null, ['placeholder' => 'Выберите', 'class'=>"form-control", 'id'=>'visa']) !!}
+@php 
+
+	$checked = ( (isset($tour)) && ($tour->visa_add_people == 1)) ? 'checked' : null
+
+@endphp
+
+
+@if(isset($tour))
+
+						<div class="row" id="visa_add_people_div">
+
+							<div class="col-md-12 text-right">
+
+								<small>Виза нужна не всем туристам? <input id="visa_add_people" name="visa_add_people" type="checkbox" value="1" {{$checked}}>
+
+								</small>
+
+							</div>
+
+						</div>
+
+
+@endif
+
 
 						 	</div>
 
 						</div>
+
+
+@if($checked)
+
+						<div class="form-group" id="visa_people_form_group">
+
+							<div class="col-md-8 col-md-offset-4">
+
+								<textarea rows="4" placeholder="Введите имена туристов, которым нужна услуга" class="form-control" id="visa_people" name="visa_people">	
+
+								</textarea>
+
+							</div>
+
+						</div>
+
+
+@endif
 
 						<div class="form-group">
 
@@ -299,13 +471,29 @@
 
 							<div class="col-md-8">
 
-								{!! Form::text('sightseeing', 'Нет', ['class'=>"form-control", 'id'=>'sightseeing', 'readonly'=>'readonly']) !!}
+@php 
+
+	$checked = ( (isset($tour)) && ($tour->change_sightseeing == 1)) ? true : false
+
+@endphp
+
+
+@if(!$checked)
+
+								{!! Form::text('sightseeing', 'Нет', ['class'=>"form-control", 'id'=>'sightseeing', 'readonly'=>'readonly' ]) !!}
+
+@else 
+
+								{!! Form::text('sightseeing', 'Нет', ['class'=>"form-control", 'id'=>'sightseeing']) !!}
+
+@endif
+
 
 								<div class="row">
 
 									<div class="col-md-12 text-right">	
 									
-										<small>Ввести экскурсию {!! Form::checkbox ('change_sightseeing', 1, false, ['id'=>'change_sightseeing'])!!}</small>
+										<small>Ввести экскурсию {!! Form::checkbox ('change_sightseeing', 1, $checked, ['id'=>'change_sightseeing'])!!}</small>
 
 									</div>
 
@@ -476,102 +664,81 @@
 
 
 
-function randomselect(name) {
+// function randomselect(name) {
 
-		var length = $('#'+name+'').find('option').length;
-	    var value = Math.floor(Math.random() * (length - 2 + 1)) + 1;
-	    value++;
-	    $('#'+name+'').find('option:nth-child(' + value + ')').prop('selected',true).trigger('change');
-
-
-
-};
-
-
-$('select').each(function () {
-	randomselect(this.name);
-})
+// 		var length = $('#'+name+'').find('option').length;
+// 	    var value = Math.floor(Math.random() * (length - 2 + 1)) + 1;
+// 	    value++;
+// 	    $('#'+name+'').find('option:nth-child(' + value + ')').prop('selected',true).trigger('change');
 
 
 
-function text(j) {
-  var text = "";
-  var possible = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя0123456789 ";
+// };
 
 
-  for (var i = 0; i < j; i++)
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-  return text;
-}
-
-
-function randomtext(name, j) {
-	$('#'+name+'').val(text(j));
-}
+// $('select').each(function () {
+// 	randomselect(this.name);
+// })
 
 
 
+// function text(j) {
+//   var text = "";
+//   var possible = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя0123456789 ";
 
 
-$('[type="text"]').each(function () {
-	randomtext(this.name, 5);
-})
+//   for (var i = 0; i < j; i++)
+//     text += possible.charAt(Math.floor(Math.random() * possible.length));
 
-$('textarea').each(function () {
-	randomtext(this.name, 200);
-})
-
-$('[name="price"]').val('700');
+//   return text;
+// }
 
 
-setTimeout(country, 1000);
-setTimeout(currency, 1000);
-setTimeout(airport, 2000);
-
-
-
-function currency(){
-	    var value = Math.floor(Math.random() * (2 - 1 + 1)) + 1;
-	    value++;
-	    $('#currency').find('option:nth-child(' + value + ')').prop('selected',true).trigger('change');
-	    $('input[id$="price_rub"]').val($('input[id$="price"]').val());
-	    return false;
-	};
-
-function country(){
-	    var value = Math.floor(Math.random() * (20 - 1 + 1)) + 1;
-	    value++;
-	    $('#country').find('option:nth-child(' + value + ')').prop('selected',true).trigger('change');
-	    return false;
-	};
-
-function airport() {
-	setTimeout($('#airport').find('option:nth-child(' + 3 + ')').prop('selected',true).trigger('change'), 2000);
-
-}
+// function randomtext(name, j) {
+// 	$('#'+name+'').val(text(j));
+// }
 
 
 
-// random('transfer');
 
-// var data = {
-city_from
-operator
-nights
-date_depart
-date_hotel
-hotel
-room
-food_type
-currency
-price
-price_rub
-transfer
-noexit_insurance
-med_insurance
-visa
-extra_info
+
+// $('[type="text"]').each(function () {
+// 	randomtext(this.name, 5);
+// })
+
+// $('textarea').each(function () {
+// 	randomtext(this.name, 200);
+// })
+
+// $('[name="price"]').val('700');
+
+
+// setTimeout(country, 1000);
+// setTimeout(currency, 1000);
+// setTimeout(airport, 2000);
+
+
+
+// function currency(){
+// 	    var value = Math.floor(Math.random() * (2 - 1 + 1)) + 1;
+// 	    value++;
+// 	    $('#currency').find('option:nth-child(' + value + ')').prop('selected',true).trigger('change');
+// 	    $('input[id$="price_rub"]').val($('input[id$="price"]').val());
+// 	    return false;
+// 	};
+
+// function country(){
+// 	    var value = Math.floor(Math.random() * (20 - 1 + 1)) + 1;
+// 	    value++;
+// 	    $('#country').find('option:nth-child(' + value + ')').prop('selected',true).trigger('change');
+// 	    return false;
+// 	};
+
+// function airport() {
+// 	setTimeout($('#airport').find('option:nth-child(' + 3 + ')').prop('selected',true).trigger('change'), 2000);
+
+// }
+
 
 
 
