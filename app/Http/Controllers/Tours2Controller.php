@@ -12,11 +12,11 @@ use App\Tour;
 
 use App\Tourist;
 
+use App\Document;
+
 use App\Http\Controllers\TouristsController;
 
 use App\Services\Translit;
-
-use App\Services\IsBuyerIsTourist;
 
 use App\Services\TouristServices;
 
@@ -46,19 +46,25 @@ class Tours2Controller extends Controller
 
 
 
-    static function sort_request(Request $request)
+    static function return_sorted_request(Request $request)
     
     {
 
-        $keys_tourist = ['name', 'lastName', 'birth_date', 'doc_fullnumber'];
-        $keys_tourist_eng = ['nameEng', 'lastNameEng'];
-        $keys_tour = ['city_from', 'country', 'airport', 'operator', 'nights', 'date_depart', 'date_hotel', 'hotel', 'room', 'add_rooms', 'food_type', 'change_food_type' , 'currency', 'price', 'price_rub', 'is_credit', 'transfer', 'noexit_insurance', 'noexit_insurance_add_people', 'noexit_insurance_people', 'med_insurance', 'visa', 'visa_people', 'visa_add_people', 'change_sightseeing',  'sightseeing', 'extra_info'];
+        $keys_tourist = ['name', 'lastName', 'nameEng', 'lastNameEng', 'birth_date', 'citizenship', 'gender', 'phone', 'email', 'doc_fullnumber'];
+        $keys_document = ['doc_type', 'doc_seria', 'doc_number', 'date_issue', 'date_expire'];
+
+
+        // $keys_tourist_eng = ['nameEng', 'lastNameEng'];
+        $keys_tour = ['city_from', 'country', 'airport', 'operator', 'nights', 'date_depart', 'date_hotel', 'hotel', 'room', 'add_rooms', 'food_type', 'change_food_type' , 'currency', 'price', 'price_rub', 'is_credit', 'transfer', 'noexit_insurance', 'noexit_insurance_add_people', 'noexit_insurance_people', 'med_insurance', 'visa', 'visa_people', 'visa_add_people', 'change_sightseeing',  'sightseeing', 'extra_info', 'source', 'add_source'];
         $keys_buyer = ['is_buyer', 'is_tourist'];
         $keys_timestamps = ['created_at', 'updated_at'];
         $keys_hidden = ['cannot_change_old_tourists', 'tour_exists', 'is_update'];
 
 
         $request_array = request()->all();
+
+
+        $number_of_tourists = count(request()->name);
 
         $request_sorted = [];
 
@@ -70,12 +76,81 @@ class Tours2Controller extends Controller
             $request_sorted['tour']['noexit_insurance_people'] = $request->noexit_insurance_people ?: null;
             $request_sorted['tour']['visa_people'] = $request->visa_people ?: null;
 
-        $request_sorted['tourists'] = array_intersect_key($request_array, array_flip($keys_tourist));
+
+
+
+        $tourists_array =  array_intersect_key($request_array, array_flip($keys_tourist));
+
+        foreach ($tourists_array as $property=>$values) {
+
+            for ($i=0; $i<$number_of_tourists; $i++) {
+
+                $request_sorted['tourists'][$i][$property] = $values[$i];
+
+            }
+
+        }
+
+
+
+        $documents_array = array_intersect_key($request_array, array_flip($keys_document));
+
+
+
+        foreach ($documents_array['doc_number'] as $tourist_id => $doc_ids) {
+
+            foreach ($doc_ids as $doc_id => $doc_number_value) {
+
+                    if (isset($documents_array['doc_seria'][$tourist_id][$doc_id])) {
+
+                        $seria = $documents_array['doc_seria'][$tourist_id][$doc_id];
+
+                        $new_doc_number = $seria . $doc_number_value;
+
+                        $documents_array['doc_number'][$tourist_id][$doc_id] = $new_doc_number;
+
+                        $documents_array['seria'][$tourist_id][$doc_id] = strlen($seria);
+                    
+                    } else {
+
+                        $documents_array['seria'][$tourist_id][$doc_id] = 0;
+
+                    }
+
+            }
+
+        }
+
+        unset($documents_array['doc_seria']);
+
+
+        foreach ($documents_array as $property => $tourist_ids) {
+            
+                foreach ($tourist_ids as $tourist_id => $doc_ids) {
+
+                    foreach ($doc_ids as $doc_id => $value) {
+
+                         // $request_sorted['tourists'][$tourist_id]['documents'][$doc_number][$property] = $value;
+                         $request_sorted['documents'][$tourist_id][$doc_id][$property] = $value;
+
+
+                    }
+
+
+                }
+
+        }
+
+
         $request_sorted['buyer'] = array_intersect_key($request_array, array_flip($keys_buyer));
+
 
         return $request_sorted;
 
     }
+
+
+
 
 
 
@@ -111,6 +186,11 @@ class Tours2Controller extends Controller
         
     }
 
+
+
+
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -124,17 +204,25 @@ class Tours2Controller extends Controller
     
     }
 
+
+
+
+
+
+
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(tourRequest $request)
+    // public function store(Request $request)
 
+    public function store(tourRequest $request)
     {
 
-        $request_sorted = self::sort_request($request);
+        $request_sorted = self::return_sorted_request($request);
 
         $user = request()->user();
 
@@ -142,28 +230,26 @@ class Tours2Controller extends Controller
         $tour = Tour::create(array_merge($request_sorted['tour'], ['user_id' => $user->id]));
 
 
-
         $number_of_tourists = count($request->name);
               
 
+        // $previousVersions = new PreviousVersions;
 
-        $previousVersions = new PreviousVersions;
-
-        $tours_to_update_ids = $previousVersions->GetIdsOfToursToSavePreviousVersionsOf($number_of_tourists, $request_sorted['tourists']);
+        // $tours_to_update_ids = $previousVersions->GetIdsOfToursToSavePreviousVersionsOf($number_of_tourists, $request_sorted['tourists']);
 
 
         // Saving previous versions of tours where exist tourists from request who are going to be updated (not those who stay the same)
 
-        foreach ($tours_to_update_ids as $tour_to_update_id) {
+        // foreach ($tours_to_update_ids as $tour_to_update_id) {
 
-            $tour_to_save_version = Tour::find($tour_to_update_id);
+        //     $tour_to_save_version = Tour::find($tour_to_update_id);
 
-            $previousVersions = new PreviousVersions;
+        //     $previousVersions = new PreviousVersions;
 
-            $previousVersions->createVersion($tour_to_save_version);
+        //     $previousVersions->createVersion($tour_to_save_version);
 
 
-        }
+        // }
 
 
         for ($i=0; $i < $number_of_tourists; $i++ ) {
@@ -186,9 +272,22 @@ class Tours2Controller extends Controller
 
             else {
 
-                $tourist = new Tourist;
+                $tourist = Tourist::create($request_sorted['tourists'][$i]);
 
-                $tourist = $tourist->createFromRequest($request->all(), $i);
+                $doc_ids = [];
+
+
+                foreach ($request_sorted['documents'][$i] as $doc_id => $doc_array) {
+                    
+                    $document = Document::create(array_merge(['tourist_id'=>$tourist->id, 'user_id'=> $user->id], $doc_array));
+
+                    $doc_ids['doc'.$doc_id] = $document->id;
+
+                    }
+
+                // $tourist = new Tourist;
+
+                // $tourist = $tourist->createFromRequest($request->all(), $i);
 
 
             }
@@ -196,26 +295,12 @@ class Tours2Controller extends Controller
 
             // Check if tourist is a buyer, and if so, if the buyer is a tourist.
 
-
-            if ($request['is_buyer'] == $i) { 
-
-                $is_buyer = 1;
-
-                $is_tourist = $request['is_tourist']; // Buyer can be a tourist or not (1 or 0)
-
-            } else {
-
-                $is_buyer = 0;
-
-                $is_tourist = 1; // Tourist (no buyer) is always tourist
-
-            }
-
+            $is_buyer_is_tourist = Tourist::is_buyer_is_tourist($request_sorted['buyer'], $i);
 
 
             $tour->tourists()
 
-                ->save($tourist, ['is_buyer' => $is_buyer, 'is_tourist' => $is_tourist, 'user_id' => $user->id ]);              
+                ->save($tourist, array_merge($is_buyer_is_tourist, ['user_id' => $user->id], $doc_ids));              
 
         }
 
@@ -292,7 +377,7 @@ class Tours2Controller extends Controller
         // $request_array_tourist = array_intersect_key($request_array, array_flip($keys_tourist));
         // $request_array_buyer = array_intersect_key($request_array, array_flip($keys_buyer));
 
-        $request_sorted = self::sort_request($request);
+        $request_sorted = self::return_sorted_request($request);
 
 
         $user = request()->user();
@@ -453,9 +538,9 @@ class Tours2Controller extends Controller
 
             
 
-            $is_buyer_tourist = IsBuyerIsTourist::buyer($request_sorted['buyer'], $i);
+            $is_buyer_is_tourist = Tourist::is_buyer_is_tourist($request_sorted['buyer'], $i);
             
-            $sync_tourist_array[$tourist->id] = array_merge($is_buyer_tourist, ['user_id'=>$user->id]);
+            $sync_tourist_array[$tourist->id] = array_merge($is_buyer_is_tourist, ['user_id'=>$user->id]);
 
             // $sync_tourist_array[$tourist->id] = ['is_buyer' => $is_buyer, 'is_tourist' => $is_tourist];
 

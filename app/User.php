@@ -78,4 +78,10 @@ class User extends Authenticatable
 
         return $this->hasMany('App\Payments_to_operator', 'deleted_by', 'id')->withTrashed();
     }
+
+    public function documents()
+
+    {
+        return $this->hasMany('App\Document');
+    }
 }

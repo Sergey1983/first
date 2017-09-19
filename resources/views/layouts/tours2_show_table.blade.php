@@ -37,6 +37,11 @@
 					</tr>
 
 					<tr>
+						<td>Источник заявки</td>
+						<td>{{$tour->source}}</td>
+					</tr>
+
+					<tr>
 						<td>Туроператор</td>
 						<td>{{$tour->operator}}</td>
 					</tr>

@@ -13,7 +13,7 @@ class Tour extends Model
 
     public function tourists() {
 
-   		return $this->belongsToMany('App\Tourist')->withPivot('is_buyer', 'is_tourist', 'user_id')
+   		return $this->belongsToMany('App\Tourist')->withPivot('is_buyer', 'is_tourist', 'user_id', 'doc0', 'doc1')
       	->withTimestamps();
 
     }
@@ -46,6 +46,7 @@ class Tour extends Model
       return $this->hasOne('App\Tour_tourist');
 
     }
+
 
 
     public function previous_tour_tourist() {

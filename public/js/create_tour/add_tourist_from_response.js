@@ -1,7 +1,7 @@
 
-				function add_passenger_from_response (data) {
+				function add_tourist_from_response (data) {
 
-					console.log('add_passenger_from_response.js loaded');
+					console.log('add_tourist_from_response.js loaded');
 
 
 						/// ADDING TOURIST FIELDS IF NEEDED
@@ -9,7 +9,7 @@
 
 						for (var i = 0; i < number_of_tourists-1; i++) {
 
-							$('#add_passenger').trigger('click');
+							$('#add_tourist').trigger('click');
 
 						}
 

@@ -24,6 +24,8 @@ class tourRequest extends FormRequest
         return true;
     }
 
+
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -32,6 +34,7 @@ class tourRequest extends FormRequest
     public function rules()
     {
 
+      // dd(request()->all());
 
         $rules = 
 
@@ -51,15 +54,86 @@ class tourRequest extends FormRequest
             'noexit_insurance' => 'required',
             'med_insurance' => 'required',
             'visa' => 'required',
+            'source' => 'required', 
 
 
-            'name.*' => 'required',
-            'lastName.*' => 'required',
+            'name.*' => ['required', 'regex: /^[x{0430}-\x{044F}\x{0410}-\x{042F}-]+$/u'],
+            'lastName.*' => ['required', 'regex: /^[x{0430}-\x{044F}\x{0410}-\x{042F}-]+$/u'],
+            'nameEng.*' => ['required', 'regex: /[a-zA-Z\-]/u'],
+            'lastNameEng.*' => ['required', 'regex: /[a-zA-Z\-]/u'], 
             'birth_date.*' => 'required',
+            'citizenship.*' => 'required',
+            'gender.*' => 'required',
+            'email.*' => 'nullable|email',
+            'phone.*' => [
+                            'nullable',
+                            'min:10',
+                            'regex: /^\+?\d+$/',
+
+                          ], 
+            'doc_type.*.*' => 'required',
+            // 'doc_seria.*.*' => 'required|digits_between:2,4',
+            'date_issue.*.*' => 'required',
+            'date_expire.*.*' => 'required',
             'doc_fullnumber.*' => 'required|digits_between:3,15', 
             'is_buyer' => 'required',
             'is_tourist' => 'required',   
            ];
+
+
+           if (isset(request()->doc_type)) {
+
+             foreach (request()->doc_type as $tourist_id => $doc_types) {
+               
+                foreach ($doc_types as $doc_id => $value) {
+
+
+                  if($value == "Загран. паспорт" OR $value ==  "Внутррос. паспорт") {
+
+                    $rules['doc_number.'.$tourist_id.'.'.$doc_id] = 'required|numeric';
+
+                    $rules['doc_seria.'.$tourist_id.'.'.$doc_id] = ($value == "Загран. паспорт") 
+
+                                                                    ? 'required|digits:2' 
+
+                                                                    : 'required|digits:4';
+
+
+
+                  } else {
+
+                    $rules['doc_number.'.$tourist_id.'.'.$doc_id] = ['required', 'regex: /^[a-zA-Z0-9\x{0430}-\x{044F}\x{0410}-\x{042F}-]+$/u'];
+
+
+                  }
+
+
+             //      $rules['doc_number.'.$tourist_id.'.'.$doc_id] = 
+
+             //      ($value == "Загран. паспорт" OR $value ==  "Внутррос. паспорт")
+
+             //      ? 'required|numeric' 
+
+             //      : ['required', 'regex: /^[a-zA-Z0-9\x{0430}-\x{044F}\x{0410}-\x{042F}-]+$/u'];
+                
+             //    }
+
+             //      $rules['doc_seria.'.$tourist_id.'.'.$doc_id] = 
+
+             //      ($value == "Загран. паспорт" OR $value ==  "Внутррос. паспорт")
+
+             //      ? 'required|numeric' 
+
+             //      : ['required', 'regex: /^[a-zA-Z0-9\x{0430}-\x{044F}\x{0410}-\x{042F}-]+$/u'];
+
+             // }
+
+                  }
+              } 
+          }
+
+
+
 
 
            if(request()->currency != 'rub') {
@@ -306,9 +380,7 @@ class tourRequest extends FormRequest
          
 
 // 
-
-
-
+        // dd($rules);
 
            return $rules;
 
@@ -320,10 +392,19 @@ class tourRequest extends FormRequest
 
       $messages = [
                 '*.required' => 'Введите значение!',
-                'city_from.required' => 'Введите значение!',
-                'hotel.required' => 'Введите значение!',
+                'name.*regex' => 'Только лат. или рус. буквы и "-"!', 
+                'lastName.*regex' => 'Только лат. или рус. буквы и "-"!', 
+                'nameEng.*regex' => 'Только лат. буквы и "-"!', 
+                'lastNameEng.*regex' => 'Только лат. буквы и "-"!', 
                 'doc_fullnumber.*distinct' => 'В одном туре не может быть 2-х одинаковых паспортов!',
-                'doc_fullnumber.*required' => 'Введите значение!',
+                'phone.*regex' => 'Только + и цифры!',
+                'phone.*min' => 'Минимум 11 цифр',
+                'email.*email' => 'Это не email!',
+                // 'doc_fullnumber.*required' => 'Введите значение!',
+                'doc_seria.*digits' => ":digits цифры!",
+                // 'doc_seria.*.*digits:4' => "4 цифры!",
+                'doc_number.*numeric' => "Только цифры",
+                'doc_number.*regex' => 'Цирфы, буквы лат. и рус., и "-"! ', 
                 'is_buyer.required' => 'Выберите заказчика!',
                 'is_tourist.required' => 'Выберите "да" или "нет"!',
 
@@ -350,21 +431,21 @@ class tourRequest extends FormRequest
 
       // Create required and fail rule for every field
 
-      foreach ($columns as $key => $value) {
+      // foreach ($columns as $key => $value) {
 
-          $key_required = "$key.*required"; 
+      //     $key_required = "$key.*required"; 
 
-          $messages[$key_required] = 'Введите значение!';
+      //     $messages[$key_required] = 'Введите значение!';
 
-            $key_to_lower = strtolower($key);
+      //       $key_to_lower = strtolower($key);
           
-          $key_fail = "$key.*{$key_to_lower}_fail"; // // Rule-name can be only lowercase
+      //     $key_fail = "$key.*{$key_to_lower}_fail"; // // Rule-name can be only lowercase
 
-          $value_fail = "В других заявках как ':index'";
+      //     $value_fail = "В других заявках как ':index'";
 
-          $messages[$key_fail] = $value_fail;
+      //     $messages[$key_fail] = $value_fail;
 
-      }
+      // }
 
            return $messages;
 

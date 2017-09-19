@@ -46,6 +46,8 @@ class CreateToursTable extends Migration
             $table->string('extra_info', 255)->nullable();
             $table->integer('first_payment')->nullable();
             $table->string('bank', 50)->nullable();
+            $table->string('source', 50);
+            $table->boolean ('add_source')->default(false);
             $table->string('operator_code', 50)->nullable();
             $table->integer('operator_price')->nullable();
             $table->integer('operator_price_rub')->nullable();

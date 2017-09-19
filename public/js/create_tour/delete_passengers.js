@@ -8,7 +8,7 @@ $(document).ready(function() {
 	// test_number = 2;
 
 	// for (var i = 0; i < test_number; i++) {
-	// $('#add_passenger').trigger('click');
+	// $('#add_tourist').trigger('click');
 
 
 	// }

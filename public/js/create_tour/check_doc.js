@@ -5,7 +5,7 @@ $(document).ready(function() {
 	console.log("check_doc.js loaded");
 
 
-	$(document).on('click', '#check_doc', function (event) {
+	$(document).on('click', 'button[name*="check_doc_"]', function (event) {
 
 		event.preventDefault();
 
@@ -15,32 +15,54 @@ $(document).ready(function() {
 			$(this).empty();
 		})
 
-		var tourist_fields = $(this).parent().parent();
 
-		var doc_fullnumber_input =  $(this).parent().find('input[name*=doc_fullnumber]').val();	
+		var tourist_nubmer = $(this).attr('name').replace("check_doc_",'');
 
-		var block = $(this).parent();
+		var doc_number =  $('[name="doc_number['+tourist_nubmer+'][0]"]').val();	
+
+		var doc_seria =  $('[name="doc_seria['+tourist_nubmer+'][0]"]').val();	
+
+		var doc_type = $('[name="doc_type['+tourist_nubmer+'][0]"]').val();	
+
+		var parent = $(this).parent();
+
+		if(doc_type.length == 0) {
+
+			$('<div class="alert-validation">Выберите тип документа!</div>').appendTo(parent).fadeOut(2000);
+
+			return false;
+		}
+		
+		if(doc_number.length == 0) {
+
+			$('<div class="alert-validation">Введите номер документа!</div>').appendTo(parent).fadeOut(2000);
+
+			return false;
+		}
+
+		var doc_fullnumber_input = (typeof doc_seria != 'undefined' && doc_seria.length != 0) ? doc_seria+doc_number : doc_number;
 
 
 		$.ajax ({
 			type: 'POST',
 			url: '/checkpassport_function',
-			data: {doc_fullnumber: doc_fullnumber_input},
+			data: {doc_number: doc_fullnumber_input,
+				   doc_type: doc_type,
+				   tourist_number: tourist_nubmer },
 
 		})
 
 		.done (function (data) {
 
+				console.log(data);
 
-			if(data!='not found') {
-
-			var data = data[0];
+			if(data != 'not found') {
 
 			for (var property in data) {
 
 				if (data.hasOwnProperty(property)) {
 
-					 tourist_fields.find('input[name*='+property+']').val(data[property]);					
+					 $("[name='"+property+"']").val(data[property]);					
 
 					}
 
@@ -48,15 +70,10 @@ $(document).ready(function() {
 
 			} else { 
 
-					 tourist_fields.find('input').val('');		
 
-					 $('<div class="form-group" style="padding-left: 10px">'+
-					 	'<span class="col-md-1"></span>'+
-						'<div class="alert alert-warning col-md-3">'+
-  							'Нет туриста с таким номером паспорта.'+ 
-						'</div>'+
-					   '</div>'
-					).insertAfter(block).delay(1000).fadeOut();
+
+
+			$('<div class="alert-validation">'+doc_type+' в базе отсутствует!</div>').appendTo(parent).fadeOut(3000);
 
 
 			}

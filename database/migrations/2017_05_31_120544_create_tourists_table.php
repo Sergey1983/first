@@ -16,12 +16,10 @@ class CreateTouristsTable extends Migration
             $table->string('nameEng');
             $table->string('lastNameEng');
             $table->string('birth_date');
-            // $table->string('citizenship');
-            // $table->string('doc_type');
-            // $table->integer('doc_number_ser');
-            // $table->integer('doc_number_num');
-            // $table->string('doc_starts');
-            // $table->string('doc_expires');
+            $table->string('citizenship');
+            $table->string('gender');
+            $table->string('phone');
+            $table->string('email');
             $table->biginteger('doc_fullnumber')->unique();
             $table->timestamps();
         });

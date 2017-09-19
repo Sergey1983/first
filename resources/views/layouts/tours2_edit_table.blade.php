@@ -69,7 +69,7 @@
 
 		
 		<div class='input'>
-				{!! Form::button('+Еще турист', ['id' => 'add_passenger', 'class' => 'inline']) !!}
+				{!! Form::button('+Еще турист', ['id' => 'add_tourist', 'class' => 'inline']) !!}
 		</div>
 
 		

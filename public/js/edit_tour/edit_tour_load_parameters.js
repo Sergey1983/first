@@ -17,28 +17,49 @@ $(document).ready(function() {
 
 		.done(function(data) {
 
-
+			console.log(data);
 			/// Tour info filling: 
 
-			var tour = data[0];
+			/// ADDING TOURIST FIELDS IF NEEDED
+			number_of_tourists = data.number_of_tourists;
+
+			for (var i = 0; i < number_of_tourists-1; i++) {
+
+				$('#add_tourist').trigger('click');
+
+			}
+
+			/// MAKING 2ND DOC NON-DISABLED IF NEEDED
+
+			for (var property in data.second_doc) {
+
+				var tourist = data.second_doc[property];
+
+				$('#add_doc_2_'+tourist+'').trigger('click');
+			}
+
+
+			var tour = data;
 	
 			for (var property in tour) {
 				    
 				    if (tour.hasOwnProperty(property)) {
 				    	
-				    	var x  = $('[name="'+property+'"]');
+				    	var name  = $('[name="'+property+'"]');
 
-				    	console.log(x);
+				    	// console.log(x);
 
-				    	if(! x.length == 0 ){
+				    	if(! name.length == 0 ){
 
-				    		if((x[0].nodeName == 'INPUT' && x.attr('type')!='checkbox') || (x[0].nodeName == 'TEXTAREA')) {
+				    		if((name[0].nodeName == 'INPUT' && name.attr('type')!='checkbox') || (name[0].nodeName == 'TEXTAREA')) {
 
-				    			x.val(tour[property]);
+				    			name.val(tour[property]);
 				    		
-				    		} else if (x[0].nodeName ==='SELECT') {
+				    		} else if (name[0].nodeName =='SELECT') {
 
-				    			x.find('option[value="'+tour[property]+'"]').attr('selected', 'selected');
+				    			name.val(tour[property]).change();
+
+				    			// name.find('option[value="'+tour[property]+'"]').attr('selected', 'selected');
 
 				    		}
 
@@ -49,17 +70,16 @@ $(document).ready(function() {
 				    }
 				}
 
-			$('input[name=hotel]').val(tour['hotel']);
-			$('option[value='+tour['city_from']+']').attr('selected', 'selected');
 
-			/// Tourists info filling: 
 
-			len = data.length;
-			var tourists = data.slice(1, len);
+			// /// Tourists info filling: 
 
-			add_passenger_from_response(tourists);
+			// len = data.length;
+			// var tourists = data.slice(1, len);
 
-			// console.log(tourists);
+			// add_tourist_from_response(tourists);
+
+			// // console.log(tourists);
 	
 
 		 })

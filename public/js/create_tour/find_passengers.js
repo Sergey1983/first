@@ -36,7 +36,7 @@
 
 						/// ADDING TOURIST FIELDS IF NEEDED
 
-						add_passenger_from_response (data);
+						add_tourist_from_response (data);
 
 					})
 
