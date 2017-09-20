@@ -9,7 +9,7 @@
 @include('layouts.tours2_create_or_update_table', ['verb' =>'Обновить', 'button' =>'update_button', 'is_update'=> 1])
 
 
-
+<script type="text/javascript" src="{{ URL::asset('js/create_tour/fill_all_fields.js ') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/add_tourist.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/find_passengers.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/delete_passengers.js') }}"></script>

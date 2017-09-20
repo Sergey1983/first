@@ -7,6 +7,7 @@
 
 @include('layouts.tours2_create_or_update_table', ['verb' =>'Создать', 'button' =>'submit_button', 'is_update'=> 0])
 
+<script type="text/javascript" src="{{ URL::asset('js/create_tour/fill_all_fields.js ') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/add_tourist.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/create_or_update_tour.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/find_passengers.js') }}"></script>
@@ -33,6 +34,7 @@
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/choose_doc.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/add_doc.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/mouse_over_dis_docs.js ') }}"></script>
+
 
 
 @endsection

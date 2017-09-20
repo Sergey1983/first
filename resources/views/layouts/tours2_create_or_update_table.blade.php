@@ -613,14 +613,14 @@
 
 			<div class="form-group">
 
-				{!! Form::label('tour', 'Вставить туристов из заявки №:')!!}
+				{!! Form::label('tour', '№ заявки:')!!}
 				{!! Form::text('tour', null, ['class'=>'form-control']) !!}
 
 			</div>
 
 			<div class="form-group">
 
-				{!! Form::buttonSearch('Загрузить ', 'submit_find_passengers') !!}
+				{!! Form::buttonSearch('Вставить туристов из заявки', 'submit_find_passengers', 'button') !!}
 
 			</div>
 
@@ -953,8 +953,8 @@
 	</div>
 
 </div>
-
 {{-- 
+
 
 <script type="text/javascript">
 
@@ -1040,7 +1040,6 @@ function airport() {
 
 
 
-</script>
+</script> --}}
 
 
- --}}

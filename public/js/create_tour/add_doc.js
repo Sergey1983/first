@@ -2,7 +2,7 @@ $(document).ready(function(){
 
 	console.log('add_doc.js loaded');
 
-	$(document).on('change', '[name="add_doc_2"]', function () {
+	$(document).on('click', '[name="add_doc_2"]', function () {
 
 
 		var tourist_number = $(this).attr('id').replace('add_doc_2_', '');

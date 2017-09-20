@@ -111,7 +111,42 @@ class FunctionsController extends Controller
         
         $tourists = $tour->tourists;
 
-        return $tourists;
+        $not_needed_keys = array_flip(['id', 'created_at', 'updated_at']);
+
+        $tourist_not_needed_keys = array_merge($not_needed_keys, array_flip(['pivot']));
+
+        $array_to_return = [];
+
+        $tourists_array = $tourists->toArray();
+
+        $array_to_return['number_of_tourists'] = count($tourists_array);
+
+        foreach ($tourists_array as $tourist_id => $tourist_values) {
+
+            $tourist_values = array_diff_key($tourist_values, $tourist_not_needed_keys);
+
+
+            foreach ($tourist_values as $name => $value) {
+
+                // if($name == 'pivot') {
+
+                //         if($value['is_buyer'] != 0) {
+
+                //             $array_to_return['is_buyer'] = $value['is_buyer'];
+
+                //             $array_to_return['is_tourist'] = $value['is_tourist'];
+
+                //     }
+
+                // }
+                
+                $array_to_return[$name.'['.$tourist_id.']'] = $value;
+
+            }
+
+        }
+
+        return $array_to_return;
 
     }
 
@@ -128,12 +163,6 @@ class FunctionsController extends Controller
             $tour_array = collect($tour)->except(['id', 'user_id', 'updated_at', 'created_at'])->toArray();
 
             $tour_tourists = $tour->tourists->toArray();
-
-            // $tour_doc1 = $tour->tour_tourist->document1->toArray();
-
-            // $tour_doc2 = $tour->tour_tourist->document2->toArray();
-
-
 
             // We'll put all tour params in this array:
             $tour_tourists_docs_array = $tour_array;
@@ -213,30 +242,6 @@ class FunctionsController extends Controller
                 $i+=1;
             }
 
-
-            // $j = 1;
-
-            // foreach ($tour_tourists as $tourist) {
-
-            //     $pivot = $tourist['pivot']; //Pivot = tour-tourists relations & is_buyer & is_torist
-                
-            //     $tourist = $tourist;
-                
-            //     unset($tourist['pivot']);
-                
-            //     $tourist = array_merge($tourist, $pivot);
-
-            //     $removeKeys = array('id', 'nameEng', 'lastNameEng', 'created_at', 'updated_at', 'tour_id', 'tourist_id');
-
-            //         foreach($removeKeys as $key) {
-            //             unset($tourist[$key]);
-            //         }
-
-            //     $tour_tourist_array[$j]=$tourist;
-
-            //     $j++;
-
-            //  }
        
 
              return $tour_tourists_docs_array;

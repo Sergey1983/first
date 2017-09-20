@@ -56,9 +56,11 @@ class tourRequest extends FormRequest
             'visa' => 'required',
             'source' => 'required', 
 
+            'name.*' => ['required', 'regex: /^[а-яёА-ЯЁ-]+$/u'],
+            'lastName.*' => ['required', 'regex: /^[а-яёА-ЯЁ-]+$/u'],
 
-            'name.*' => ['required', 'regex: /^[x{0430}-\x{044F}\x{0410}-\x{042F}-]+$/u'],
-            'lastName.*' => ['required', 'regex: /^[x{0430}-\x{044F}\x{0410}-\x{042F}-]+$/u'],
+            // 'name.*' => ['required', 'regex: /^[x{0430}-\x{044F}\x{0410}-\x{042F}-]+$/u'],
+            // 'lastName.*' => ['required', 'regex: /^[x{0430}-\x{044F}\x{0410}-\x{042F}-]+$/u'],
             'nameEng.*' => ['required', 'regex: /[a-zA-Z\-]/u'],
             'lastNameEng.*' => ['required', 'regex: /[a-zA-Z\-]/u'], 
             'birth_date.*' => 'required',
@@ -102,7 +104,7 @@ class tourRequest extends FormRequest
 
                   } else {
 
-                    $rules['doc_number.'.$tourist_id.'.'.$doc_id] = ['required', 'regex: /^[a-zA-Z0-9\x{0430}-\x{044F}\x{0410}-\x{042F}-]+$/u'];
+                    $rules['doc_number.'.$tourist_id.'.'.$doc_id] = ['required', 'regex: /^[a-zA-Z0-9а-яёА-ЯЁ-]+$/u'];
 
 
                   }
@@ -392,8 +394,8 @@ class tourRequest extends FormRequest
 
       $messages = [
                 '*.required' => 'Введите значение!',
-                'name.*regex' => 'Только лат. или рус. буквы и "-"!', 
-                'lastName.*regex' => 'Только лат. или рус. буквы и "-"!', 
+                'name.*regex' => 'Только рус. буквы и "-"!', 
+                'lastName.*regex' => 'Только рус. буквы и "-"!', 
                 'nameEng.*regex' => 'Только лат. буквы и "-"!', 
                 'lastNameEng.*regex' => 'Только лат. буквы и "-"!', 
                 'doc_fullnumber.*distinct' => 'В одном туре не может быть 2-х одинаковых паспортов!',

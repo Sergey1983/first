@@ -4,9 +4,10 @@
 
 
 		
-		$('#submit_find_passengers').on('click', function(event) {
+		$('[name="submit_find_passengers"]').on('click', function(event) {
 
 			event.preventDefault();
+
 			
 			$('p[class*="p-error"]').remove();
 
@@ -19,7 +20,7 @@
 					.done(function (data) {
 
 
-						/// DELETING ALL PASSENGERS EXCEPT 1 
+						/// DELETING ALL PASSENGERS EXCEPT 1
 
 						var passengers_count = $("div[class*='inputs_']").length;
 
@@ -34,9 +35,24 @@
 
 						})
 
+						/// UN-CHECKING if SOME CHECKBOXES ARE CHEKCED
+
+						$('[class*="inputs_0"]').find('*').val('');
+
+						if($('#change_citezenship_0').is(":checked")) {
+
+							$('#change_citezenship_0').trigger('click');
+						}
+
+						if($('#add_doc_2_0').is(":checked")) {
+
+							$('#add_doc_2_0').trigger('click');
+						}
+
+
 						/// ADDING TOURIST FIELDS IF NEEDED
 
-						add_tourist_from_response (data);
+						fill_all_fields(data);
 
 					})
 
@@ -62,19 +78,12 @@
 
 														).delay(1000).fadeOut();
 
-								// $('<div class="alert alert-warning col-md-3 style="padding:10px">'+
-			  			// 				''+errors[property]+''+ 
-								// 	'</div>'
-								// ).insertAfter($('#submit_find_passengers').closest('form')).delay(1000).fadeOut();
 
-
-							    // $('#submit_find_passengers').after('<p class="p-error">'+errors[property]+'</p>');
 
 							}
 							        
 						}
 
-						// $('#submit_find_passengers').after('<p class="p-error">'+errors[0]+'</p>');
 
 					});
 
