@@ -43,7 +43,7 @@ class Tour extends Model
 
     public function tour_tourist() {
 
-      return $this->hasOne('App\Tour_tourist');
+      return $this->hasMany('App\Tour_tourist');
 
     }
 

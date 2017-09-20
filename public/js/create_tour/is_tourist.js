@@ -6,20 +6,35 @@ $(document).ready(function() {
 
 	$(document).on( "click", 'input[name="is_buyer"]', function() {
 
-		$('div[class~="is_tourist"]').remove();
+		$('#is_tourist').remove();
 
-		$(this).closest('#payer').after('<div class="form-group is_tourist">'+
-	
-							'<label class="control-label col-md-1">Заказчик едет в тур?</label>'+
-							
-							'<div class="col-md-3">'+
+		$(this).closest('#payer').after(
 
-								'<label class="radio-inline"><input type="radio" name="is_tourist" value="1">Да</label>'+
-								'<label class="radio-inline"><input type="radio" name="is_tourist" value="0">Нет</label>'+
-							
+						'<div class="row" id="is_tourist">'+
+
+							'<div class="form-group col-md-6">'+
+		
+								'<label class="control-label col-md-2">Заказчик едет в тур?</label>'+
+								
+								'<div class="col-md-1">'+
+
+									'<label class="radio-inline"><input type="radio" name="is_tourist" id="is_tourist_1" value="1">Да</label>'+
+								
+								'</div>'+
+
+								'<div class="col-md-1">'+			
+
+									'<label class="radio-inline"><input type="radio" name="is_tourist" id="is_tourist_0" value="0">Нет</label>'+
+								
+								'</div>'+
+
 							'</div>'+
 
 						'</div>'
+
+
+
+
 					  );
 
 	});

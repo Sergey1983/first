@@ -607,7 +607,7 @@
 
 		</div>
 
-		<div class="col-md-12">
+		<div class="col-md-12 margin-bottom-10">
 
 			{!! Form::open(['id' => 'find_passengers', 'class' => 'form-inline'])!!}
 
@@ -867,9 +867,7 @@
 
 					<div class="col-md-3 no-padding">
 
-{{-- 					{!! Form::buttonSearch('Найти по паспорту', 'check_doc[0][1]', 'button', 'disabled') !!}
- --}}
-					</div>
+				</div>
 
 					<div class="form-group col-md-3">
 
@@ -890,29 +888,18 @@
 			</div>
 
 
-			
-			<div class="row">
+		
+
+			<div class="row" id='payer'>
 
 				<div class='form-group col-md-6'>
-
-					<div class="col-md-4">
-						{!! Form::text ('doc_fullnumber[0]', null, ['placeholder' => 'Номер паспорта', 'class'=>'form-control'])!!}
-					</div>
-
-					{!! Form::buttonSearch('Найти по паспорту', 'check_doc', 'button') !!}
-
-
-				</div>
-
-			</div>
-
-			<div class="row">
-
-				<div class='form-group col-md-3' id='payer'>
 					
-					{!! Form::label('Заказчик?', null, ['class'=>'col-md-4'])!!}
 
-					<div class="col-md-8">
+					{!! Form::label('Заказчик?', null, ['class'=>'col-md-2'])!!}
+
+
+
+					<div class="col-md-1 text-left">
 
 						{!! Form::radio ('is_buyer', 0)!!}
 

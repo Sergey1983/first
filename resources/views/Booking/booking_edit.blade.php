@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container-fluid text-center margin-bottom-10px">
+<div class="container-fluid text-center margin-bottom-10">
 	
 	<h3>Подтверждение бронирования</h3>
 

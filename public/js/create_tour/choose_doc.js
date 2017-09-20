@@ -89,7 +89,7 @@ $(document).ready(function(){
 
 		var another_select_name = '[name="doc_type['+tourist_number+']['+doc_number+']"]';
 
-		$(another_select_name).children('option').show();
+		$(another_select_name).children('option:not(:first)').show();
 		$(another_select_name).children('option[value="'+another_doc_value+'"]').hide();
 
 

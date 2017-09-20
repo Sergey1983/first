@@ -37,7 +37,7 @@
 
 						/// UN-CHECKING if SOME CHECKBOXES ARE CHEKCED
 
-						$('[class*="inputs_0"]').find('*').val('');
+						$('[class*="inputs_0"]input').find('*').val('');
 
 						if($('#change_citezenship_0').is(":checked")) {
 

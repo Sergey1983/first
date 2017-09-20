@@ -261,7 +261,7 @@
 </div>
 
 
-<div class="container-fluid">
+<div class="container-fluid margin-bottom-10">
 
 	@include('buttons.book_tour')
     @include('buttons.pay_tourist')	
@@ -276,46 +276,130 @@
 
 <div class="container-fluid">
 
-	<h3> Туристы: </h3>
+
+	@foreach ($tour_tourists_docs as $key => $tour_tourists_doc)
 
 
-	<table class='table table-striped table-hover table-responsive'>
+	<h4> Турист {{$key+1}}: </h4>
 
 
-		<tr>
+	<div class="row">
 
-		    <th class='col-md-2'>Id туриста</th>
-		    <th class='col-md-2'>Имя</th>
-		    <th class='col-md-2'>Фамилия</th>
-		    <th class='col-md-3'>Дата рождения</th>
-		    <th class='col-md-3'>Номер док-та</th>
-		    
-	  	</tr>
+		<div class="col-md-12">
+		
+			<table class="table table-responsive table-bordered table-striped">
+
+				<tr>
+
+				    <th>Id</th>
+				    <th>Имя</th>
+				    <th>Фамилия</th>
+				    <th>Имя Англ.</th>
+				    <th>Фамилия Англ.</th>    
+				    <th>День рож-я</th>
+				    <th>Гражданство</th>
+				    <th>Пол</th>
+				    <th>Телефон</th>
+				    <th>Email</th>
+
+				</tr>
+
+				<tr>
+
+@php
+
+	$tourist = $tour_tourists_doc->tourist;
+
+@endphp
 
 
+				    <td>{{$tourist->id}}</td>
+				    <td>{{$tourist->name}}</td>
+				    <td>{{$tourist->lastName}}</td>
+				    <td>{{$tourist->nameEng}}</td>
+				    <td>{{$tourist->lastNameEng}}</td>    
+				    <td>{{$tourist->birth_date}}</td>
+				    <td>{{$tourist->citizenship}}</td>
+				    <td>{{$tourist->gender}}</td>
+				    <td>{{$tourist->phone}}</td>
+				    <td>{{$tourist->email}}</td>
 
 
-	@foreach ($tour_tourists as $tour_tourist)
+				</tr>
 
-		<tr>
+			</table>
+
+			</div>
+
+			<div class="col-md-6">
+
+					<table class="table table-responsive table-bordered table-striped">
+
+						<tr>
+
+						    <th class="col-md-4">Тип док-а</th>
+						    <th class="col-md-4">Номер док-а</th>
+						    <th class="col-md-2">Дата выдачи</th>
+						    <th class="col-md-2">Дата окон-я</th>
+
+						</tr>
+
+						<tr>
+@php
+
+	$document = $tour_tourists_doc->document0;
+
+@endphp
+						    <td>{{$document->doc_type}}</td>
+						    <td>{{$document->doc_number}}</td>
+						    <td>{{$document->date_issue}}</td>
+						    <td>{{$document->date_expire}}</td>
+						
+						</tr>
 
 
-			<td><?= $tour_tourist->id ?></td>
-			<td><?= $tour_tourist->name ?></td>
-			<td><?= $tour_tourist->lastName ?></td>
-			<?php
-			 $date = date_create_from_format('Y-m-d', $tour_tourist->birth_date) 
-			?>
-			<td><?= date_format($date, 'd-m-Y') ?></td>
-			<td><?= $tour_tourist->doc_fullnumber ?></td>		
+					</table>
 
-		</tr>
+			</div>
+			
 
 
+@if($document = $tour_tourists_doc->document1)
 
-	@endforeach
+			<div class="col-md-6">
 
-	</table>
+					<table class="table table-responsive table-bordered table-striped">
+
+						<tr>
+
+						    <th class="col-md-4">Тип док-а</th>
+						    <th class="col-md-4">Номер док-а</th>
+						    <th class="col-md-2">Дата выдачи</th>
+						    <th class="col-md-2">Дата окон-я</th>
+
+						</tr>
+
+						<tr>
+
+						    <td>{{$document->doc_type}}</td>
+						    <td>{{$document->doc_number}}</td>
+						    <td>{{$document->date_issue}}</td>
+						    <td>{{$document->date_expire}}</td>
+						
+						</tr>
+
+
+					</table>
+
+			</div>
+@endif
+
+
+	</div>
+
+
+@endforeach
+
 
 
 

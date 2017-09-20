@@ -4,7 +4,7 @@
 
 <script type="text/javascript" src="{{ URL::asset('js/various/alert_fadeout.js') }}"></script>
 
-<div class="container-fluid text-center margin-bottom-10px">
+<div class="container-fluid text-center margin-bottom-10">
 	
 	<h3>Внести оплату оператору</h3>
 

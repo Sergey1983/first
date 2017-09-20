@@ -15,7 +15,7 @@
 </div>
 
 
-<div class="container-fluid margin-bottom-10px">
+<div class="container-fluid margin-bottom-10">
 
 	<div class="col-md-12">
 

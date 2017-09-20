@@ -33,30 +33,40 @@
 			for (var property in tour) {
 				    
 				    if (tour.hasOwnProperty(property)) {
+
+				    	if(property == 'is_buyer') { 
+
+				    		$('[name="is_buyer"]:eq('+tour[property]+')').trigger('click');
+
+							$('#is_tourist_'+tour['is_tourist']+'').attr('checked', 'checked');
+
+				    	}
 				    	
 				    	var name  = $('[name="'+property+'"]');
 
 				    	if(! name.length == 0 ){
 
+
+
 				    		if((name[0].nodeName == 'INPUT' && name.attr('type')!='checkbox') || (name[0].nodeName == 'TEXTAREA')) {
 
 				    			name.val(tour[property]);
+
 				    		
 				    		} else if (name[0].nodeName =='SELECT') {
+
 
 				    			if(property.includes('citizenship') && tour[property] != 'Россия') {
 
 				    				var tourist_id  = property.replace('citizenship[', '').replace(']', '');
 
 				    				$('#change_citezenship_'+tourist_id+'').trigger('click');
-
-				    				console.log(tour[property]);
 			
 							    	name = $('[name="'+property+'"]');
 
 							    	name.val(tour[property]);
 
-				    			}
+				    			} 
 
 				    			name.val(tour[property]).change();
 

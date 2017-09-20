@@ -11,101 +11,6 @@ $(document).ready(function() {
 
 		var i = $("div[class*='inputs_']").length;
 
-		// $new_passenger = $(
-
-		// 	'<div class="inputs_'+i+' padding">'+
-
-		// 		'<div class="form-group">'+
-
-		// 			'<label class="control-label col-md-1">Имя: </label>'+
-						
-		// 			'<div class="col-md-3">'+
-					
-		// 					'<input type="text" class="form-control" name="name['+i+']" placeholder="Имя">'+
-					
-		// 			'</div>'+
-
-		// 		'</div>'+
-
-
-				
-		// 		'<div class="form-group">'+
-	
-		// 			'<label class="control-label col-md-1">Фамилия: </label>'+
-					
-		// 			'<div class="col-md-3">'+
-					
-		// 				'<input type="text" class="form-control" name="lastName['+i+']" placeholder="Фамилия">'+
-					
-		// 			'</div>'+
-
-		// 		'</div>'+
-
-
-
-		// 		'<div class="form-group">'+
-	
-		// 			'<label class="control-label col-md-1">Дата рождения: </label>'+
-					
-		// 			'<div class="col-md-3">'+
-					
-		// 				'<input type="date" class="form-control" name="birth_date['+i+']" value="" placeholder="Дата рождения">'+
-					
-		// 			'</div>'+
-
-		// 		'</div>'+
-
-
-
-		// 		'<div class="form-group">'+
-
-		// 			'<label class="control-label col-md-1" for="doc_fullnumber['+i+']">Номер паспорта</label>'+ 
-					
-		// 			'<div class="col-md-3">'+
-					
-		// 				'<input type="text" class="form-control" name="doc_fullnumber['+i+']" placeholder="Номер паспорта">'+
-					
-		// 			'</div>'+
-
-		// 			'<button id="check_doc" class="btn btn-default">Проверить <span class="glyphicon glyphicon-search"></span></button>'+
-
-		// 		'</div>'+
-
-
-
-		// 		'<div class="form-group" id="payer">'+
-	
-		// 			'<label class="control-label col-md-1">Заказчик?: </label>'+ 
-					
-		// 			'<div class="col-md-3">'+
-					
-		// 				'<input type="radio" name="is_buyer" value="'+i+'">'+
-					
-		// 			'</div>'+
-
-		// 		'</div>'+
-
-
-				
-		// 		'<div class="form-group">'+
-					
-		// 			'<div class="col-md-3">'+
-					
-		// 				'<button type="button" class="delete_passenger btn btn-default"> Удалить туриста? </button>'+
-					
-		// 			'</div>'+
-
-		// 		'</div>'+
-
-
-
-		// 	'</div>'
-
-
-
-
-		// 	);
-
 
 		$new_passenger = (
 
@@ -352,29 +257,14 @@ $(document).ready(function() {
 			'</div>'+
 
 
-			
-			'<div class="row">'+
+
+			'<div class="row" id="payer">'+
 
 				'<div class="form-group col-md-6">'+
-
-					'<div class="col-md-4">'+
-						'<input placeholder="Номер паспорта" class="form-control" name="doc_fullnumber['+i+']" type="text">'+
-					'</div>'+
-
-					'<button type="button" name="check_doc" class="btn btn-default btn-grey">Найти по паспорту<span class="glyphicon glyphicon-search"></span></button>'+
-
-
-				'</div>'+
-
-			'</div>'+
-
-			'<div class="row">'+
-
-				'<div class="form-group col-md-3" id="payer">'+
 					
-					'<label for="Заказчик?" class="col-md-4">Заказчик?</label>'+
+					'<label for="Заказчик?" class="col-md-2">Заказчик?</label>'+
 
-					'<div class="col-md-8">'+
+					'<div class="col-md-1 text-left">'+
 
 						'<input name="is_buyer" type="radio" value="'+i+'">'+
 

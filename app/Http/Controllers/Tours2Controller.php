@@ -322,6 +322,8 @@ class Tours2Controller extends Controller
 
         $tour_tourists = $tour->tourists;
 
+        $tour_tourists_docs = $tour->tour_tourist;
+
         $is_versions = 0;
 
         $versions = previous_tour::where('tour_id', $tour->id)->orderBy('version', 'desc')->first();
@@ -333,7 +335,7 @@ class Tours2Controller extends Controller
 
 
 
-        return view('Tours2.tours2_show', compact('tour', 'tour_tourists', 'is_versions', 'user'));
+        return view('Tours2.tours2_show', compact('tour', 'tour_tourists', 'tour_tourists_docs', 'is_versions', 'user'));
     }
 
     /**

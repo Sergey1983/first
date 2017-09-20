@@ -101,6 +101,10 @@ class FunctionsController extends Controller
      	return $tours;
      }
 
+
+
+
+
         public function find_passengers (findPassengersRequest $request) 
 
     {
@@ -109,45 +113,51 @@ class FunctionsController extends Controller
 
         $tour = Tour::find($tour_id);
         
-        $tourists = $tour->tourists;
+        // $tourists = $tour->tourists;
 
-        $not_needed_keys = array_flip(['id', 'created_at', 'updated_at']);
+        // // $not_needed_keys = array_flip(['id', 'created_at', 'updated_at']);
 
-        $tourist_not_needed_keys = array_merge($not_needed_keys, array_flip(['pivot']));
+        // // $tourist_not_needed_keys = array_merge($not_needed_keys, array_flip(['pivot']));
 
-        $array_to_return = [];
+        // $array_to_return = [];
 
-        $tourists_array = $tourists->toArray();
+        $tour_tourists = $tour->tourists->toArray();
 
-        $array_to_return['number_of_tourists'] = count($tourists_array);
-
-        foreach ($tourists_array as $tourist_id => $tourist_values) {
-
-            $tourist_values = array_diff_key($tourist_values, $tourist_not_needed_keys);
+        // $tourists_and_docs['number_of_tourists'] = count($tourists_array);
 
 
-            foreach ($tourist_values as $name => $value) {
+        $tourists_and_docs = $this->get_tourists_and_docs($tour_tourists, false);
 
-                // if($name == 'pivot') {
 
-                //         if($value['is_buyer'] != 0) {
+        // foreach ($tourists_array as $tourist_id => $tourist_values) {
 
-                //             $array_to_return['is_buyer'] = $value['is_buyer'];
+        //     $tourist_values = array_diff_key($tourist_values, $tourist_not_needed_keys);
 
-                //             $array_to_return['is_tourist'] = $value['is_tourist'];
 
-                //     }
+        //     foreach ($tourist_values as $name => $value) {
 
-                // }
+        //         if($name == 'pivot') {
+
+        //                 if($value['doc1'] != 0) {
+
+        //                     $array_to_return['is_buyer'] = $value['is_buyer'];
+
+        //                     $array_to_return['is_tourist'] = $value['is_tourist'];
+
+        //             }
+
+        //         }
                 
-                $array_to_return[$name.'['.$tourist_id.']'] = $value;
+        //         $array_to_return[$name.'['.$tourist_id.']'] = $value;
 
-            }
+        //     }
 
-        }
+        // }
 
-        return $array_to_return;
+        // return $array_to_return;
 
+
+        return $tourists_and_docs;
     }
 
 
@@ -167,22 +177,51 @@ class FunctionsController extends Controller
             // We'll put all tour params in this array:
             $tour_tourists_docs_array = $tour_array;
 
+
+            $tourists_and_docs = $this->get_tourists_and_docs($tour_tourists);
+
+            $tour_tourists_docs_array = array_merge($tour_tourists_docs_array, $tourists_and_docs);
+       
+
+            return $tour_tourists_docs_array;
+    }
+
+
+    public function airport_load (Request $request) 
+
+    {
+
+        $country = Country::where('country', $request->country)->first();
+
+        return $country->airports_array();
+
+    }
+
+    
+    public function get_tourists_and_docs($tour_tourists, $need_buyer=true)
+
+    {
+
             $doc_needed_fields = array_flip(['doc_type', 'doc_number', 'doc_seria', 'date_issue', 'date_expire']);
 
 
-            $i = 0;
+                    $i = 0;
 
             foreach ($tour_tourists as $tourist) {
 
 
 
+            if($need_buyer)
+
+            {
                 if($tourist['pivot']['is_buyer'] == 1  ) {
 
                     $tour_tourists_docs_array['is_buyer'] = $i;
                     $tour_tourists_docs_array['is_tourist'] = $tourist['pivot']['is_tourist'];
 
                 }
-                
+            }
+
 
                 $docs[0] = Document::find($tourist['pivot']['doc0'])->toArray();
 
@@ -242,23 +281,11 @@ class FunctionsController extends Controller
                 $i+=1;
             }
 
-       
-
-             return $tour_tourists_docs_array;
-    }
-
-
-    public function airport_load (Request $request) 
-
-    {
-
-        $country = Country::where('country', $request->country)->first();
-
-        return $country->airports_array();
+            return $tour_tourists_docs_array;
 
     }
 
-    
+
 
 
 }
