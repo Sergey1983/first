@@ -20,7 +20,7 @@ class CreateTouristsTable extends Migration
             $table->string('gender');
             $table->string('phone');
             $table->string('email');
-            $table->biginteger('doc_fullnumber')->unique();
+            // $table->biginteger('doc_fullnumber')->unique();
             $table->timestamps();
         });
     }

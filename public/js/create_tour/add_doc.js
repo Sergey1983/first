@@ -23,9 +23,13 @@ $(document).ready(function(){
 
 			$('#row_second_doc_'+tourist_number+' *').attr('disabled', 'disabled');
 
+			$('#row_second_doc_'+tourist_number+' select:nth-child(1)').attr('selected', 'selected');
+
+			$('#row_second_doc_'+tourist_number+' input').val('');
+
 			$(this).removeAttr('disabled');
 
-			$('[name="doc_type['+tourist_number+'][1]"]').val('');
+			// $('[name="doc_type['+tourist_number+'][1]"]').val('');
 
 		}
 

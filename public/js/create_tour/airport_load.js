@@ -1,4 +1,4 @@
-$(document).ready(function() {
+// $(document).ready(function() {
 	
 	// ADDING A PASSENGER FOR CREATE TOUR TABLE
 
@@ -18,6 +18,7 @@ $(document).ready(function() {
 		})
 
 		.done(function (data) {
+
 
 				$('#airport').find('option').remove();
 				$('#airport').append('<option selected="selected" disabled="disabled" hidden="hidden" value="">Выберите аэропорт</option>');
@@ -50,4 +51,4 @@ $(document).ready(function() {
 
 
 
-});
+// });

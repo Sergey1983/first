@@ -640,7 +640,7 @@
 
 
 
-			{!! Form::hidden ('cannot_change_old_tourists', 'true')!!}
+			{!! Form::hidden ('allchecked', 'false')!!}
 			{!! Form::hidden ('tour_exists')!!}
 			{!! Form::hidden ('is_update', $is_update)!!}
 
@@ -921,9 +921,9 @@
 			
 			<div class='input submit'>
 
-				<div class="row submit">
+				<div class="row submit" >
 
-					<div class="col-md-1">
+					<div class="col-md-6" id="divsubmit">
 
 					{!! Form::submit( $verb.=' тур', ['id' => $button, 'class' => 'inline btn btn-success']) !!}
 
@@ -940,8 +940,8 @@
 	</div>
 
 </div>
-{{-- 
 
+{{-- 
 
 <script type="text/javascript">
 
@@ -1027,6 +1027,6 @@ function airport() {
 
 
 
-</script> --}}
-
+</script>
+ --}}
 

@@ -21,6 +21,7 @@ class ToursOldTable extends Migration
             $table->string('lastNameEng');
             $table->string('destination');
             $table->string('departure');
+            $table->integer('document');
             $table->timestamps();
         });
     }

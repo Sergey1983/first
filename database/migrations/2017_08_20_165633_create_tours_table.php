@@ -20,7 +20,7 @@ class CreateToursTable extends Migration
             $table->string('city_from', 50);
             $table->string('country', 50);
             $table->string('airport', 50);
-            $table->string('operator', 50);
+            $table->string('operator', 200);
             $table->integer('nights');    
             $table->date('date_depart');
             $table->boolean('date_hotel')->default(false);      

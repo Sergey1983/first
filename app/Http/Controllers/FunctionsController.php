@@ -174,13 +174,15 @@ class FunctionsController extends Controller
 
             $tour_tourists = $tour->tourists->toArray();
 
+
             // We'll put all tour params in this array:
             $tour_tourists_docs_array = $tour_array;
 
-
             $tourists_and_docs = $this->get_tourists_and_docs($tour_tourists);
 
+
             $tour_tourists_docs_array = array_merge($tour_tourists_docs_array, $tourists_and_docs);
+
        
 
             return $tour_tourists_docs_array;
@@ -222,6 +224,8 @@ class FunctionsController extends Controller
                 }
             }
 
+            $docs = [];
+
 
                 $docs[0] = Document::find($tourist['pivot']['doc0'])->toArray();
 
@@ -233,6 +237,7 @@ class FunctionsController extends Controller
 
 
                 }
+
 
 
                 foreach ($docs as $key => $values) {

@@ -3,9 +3,9 @@ $(document).ready(function () {
 
 	console.log("add_food_type.js loaded");
 
-	$('#add_food_type').change(function(){
+	$('#change_food_type').change(function(){
 
-		if($('#add_food_type').is(':checked')){
+		if($('#change_food_type').is(':checked')){
 
 			$('#food_type').replaceWith('<input placeholder="Введите тип питания" class="form-control" id="food_type" name="food_type" type="text">');
 

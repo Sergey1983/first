@@ -9,6 +9,11 @@
 			/// Tour info filling: 
 
 			/// ADDING TOURIST FIELDS IF NEEDED
+
+
+			console.log(data);
+
+			
 			number_of_tourists = data.number_of_tourists;
 
 			for (var i = 0; i < number_of_tourists-1; i++) {
@@ -27,6 +32,11 @@
 			}
 
 
+
+			
+
+
+
 			var tour = data;
 
 
@@ -39,6 +49,8 @@
 				    		$('[name="is_buyer"]:eq('+tour[property]+')').trigger('click');
 
 							$('#is_tourist_'+tour['is_tourist']+'').attr('checked', 'checked');
+
+							delete tour.is_tourist;
 
 				    	}
 				    	
@@ -66,12 +78,14 @@
 
 							    	name.val(tour[property]);
 
-				    			} 
+				    			} else if (property.includes('country') ) {
 
-				    			name.val(tour[property]).change();
+				    				name.val(tour[property]);
 
-				    			// name.find('option[value="'+tour[property]+'"]').attr('selected', 'selected');
+				    			 } else {
+				    				name.val(tour[property]).change();
 
+				    			}
 				    		}
 
 				    		
@@ -80,6 +94,10 @@
 
 				    }
 				}
+
+			// $('[name="country"]').val(data.country); 
+			// $('[name="airport"]').val(data.airport); alert("Airport"); 
+
 
 	}
 

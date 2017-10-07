@@ -48,6 +48,11 @@ body
     padding-right:  15px !important;
 }
 
+.padding-right-15 {
+
+    padding-left:  15px !important;
+}
+
 .form .control-label {
     padding-top: 7px !important;
     margin-bottom: 18px !important;

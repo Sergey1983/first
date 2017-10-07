@@ -337,7 +337,7 @@
 
 						<tr>
 
-						    <th class="col-md-4">Тип док-а</th>
+						    <th class="col-md-4">Тип док-а 1</th>
 						    <th class="col-md-4">Номер док-а</th>
 						    <th class="col-md-2">Дата выдачи</th>
 						    <th class="col-md-2">Дата окон-я</th>
@@ -366,13 +366,14 @@
 
 @if($document = $tour_tourists_doc->document1)
 
+
 			<div class="col-md-6">
 
 					<table class="table table-responsive table-bordered table-striped">
 
 						<tr>
 
-						    <th class="col-md-4">Тип док-а</th>
+						    <th class="col-md-4">Тип док-а 2</th>
 						    <th class="col-md-4">Номер док-а</th>
 						    <th class="col-md-2">Дата выдачи</th>
 						    <th class="col-md-2">Дата окон-я</th>

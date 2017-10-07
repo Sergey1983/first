@@ -35,54 +35,10 @@ $(document).ready(function() {
 
 				function create_or_update(action) {
 
+				$("*").find('button, select, [type="checkbox"], [type="radio"]').attr("disabled", "").removeAttr('disabled');
+
+
 					var request = $('#tour_form, #passengers_form').serializeArray();
-
-					// var request = $('#passengers_form').serializeArray();
-
-					// var temp_for_doc_seria_values = [];
-
-					
-					// $(request).each(function (i, field) {
-						
-					// 	if(!(field.name.indexOf('doc_seria') == -1) ) {
-
-					// 	var doc_id = field.name.replace('doc_seria', '');
-
-					// 	var seria_length = field.value.length;
-
-					// 	var seria_number = field.value;
-
-
-					// 	temp_for_doc_seria_values.push({docnumber: "doc_number"+doc_id+"", seria_number: ""+seria_number+""});
-
-					// 	request[] = { name: "seria"+doc_id+"", value: ""+seria_length+"" };
-
-
-
-					// 	}
-
-
-					// });
-
-
-					// $(request).each(function (i, field) {
-						
-					// 	if(!(field.name.indexOf('doc_number') == -1)) {
-
-					// 		$(temp_for_doc_seria_values).each(function (j, value) {
-								
-					// 			if (field.name == value.docnumber) {
-
-					// 				field.value = value.seria_number.concat(field.value);
-					// 			}
-
-					// 		})
-					// 	}
-
-					// });
-
-
-					console.log(request);
 
 
 
@@ -113,7 +69,7 @@ $(document).ready(function() {
 
 
 
-						$('.p-error').each(function () {
+						$('.alert-validation').each(function () {
 
 							$(this).empty();
 						})
@@ -129,17 +85,298 @@ $(document).ready(function() {
 
 						.done(function (data) {
 
-								// window.location.href = '/tours_2';
+
+
+						if(data == 'success')	{
+							
+							window.location.href = '/tours_2';
+
+						} else if(data.hasOwnProperty('fatal_error')) {
+
+						$("*").find('input, textarea').attr("readonly", "");
+						$("*").find('button, select, [type="checkbox"], [type="radio"]').attr("disabled", "");
+
+						$(button_send_data).attr('disabled', 'disabled');
+
+						$('#divsubmit').append('<input id="cancel_change" class="inline btn btn-default" type="button" value="Вернуться к редактированию">');
+
+
+							if(data.type == 'diff_docs') {
+
+
+								$('[class*="inputs_'+data.tourist_number+'"]').append('<div class="row">'+
+
+											'<div class="col-md-12">'+
+
+												'<div class="alert-validation">Обработка заявки невозможна!</div>'+
+
+												'<div class="alert-validation">'+data.message+'</div>'+
+
+												'<div class="alert-validation">Документ-1 принадлежит туристу с id: '+data.ids[0]+'</div>'+
+
+												'<div class="alert-validation">Документ-2 принадлежит туристу с id: '+data.ids[1]+'</div>'+
+
+												'<div class="alert-validation">Нажмите на "Вернуться к редактированию" внизу страницы.</div>'+
+
+
+											'</div>'+
+
+										'</div>');
+
+
+
+							} else if(data.type == 'sameid') {
+
+								$.each(data.tourists_nubmers, function (index, value) {
+
+								$('[class*="inputs_'+data.tourists_numbers[index]+'"]').append('<div class="row">'+
+
+											'<div class="col-md-12">'+
+
+												'<div class="alert-validation">Обработка заявки невозможна!</div>'+
+
+												'<div class="alert-validation">'+data.message[index]+'</div>'+
+
+												'<div class="alert-validation">Нажмите на "Вернуться к редактированию" внизу страницы.</div>'+
+
+
+											'</div>'+
+
+										'</div>');
+
+								});
+
+							} else if(data.type == 'already_exists') {
+
+								$('#divsubmit').prepend('<div class="alert-validation">Обработка заявки невозможна!</div>'+
+
+									'<div class="alert-validation">Уже существует тур с точно такими же значениями! Id заявки:'+data.same_tour_id+'</div>');
+
+
+							}
+
+
+						} else {
+
+						$("input[name='allchecked']").attr('value', 'true');
+
+						$("*").find('input, textarea').attr("readonly", "");
+						$("*").find('button, select, [type="checkbox"], [type="radio"]').attr("disabled", "");
+
+						$(button_send_data).attr('value', ''+verb+', применив изменения к существующим (см. выше)');
+						$(button_send_data).attr('class', 'inline btn btn-warning');
+
+						$('#divsubmit').append('<input id="cancel_change" class="inline btn btn-default" type="button" value="Продолжить редактирование">');
+
+
+
+							var tourists = data.tourists;
+
+							var documents = data.documents;
+
+							// console.log(data.documents);
+
+
+							// adding hidden CHECKINFO inputs for each tourist
+
+							$.each(tourists, function (tourist_id, tourist) {
+
+								$('[class*="inputs_'+tourist_id+'"]').append('<input name="check_info_tourists['+tourist_id+'][exists]" hidden="hidden" value="'+tourist.check_info.exists+'">');
+
+
+								if(tourist.check_info.exists == true && !tourist.check_info.hasOwnProperty('to_choose')) {
+
+
+								$('[class*="inputs_'+tourist_id+'"]').append('<input name="check_info_tourists['+tourist_id+'][id]" hidden="hidden" value="'+tourist.check_info.id+'">');
+
+
+								} 
+
+								if(tourist.check_info.hasOwnProperty('to_be_updated')) {
+
+									$('[class*="inputs_'+tourist_id+'"]').append('<input name="check_info_tourists['+tourist_id+'][to_be_updated]" hidden="hidden" value="'+tourist.check_info.to_be_updated+'">');
+
+
+								}
+
+
+								
+								if (tourist.check_info.hasOwnProperty('differences')) {
+
+
+									$.each(tourist.check_info.differences, function (property, value) {
+									
+										$('[name="'+property+'['+tourist_id+']"]').after('<div class="alert-validation">Сейчас в базе: '+value+'</div>');
+
+									});
+
+									$('[class*="inputs_'+tourist_id+'"]').append('<div class="row">'+
+
+										'<div class="col-md-12">'+
+
+											'<div class="alert-validation">Такой документ есть в базе. Турист с таким документом имеет другие данные (см.выше). Уверены, что хотите их изменить?</div>'+
+
+										'</div>'+
+
+										'</div>');
+
+									$('[class*="inputs_'+tourist_id+'"]').append('<input name="check_info_tourists['+tourist_id+'][id]" hidden="hidden" value="'+tourist.check_info.id+'">');
+
+
+								}
+
+								if (tourist.check_info.hasOwnProperty('to_choose')) {
+
+
+									$('[class*="inputs_'+tourist_id+'"]').append(
+
+										'<div class="row">'+
+
+										'<div class="col-md-8">'+
+
+											'<div class="alert-validation">Турист с такими данными есть в базе. Выберите, добавить ему этот документ или создать нового туриста? </div>'+
+
+											'<table class="table col-md-12">'+
+
+												'<thead>'+
+
+													'<tr>'+
+
+														'<td class="padding-right-15">Id Туриста</td>'+
+
+														'<td>#Предыдущей заявки</td>'+
+
+														'<td>Дата отъезда</td>'+
+
+														'<td>Страна пребывания</td>'+
+
+														'<td>Отель</td>'+
+
+														'<td>Выбрать</td>'+
+
+
+													'</tr>'+
+
+												'</thead>'+
+
+												'<tbody id="choose_tourist_'+tourist_id+'">'+
+
+												'<tr>'+
+
+														'<td colspan="5" class="padding-right-15 text-right">Создать нового туриста?</td>'+
+
+														'<td><input type="radio" name="check_info_tourists['+tourist_id+'][id]" value="new"></td>'+
+
+													'</tr>'+
+
+												'</tbody>'+
+
+											'</div>'+
+
+										'</div>');
+
+
+
+										$.each(tourist.check_info.id, function (id, last_tour) {
+
+
+
+											$('#choose_tourist_'+tourist_id+'').prepend('<tr>'+
+
+														'<td class="padding-right-15">'+id+'</td>'+
+
+														'<td>'+last_tour.last_tour.id+'</td>'+
+
+														'<td>'+last_tour.last_tour.date_depart+'</td>'+
+
+														'<td>'+last_tour.last_tour.country+'</td>'+
+
+														'<td>'+last_tour.last_tour.hotel+'</td>'+
+
+														'<td><input type="radio" name="check_info_tourists['+tourist_id+'][id]" value="'+id+'"></td>'+
+
+
+													'</tr>'
+
+												);
+
+										});
+
+
+
+								} 
+
+
+							$.each(documents[tourist_id], function (document_id, doc) {
+
+
+								$('[class*="inputs_'+tourist_id+'"]').append('<input name="check_info_docs['+tourist_id+']['+document_id+'][exists]" hidden="hidden" value="'+doc.check_info.exists+'">');
+
+
+								if (doc.check_info.hasOwnProperty('id')) {
+
+									
+									$('[class*="inputs_'+tourist_id+'"]').append('<input name="check_info_docs['+tourist_id+']['+document_id+'][id]" hidden="hidden" value="'+doc.check_info.id+'">');
+
+
+								}
+
+
+
+								if (doc.check_info.hasOwnProperty('differences')) {
+
+									$.each(doc.check_info.differences, function (property, value) {
+
+										value = value.replace(/(\d+)-(\d+)-(\d+)/, '$3\-$2\-$1');
+									
+										$('[name="'+property+'['+tourist_id+']['+document_id+']"]').after('<div class="alert-validation">Сейчас в базе: <br> '+value+'</div>');
+
+
+										$('[class*="inputs_'+tourist_id+'"]').append('<div class="row">'+
+
+											'<div class="col-md-12">'+
+
+												'<div class="alert-validation">Такой документ есть в базе. У документа другие данные (см.выше)</div>'+
+
+											'</div>'+
+
+											'</div>');
+
+										$('[class*="inputs_'+tourist_id+'"]').append('<input name="check_info_docs['+tourist_id+']['+document_id+'][to_be_updated]" hidden="hidden" value="'+doc.check_info.to_be_updated+'">');
+
+
+									});
+
+								}
+
+
+					});
+
+
+
+
+
+
+
+
+
+
+				});
+
+			}
+
+
+
+
+
 
 						})			
 
 						.fail(function (data) {
 
 
-
 							var errors = data.responseJSON;
 
-							    	// console.log(errors);
 
 							///CHANGING ERROR PROPERTIES FROM 'name=name.1'-kind to 'name=name[1]'-kind
 
@@ -160,7 +397,6 @@ $(document).ready(function() {
 							    }
 							}
 
-							console.log(errors);
 
 							// Highlighting Tourists with passport-exists different-other-fields mistake ('Уже в базе')
 
@@ -237,7 +473,7 @@ $(document).ready(function() {
 
 							    	if(property == 'is_tourist') {
 
-									$('[name="'+property+'"]:last').after('<p class="p-error inline">'+' '+errors[property]+'</p>');
+									$('[name="'+property+'"]:last').after('<p class="alert-validation">'+' '+errors[property]+'</p>');
 
 
 								    }
@@ -252,8 +488,6 @@ $(document).ready(function() {
 
 
 									else {
-
-								    // $('[name="'+property+'"]').after('<p class="p-error inline">'+' '+errors[property]+'</p>');
 
 									
 								    $('[name="'+property+'"]').parent('div').append('<div class="alert-validation">'+''+errors[property]+'</div>');
@@ -274,24 +508,23 @@ $(document).ready(function() {
 				};
 
 
-		$(document).on('click', '#cancel_change_old_tourists', function() { 
 
-			// console.log('verb inside cancel', verb);
-			// console.log('button inside cancel', button_send_data);
+		$(document).on('click', '#cancel_change', function() { 
 
+			$('.alert-validation').remove();
 
-			$('div[class*="inputs_"').css('background-color', 'yellow').css('background-color', 'white');
+	    	$(button_send_data).removeAttr('disabled');
+			$(button_send_data).attr('class', 'inline btn btn-success');
+			$(button_send_data).attr('class', 'inline btn btn-success');
 
-	    	$(button_send_data).attr('value', verb);
+			$('#cancel_change').remove();
 
-			$('#cancel_change_old_tourists').remove();
-
-			$("input[name='cannot_change_old_tourists']").attr('value', 'true');
+			$("input[name='allchecked']").attr('value', 'false');
 
 			$('p[id="samepassportalert"]').remove();
 
-			$("div[class*='inputs_']").find('input').attr("readonly", "").removeAttr('readonly');
-			$("div[class*='inputs_']").find('button').attr("disabled", "").removeAttr('disabled');
+			$("*").find('input, textarea').attr("readonly", "").removeAttr('readonly');
+			$("*").find('button, select, [type="checkbox"], [type="radio"]').attr("disabled", "").removeAttr('disabled');
 
 
 		});

@@ -34,7 +34,7 @@ class tourRequest extends FormRequest
     public function rules()
     {
 
-      // dd(request()->all());
+      if(request()->allchecked == 'false') {
 
         $rules = 
 
@@ -77,7 +77,7 @@ class tourRequest extends FormRequest
             // 'doc_seria.*.*' => 'required|digits_between:2,4',
             'date_issue.*.*' => 'required',
             'date_expire.*.*' => 'required',
-            'doc_fullnumber.*' => 'required|digits_between:3,15', 
+            // 'doc_fullnumber.*' => 'required|digits_between:3,15', 
             'is_buyer' => 'required',
             'is_tourist' => 'required',   
            ];
@@ -187,7 +187,7 @@ class tourRequest extends FormRequest
            $keys_tour = ['city_from', 'hotel'];
            $keys_buyer = ['is_buyer', 'is_tourist'];
            $keys_timestamps = ['created_at', 'updated_at'];
-           $keys_hidden = ['cannot_change_old_tourists', 'tour_exists', 'is_update'];
+           $keys_hidden = ['allchecked', 'tour_exists', 'is_update'];
 
 
 
@@ -203,7 +203,7 @@ class tourRequest extends FormRequest
            $inputed_tourists_id = array();
 
 
-           $cannot_changetourist = $bool = filter_var($request_array['cannot_change_old_tourists'], FILTER_VALIDATE_BOOLEAN); // TRUE (cannot) OR FALSE (can!)
+           // $cannot_changetourist = $bool = filter_var($request_array['allchecked'], FILTER_VALIDATE_BOOLEAN); // TRUE (cannot) OR FALSE (can!)
 
 
 
@@ -213,152 +213,149 @@ class tourRequest extends FormRequest
 
      
 
-          for($i=0; $i<$number_of_tourists; $i++) {
+        //   for($i=0; $i<$number_of_tourists; $i++) {
 
-              $tourist_attr_same_asindb_count=0;
-
-
-                if ($tourist = Tourist::where('doc_fullnumber', $request_array_tourist['doc_fullnumber'][$i])->first() ) {
-
-                    // If so, check other input fields of tourist who has this passport:
-
-                      $here_unnecessary_attr = ['doc_fullnumber'];
-
-                      $request_array_tourist_no_doc = array_diff_key($request_array_tourist, ['doc_fullnumber' => 0]);
-
-                      $tourist_attr_to_check_count = count($request_array_tourist_no_doc);
+        //       $tourist_attr_same_asindb_count=0;
 
 
-                      foreach ($request_array_tourist_no_doc as $attribute => $values) { 
+        //         if ($tourist = Tourist::where('doc_fullnumber', $request_array_tourist['doc_fullnumber'][$i])->first() ) {
 
-                                    if( $tourist->$attribute != $values[$i] ) {
+        //             // If so, check other input fields of tourist who has this passport:
 
-                                      if($cannot_changetourist) {
+        //               $here_unnecessary_attr = ['doc_fullnumber'];
 
+        //               $request_array_tourist_no_doc = array_diff_key($request_array_tourist, ['doc_fullnumber' => 0]);
 
-                                        if($tourist->tours->count() > $update) {
-
-                                        // If other field is different, create a rule (always returns false) with value from DB:
-
-                                        $value_from_DB = $tourist->$attribute;
-
-                                        $attribute_to_lower = strtolower($attribute);
-
-                                        $rules["$attribute.$i"] = "{$attribute_to_lower}_fail:$value_from_DB"; 
-                                        // validation rule-name can be lowercase only
-
-                                          }
-
-                                        }
-                                        // }
-
-                                    } else { 
+        //               $tourist_attr_to_check_count = count($request_array_tourist_no_doc);
 
 
-                                        // If other field is same:
+        //               foreach ($request_array_tourist_no_doc as $attribute => $values) { 
 
-                                        $tourist_attr_same_asindb_count+=1;
+        //                             if( $tourist->$attribute != $values[$i] ) {
 
-
-                                          if($tourist_attr_same_asindb_count == $tourist_attr_to_check_count) {
-
-                                            $array=array();
-
-                                            $array['tourist_id'] = $tourist->id;
-
-                                            if ($request_array['is_buyer'] == $i) { 
-
-                                                $array['is_buyer'] = 1;
-
-                                                $array['is_tourist'] = $request_array['is_tourist']; // Buyer can be a tourist or not (1 or 0)
-
-                                            } else {
-
-                                                $array['is_buyer'] = 0;
-
-                                                $array['is_tourist'] = 1; // Tourist (no buyer) is always tourist
-
-                                            }
-
-                                            $inputed_tourists_id[] = $array;
-
-                                          }
+        //                               if($cannot_changetourist) {
 
 
-                                    }
+        //                                 if($tourist->tours->count() > $update) {
+
+        //                                 // If other field is different, create a rule (always returns false) with value from DB:
+
+        //                                 $value_from_DB = $tourist->$attribute;
+
+        //                                 $attribute_to_lower = strtolower($attribute);
+
+        //                                 $rules["$attribute.$i"] = "{$attribute_to_lower}_fail:$value_from_DB"; 
+        //                                 // validation rule-name can be lowercase only
+
+        //                                   }
+
+        //                                 }
+        //                                 // }
+
+        //                             } else { 
+
+
+        //                                 // If other field is same:
+
+        //                                 $tourist_attr_same_asindb_count+=1;
+
+
+        //                                   if($tourist_attr_same_asindb_count == $tourist_attr_to_check_count) {
+
+        //                                     $array=array();
+
+        //                                     $array['tourist_id'] = $tourist->id;
+
+        //                                     if ($request_array['is_buyer'] == $i) { 
+
+        //                                         $array['is_buyer'] = 1;
+
+        //                                         $array['is_tourist'] = $request_array['is_tourist']; // Buyer can be a tourist or not (1 or 0)
+
+        //                                     } else {
+
+        //                                         $array['is_buyer'] = 0;
+
+        //                                         $array['is_tourist'] = 1; // Tourist (no buyer) is always tourist
+
+        //                                     }
+
+        //                                     $inputed_tourists_id[] = $array;
+
+        //                                   }
+
+
+        //                             }
 
                 
-                        }
+        //                 }
 
-                }
-
-
-           }
+        //         }
 
 
+        //    }
 
 
-        if(count($inputed_tourists_id) == $number_of_tourists) {
 
-             // Check if such tour exists in the DB:
 
-             $tour_already_exists = false;
+        // if(count($inputed_tourists_id) == $number_of_tourists) {
 
-             $tour_where_clause = array();
+        //      // Check if such tour exists in the DB:
 
-             foreach ($request_array_tour as $key => $value) {
+        //      $tour_already_exists = false;
+
+        //      $tour_where_clause = array();
+
+        //      foreach ($request_array_tour as $key => $value) {
                
-                  $tour_where_clause[] = [$key, $value];
-             }
+        //           $tour_where_clause[] = [$key, $value];
+        //      }
 
 
 
-             $tour_duplicates = Tour::where($tour_where_clause)->get();
+        //      $tour_duplicates = Tour::where($tour_where_clause)->get();
 
 
-             if(empty($tour_duplicates->toArray() ) ) {
+        //      if(empty($tour_duplicates->toArray() ) ) {
 
-               $tour_duplicates = null;
+        //        $tour_duplicates = null;
 
-             } else {
+        //      } else {
 
-                foreach ($tour_duplicates as $tour_duplicate) {
+        //         foreach ($tour_duplicates as $tour_duplicate) {
 
-                  if(count($tour_duplicate->tourists) == $number_of_tourists) {
+        //           if(count($tour_duplicate->tourists) == $number_of_tourists) {
 
-                    foreach ($tour_duplicate->tourists as $tourist) {
+        //             foreach ($tour_duplicate->tourists as $tourist) {
 
-                      $tour_duplicate_pivot_array[] = array_diff_key($tourist->pivot->toArray(), array_flip($keys_timestamps), ['tour_id'=>0]);
+        //               $tour_duplicate_pivot_array[] = array_diff_key($tourist->pivot->toArray(), array_flip($keys_timestamps), ['tour_id'=>0]);
 
-                    }
-
-
-                      // dump('tour_duplicate_pivot_array', $tour_duplicate_pivot_array);
-
-                      // dump('inputed_tourists_id', $inputed_tourists_id);
-
-                    if ($tour_duplicate_pivot_array == $inputed_tourists_id) {
-
-
-                      $tour_already_exists = true;
-
-                      $same_tour_id = $tour_duplicate->id;
-
-
-                      $rules["tour_exists"] = "tour_exists: $same_tour_id";
+        //             }
 
 
 
-                    }
+        //             if ($tour_duplicate_pivot_array == $inputed_tourists_id) {
 
 
-                  }
+        //               $tour_already_exists = true;
 
-                }
+        //               $same_tour_id = $tour_duplicate->id;
 
-             }
 
-        }
+        //               $rules["tour_exists"] = "tour_exists: $same_tour_id";
+
+
+
+        //             }
+
+
+        //           }
+
+        //         }
+
+        //      }
+
+        // }
 
     
            
@@ -384,6 +381,10 @@ class tourRequest extends FormRequest
 // 
         // dd($rules);
 
+} else {
+
+  $rules = [];
+}
            return $rules;
 
     }
@@ -398,7 +399,7 @@ class tourRequest extends FormRequest
                 'lastName.*regex' => 'Только рус. буквы и "-"!', 
                 'nameEng.*regex' => 'Только лат. буквы и "-"!', 
                 'lastNameEng.*regex' => 'Только лат. буквы и "-"!', 
-                'doc_fullnumber.*distinct' => 'В одном туре не может быть 2-х одинаковых паспортов!',
+                // 'doc_fullnumber.*distinct' => 'В одном туре не может быть 2-х одинаковых паспортов!',
                 'phone.*regex' => 'Только + и цифры!',
                 'phone.*min' => 'Минимум 11 цифр',
                 'email.*email' => 'Это не email!',
