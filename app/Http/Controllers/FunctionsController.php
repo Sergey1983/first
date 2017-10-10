@@ -28,13 +28,25 @@ class FunctionsController extends Controller
 
     {
 
+        // dump($request->all());
+
 
         $doc_number = $request->doc_number;
 
         $doc_type = $request->doc_type;
 
-        $tourist_nubmer = is_null($request->tourist_nubmer) ? 0 : $request->tourist_nubmer;
+        $number = $request->tourist_number;
 
+        // dump($request->tourist_number);
+        // dump($number);
+        // dump(is_null($request->tourist_number));
+
+
+        $tourist_number = $request->tourist_number;
+
+        // dump($tourist_number);
+
+        // die();
 
         $document = Document::where([['doc_type', '=', $doc_type], ['doc_number', '=', $doc_number]])->first();
 
@@ -71,7 +83,7 @@ class FunctionsController extends Controller
 
         foreach ($tourist_array as $key => $value) {
 
-            $array_to_return[$key.'['.$tourist_nubmer.']'] = $value;
+            $array_to_return[$key.'['.$tourist_number.']'] = $value;
 
         }
 
@@ -80,7 +92,7 @@ class FunctionsController extends Controller
         
         foreach ($document_array as $key => $value) {
             
-            $array_to_return[$key.'['.$tourist_nubmer.'][0]'] = $value;
+            $array_to_return[$key.'['.$tourist_number.'][0]'] = $value;
 
         }
 

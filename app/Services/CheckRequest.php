@@ -32,14 +32,10 @@ class CheckRequest extends RequestVariables
 
         $differences = array_diff_assoc($tour, $request_sorted_tour);
 
-        $is_same = empty($differences);
+        $is_tour_same = empty($differences);
 
 
-        $request_sorted_tour['to_be_updated'] = $is_same ? false : true;
-
-        $checked_tour = $request_sorted_tour;
-
-		return $checked_tour;
+		return $is_tour_same;
 
 	}
 
@@ -74,9 +70,11 @@ class CheckRequest extends RequestVariables
 					$fatal_error['tourist_number'] = $tourist_number;
 					$fatal_error['ids'] = $ids_or_true;
 
+					return $fatal_error;
+
+
 					}
 
-					return $fatal_error;
 				}
 
 
@@ -123,6 +121,7 @@ class CheckRequest extends RequestVariables
 
 
 			else { // No document from request is found in db
+
 
 				$tourists_in_db = Tourist::where($tourist_from_request)->get();
 
@@ -305,6 +304,7 @@ class CheckRequest extends RequestVariables
 			$docs_belong_to_same_tourist  = [$tourist1, $tourist2];
 		}
 
+
 		return $docs_belong_to_same_tourist;
 
 	}
@@ -482,26 +482,29 @@ class CheckRequest extends RequestVariables
 
 					} while(0);
 
-					if ($this_same === true) {
+						if(!$this_same){
 
-							$tour_id = $tour->id;
-							
-							$same= [];
-
-							$same['same_tour_id'] = $tour_id;
+							$same = false;
 
 							break;
 
+						} else if ($this_same === true) {
 
-					}
+								$tour_id = $tour->id;
+								
+								$same= [];
+
+								$same['same_tour_id'] = $tour_id;
+
+								break;
+								
+						}
 
 				}
 
 			}
 
 		} while(0);
-
-
 
 		return $same;
 
@@ -515,6 +518,7 @@ class CheckRequest extends RequestVariables
 		$buyer_in_db_id = $touristbuyer_in_db->tourist_id;
 
 		$istourist_in_db = $touristbuyer_in_db->is_tourist;
+
 
 		$IsBuyerSame = $buyer_in_db_id == $checked_tourists_and_documents['tourists'][$request_buyer['is_buyer']]['check_info']['id'];
 

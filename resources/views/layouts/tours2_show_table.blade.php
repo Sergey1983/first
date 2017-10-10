@@ -182,7 +182,7 @@
 
 
 				<tr>
-					<td>Ночей</td>
+					<td>Ночей в отеле</td>
 					<td>{{$tour->nights}}</td>
 				</tr>
 
@@ -279,6 +279,8 @@
 
 	@foreach ($tour_tourists_docs as $key => $tour_tourists_doc)
 
+{{-- 	@php dd($tour_tourists_docs); @endphp
+ --}}
 
 	<h4> Турист {{$key+1}}: </h4>
 
@@ -395,6 +397,44 @@
 			</div>
 @endif
 
+@if($tour_tourists_doc->is_buyer == 1)
+
+
+	<div class="row">
+
+		<div class="col-md-12">
+
+
+			<div class="col-md-6">
+
+					<table class="table table-responsive table-bordered table-striped">
+
+						<tr>
+
+						    <th class="col-md-4">Это заказчик?</th>
+						    <th class="col-md-4">Закачик едет в тур?</th>
+
+						</tr>
+
+						<tr>
+
+						    <td>Да</td>
+						    <td>{{$tour_tourists_doc->is_buyer == 1 ? 'Да, едет' : 'Нет, не едет' }}</td>
+
+						
+						</tr>
+
+
+					</table>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+@endif
 
 	</div>
 

@@ -3,6 +3,9 @@ $(document).ready(function() {
 
 	console.log("create_or_update_tour.js loaded");
 
+
+
+
 	// AJAX REQUEST (TO ADD TOUR & PASSENGER OR TO GET VALIDATION ERROR)
 
 
@@ -35,7 +38,15 @@ $(document).ready(function() {
 
 				function create_or_update(action) {
 
+
+
+
+				if ($("input[name='alldisabled']").attr('value') == 'true') {
+
 				$("*").find('button, select, [type="checkbox"], [type="radio"]').attr("disabled", "").removeAttr('disabled');
+
+				}
+
 
 
 					var request = $('#tour_form, #passengers_form').serializeArray();
@@ -59,7 +70,7 @@ $(document).ready(function() {
 
 						var url = '/tours_2/'+id+'';
 
-						verb = "Обновить ";
+						verb = "Обновить";
 
 						button_send_data = "#update_button";
 
@@ -88,13 +99,23 @@ $(document).ready(function() {
 
 
 						if(data == 'success')	{
+
+							if(action == 'create') {
 							
-							window.location.href = '/tours_2';
+								window.location.href = '/tours_2';
+
+							} else if( action == 'update') {
+
+								window.location.href = '/tours_2/'+id+'';
+
+							}
 
 						} else if(data.hasOwnProperty('fatal_error')) {
 
 						$("*").find('input, textarea').attr("readonly", "");
 						$("*").find('button, select, [type="checkbox"], [type="radio"]').attr("disabled", "");
+						$("input[name='alldisabled']").attr('value', 'true');
+
 
 						$(button_send_data).attr('disabled', 'disabled');
 
@@ -159,6 +180,8 @@ $(document).ready(function() {
 						} else {
 
 						$("input[name='allchecked']").attr('value', 'true');
+						$("input[name='alldisabled']").attr('value', 'true');
+
 
 						$("*").find('input, textarea').attr("readonly", "");
 						$("*").find('button, select, [type="checkbox"], [type="radio"]').attr("disabled", "");
@@ -166,7 +189,8 @@ $(document).ready(function() {
 						$(button_send_data).attr('value', ''+verb+', применив изменения к существующим (см. выше)');
 						$(button_send_data).attr('class', 'inline btn btn-warning');
 
-						$('#divsubmit').append('<input id="cancel_change" class="inline btn btn-default" type="button" value="Продолжить редактирование">');
+						$('#divsubmit').append('<input id="cancel_change" class="inline btn btn-default" type="button" value="Нет, продолжить редактирование">');
+						$('#divsubmit').prepend('<div class="alert-validation">Внимание! Посмотрите предупреждения выше, перед тем, как продолжать!</div>');
 
 
 
@@ -513,8 +537,10 @@ $(document).ready(function() {
 
 			$('.alert-validation').remove();
 
+			$('[name^="check_info"]').remove();
+
 	    	$(button_send_data).removeAttr('disabled');
-			$(button_send_data).attr('class', 'inline btn btn-success');
+			$(button_send_data).attr('value', verb);
 			$(button_send_data).attr('class', 'inline btn btn-success');
 
 			$('#cancel_change').remove();
@@ -523,9 +549,38 @@ $(document).ready(function() {
 
 			$('p[id="samepassportalert"]').remove();
 
+
+
+
+
+			var add_docs = $('[id^="add_doc_2_"]');
+
+			var doc2_unchecked = ''; 
+
+			$.each(add_docs, function (index, checkbox) {
+
+				if(!checkbox.checked) {
+				
+					var number = $(checkbox).attr('id').replace('add_doc_2_', '');
+					// doc2_checked = doc2_checked + '[id^="add_doc_2_"]:eq('+number+'), ';
+
+					doc2_unchecked = doc2_unchecked + '[id^="row_second_doc_"]:eq('+number+') *, ';
+					
+				}
+
+			});
+
+			doc2_unchecked = doc2_unchecked.slice(0,-2);
+
+			console.log(doc2_unchecked);
+	
+
 			$("*").find('input, textarea').attr("readonly", "").removeAttr('readonly');
 			$("*").find('button, select, [type="checkbox"], [type="radio"]').attr("disabled", "").removeAttr('disabled');
 
+			$(doc2_unchecked).not('[name="add_doc_2"]').attr('disabled', 'disabled');
+
+			// $('[id^="row_second_doc_"]:eq(1) *, [id^="row_second_doc_"]:eq(2) *').attr('disabled', 'disabled');
 
 		});
 

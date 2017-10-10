@@ -117,7 +117,7 @@
 
 					 	<div class="form-group">
 							
-							{!! Form::label('nights', 'Ночей', ['class'=>'control-label col-md-4'])!!}
+							{!! Form::label('nights', 'Ночей в отеле', ['class'=>'control-label col-md-4'])!!}
 
 							<div class="col-md-8">
 
@@ -607,7 +607,7 @@
 
 		</div>
 
-		<div class="col-md-12 margin-bottom-10">
+		<div class="col-md-12 margin-bottom-10" id="submit_find_passengers">
 
 			{!! Form::open(['id' => 'find_passengers', 'class' => 'form-inline'])!!}
 
@@ -641,6 +641,7 @@
 
 
 			{!! Form::hidden ('allchecked', 'false')!!}
+			{!! Form::hidden('all_disabled', 'false') !!}
 			{!! Form::hidden ('tour_exists')!!}
 			{!! Form::hidden ('is_update', $is_update)!!}
 
@@ -671,7 +672,7 @@
 
 					<div class='form-group col-md-3'>
 
-						<button class='btn btn-default btn-grey col-md-4' id="transliterate_0" type="button">Трансл.<span class="glyphicon glyphicon-chevron-right" 
+						<button class='btn btn-default btn-grey col-md-4' id="transliterate_0" type="button" disabled="disabled">Трансл.<span class="glyphicon glyphicon-chevron-right" 
 						></span>
 						</button>
 
@@ -910,11 +911,30 @@
 
 			</div>
 
+			<div class="row" id='delete_tourist'>
+
+				<div class='form-group col-md-6'>
+					
+					{!! Form::button('Удалить туриста', ['class' => 'inline btn btn-default delete_tourist']) !!}
+		
+				</div>
+
+
+			</div>
+
+
+
 			</div>
 
 			</div>
+
+
+
+
+
 			
 			<div class='input'>
+				
 					{!! Form::button('+Еще турист', ['id' => 'add_tourist', 'class' => 'inline btn btn-default']) !!}
 			</div>
 
@@ -1016,17 +1036,6 @@ function airport() {
 }
 
 
+</script> --}}
 
-
-
-
-
-
-
-
-
-
-
-</script>
- --}}
 

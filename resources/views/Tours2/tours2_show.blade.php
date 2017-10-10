@@ -7,14 +7,17 @@
 
 <div class="container-fluid">
 
-	@include('layouts.button_edit_tour')
-
-	@if($is_versions == 1) 
+	<div class="row">
 		
-		@include('layouts.button_versions_tour')	
+		@include('layouts.button_edit_tour')
 
-	@endif
+		@if($is_versions == 1) 
+			
+			@include('layouts.button_versions_tour')	
 
+		@endif
+
+	</div>
 </div>
 
 

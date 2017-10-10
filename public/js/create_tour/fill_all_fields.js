@@ -10,9 +10,6 @@
 
 			/// ADDING TOURIST FIELDS IF NEEDED
 
-
-			console.log(data);
-
 			
 			number_of_tourists = data.number_of_tourists;
 
@@ -48,12 +45,12 @@
 
 				    		$('[name="is_buyer"]:eq('+tour[property]+')').trigger('click');
 
-							$('#is_tourist_'+tour['is_tourist']+'').attr('checked', 'checked');
+							$('#is_tourist_'+tour.is_tourist+'').attr('checked', 'checked');
 
 							delete tour.is_tourist;
 
-				    	}
-				    	
+				    	} else {
+				    	 
 				    	var name  = $('[name="'+property+'"]');
 
 				    	if(! name.length == 0 ){
@@ -83,6 +80,7 @@
 				    				name.val(tour[property]);
 
 				    			 } else {
+
 				    				name.val(tour[property]).change();
 
 				    			}
@@ -91,6 +89,8 @@
 				    		
 				    	}
 
+
+						}
 
 				    }
 				}

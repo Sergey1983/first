@@ -5,26 +5,30 @@ $(document).ready(function() {
 	console.log("check_doc.js loaded");
 
 
-	$(document).on('click', 'button[name*="check_doc_"]', function (event) {
+	$(document).on('click', 'button[name^="check_doc_"]', function (event) {
+
+
 
 		event.preventDefault();
 
 
-		$('.p-error').each(function () {
+		$('.alert-validation').each(function () {
 
 			$(this).empty();
 		})
 
 
-		var tourist_nubmer = $(this).attr('name').replace("check_doc_",'');
+		var tourist_number = Number($(this).attr('name').replace("check_doc_",''));
 
-		var doc_number =  $('[name="doc_number['+tourist_nubmer+'][0]"]').val();	
 
-		var doc_seria =  $('[name="doc_seria['+tourist_nubmer+'][0]"]').val();	
+		var doc_number =  $('[name="doc_number['+tourist_number+'][0]"]').val();	
 
-		var doc_type = $('[name="doc_type['+tourist_nubmer+'][0]"]').val();	
+		var doc_seria =  $('[name="doc_seria['+tourist_number+'][0]"]').val();	
 
-		var parent = $(this).parent();
+		var doc_type = $('[name="doc_type['+tourist_number+'][0]"]').val();	
+
+		var parent = $(this).parents('div[class^="inputs_"]');
+
 
 		if(doc_type.length == 0) {
 
@@ -43,24 +47,28 @@ $(document).ready(function() {
 		var doc_fullnumber_input = (typeof doc_seria != 'undefined' && doc_seria.length != 0) ? doc_seria+doc_number : doc_number;
 
 
+		// var data = {doc_number: doc_fullnumber_input, doc_type: doc_type, tourist_number: tourist_number };
+
+		// data = data.serialize();
+
 		$.ajax ({
 			type: 'POST',
 			url: '/checkpassport_function',
-			data: {doc_number: doc_fullnumber_input,
-				   doc_type: doc_type,
-				   tourist_number: tourist_nubmer },
+			data: {'doc_number': doc_fullnumber_input,
+				   'doc_type': doc_type,
+				   'tourist_number': tourist_number },
+			// data: data,
 
 		})
 
 		.done (function (data) {
-
-				console.log(data);
 
 			if(data != 'not found') {
 
 			for (var property in data) {
 
 				if (data.hasOwnProperty(property)) {
+
 
 					 $("[name='"+property+"']").val(data[property]);					
 

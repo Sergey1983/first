@@ -11,7 +11,6 @@ $(document).ready(function() {
 
 		var i = $("div[class*='inputs_']").length;
 
-
 		$new_passenger = (
 
 		'<div class="inputs_'+i+' padding">'+
@@ -39,7 +38,7 @@ $(document).ready(function() {
 
 					'<div class="form-group col-md-3">'+
 
-						'<button class="btn btn-default btn-grey col-md-4" id="transliterate_'+i+'" type="button">Трансл.<span class="glyphicon glyphicon-chevron-right"></span>'+
+						'<button class="btn btn-default btn-grey col-md-4" id="transliterate_'+i+'" type="button" disabled="disabled">Трансл.<span class="glyphicon glyphicon-chevron-right"></span>'+
 						'</button>'+
 
 						'<div class="col-md-8">'+
@@ -85,7 +84,7 @@ $(document).ready(function() {
 
 					'<div class="col-md-8">'+
 
-					'<select class="form-control" id="citizenship['+i+']" name="citizenship['+i+']"><option value="Россия">Россия</option></select>'+
+					'<select class="form-control" id="citizenship_'+i+'" name="citizenship['+i+']"><option value="Россия">Россия</option></select>'+
 
 						'<div class="row text-right padding-right-15">'+
 						
@@ -274,7 +273,25 @@ $(document).ready(function() {
 
 			'</div>'+
 
+		
+			'<div class="row" id="delete_tourist">'+
+
+					'<div class="form-group col-md-6">'+
+						
+						'<button class="inline btn btn-default delete_tourist" type="button">Удалить туриста</button>'+
+			
+					'</div>'+
+
+			'</div>'+
+
+
+
+
 		'</div>'
+
+
+
+
 
 			);
 

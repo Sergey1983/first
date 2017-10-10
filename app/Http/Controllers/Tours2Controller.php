@@ -109,9 +109,8 @@ class Tours2Controller extends Controller
 
         $request_sorted = SortRequest::return_sorted($request);
 
-        $user = request()->user();
 
-        $request_sorted['user'] = ['user_id'=> $user->id];
+        $request_sorted['user'] = ['user_id'=> request()->user()->id];
 
 
         if(isset($request_sorted['allchecked']) AND $request_sorted['allchecked'] == true) {
@@ -128,8 +127,6 @@ class Tours2Controller extends Controller
         } else {
 
         $checked_tourists_and_documents = CheckRequest::return_checked_tourists_and_docs($request_sorted['tourists'], $request_sorted['documents']);
-
-        // dd($checked_tourists_and_documents);
 
              if(isset($checked_tourists_and_documents['fatal_error'])) {
 
@@ -154,6 +151,7 @@ class Tours2Controller extends Controller
             break;
 
             case "checkifsame":
+
 
                 $result = CheckRequest::CheckIfTourTouristDocsExists($request_sorted['tour'], $request_sorted['buyer'], $checked_tourists_and_documents);
 
@@ -352,10 +350,41 @@ class Tours2Controller extends Controller
 
         $request_sorted = SortRequest::return_sorted($request);
 
+        $request_sorted['user'] = ['user_id'=> request()->user()->id];
 
-        $request_sorted['tour']= CheckRequest::checkTourForUpdates($request_sorted['tour'], $id);
+        $tour = Tour::find($id);
+
+        $is_tour_no_updates = CheckRequest::checkTourForUpdates($request_sorted['tour'], $id);
+
+        return self::PreProcess($request_sorted, $tour, 'update', $is_tour_no_updates);
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $tour = Tour::find($id);
+
+
+        $tour->update(array_merge($request_sorted['tour'], $request_sorted['user']));
 
         $checked_tourists_and_documents = CheckRequest::return_checked_tourists_and_docs($request_sorted['tourists'], $request_sorted['documents']);
+
+        self::SaveTouristsAndDocuments($checked_tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour, 'update');
+
+
+        return 'success';
+
+
+
+
 
         foreach ($checked_tourists_and_documents as $key => $value) {
             
@@ -364,7 +393,6 @@ class Tours2Controller extends Controller
 
         $ifBuyerSame = CheckRequest::checkIfBuyerSame($request_sorted['buyer'], $checked_tourists_and_documents, $id);
 
-        $user = request()->user();
 
         $number_of_tourists = count(request()->name);
 
@@ -543,8 +571,87 @@ class Tours2Controller extends Controller
     }
 
 
+    public static function PreProcess($request_sorted, $tour, $action=NULL, $is_tour_no_updates=Null)
+    {
 
-    public static function SaveTouristsAndDocuments($checked_array, $buyer_array, $user_array, $tour) {
+
+
+       if(isset($request_sorted['allchecked']) AND $request_sorted['allchecked'] == true) {
+
+            
+            if(!$is_tour_no_updates) {  $tour->update(array_merge($request_sorted['tour'], $request_sorted['user'])); }
+
+            $tourists_and_documents['tourists'] = $request_sorted['tourists'];
+            $tourists_and_documents['documents'] = $request_sorted['documents'];
+
+            self::SaveTouristsAndDocuments($tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour, $action);
+
+            return 'success';
+
+        } else {
+
+        $checked_tourists_and_documents = CheckRequest::return_checked_tourists_and_docs($request_sorted['tourists'], $request_sorted['documents']);
+
+             if(isset($checked_tourists_and_documents['fatal_error'])) {
+
+                return $checked_tourists_and_documents;
+
+            }
+
+
+        $check = CheckRequest::checkWhatToDo($checked_tourists_and_documents);
+
+
+        switch($check) {
+
+            case "save":
+
+                if(!$is_tour_no_updates) {  $tour->update(array_merge($request_sorted['tour'], $request_sorted['user'])); }
+
+                self::SaveTouristsAndDocuments($checked_tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour, $action);
+
+                return 'success';
+
+            break;
+
+            case "checkifsame":
+
+                $result = CheckRequest::CheckIfTourTouristDocsExists($request_sorted['tour'], $request_sorted['buyer'], $checked_tourists_and_documents);
+
+                if($result === false) {
+    
+                   if(!$is_tour_no_updates) {  $tour->update(array_merge($request_sorted['tour'], $request_sorted['user'])); }
+
+                    self::SaveTouristsAndDocuments($checked_tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour, $action);
+
+                    return 'success';
+
+                } else {
+
+                    return array_merge(['fatal_error' => true, 'type' => 'already_exists'], $result);
+
+                }
+
+
+            break;
+
+            case "update":
+
+                return $checked_tourists_and_documents;
+
+            break;
+        }
+
+    }
+
+
+
+
+
+    }
+
+
+    public static function SaveTouristsAndDocuments($checked_array, $buyer_array, $user_array, $tour, $action=NULL) {
 
         // dd($checked_array);
 
@@ -598,12 +705,26 @@ class Tours2Controller extends Controller
             }
 
             $is_buyer_is_tourist = Tourist::is_buyer_is_tourist($buyer_array, $tourist_number);
+
+            if(is_null($action)) { 
             
             $tour->tourists()
 
                 ->save($tourist, array_merge($is_buyer_is_tourist, $user_array, $doc_ids));   
 
+            } else {
 
+
+                $update_array[$tourist->id] = array_merge($is_buyer_is_tourist, $doc_ids, $user_array);
+            }
+
+
+        }
+
+
+        if(!is_null($action)) {
+
+            $tour->tourists()->sync($update_array);
         }
 
     }

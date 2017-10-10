@@ -64,19 +64,10 @@
 							    
 						    if (errors.hasOwnProperty(property)) {
 
-						    	$('<div class="form-group">'+
-															
-															'<div class="alert alert-warning" style="margin-left:5px">'+
-																
-																	''+errors[property]+''+ 
-																
-																'</div>'+
+						    	var error = errors[property][0];
+						    	console.log(errors[property][0]);
 
-														'</div>').insertAfter(
-
-															$('#submit_find_passengers').parent()
-
-														).delay(1000).fadeOut();
+						    	$('<div class="col-md-12 margin-bottom-10"><div class="alert alert-validation">'+error+'</div></div>').insertAfter('#submit_find_passengers').delay(1000).fadeOut();
 
 
 
