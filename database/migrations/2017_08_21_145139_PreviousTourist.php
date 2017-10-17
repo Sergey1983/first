@@ -16,14 +16,17 @@ class PreviousTourist extends Migration
         Schema::create('previous_tourists', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('tourist_id')->unsigned();
-            $table->foreign('tourist_id')->references('id')->on('tourists')->onDelete('cascade');;
+            $table->foreign('tourist_id')->references('id')->on('tourists')->onDelete('cascade');
             $table->integer('version')->unsigned();
             $table->string('name');
             $table->string('lastName');
             $table->string('nameEng');
             $table->string('lastNameEng');
             $table->string('birth_date');
-            $table->biginteger('doc_fullnumber');
+            $table->string('citizenship');
+            $table->string('gender');
+            $table->string('phone');
+            $table->string('email');
             $table->timestamps();
         });
     }

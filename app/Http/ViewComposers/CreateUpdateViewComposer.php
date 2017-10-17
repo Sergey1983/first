@@ -106,13 +106,13 @@ class CreateUpdateViewComposer
 
         'countries' => $this->countries, 
 
-        'currency' => ['usd'=>'USD', 'eur'=>'EUR', 'rub'=>"RUB"], 
+        'currency' => ['USD'=>'USD', 'EUR'=>'EUR', 'RUB'=>"RUB"], 
 
         'food_type' => $this->food_type, 
 
         'operators' => $this->operators,
 
-        'transfer' => ['Групповой'=>'Групповой', 'indiv'=>'Индивидуальный', 'none'=>"Нет"],
+        'transfer' => ['Групповой'=>'Групповой', 'Индивидуальный'=>'Индивидуальный', 'Нет'=>"Нет"],
 
         'med_insurance' => [0 =>'Нет', 1 => 'Есть'], 
 

@@ -92,6 +92,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/find_passengers', 'FunctionsController@find_passengers');
 	Route::post('/edit_tour_prepare_data', 'FunctionsController@edit_tour_prepare_data');
 	Route::post('/airport_load', 'FunctionsController@airport_load');
+	
+
+	Route::post('/return_versions', 'VersionsController@return_versions');
 
 
 	Route::get('/testform', ['as' => 'testform', 'uses' => 'FormController@create']);

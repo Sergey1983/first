@@ -105,6 +105,7 @@ class Tours2Controller extends Controller
     // public function store(Request $request)
 
     public function store(tourRequest $request)
+
     {
 
         $request_sorted = SortRequest::return_sorted($request);
@@ -113,180 +114,207 @@ class Tours2Controller extends Controller
         $request_sorted['user'] = ['user_id'=> request()->user()->id];
 
 
-        if(isset($request_sorted['allchecked']) AND $request_sorted['allchecked'] == true) {
-
-            $tour = Tour::create(array_merge($request_sorted['tour'], $request_sorted['user']));
-
-            $tourists_and_documents['tourists'] = $request_sorted['tourists'];
-            $tourists_and_documents['documents'] = $request_sorted['documents'];
-
-            self::SaveTouristsAndDocuments($tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour);
-
-            return 'success';
-
-        } else {
-
-        $checked_tourists_and_documents = CheckRequest::return_checked_tourists_and_docs($request_sorted['tourists'], $request_sorted['documents']);
-
-             if(isset($checked_tourists_and_documents['fatal_error'])) {
-
-                return $checked_tourists_and_documents;
-
-            }
+        return self::PreProcess($request_sorted, $tour='null', 'save');
 
 
-        $check = CheckRequest::checkWhatToDo($checked_tourists_and_documents);
+        // if(isset($request_sorted['allchecked']) AND $request_sorted['allchecked'] == true) {
+
+        //     $tour = Tour::create(array_merge($request_sorted['tour'], $request_sorted['user']));
+
+        //     $tourists_and_documents['tourists'] = $request_sorted['tourists'];
+        //     $tourists_and_documents['documents'] = $request_sorted['documents'];
+
+        //     self::SaveTouristsAndDocuments($tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour);
+
+        //     return 'success';
+
+        // } else {
+
+        // $checked_tourists_and_documents = CheckRequest::return_checked_tourists_and_docs($request_sorted['tourists'], $request_sorted['documents']);
+
+        //      if(isset($checked_tourists_and_documents['fatal_error'])) {
+
+        //         return $checked_tourists_and_documents;
+
+        //     }
+
+        // // dump($checked_tourists_and_documents);
+
+        // $check = CheckRequest::checkWhatToDo($checked_tourists_and_documents);
+
+        // // dump($check);
+        // // die();
+
+        // switch($check) {
+
+        //     case "save":
+
+        //         $tour = Tour::create(array_merge($request_sorted['tour'], $request_sorted['user']));
+
+        //         self::SaveTouristsAndDocuments($checked_tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour);
+
+        //         return 'success';
+
+        //     break;
+
+        //     case "checkifsame":
 
 
-        switch($check) {
+        //         $result = CheckRequest::CheckIfTourTouristDocsExists($request_sorted['tour'], $request_sorted['buyer'], $checked_tourists_and_documents);
 
-            case "save":
-
-                $tour = Tour::create(array_merge($request_sorted['tour'], $request_sorted['user']));
-
-                self::SaveTouristsAndDocuments($checked_tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour);
-
-                return 'success';
-
-            break;
-
-            case "checkifsame":
-
-
-                $result = CheckRequest::CheckIfTourTouristDocsExists($request_sorted['tour'], $request_sorted['buyer'], $checked_tourists_and_documents);
-
-                if($result === false) {
+        //         if($result === false) {
     
-                    $tour = Tour::create(array_merge($request_sorted['tour'], $request_sorted['user']));
+        //             $tour = Tour::create(array_merge($request_sorted['tour'], $request_sorted['user']));
 
-                    self::SaveTouristsAndDocuments($checked_tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour);
+        //             self::SaveTouristsAndDocuments($checked_tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour);
 
-                    return 'success';
+        //             return 'success';
 
-                } else {
-
-
-                    return array_merge(['fatal_error' => true, 'type' => 'already_exists'], $result);
+        //         } else {
 
 
-                }
+        //             return array_merge(['fatal_error' => true, 'type' => 'already_exists'], $result);
 
 
-            break;
+        //         }
 
-            case "update":
 
-                return $checked_tourists_and_documents;
+        //     break;
 
-            break;
-        }
+        //     case "update":
+
+        //         return $checked_tourists_and_documents;
+
+        //     break;
+        // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 // CheckRequest::CheckIfTourTouristDocsExists($request_sorted['tour'], $request_sorted['buyer'], $checked_tourists_and_documents);
 
 
-        if($AllNewOrDoesntNeedToBeUpdated) {
+        // // if($AllNewOrDoesntNeedToBeUpdated) {
 
-                $tour = Tour::create(array_merge($request_sorted['tour'], $request_sorted['user']));
+        // //         $tour = Tour::create(array_merge($request_sorted['tour'], $request_sorted['user']));
 
-                self::SaveTouristsAndDocuments($checked_tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour);
+        // //         self::SaveTouristsAndDocuments($checked_tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour);
 
-                return 'success';
+        // //         return 'success';
 
-            } else {
+        // //     } else {
 
-                return $checked_tourists_and_documents;
+        // //         return $checked_tourists_and_documents;
 
-            }
+        // //     }
 
-        }
+        // // }
 
 
 
-        foreach ($checked_tourists_and_documents as $key => $value) {
+        // // foreach ($checked_tourists_and_documents as $key => $value) {
             
-            $request_sorted[$key] = $value;
-        }
+        // //     $request_sorted[$key] = $value;
+        // // }
 
 
 
 
-        $tour = Tour::create(array_merge($request_sorted['tour'], ['user_id' => $user->id]));
+        // $tour = Tour::create(array_merge($request_sorted['tour'], ['user_id' => $user->id]));
 
 
 
-        $number_of_tourists = count($request->name);
+        // $number_of_tourists = count($request->name);
               
 
-        // $previousVersions = new PreviousVersions;
+        // // $previousVersions = new PreviousVersions;
 
-        // $tours_to_update_ids = $previousVersions->GetIdsOfToursToSavePreviousVersionsOf($number_of_tourists, $request_sorted['tourists']);
+        // // $tours_to_update_ids = $previousVersions->GetIdsOfToursToSavePreviousVersionsOf($number_of_tourists, $request_sorted['tourists']);
 
 
-        // Saving previous versions of tours where exist tourists from request who are going to be updated (not those who stay the same)
+        // // Saving previous versions of tours where exist tourists from request who are going to be updated (not those who stay the same)
 
-        // foreach ($tours_to_update_ids as $tour_to_update_id) {
+        // // foreach ($tours_to_update_ids as $tour_to_update_id) {
 
-        //     $tour_to_save_version = Tour::find($tour_to_update_id);
+        // //     $tour_to_save_version = Tour::find($tour_to_update_id);
 
-        //     $previousVersions = new PreviousVersions;
+        // //     $previousVersions = new PreviousVersions;
 
-        //     $previousVersions->createVersion($tour_to_save_version);
+        // //     $previousVersions->createVersion($tour_to_save_version);
+
+
+        // // }
+
+
+        // for ($i=0; $i < $number_of_tourists; $i++ ) {
+
+
+
+        //     // If tourist with such passport exists, then just get it from DB.
+ 
+        //     // if ($tourist = Tourist::where('doc_fullnumber', '=', $request['doc_fullnumber'][$i])->first()) {
+
+        //     //     $tourist_to_update = $request->only("name.$i", "lastName.$i", "birth_date.$i");
+
+        //     //     Tourist::updateTouristWithThisDoc($tourist_to_update, $tourist->id);
+
+
+        //     // }
+
+
+        //     // If tourist doesn't exists, then add it to Database:
+
+        //     // else {
+
+        //         $tourist = Tourist::create($request_sorted['tourists'][$i]);
+
+        //         $doc_ids = [];
+
+
+        //         foreach ($request_sorted['documents'][$i] as $doc_id => $doc_array) {
+                    
+        //             $document = Document::create(array_merge(['tourist_id'=>$tourist->id, 'user_id'=> $user->id], $doc_array));
+
+        //             $doc_ids['doc'.$doc_id] = $document->id;
+
+        //             }
+
+        //         // $tourist = new Tourist;
+
+        //         // $tourist = $tourist->createFromRequest($request->all(), $i);
+
+
+        //     // }
+
+
+        //     // Check if tourist is a buyer, and if so, if the buyer is a tourist.
+
+        //     $is_buyer_is_tourist = Tourist::is_buyer_is_tourist($request_sorted['buyer'], $i);
+
+
+        //     $tour->tourists()
+
+        //         ->save($tourist, array_merge($is_buyer_is_tourist, ['user_id' => $user->id], $doc_ids));              
+
+
+
+
+
+
 
 
         // }
-
-
-        for ($i=0; $i < $number_of_tourists; $i++ ) {
-
-
-
-            // If tourist with such passport exists, then just get it from DB.
- 
-            // if ($tourist = Tourist::where('doc_fullnumber', '=', $request['doc_fullnumber'][$i])->first()) {
-
-            //     $tourist_to_update = $request->only("name.$i", "lastName.$i", "birth_date.$i");
-
-            //     Tourist::updateTouristWithThisDoc($tourist_to_update, $tourist->id);
-
-
-            // }
-
-
-            // If tourist doesn't exists, then add it to Database:
-
-            // else {
-
-                $tourist = Tourist::create($request_sorted['tourists'][$i]);
-
-                $doc_ids = [];
-
-
-                foreach ($request_sorted['documents'][$i] as $doc_id => $doc_array) {
-                    
-                    $document = Document::create(array_merge(['tourist_id'=>$tourist->id, 'user_id'=> $user->id], $doc_array));
-
-                    $doc_ids['doc'.$doc_id] = $document->id;
-
-                    }
-
-                // $tourist = new Tourist;
-
-                // $tourist = $tourist->createFromRequest($request->all(), $i);
-
-
-            // }
-
-
-            // Check if tourist is a buyer, and if so, if the buyer is a tourist.
-
-            $is_buyer_is_tourist = Tourist::is_buyer_is_tourist($request_sorted['buyer'], $i);
-
-
-            $tour->tourists()
-
-                ->save($tourist, array_merge($is_buyer_is_tourist, ['user_id' => $user->id], $doc_ids));              
-
-        }
 
     }
 
@@ -571,15 +599,29 @@ class Tours2Controller extends Controller
     }
 
 
-    public static function PreProcess($request_sorted, $tour, $action=NULL, $is_tour_no_updates=Null)
-    {
+    public static function PreProcess($request_sorted, $tour, $action, $is_tour_no_updates='not exists')
 
+    {
 
 
        if(isset($request_sorted['allchecked']) AND $request_sorted['allchecked'] == true) {
 
-            
-            if(!$is_tour_no_updates) {  $tour->update(array_merge($request_sorted['tour'], $request_sorted['user'])); }
+            if($action == 'save') { 
+
+                $tour = Tour::create(array_merge($request_sorted['tour'], $request_sorted['user'])); 
+
+            } else if ($action == 'update') {
+
+                PreviousVersions::createVersion($tour);
+
+                   if(!$is_tour_no_updates) { 
+
+                        $tour->update(array_merge($request_sorted['tour'], $request_sorted['user'])); 
+
+                    }
+
+            }
+
 
             $tourists_and_documents['tourists'] = $request_sorted['tourists'];
             $tourists_and_documents['documents'] = $request_sorted['documents'];
@@ -606,7 +648,21 @@ class Tours2Controller extends Controller
 
             case "save":
 
-                if(!$is_tour_no_updates) {  $tour->update(array_merge($request_sorted['tour'], $request_sorted['user'])); }
+              if($action == 'save') { 
+
+                    $tour = Tour::create(array_merge($request_sorted['tour'], $request_sorted['user'])); 
+
+                } else if ($action == 'update') {
+
+                    PreviousVersions::createVersion($tour);
+
+                       if(!$is_tour_no_updates) { 
+
+                            $tour->update(array_merge($request_sorted['tour'], $request_sorted['user'])); 
+
+                        }
+
+                }
 
                 self::SaveTouristsAndDocuments($checked_tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour, $action);
 
@@ -620,8 +676,22 @@ class Tours2Controller extends Controller
 
                 if($result === false) {
     
-                   if(!$is_tour_no_updates) {  $tour->update(array_merge($request_sorted['tour'], $request_sorted['user'])); }
+                  if($action == 'save') { 
 
+                        $tour = Tour::create(array_merge($request_sorted['tour'], $request_sorted['user'])); 
+
+                    } else if ($action == 'update') {
+
+                        PreviousVersions::createVersion($tour);
+
+                           if(!$is_tour_no_updates) { 
+
+                                $tour->update(array_merge($request_sorted['tour'], $request_sorted['user'])); 
+
+                            }
+
+                    }
+                    
                     self::SaveTouristsAndDocuments($checked_tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour, $action);
 
                     return 'success';
@@ -651,9 +721,11 @@ class Tours2Controller extends Controller
     }
 
 
-    public static function SaveTouristsAndDocuments($checked_array, $buyer_array, $user_array, $tour, $action=NULL) {
+    public static function SaveTouristsAndDocuments($checked_array, $buyer_array, $user_array, $tour, $action) {
 
         // dd($checked_array);
+
+
 
         $number_of_tourists = count($checked_array['tourists']);
 
@@ -666,11 +738,11 @@ class Tours2Controller extends Controller
 
             } else if ($tourist_values['check_info']['exists'] == true) {
 
-                $tourist = Tourist::find($tourist_values['check_info']['id']);
+                    $tourist = Tourist::find($tourist_values['check_info']['id']);
 
                 if (isset($tourist_values['check_info']['to_be_updated'])) {
 
-                $tourist->update(self::unsetCheckInfo($tourist_values));
+                    $tourist->update(self::unsetCheckInfo($tourist_values));
 
                 } 
 
@@ -706,13 +778,13 @@ class Tours2Controller extends Controller
 
             $is_buyer_is_tourist = Tourist::is_buyer_is_tourist($buyer_array, $tourist_number);
 
-            if(is_null($action)) { 
+            if($action == 'save') { 
             
             $tour->tourists()
 
                 ->save($tourist, array_merge($is_buyer_is_tourist, $user_array, $doc_ids));   
 
-            } else {
+            } else if($action == 'update') {
 
 
                 $update_array[$tourist->id] = array_merge($is_buyer_is_tourist, $doc_ids, $user_array);
@@ -722,7 +794,7 @@ class Tours2Controller extends Controller
         }
 
 
-        if(!is_null($action)) {
+        if($action == 'update') {
 
             $tour->tourists()->sync($update_array);
         }

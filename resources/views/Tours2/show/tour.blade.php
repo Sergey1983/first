@@ -28,11 +28,7 @@
 
 					<tr>
 						<td>Менеджер создавший</td>
-						<td>{{
-						$tour->previous_tours->isNotEmpty() ? 
-						$tour->previous_tours->sortby('created_at')->first()->user->name :
-						$tour->user->name  
-						}}
+						<td>{{$tour->user->name}}
 						</td>
 					</tr>
 
@@ -48,7 +44,7 @@
 
 					<tr>
 						<td>Номер заявки у поставщика</td>
-						<?php $booked_not = 'Заявка ещё не подтверждена'?>
+						@php $booked_not = 'Заявка ещё не подтверждена' @endphp
 						<td>{{is_null($tour->operator_code)? $booked_not: $tour->operator_code}}</td>
 					</tr>
 
@@ -62,10 +58,10 @@
 						<td>{{isset($tour->price)? $tour->price : $tour->price_rub}}@unless(!isset($tour->price)) / {{$tour->price_rub}}@endunless </td>
 					</tr>
 
-					<tr>
+{{-- 					<tr>
 						<td>Долг туриста ({{strtoupper($tour->currency)}})</td>
 						<td>{{$tour->price - $tour->payments_from_tourists_sum()}}</td>
-					</tr>
+					</tr> --}}
 
 
 
@@ -74,7 +70,7 @@
 						<td>{{is_null($tour->operator_price_rub)? 'Заявка ещё не подтверждена': $tour->operator_price_rub}}</td>
 					</tr>
 
-@if (($tour->payments_from_tourists_rub_sum() != 0) AND ($tour->payments_from_tourists_sum() === $tour->price) AND ($tour->payments_to_operator_rub_sum() === $tour->operator_price_rub)) 
+{{-- @if (($tour->payments_from_tourists_rub_sum() != 0) AND ($tour->payments_from_tourists_sum() === $tour->price) AND ($tour->payments_to_operator_rub_sum() === $tour->operator_price_rub)) 
 
 					<tr>
 						<td>Комиссия (RUB)</td>
@@ -82,7 +78,7 @@
 					</tr>
 
 @endif
-
+ --}}
 					<tr>
 						<td>Срок полной оплаты опер-ру</td>
 						<td>{{is_null($tour->operator_full_pay)? 'Заявка ещё не подтверждена': date_format(date_create_from_format('Y-m-d', $tour->operator_full_pay), 'd-m-Y')}}</td>
@@ -93,14 +89,15 @@
 						<td>{{is_null($tour->operator_part_pay)? 'Заявка ещё не подтверждена': date_format(date_create_from_format('Y-m-d', $tour->operator_part_pay), 'd-m-Y')}}</td>
 					</tr>
 
-					<tr>
+{{-- 					
+<tr>
 						<td>Статус оплаты оператору</td>
-						<?php $debt_operator = $tour->operator_price_rub - $tour->payments_to_operator_rub_sum(); ?>
-						<?php $debt_operator = $debt_operator == 0 ? 'Оплачено' : 'Не оплачено' ?>
+						@php $debt_operator = $tour->operator_price_rub - $tour->payments_to_operator_rub_sum() @endphp
+						@php $debt_operator = $debt_operator == 0 ? 'Оплачено' : 'Не оплачено' @endphp
 
 						<td>{{!is_null($tour->operator_price_rub) ? $debt_operator : 'Заявка ещё не подтверждена' }}
-</td>
-					</tr>
+						</td>
+					</tr> --}}
 
 					<tr>
 						<td>Оплата в кредит?</td>
@@ -194,7 +191,9 @@
 
 				<tr>
 					<td>Количество туристов</td>
-					<td>{{$tour->tourists->count()}}</td>
+{{-- 					<td>{{$tour->tourists->count()}}</td>
+ --}}					<td>{{$versions->where('this_version', $version)->count()}}</td>
+
 				</tr>
 
 				<tr>
@@ -226,7 +225,7 @@
 
 				<tr>
 					<td>Мед. страховка</td>
-					<td>{{$tour->med_insurance}}</td>
+					<td>{{($tour->med_insurance) ? 'Да' : 'Нет'}}</td>
 				</tr>
 
 				<tr>
@@ -260,190 +259,3 @@
 
 
 </div>
-
-
-<div class="container-fluid margin-bottom-10">
-
-	@include('buttons.book_tour')
-    @include('buttons.pay_tourist')	
-
-@unless(is_null($tour->operator_price_rub))	
-	@include('buttons.pay_operator')
-@endunless
-
-</div>
-
-
-
-<div class="container-fluid">
-
-
-	@foreach ($tour_tourists_docs as $key => $tour_tourists_doc)
-
-{{-- 	@php dd($tour_tourists_docs); @endphp
- --}}
-
-	<h4> Турист {{$key+1}}: </h4>
-
-
-	<div class="row">
-
-		<div class="col-md-12">
-		
-			<table class="table table-responsive table-bordered table-striped">
-
-				<tr>
-
-				    <th>Id</th>
-				    <th>Имя</th>
-				    <th>Фамилия</th>
-				    <th>Имя Англ.</th>
-				    <th>Фамилия Англ.</th>    
-				    <th>День рож-я</th>
-				    <th>Гражданство</th>
-				    <th>Пол</th>
-				    <th>Телефон</th>
-				    <th>Email</th>
-
-				</tr>
-
-				<tr>
-
-@php
-
-	$tourist = $tour_tourists_doc->tourist;
-
-@endphp
-
-
-				    <td>{{$tourist->id}}</td>
-				    <td>{{$tourist->name}}</td>
-				    <td>{{$tourist->lastName}}</td>
-				    <td>{{$tourist->nameEng}}</td>
-				    <td>{{$tourist->lastNameEng}}</td>    
-				    <td>{{$tourist->birth_date}}</td>
-				    <td>{{$tourist->citizenship}}</td>
-				    <td>{{$tourist->gender}}</td>
-				    <td>{{$tourist->phone}}</td>
-				    <td>{{$tourist->email}}</td>
-
-
-				</tr>
-
-			</table>
-
-			</div>
-
-			<div class="col-md-6">
-
-					<table class="table table-responsive table-bordered table-striped">
-
-						<tr>
-
-						    <th class="col-md-4">Тип док-а 1</th>
-						    <th class="col-md-4">Номер док-а</th>
-						    <th class="col-md-2">Дата выдачи</th>
-						    <th class="col-md-2">Дата окон-я</th>
-
-						</tr>
-
-						<tr>
-@php
-
-	$document = $tour_tourists_doc->document0;
-
-@endphp
-						    <td>{{$document->doc_type}}</td>
-						    <td>{{$document->doc_number}}</td>
-						    <td>{{$document->date_issue}}</td>
-						    <td>{{$document->date_expire}}</td>
-						
-						</tr>
-
-
-					</table>
-
-			</div>
-			
-
-
-@if($document = $tour_tourists_doc->document1)
-
-
-			<div class="col-md-6">
-
-					<table class="table table-responsive table-bordered table-striped">
-
-						<tr>
-
-						    <th class="col-md-4">Тип док-а 2</th>
-						    <th class="col-md-4">Номер док-а</th>
-						    <th class="col-md-2">Дата выдачи</th>
-						    <th class="col-md-2">Дата окон-я</th>
-
-						</tr>
-
-						<tr>
-
-						    <td>{{$document->doc_type}}</td>
-						    <td>{{$document->doc_number}}</td>
-						    <td>{{$document->date_issue}}</td>
-						    <td>{{$document->date_expire}}</td>
-						
-						</tr>
-
-
-					</table>
-
-			</div>
-@endif
-
-@if($tour_tourists_doc->is_buyer == 1)
-
-
-	<div class="row">
-
-		<div class="col-md-12">
-
-
-			<div class="col-md-6">
-
-					<table class="table table-responsive table-bordered table-striped">
-
-						<tr>
-
-						    <th class="col-md-4">Это заказчик?</th>
-						    <th class="col-md-4">Закачик едет в тур?</th>
-
-						</tr>
-
-						<tr>
-
-						    <td>Да</td>
-						    <td>{{$tour_tourists_doc->is_buyer == 1 ? 'Да, едет' : 'Нет, не едет' }}</td>
-
-						
-						</tr>
-
-
-					</table>
-
-			</div>
-
-		</div>
-
-	</div>
-
-
-@endif
-
-	</div>
-
-
-@endforeach
-
-
-
-
-
-

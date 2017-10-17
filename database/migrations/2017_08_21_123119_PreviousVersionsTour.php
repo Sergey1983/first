@@ -16,13 +16,52 @@ class PreviousVersionsTour extends Migration
         Schema::create('previous_tours', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('tour_id')->unsigned();
-            $table->foreign('tour_id')->references('id')->on('tours')->onDelete('cascade');;
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
+            $table->foreign('tour_id')->references('id')->on('tours')->onDelete('cascade');
             $table->integer('version')->unsigned();
-            $table->string('city_from');
-            $table->string('hotel');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+ 
+
+            $table->string('city_from', 50);
+            $table->string('country', 50);
+            $table->string('airport', 50);
+            $table->string('operator', 250);
+            $table->integer('nights');    
+            $table->date('date_depart');
+            $table->boolean('date_hotel')->default(false);      
+            $table->string('hotel', 50);
+            $table->string('room', 255);
+            $table->boolean ('add_rooms')->default(false);
+            $table->string('food_type', 255);
+            $table->boolean('change_food_type')->default(false);
+            $table->string('currency', 4);
+            $table->integer('price')->nullable();
+            $table->integer('price_rub');
+            $table->boolean('is_credit')->default(false);;
+            $table->string('transfer', 50);
+            $table->string('noexit_insurance', 50);
+            $table->boolean('noexit_insurance_add_people')->default(false);  ;
+            $table->string('noexit_insurance_people', 255)->nullable();
+            $table->integer('med_insurance');
+            $table->string('visa', 50);
+            $table->boolean('visa_add_people')->default(false);
+            $table->string('visa_people', 255)->nullable();
+            $table->string('sightseeing', 255);
+            $table->boolean('change_sightseeing')->default(false);
+            $table->string('extra_info', 255)->nullable();
+            $table->integer('first_payment')->nullable();
+            $table->string('bank', 50)->nullable();
+            $table->string('source', 50);
+            $table->boolean ('add_source')->default(false);
+            $table->string('operator_code', 50)->nullable();
+            $table->integer('operator_price')->nullable();
+            $table->integer('operator_price_rub')->nullable();
+            $table->integer('operator_payment')->nullable();
+            $table->date('operator_full_pay')->nullable();
+            $table->date('operator_part_pay')->nullable();
+
             $table->timestamps();
+
         });
     }
 

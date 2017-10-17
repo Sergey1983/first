@@ -17,4 +17,14 @@ class Airport extends Model
 		return $this->hasMany('App\Tour');
 	}
 
+    public function previous_tour ()
+
+    {
+
+		return $this->hasMany('App\previous_tour');
+	}
+
+
+
 }
+

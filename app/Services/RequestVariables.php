@@ -20,6 +20,8 @@ class RequestVariables {
 
 	protected static $keys_check_info;
 
+	protected static $keys_user;
+
 
 	public static function init() {
 
@@ -38,6 +40,7 @@ class RequestVariables {
 
         self::$keys_check_info = array_flip(['check_info']);
 
+        self::$keys_user = array_flip(['user_id']);
 
 
 	}

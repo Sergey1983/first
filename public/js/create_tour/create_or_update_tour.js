@@ -41,9 +41,36 @@ $(document).ready(function() {
 
 
 
-				if ($("input[name='alldisabled']").attr('value') == 'true') {
+				if ($("input[name='all_disabled']").attr('value') == 'true') {
 
-				$("*").find('button, select, [type="checkbox"], [type="radio"]').attr("disabled", "").removeAttr('disabled');
+
+						var add_docs = $('[id^="add_doc_2_"]');
+
+						var doc2_unchecked = ''; 
+
+						$.each(add_docs, function (index, checkbox) {
+
+							if(!checkbox.checked) {
+							
+								var number = $(checkbox).attr('id').replace('add_doc_2_', '');
+								// doc2_checked = doc2_checked + '[id^="add_doc_2_"]:eq('+number+'), ';
+
+								doc2_unchecked = doc2_unchecked + '[id^="row_second_doc_"]:eq('+number+') *, ';
+								
+							}
+
+						});
+
+						doc2_unchecked = doc2_unchecked.slice(0,-2);
+
+						console.log(doc2_unchecked);
+				
+
+						$("*").find('input, textarea').attr("readonly", "").removeAttr('readonly');
+						$("*").find('button, select, [type="checkbox"], [type="radio"]').attr("disabled", "").removeAttr('disabled');
+
+						$(doc2_unchecked).not('[name="add_doc_2"]').attr('disabled', 'disabled');
+
 
 				}
 
@@ -114,7 +141,7 @@ $(document).ready(function() {
 
 						$("*").find('input, textarea').attr("readonly", "");
 						$("*").find('button, select, [type="checkbox"], [type="radio"]').attr("disabled", "");
-						$("input[name='alldisabled']").attr('value', 'true');
+						$("input[name='all_disabled']").attr('value', 'true');
 
 
 						$(button_send_data).attr('disabled', 'disabled');
@@ -148,9 +175,11 @@ $(document).ready(function() {
 
 							} else if(data.type == 'sameid') {
 
-								$.each(data.tourists_nubmers, function (index, value) {
 
-								$('[class*="inputs_'+data.tourists_numbers[index]+'"]').append('<div class="row">'+
+								$.each(data.tourists_numbers, function (index, value) {
+
+
+								$('[class="inputs_'+data.tourists_numbers[index]+' padding"]').append('<div class="row">'+
 
 											'<div class="col-md-12">'+
 
@@ -180,7 +209,7 @@ $(document).ready(function() {
 						} else {
 
 						$("input[name='allchecked']").attr('value', 'true');
-						$("input[name='alldisabled']").attr('value', 'true');
+						$("input[name='all_disabled']").attr('value', 'true');
 
 
 						$("*").find('input, textarea').attr("readonly", "");
@@ -254,7 +283,7 @@ $(document).ready(function() {
 
 									$('[class*="inputs_'+tourist_id+'"]').append(
 
-										'<div class="row">'+
+										'<div class="row choose_tourist_row">'+
 
 										'<div class="col-md-8">'+
 
@@ -539,6 +568,8 @@ $(document).ready(function() {
 
 			$('[name^="check_info"]').remove();
 
+			$('[class*="choose_tourist_row"]').remove();
+
 	    	$(button_send_data).removeAttr('disabled');
 			$(button_send_data).attr('value', verb);
 			$(button_send_data).attr('class', 'inline btn btn-success');
@@ -546,8 +577,11 @@ $(document).ready(function() {
 			$('#cancel_change').remove();
 
 			$("input[name='allchecked']").attr('value', 'false');
+			$("input[name='all_disabled']").attr('value', 'false');
 
 			$('p[id="samepassportalert"]').remove();
+
+
 
 
 

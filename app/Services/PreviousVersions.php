@@ -16,19 +16,19 @@ use App\Tour_tourist;
 
 
 
-class PreviousVersions {
+class PreviousVersions extends RequestVariables {
 
 
-        public $keys_tourist = ['name', 'lastName', 'birth_date', 'doc_fullnumber'];
-        public $keys_tourist_eng = ['nameEng', 'lastNameEng'];
-        public $keys_tour = ['city_from', 'hotel'];
-        public $keys_user = ['user_id']; 
-        public $keys_buyer = ['is_buyer', 'is_tourist'];
-        public $keys_timestamps = ['created_at', 'updated_at'];
-        public $keys_hidden = ['cannot_change_old_tourists', 'tour_exists', 'is_update'];
+        // public $keys_tourist = ['name', 'lastName', 'birth_date', 'doc_fullnumber'];
+        // public $keys_tourist_eng = ['nameEng', 'lastNameEng'];
+        // public $keys_tour = ['city_from', 'hotel'];
+        // public $keys_user = ['user_id']; 
+        // public $keys_buyer = ['is_buyer', 'is_tourist'];
+        // public $keys_timestamps = ['created_at', 'updated_at'];
+        // public $keys_hidden = ['cannot_change_old_tourists', 'tour_exists', 'is_update'];
 
 
-        public function createVersion ($tour) {
+        public static function createVersion ($tour) {
 
 
             $last_version_creation_time = $tour->tourists[0]->updated_at->toDateTimeString();
@@ -50,7 +50,7 @@ class PreviousVersions {
 
             // dd($user_created_version_id);
 
-            $tour_array = array_intersect_key($tour->toArray(), array_flip(array_merge($this->keys_tour, $this->keys_user)));
+            $tour_array = array_intersect_key($tour->toArray(), array_merge(parent::$keys_tour, parent::$keys_user));
 
 
             //find last version if exists
@@ -63,10 +63,9 @@ class PreviousVersions {
 
             } else {
 
-
                 $version_new = $tour_last_saved->version+1;
 
-                $tour_last_saved = previous_tour::firstOrCreate(array_merge($tour_array, ['tour_id'=>$tour->id]), ['version'=> $version_new]);
+                $tour_last_saved = previous_tour::firstOrCreate(array_merge($tour_array, ['tour_id'=>$tour->id]),  ['version'=> $version_new]);
 
             };
 
@@ -78,7 +77,7 @@ class PreviousVersions {
 
             foreach ($tourists_array as $key => $a_tourist_array) {
                 
-                $tourists_array[$key] = array_intersect_key($a_tourist_array, array_flip(array_merge($this->keys_tourist, $this->keys_tourist_eng)));
+                $tourists_array[$key] = array_intersect_key($a_tourist_array, parent::$keys_tourist);
             }
 
 
@@ -106,6 +105,7 @@ class PreviousVersions {
 
                 previous_tour_tourist::create(['tour_id'=>$tour->id, 'tour_version' => $tour_last_saved->version, 
                                                 'tourist_id'=>$tourists[$i]->id, 'tourist_version'=>$tourist_last_saved->version, 
+                                                'doc0' => $tourists[$i]->pivot->doc0, 'doc1' => $tourists[$i]->pivot->doc1, 
                                                 'is_buyer'=> $tourists[$i]->pivot->is_buyer, 'is_tourist'=> $tourists[$i]->pivot->is_tourist, 'version_created'=>$last_version_creation_time, 'this_version' => $version_last_saved, 'user_id'=> $user_created_version_id]);
 
 

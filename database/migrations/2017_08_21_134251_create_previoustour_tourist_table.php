@@ -29,6 +29,15 @@ class CreatePrevioustourTouristTable extends Migration
 
             $table->integer('tourist_version')->unsigned()->nullable();
 
+            $table->integer('doc0')->unsigned();
+            $table->foreign('doc0')->references('id')
+            ->on('documents')->onDelete('cascade');
+
+            $table->integer('doc1')->unsigned()->nullable();
+            $table->foreign('doc1')->references('id')
+            ->on('documents')->onDelete('cascade'); 
+
+
             $table->integer('is_buyer')->unsigned()->nullable();
             $table->integer('is_tourist')->unsigned()->nullable();
 

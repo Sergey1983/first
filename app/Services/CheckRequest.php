@@ -123,7 +123,9 @@ class CheckRequest extends RequestVariables
 			else { // No document from request is found in db
 
 
-				$tourists_in_db = Tourist::where($tourist_from_request)->get();
+				$tourist_to_check = array_filter($tourist_from_request, function($k) {return ($k != 'phone' AND $k !='email'); }, ARRAY_FILTER_USE_KEY);
+
+				$tourists_in_db = Tourist::where($tourist_to_check)->get();
 
 
 				$tourists_array[$tourist_number]['check_info']['exists'] = $tourists_in_db->isEmpty() ? false  : true;
