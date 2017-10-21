@@ -129,7 +129,6 @@ class SortRequest extends RequestVariables
         $documents_array = array_intersect_key($request_array, parent::$keys_document);
 
 
-
         foreach ($documents_array['doc_number'] as $tourist_id => $doc_ids) {
 
             foreach ($doc_ids as $doc_id => $doc_number_value) {

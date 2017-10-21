@@ -52,6 +52,8 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/tours_2/{id}/edit/', 'Tours2Controller@edit');
 		Route::post('/tours_2/{id}','Tours2Controller@update');
 		Route::get('/tours_2/{id}/versions', ['as' => 'tour.version', 'uses' => 'VersionsController@show']);
+		// Route::get('/tours_2/{id}/versions', ['as' => 'tour.version', 'uses' => 'VersionsController@return_versions']);
+
 
 
 		Route::get('/tours_2/{id}/booking', ['as' => 'booking.edit', 'uses' =>'BookingController@bookingEdit']);

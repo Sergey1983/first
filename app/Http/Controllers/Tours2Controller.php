@@ -376,6 +376,7 @@ class Tours2Controller extends Controller
     {
 
 
+
         $request_sorted = SortRequest::return_sorted($request);
 
         $request_sorted['user'] = ['user_id'=> request()->user()->id];
@@ -392,42 +393,36 @@ class Tours2Controller extends Controller
 
 
 
+        // $tour = Tour::find($id);
+
+
+        // $tour->update(array_merge($request_sorted['tour'], $request_sorted['user']));
+
+        // $checked_tourists_and_documents = CheckRequest::return_checked_tourists_and_docs($request_sorted['tourists'], $request_sorted['documents']);
+
+        // self::SaveTouristsAndDocuments($checked_tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour, 'update');
+
+
+        // return 'success';
 
 
 
 
 
-
-        $tour = Tour::find($id);
-
-
-        $tour->update(array_merge($request_sorted['tour'], $request_sorted['user']));
-
-        $checked_tourists_and_documents = CheckRequest::return_checked_tourists_and_docs($request_sorted['tourists'], $request_sorted['documents']);
-
-        self::SaveTouristsAndDocuments($checked_tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour, 'update');
-
-
-        return 'success';
-
-
-
-
-
-        foreach ($checked_tourists_and_documents as $key => $value) {
+        // foreach ($checked_tourists_and_documents as $key => $value) {
             
-            $request_sorted[$key] = $value;
-        }
+        //     $request_sorted[$key] = $value;
+        // }
 
-        $ifBuyerSame = CheckRequest::checkIfBuyerSame($request_sorted['buyer'], $checked_tourists_and_documents, $id);
+        // $ifBuyerSame = CheckRequest::checkIfBuyerSame($request_sorted['buyer'], $checked_tourists_and_documents, $id);
 
 
-        $number_of_tourists = count(request()->name);
+        // $number_of_tourists = count(request()->name);
 
 
 //RECORDING VERSION OF TOUR-TOURIST
 
-        $tour=Tour::find($id);
+        // $tour=Tour::find($id);
 
 
         // $previousVersions = new PreviousVersions;
@@ -438,12 +433,12 @@ class Tours2Controller extends Controller
 // UPDATING TOUR-TOURIST
 
 
-        $tour->update($request_sorted['tour']);
+        // $tour->update($request_sorted['tour']);
 
 
-        $sync_tourist_array = [];
+        // $sync_tourist_array = [];
 
-        $updated = [];
+        // $updated = [];
 
 
 
@@ -527,7 +522,7 @@ class Tours2Controller extends Controller
 
 
 
-        for($i=0; $i<$number_of_tourists; $i++) {
+        // for($i=0; $i<$number_of_tourists; $i++) {
 
             // Create array ['attribute' => request_value]
 
@@ -535,14 +530,14 @@ class Tours2Controller extends Controller
 
             
 
-            foreach ($request_sorted['tourists'] as $key => $value) {
+            // foreach ($request_sorted['tourists'] as $key => $value) {
                 
-                    $tourist_to_update[$key] = $value[$i];
+            //         $tourist_to_update[$key] = $value[$i];
   
-            }
+            // }
 
 
-            $tourist = Tourist::updateOrCreate(['doc_fullnumber' => $request['doc_fullnumber'][$i]], $tourist_to_update);
+            // $tourist = Tourist::updateOrCreate(['doc_fullnumber' => $request['doc_fullnumber'][$i]], $tourist_to_update);
 
 
             // Check if tourist is a buyer, and if so, if the buyer is a tourist.
@@ -566,14 +561,14 @@ class Tours2Controller extends Controller
 
             
 
-            $is_buyer_is_tourist = Tourist::is_buyer_is_tourist($request_sorted['buyer'], $i);
+            // $is_buyer_is_tourist = Tourist::is_buyer_is_tourist($request_sorted['buyer'], $i);
             
-            $sync_tourist_array[$tourist->id] = array_merge($is_buyer_is_tourist, ['user_id'=>$user->id]);
+            // $sync_tourist_array[$tourist->id] = array_merge($is_buyer_is_tourist, ['user_id'=>$user->id]);
 
             // $sync_tourist_array[$tourist->id] = ['is_buyer' => $is_buyer, 'is_tourist' => $is_tourist];
 
 
-        };
+        // };
 
         // $collector = resolve('touristsCollector');
 
@@ -581,7 +576,7 @@ class Tours2Controller extends Controller
         // $something = TouristServices::UpdateOtherToursWithTourists($collector->updated);
 
 
-        $tour->tourists()->sync($sync_tourist_array);
+        // $tour->tourists()->sync($sync_tourist_array);
 
 
         
@@ -612,11 +607,12 @@ class Tours2Controller extends Controller
 
             } else if ($action == 'update') {
 
-                PreviousVersions::createVersion($tour);
+                // PreviousVersions::createVersion($tour);
 
                    if(!$is_tour_no_updates) { 
 
                         $tour->update(array_merge($request_sorted['tour'], $request_sorted['user'])); 
+
 
                     }
 
@@ -628,11 +624,16 @@ class Tours2Controller extends Controller
 
             self::SaveTouristsAndDocuments($tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour, $action);
 
+
+            PreviousVersions::createVersion($tour);
+
             return 'success';
 
         } else {
 
         $checked_tourists_and_documents = CheckRequest::return_checked_tourists_and_docs($request_sorted['tourists'], $request_sorted['documents']);
+
+
 
              if(isset($checked_tourists_and_documents['fatal_error'])) {
 
@@ -654,7 +655,7 @@ class Tours2Controller extends Controller
 
                 } else if ($action == 'update') {
 
-                    PreviousVersions::createVersion($tour);
+                    // PreviousVersions::createVersion($tour);
 
                        if(!$is_tour_no_updates) { 
 
@@ -665,6 +666,8 @@ class Tours2Controller extends Controller
                 }
 
                 self::SaveTouristsAndDocuments($checked_tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour, $action);
+
+                PreviousVersions::createVersion($tour);
 
                 return 'success';
 
@@ -682,7 +685,7 @@ class Tours2Controller extends Controller
 
                     } else if ($action == 'update') {
 
-                        PreviousVersions::createVersion($tour);
+                        // PreviousVersions::createVersion($tour);
 
                            if(!$is_tour_no_updates) { 
 
@@ -693,6 +696,8 @@ class Tours2Controller extends Controller
                     }
                     
                     self::SaveTouristsAndDocuments($checked_tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour, $action);
+
+                    PreviousVersions::createVersion($tour);
 
                     return 'success';
 
