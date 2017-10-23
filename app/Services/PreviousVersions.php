@@ -35,20 +35,28 @@ class PreviousVersions extends RequestVariables {
         public static function createVersion ($tour) {
 
 
-            $last_version_creation_time = $tour->tourists[0]->updated_at->toDateTimeString();
 
 
             $version_last_saved = previous_tour_tourist::where('tour_id', $tour->id)->orderBy('this_version', 'desc')->first();
+
 
             if(empty($version_last_saved)) {
 
                 $version_last_saved = 1;
 
+                $last_version_creation_time = $tour->tour_tourist[0]->created_at->toDateTimeString();
+
+
             } else {
 
                 $version_last_saved = $version_last_saved->this_version +1;
 
+                $last_version_creation_time = $tour->tour_tourist[0]->updated_at->toDateTimeString();
+
+
             }
+
+
 
             $user_created_version_id = Tour_tourist::where('tour_id', $tour->id)->first()->user_id;
 

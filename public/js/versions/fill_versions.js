@@ -24,8 +24,9 @@ $(document).ready(function() {
 
 			for(i=1; i<number_of_versions; i++){
 
+				var last_version = number_of_versions - 1;
 				var j = i+1;
-				$('[class="nav nav-tabs"]').append('<li><a data-toggle="tab" href="#version'+j+'">Версия '+j+'</a></li>');
+				$('[class="nav nav-tabs"]').append('<li><a data-toggle="tab" href="#version'+j+'">'+(i != last_version ? 'Версия '+j+'' : 'Текущая версия')+' </a></li>');
 				$('[class="tab-content"]').append('<div class = "tab-pane fade" id="version'+j+'">');
 			
 			}
@@ -41,6 +42,8 @@ $(document).ready(function() {
 				var tour = data[j].tour;
 
 				var tourists = data[j].tourists;
+
+
 
 				// console.log(tourists);
 
@@ -66,8 +69,19 @@ $(document).ready(function() {
 
 				$('#version'+j+'').append(
 
+'<div class="container-fluid margin-top-25">'+
 
+	'<div class="row">'+
 
+		'<div class="col-md-12 text-center">'+
+
+			'Создана: '+data[j].version_created+' пользователем: '+data[j].user+
+
+		'</div>'+
+
+	'</div>'+
+
+'</div>'+
 
 '<div class="container-fluid margin-top-25">'+
 	
@@ -393,10 +407,12 @@ $(document).ready(function() {
 
 						var document = documents[k];
 
-							// $('#version'+j+'').append(
+				$("#row_tourist_and_documents_"+j+"_"+m+"").append("<div id='div_documents_"+j+"_"+m+"'>");
 
-				$("#row_tourist_and_documents_"+j+"_"+m+"").append(
 
+				// $("#row_tourist_and_documents_"+j+"_"+m+"").append(
+
+					$("#div_documents_"+j+"_"+m+"").append(
 
 								'<div class="col-md-6" id="div_document_'+j+'_'+m+'_'+l+'">'+
 
@@ -523,7 +539,7 @@ $("#row_tourist_and_documents_"+j+"_"+m+"").append(
 
 						// console.log('#'+index+'_'+j+'_'+tourist_number+'');
 	
-						$('#'+index+'_'+j+'_'+tourist_number+'').css('color', 'red');
+						$('#'+index+'_'+j+'_'+tourist_number+'').css('color', 'blue');
 
 					})
 
@@ -801,8 +817,9 @@ $("#row_tourist_and_documents_"+j+"_"+m+"").append(
 							// console.log(documents);
 
 
-							$("#row_tourist_and_documents_"+j+"_"+this_tourist_number+"").append(
+							// $("#row_tourist_and_documents_"+j+"_"+this_tourist_number+"").append(
 
+								$("#div_documents_"+j+"_"+this_tourist_number+"").append(
 
 											'<div class="col-md-6" id="document_deleted_'+this_tourist_number+'_'+key+'">'+
 

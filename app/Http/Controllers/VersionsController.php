@@ -149,6 +149,7 @@ class VersionsController extends Controller
 
 
             $return_array[$this_version]['version_created'] = $tourists_and_documents[0]['version_created'];
+            $return_array[$this_version]['user'] = User::find($tourists_and_documents[0]['user_id'])->name;
 
 
 

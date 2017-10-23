@@ -269,10 +269,10 @@ class CheckRequest extends RequestVariables
 
 	{
 
-	
+
 		foreach ($documents_array as $key => $document_values) {
 			
-			if(!is_null($document_values['check_info']['id'])) {
+			if($document_values['check_info']['exists']!=false AND !is_null($document_values['check_info']['id'])) {
 
 				return Document::find($document_values['check_info']['id'])->tourist->id;
 

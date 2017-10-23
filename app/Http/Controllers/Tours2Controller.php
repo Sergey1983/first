@@ -343,8 +343,8 @@ class Tours2Controller extends Controller
         if(count($versions) > 0) {
 
             $is_versions = 1;
-        } 
 
+        } 
 
 
         return view('Tours2.tours2_show', compact('tour', 'tour_tourists', 'tour_tourists_docs', 'is_versions', 'user'));
@@ -755,6 +755,7 @@ class Tours2Controller extends Controller
 
             $doc_ids = [];
 
+
             foreach ($checked_array['documents'][$tourist_number] as $doc_id => $doc_values) {
                 
 
@@ -779,7 +780,11 @@ class Tours2Controller extends Controller
 
 
 
+
             }
+
+            $doc_ids['doc1'] = isset($doc_ids['doc1']) ? $doc_ids['doc1'] : null;
+
 
             $is_buyer_is_tourist = Tourist::is_buyer_is_tourist($buyer_array, $tourist_number);
 
@@ -791,8 +796,8 @@ class Tours2Controller extends Controller
 
             } else if($action == 'update') {
 
-
                 $update_array[$tourist->id] = array_merge($is_buyer_is_tourist, $doc_ids, $user_array);
+
             }
 
 
