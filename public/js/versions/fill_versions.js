@@ -101,7 +101,7 @@ $(document).ready(function() {
 
 					'<tr>'+
 						'<td class="col-md-6">Номер заявки</td>'+
-						'<td>'+tour.tour_id+'</td>'+
+						'<td id="tour_id_'+j+'">'+tour.tour_id+'</td>'+
 					'</tr>'+
 
 					'<tr>'+
@@ -111,35 +111,35 @@ $(document).ready(function() {
 
 					'<tr>'+
 						'<td>Менеджер создавший</td>'+
-						'<td>'+tour.user_name+'</td>'+
+						'<td id="user_name_'+j+'">'+tour.user_name+'</td>'+
 					'</tr>'+
 
 					'<tr>'+
 						'<td>Источник заявки</td>'+
-						'<td>'+tour.source+'</td>'+
+						'<td id="source_'+j+'">'+tour.source+'</td>'+
 					'</tr>'+
 
 					'<tr>'+
 						'<td>Туроператор</td>'+
-						'<td>'+tour.operator+'</td>'+
+						'<td id="operator_'+j+'">'+tour.operator+'</td>'+
 					'</tr>'+
 
 
 					'<tr>'+
 						'<td>Номер заявки у поставщика</td>'+
-						'<td>'+(tour.operator_code == null ? 'Заявка еще не подтверждена' : tour.operator_code)+'</td>'+
+						'<td id="operator_code_'+j+'">'+(tour.operator_code == null ? 'Заявка еще не подтверждена' : tour.operator_code)+'</td>'+
 					'</tr>'+
 
 
 					'<tr>'+
 						'<td>Валюта тура</td>'+
-						'<td>'+tour.currency+'</td>'+
+						'<td id="currency_'+j+'">'+tour.currency+'</td>'+
 					'</tr>'+
 
 
 					'<tr>'+
 						'<td>Стоимость для туриста ('+(tour.price != null ? tour.currency+' / RUB' : 'RUB')+')</td>'+
-						'<td>'+ (tour.price != null ? tour.price+' / '+tour.price_rub : tour.price_rub) +' </td>'+
+						'<td id="price_rub_'+j+'">'+ (tour.price != null ? tour.price+' / '+tour.price_rub : tour.price_rub) +' </td>'+
 					'</tr>'+
 
 
@@ -152,7 +152,7 @@ $(document).ready(function() {
 
 					'<tr>'+
 						'<td>К оплате оператору (RUB)</td>'+
-						'<td>' + (tour.operator_price_rub == null ? 'Заявка еще не подтверждена' : tour.operator_price_rub) + '</td>'+
+						'<td id="operator_price_rub_'+j+'">' + (tour.operator_price_rub == null ? 'Заявка еще не подтверждена' : tour.operator_price_rub) + '</td>'+
 					'</tr>'+
 
 
@@ -163,13 +163,13 @@ $(document).ready(function() {
 
 					'<tr>'+
 						'<td>Срок полной оплаты опер-ру</td>'+
-						'<td>'+(tour.operator_full_pay == null ? 'Заявка ещё не подтверждена' : tour.operator_full_pay)+'</td>'+
+						'<td id="operator_full_pay_'+j+'">'+(tour.operator_full_pay == null ? 'Заявка ещё не подтверждена' : tour.operator_full_pay)+'</td>'+
 					'</tr>'+
 
 
 					'<tr>'+
 						'<td>Срок частичной оплаты опер-ру</td>'+
-						'<td>'+(tour.operator_part_pay == null ? 'Заявка ещё не подтверждена': tour.operator_part_pay)+'</td>'+
+						'<td id="operator_part_pay_'+j+'">'+(tour.operator_part_pay == null ? 'Заявка ещё не подтверждена': tour.operator_part_pay)+'</td>'+
 					'</tr>'+
 
 					'<tr>'+
@@ -187,12 +187,12 @@ $(document).ready(function() {
 
 					'<tr>'+
 						'<td>Первый взнос за кредит</td>'+
-						'<td>'+tour.first_payment+'</td>'+
+						'<td id="first_payment_'+j+'">'+tour.first_payment+'</td>'+
 					'</tr>'+
 
 					'<tr>'+
 						'<td>Банк-кредитор</td>'+
-						'<td>'+tour.bank+'</td>'+
+						'<td id="bank_'+j+'">'+tour.bank+'</td>'+
 					'</tr>' 
 
 					: '')+
@@ -222,59 +222,59 @@ $(document).ready(function() {
 
 						'<tr>'+
 							'<td>Cтрана пребывания</td>'+
-							'<td>'+tour.country+'</td>'+
+							'<td id = "country_'+j+'">'+tour.country+'</td>'+
 						'</tr>'+
 
 						'<tr>'+
 							'<td>Аэропорт прибытия</td>'+					
-		 					'<td>'+tour.airport+'</td>'+	
+		 					'<td id = "airport_'+j+'">'+tour.airport+'</td>'+	
 		 				'</tr>'+
 
 						'<tr>'+
 							'<td>Пребывание с </td>'+
-							'<td>'+tour.date_depart+'</td>'+
+							'<td id = "date_depart_'+j+'">'+tour.date_depart+'</td>'+
 						'</tr>'+
 
 
 						'<tr>'+
 							'<td>Пребывание в отеле</td>'+
-							'<td>'+(tour.date_hotel == null ? tour.date_depart : date_hotel)+'</td>'+
+							'<td id="date_depart_'+j+'">'+(tour.date_hotel == null ? tour.date_depart : date_hotel)+'</td>'+
 						'</tr>'+
 
 
 						'<tr>'+
 							'<td>Ночей в отеле</td>'+
-							'<td>'+tour.nights+'</td>'+
+							'<td id="nights_'+j+'">'+tour.nights+'</td>'+
 						'</tr>'+
 
 						'<tr>'+
 							'<td>Отель </td>'+
-							'<td>'+tour.hotel+'</td>'+
+							'<td id="hotel_'+j+'">'+tour.hotel+'</td>'+
 						'</tr>'+
 
 						'<tr>'+
 							'<td>Количество туристов</td>'+
-							'<td>'+tourists.length+'</td>'+
+							'<td id="number_of_tourists_'+j+'">'+tourists.length+'</td>'+
 						'</tr>'+
 
 						'<tr>'+
 							'<td>Номера</td>'+
-							'<td>'+tour.room+'</td>'+
+							'<td id="room_'+j+'">'+tour.room+'</td>'+
 						'</tr>'+
 
 						'<tr>'+
 							'<td>Питание</td>'+
-							'<td>'+tour.food_type+'</td>'+
+							'<td id="food_type_'+j+'">'+tour.food_type+'</td>'+
 						'</tr>'+
 
 						'<tr>'+
 							'<td>Трансфер</td>'+
-							'<td>'+tour.transfer+'</td>'+
+							'<td id="transfer_'+j+'">'+tour.transfer+'</td>'+
 						'</tr>'+
 
 						'<tr>'+
 							'<td>Страховка от невыезда</td>'+
-							'<td>'+tour.noexit_insurance+'</td>'+
+							'<td id="noexit_insurance_'+j+'">'+tour.noexit_insurance+'</td>'+
 						'</tr>'+
 
 
@@ -282,38 +282,38 @@ $(document).ready(function() {
 
 							'<tr>'+
 								'<td>Кому оформляется стр-ка от невыезда</td>'+
-								'<td>'+tour.noexit_insurance_people+'</td>'+
+								'<td id="noexit_insurance_people_'+j+'">'+tour.noexit_insurance_people+'</td>'+
 							'</tr>'
 
 							: '')+
 
 						'<tr>'+
 							'<td>Мед. страховка</td>'+
-							'<td>'+(tour.med_insurance == 1 ? 'Да' : 'Нет')+'</td>'+
+							'<td id="med_insurance_'+j+'">'+(tour.med_insurance == 1 ? 'Да' : 'Нет')+'</td>'+
 						'</tr>'+
 
 						'<tr>'+
 							'<td>Оформление визы</td>'+
-							'<td>'+tour.visa+'</td>'+
+							'<td id="visa_'+j+'">'+tour.visa+'</td>'+
 						'</tr>'+
 
 						(tour.visa_people != null ?
 						
 						'<tr>'+
 							'<td>Кому оформляется виза</td>'+
-							'<td>'+tour.visa_people+'</td>'+
+							'<td id="visa_people_'+j+'">'+tour.visa_people+'</td>'+
 						'</tr>' 
 
 						: '')+
 
 						'<tr>'+
 							'<td>Экскурсия</td>'+
-							'<td>'+tour.sightseeing+'</td>'+
+							'<td id="sightseeing_'+j+'">'+tour.sightseeing+'</td>'+
 						'</tr>'+
 
 						'<tr>'+
 							'<td>Дополнительная информация</td>'+
-							'<td style="word-break: break-word">'+tour.extra_info+'</td>'+
+							'<td id="extra_info_'+j+'" style="word-break: break-word">'+tour.extra_info+'</td>'+
 						'</tr>'+
 
 
@@ -371,14 +371,14 @@ $(document).ready(function() {
 
 									    '<td>'+tourist.id+'</td>'+
 									    '<td id="name_'+j+'_'+m+'">'+tourist.name+'</td>'+
-									    '<td>'+tourist.lastName+'</td>'+
-									    '<td>'+tourist.nameEng+'</td>'+
-									    '<td>'+tourist.lastNameEng+'</td>'+    
-									    '<td>'+tourist.birth_date+'</td>'+
-									    '<td>'+tourist.citizenship+'</td>'+
-									    '<td>'+tourist.gender+'</td>'+
-									    '<td>'+tourist.phone+'</td>'+
-									    '<td>'+tourist.email+'</td>'+
+									    '<td id="lastName_'+j+'_'+m+'">'+tourist.lastName+'</td>'+
+									    '<td id="nameEng_'+j+'_'+m+'">'+tourist.nameEng+'</td>'+
+									    '<td id="lastNameEng_'+j+'_'+m+'">'+tourist.lastNameEng+'</td>'+    
+									    '<td id="birth_date_'+j+'_'+m+'">'+tourist.birth_date+'</td>'+
+									    '<td id="citizenship_'+j+'_'+m+'">'+tourist.citizenship+'</td>'+
+									    '<td id="gender_'+j+'_'+m+'">'+tourist.gender+'</td>'+
+									    '<td id="phone_'+j+'_'+m+'">'+tourist.phone+'</td>'+
+									    '<td id="email_'+j+'_'+m+'">'+tourist.email+'</td>'+
 
 
 									'</tr>'+
@@ -499,6 +499,14 @@ $("#row_tourist_and_documents_"+j+"_"+m+"").append(
 
 				} /// end Tourist-iteration
 
+
+
+
+			if(('number_of_tourists_changed' in data[j])) {
+
+				$('#number_of_tourists_'+j+'').css('color', 'blue');
+
+			}
 
 
 			if(('differences_tour' in data[j])) {

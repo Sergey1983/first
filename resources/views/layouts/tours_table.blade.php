@@ -21,12 +21,12 @@
 			<tr>
 
 			<td><?= $tour->id ?></td>
-			<td><?= $tour->name ?></td>
-			<td><?= $tour->lastName ?></td>
-			<td><?= $tour->nameEng ?></td>
-			<td><?= $tour->lastNameEng ?></td>
+			<td><?= $tour->city_from ?></td>
+			<td><?= $tour->hotel ?></td>
 			<td><?= $tour->destination ?></td>
+			<td><?= $tour->operator ?></td>
 			<td><?= $tour->departure ?></td>
+			<td><?= $tour->source ?></td>
 			<td><?= '<a href="/tours/' . $tour->id . '">
 			<button>Редактировать</button> 
 			</a>' ?></td>

@@ -58,21 +58,25 @@ class Tours2Controller extends Controller
 
     {
 
-        $user = auth()->user();
+
+        // $user = auth()->user();
 
 
-        if($user->role_id == 1 OR $user->permission ==1) {
+        // if($user->role_id == 1 OR $user->permission ==1) {
 
-            $tours = Tour::all();
+        //     $tours = Tour::where('date_depart', '<=', date("Y-m-d H:i:s") )->paginate(10);
 
-        } else {
+        // } else {
 
-            $tours = Tour::where('user_id', $user->id)->get();
-        }
+        //     $tours = Tour::where([['date_depart', '<=', date("Y-m-d H:i:s")], ['user_id', $user->id]])->paginate(10);
+        // }
 
-            return view('Tours2.tours2', compact('tours'));
+        // return view('Tours2.tours2', compact('tours'));
 
-        
+
+            return view('Tours2.tours2');
+
+        // return $tours;        
     }
 
 

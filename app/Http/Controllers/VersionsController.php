@@ -191,6 +191,14 @@ class VersionsController extends Controller
 
 
 
+                if(count($_this['tourists']) != count($_previous['tourists'])) {
+
+                    $return_array[$this_version]['number_of_tourists_changed'] = true;
+
+                }
+
+
+
                 if ($_this['tour']['version'] != $_previous['tour']['version']) {
 
                     $_this['differences_tour'] = array_keys(array_diff($_this['tour'],$_previous['tour']));

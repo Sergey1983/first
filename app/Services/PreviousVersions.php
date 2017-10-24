@@ -44,7 +44,7 @@ class PreviousVersions extends RequestVariables {
 
                 $version_last_saved = 1;
 
-                $last_version_creation_time = $tour->tour_tourist[0]->created_at->toDateTimeString();
+                $last_version_creation_time = date("Y-m-d", strtotime($tour->tour_tourist[0]->created_at));
 
 
             } else {

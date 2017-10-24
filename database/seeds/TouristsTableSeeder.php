@@ -23,14 +23,14 @@ class TouristsTableSeeder extends Seeder
       		'nameEng' => Translit::translit($a),
       		'lastNameEng' => Translit::translit($b),
 			'birth_date' => $faker->date($format = 'Y-m-d', $max = 'now'),
-			// 'citizenship' => $faker->randomElement($array = array ('Россия','Беларусь','Украина')),
-			// 'doc_type' => $faker->randomElement($array = array ('РФ загранпаспорт','РФ свидетельство о рождении','Другой документ')),
-			// 'doc_number_ser'  => ($c = $faker->randomNumber($nbDigits = 4, $strict=true)),
-			// 'doc_number_num' => ($d = $faker->randomNumber($nbDigits = 6, $strict=true)),
-			// 'doc_starts' => $faker->date($format = 'd-m-Y', $max = 'now'),
+			'citizenship' => $faker->randomElement($array = array ('Россия','Беларусь','Украина')),
+            'gender' => 'Мужчина',
+            'phone' => $faker->e164PhoneNumber();
+
+			// 'doc_type' => "Внутррос. паспорт",
+			// 'seria'  => ($c = $faker->randomNumber($nbDigits = 4, $strict=true)),
+			// 'doc_issue' => $faker->date($format = 'd-m-Y', $max = 'now'),
 			// 'doc_expires' => $faker->date($format = 'd-m-Y', $max = '+10 years'),
-			// 'doc_fullnumber' => $c.''.$d,
-            'doc_fullnumber' => $faker->randomNumber($nbDigits = 6, $strict=true),
     		'created_at' => \Carbon\Carbon::now(),
     		'updated_at' => \Carbon\Carbon::now(),
 

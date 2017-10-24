@@ -32,6 +32,14 @@ $(document).ready(function() {
 
 			var number = Number($(this).parents('[class^="inputs_"]').attr('class').replace('inputs_', '').replace(' padding', ''));
 
+
+			if(number == 0) {
+
+				alert("Нельзя удалить единственного туриста!");
+
+				return;
+			}
+
 			var next_divs = div_to_delete.nextAll("div[class*='inputs_']");
 
 			div_to_delete.remove();

@@ -136,13 +136,13 @@ $(document).ready(function(){
 
 
 
-
   $.fn.lt = function(n) {return this.slice(0,n);};
 
   $.fn.gt = function(n) {return this.slice(n+1);};
 
 
 
+console.log($.fn.lt);
 
 
   $('table.repaginate').each(function() {

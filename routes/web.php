@@ -32,7 +32,7 @@ Route::get('/test', 'TestController@index');
 Route::get('/search', 'TestController@search');
 
 Route::get('/test2', 'TestController2@index');
-Route::get('/load_tours', 'TestController2@load_tours');
+// Route::get('/load_tours', 'TestController2@load_tours');
 
 
 
@@ -90,11 +90,12 @@ Route::group(['middleware' => 'auth'], function () {
 		});
 
 	Route::post('/checkpassport_function', "FunctionsController@check_passport");
-	Route::post('/load_tours_function', 'FunctionsController@load_tours');
+	Route::get('/load_tours_function', 'FunctionsController@load_tours');
 	Route::post('/find_passengers', 'FunctionsController@find_passengers');
 	Route::post('/edit_tour_prepare_data', 'FunctionsController@edit_tour_prepare_data');
 	Route::post('/airport_load', 'FunctionsController@airport_load');
-	
+    // Route::get('/load_tours', 'TestController2@load_tours');
+
 
 	Route::post('/return_versions', 'VersionsController@return_versions');
 

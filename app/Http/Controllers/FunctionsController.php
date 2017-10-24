@@ -108,9 +108,29 @@ class FunctionsController extends Controller
 
      {
      	
-     	$tours = Tour::exclude(['created_at', 'updated_at'])->get();
 
-     	return $tours;
+        $user = auth()->user();
+
+
+        if($user->role_id == 1 OR $user->permission ==1) {
+
+            $tours = Tour::where('date_depart', '<=', date("Y-m-d H:i:s") )->paginate(10);
+
+        } else {
+
+            $tours = Tour::where([['date_depart', '<=', date("Y-m-d H:i:s")], ['user_id', $user->id]])->paginate(10);
+        }
+
+        // return view('Tours2.tours2', compact('tours'));
+
+        foreach ($tours as $key => $tour) {
+            
+            $tour->user_name = $tour->user->name;
+        }
+
+        return $tours;
+
+
      }
 
 
