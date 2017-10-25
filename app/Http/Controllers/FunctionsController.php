@@ -37,6 +37,8 @@ class FunctionsController extends Controller
 
         $number = $request->tourist_number;
 
+
+
         // dump($request->tourist_number);
         // dump($number);
         // dump(is_null($request->tourist_number));
@@ -104,7 +106,7 @@ class FunctionsController extends Controller
 
 
 
-     public function load_tours()
+     public function load_tours(Request $request)
 
      {
      	
@@ -112,13 +114,192 @@ class FunctionsController extends Controller
         $user = auth()->user();
 
 
-        if($user->role_id == 1 OR $user->permission ==1) {
+        // dd($request->all());
 
-            $tours = Tour::where('date_depart', '<=', date("Y-m-d H:i:s") )->paginate(10);
+        if(isset($request->sort_name)) {
+
+            $sort_column = $request->sort_name;
+
+            $sort_value = $request->sort_value;
 
         } else {
 
-            $tours = Tour::where([['date_depart', '<=', date("Y-m-d H:i:s")], ['user_id', $user->id]])->paginate(10);
+            $sort_column = 'id';
+
+            $sort_value = 'asc';
+
+        }
+
+
+        if($request->actuality == "Да") {
+
+            $actuality = [
+
+                ['date_depart', '>=', date("Y-m-d H:i:s")]
+
+                        ];
+
+        } else if ($request->actuality == "Нет") {
+
+            $actuality = [
+
+                ['date_depart', '<=', date("Y-m-d H:i:s") ]
+
+                        ];
+
+        } else if ($request->actuality == "Любые") {
+
+                $actuality = [];
+
+        }
+
+
+
+        if(!is_null($request->created_from) OR !is_null($request->created_to)) {
+
+
+            $created_from =  \Carbon\Carbon::createFromFormat('Y-m-d', $request->created_from);
+
+            $created_to = \Carbon\Carbon::createFromFormat('Y-m-d', $request->created_to);
+
+            $created = 
+
+            [
+                ['created_at', '>=', $created_from],
+                ['created_at', '<=', $created_to]
+            ];
+
+        } else {
+
+            $created = [];
+
+
+        }
+
+
+        if(!is_null($request->depart_from) OR !is_null($request->depart_to)) {
+
+            $depart_from = $request->depart_from;
+
+            $depart_to = $request->depart_to;
+
+            $depart = [];
+
+            if(!is_null($request->depart_from)) {
+
+                $depart[] = ['date_depart', '>=', $depart_from];
+
+            }
+
+            if(!is_null($request->depart_to)) {
+
+                $depart[] = ['date_depart', '<=', $depart_to];
+
+            }
+
+            // $depart[] = !is_null($request->depart_from) ? :;
+
+            // $depart[] = !is_null($request->depart_to) ? ['date_depart', '<=', $depart_to] : [];
+
+
+
+
+            // $depart = 
+
+            // [
+            //     ['date_depart', '>=', $depart_from],
+            //     ['date_depart', '<=', $depart_to]
+            // ];
+
+        } else {
+
+            $depart = [];
+
+
+        }
+
+
+
+        if(!is_null($request->country)) {
+
+            $country = [
+
+                ['country', $request->country]
+
+            ];
+
+        } else {
+
+            $country = [];
+        }
+
+
+
+        if(!is_null($request->operator)) {
+
+            $operator = [
+
+                ['operator', $request->operator]
+
+            ];
+
+        } else {
+
+            $operator = [];
+        }
+
+
+
+        if(!is_null($request->hotel)) {
+
+            $hotel = [
+
+                ['hotel', 'like', '%'.$request->hotel.'%']
+
+            ];
+
+        } else {
+
+            $hotel = [];
+        }
+
+        if(!is_null($request->manager)) {
+
+            $manager = [
+
+                ['user_id', $request->manager]
+
+            ];
+
+        } else {
+
+            $manager = [];
+        }
+
+
+
+
+// dd(array_merge($actuality, $created, $depart));
+
+
+        $paginate = $request->paginate;
+
+        if($user->role_id == 1 OR $user->permission ==1) {
+
+            // $tours = Tour::where($actuality, $created)->paginate(10);
+
+            $tours = Tour::where(array_merge($actuality, $created, $depart, $country, $operator, $hotel, $manager ))
+
+            ->orderBy($sort_column, $sort_value)
+
+            ->paginate($paginate);
+
+
+        } else {
+
+            $tours = Tour::where(array_merge($actuality, $created, $depart, $country, $operator, $hotel, $manager,  ['user_id', $user->id]))->paginate($paginate);
+
+
         }
 
         // return view('Tours2.tours2', compact('tours'));

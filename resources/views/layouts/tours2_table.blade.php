@@ -9,14 +9,107 @@
 
 			{!! Form::open(['id' => 'search', 'class'=>'form'] ) !!}
 
-					<div class='form-group col-md-3'>
-						{!! Form::label('actuality', 'Актуальность', ['class'=>'control-label col-md-4'])!!}
+				<div class="row">
+
+					<div class='form-group col-md-2'>
+
+						{!! Form::label('actuality', 'Актуальность', ['class'=>'control-label col-md-5'])!!}
 						
-						<div class="col-md-8">
-							{!! Form::select ('actuality', ['Да'=>'Да', 'Нет' => 'Нет', 'Любые'=> 'Любые'], 'Да', ['class'=>"form-control"])!!}
+						<div class="col-md-7">
+							{!! Form::select ('actuality', ['Да'=>'Да', 'Нет' => 'Нет', 'Любые'=> 'Любые'], 'Любые', ['class'=>"form-control"])!!}
 						</div>
 
 					</div>
+
+					<div class='form-group col-md-4'>
+						{!! Form::label('created', 'Дата создания', ['class'=>'control-label col-md-4'])!!}
+						
+						<div class="col-md-4 no-padding">
+							
+							{!! Form::date ('created_from',\Carbon\Carbon::createFromDate(1980, 12, 25), ['class'=>'form-control'])!!}
+						</div>
+
+						<div class="col-md-4 no-padding">
+							
+							{!! Form::date ('created_to', \Carbon\Carbon::now(), ['class'=>'form-control'])!!}
+						</div>
+
+					</div>
+
+					<div class='form-group col-md-4'>
+						{!! Form::label('created', 'Дата вылета', ['class'=>'control-label col-md-4'])!!}
+						
+						<div class="col-md-4 no-padding">
+							
+							{!! Form::date ('depart_from', null {{-- \Carbon\Carbon::createFromDate(2005, 12, 25) --}}, ['class'=>'form-control'])!!}
+						</div>
+
+						<div class="col-md-4 no-padding">
+							
+							{!! Form::date ('depart_to', null {{-- \Carbon\Carbon::now() --}}, ['class'=>'form-control'])!!}
+						</div>
+
+					</div>
+
+				</div>	
+
+				<div class="row">
+
+					<div class='form-group col-md-2'>
+
+						{!! Form::label('country', 'Страна', ['class'=>'control-label col-md-5'])!!}
+						
+						<div class="col-md-7">
+							{!! Form::select ('country', $countries, null , ['placeholder' =>  'Выберите', 'class'=>"form-control"])!!}
+						</div>
+
+					</div>
+
+
+					<div class='form-group col-md-2'>
+
+						{!! Form::label('operator', 'Оператор', ['class'=>'control-label col-md-5'])!!}
+						
+						<div class="col-md-7">
+							{!! Form::select ('operator', $operators, null , ['placeholder' =>  'Выберите', 'class'=>"form-control"])!!}
+						</div>
+
+					</div>
+
+					<div class='form-group col-md-2'>
+
+						{!! Form::label('hotel', 'Отель', ['class'=>'control-label col-md-5'])!!}
+						
+						<div class="col-md-7">
+
+							{!! Form::text ('hotel', null , [ 'class'=>"form-control"])!!}
+
+						</div>
+
+					</div>
+
+					<div class='form-group col-md-2'>
+
+						{!! Form::label('manager', 'Менеджер', ['class'=>'control-label col-md-5'])!!}
+						
+						<div class="col-md-7">
+							{!! Form::select ('manager', $managers, null , ['placeholder' =>  'Выберите', 'class'=>"form-control"])!!}
+						</div>
+
+					</div>
+
+					<div class='form-group col-md-2'>
+
+						{!! Form::label('paginate', 'Показывать на странице', ['class'=>'control-label col-md-9'])!!}
+						
+						<div class="col-md-3">
+							{!! Form::select ('paginate', [10=>'10', 20=>'20', 30=>'30', 50=>'50', 100 => '100'], 10 , ['placeholder' =>  'Выберите', 'class'=>"form-control"])!!}
+						</div>
+
+					</div>
+
+
+				</div>	
 
 
 					<div class="row submit" >
@@ -46,11 +139,11 @@
 				<thead>
 					<tr >
 					    <th>Id заявки</th>
-					    <th>Создана</th>
+					    <th class="sort" id="created_at" active="not" next_sort="desc">Создана</th>
 					    <th>Код-туроператора</th>
 					    <th>Менеджер</th>
 					    <th>Вылет из:</th>
-					    <th>Дата вылета</th>
+					    <th  class="sort" id="date_depart" active="not" next_sort="desc">Дата вылета</th>
 					    <th>Ночей</th>
 					    <th>Стоимость</th>
 					    <th></th>

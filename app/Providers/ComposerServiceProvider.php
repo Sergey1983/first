@@ -16,6 +16,11 @@ public function boot()
             ['Tours2.tours2_create', 'Tours2.tours2_edit'], 'App\Http\ViewComposers\CreateUpdateViewComposer'
         );
 
+        View::composer(
+            ['Tours2.tours2_table', 'layouts.tours2_table'], 'App\Http\ViewComposers\TourSearchViewComposer'
+        );
+
+
     }
 
     /**

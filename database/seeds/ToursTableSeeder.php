@@ -55,7 +55,9 @@ class ToursTableSeeder extends Seeder
           'operator_full_pay' => null, 
           'operator_part_pay' => null, 
 
-      		'created_at' => \Carbon\Carbon::now(),
+
+
+      		'created_at' => \Carbon\Carbon::createFromFormat('Y-m-d',  date("Y-m-d", mt_rand(12341234,1508925034))),
       		'updated_at' => \Carbon\Carbon::now(),
 
 

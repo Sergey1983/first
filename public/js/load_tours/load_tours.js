@@ -7,12 +7,55 @@ $(document).ready(function () {
 
 
 
-	function load_table(link) {
+	$(document).on('click', '[href*="load_tours_function"]', function (event) {
+
+
+		event.preventDefault();
+
+		var fulllink = $(this).attr('href');	
+
+		var link = fulllink.substr(fulllink.lastIndexOf('/') + 1);
+
+		load_table(link);
+
+
+	});
+
+
+
+	$('#date_depart, #created_at').on('click', function (){
+
+		$('.sort').attr('active', 'not');
+		$(this).attr('active', 'active');
+		$('.sort').not(this).attr('next_sort', 'asc');
+		$(this).attr('next_sort', 'asc')  == 'asc' ? $(this).attr('next_sort', 'desc') : $(this).attr('next_sort', 'asc');
+		load_table('/load_tours_function');
+
+
+	});
+
+
+	function load_table(link=null) {
+
+			var searchdata = $('#search').serialize();
+
+			$('.sort').each(function(){
+
+				if ($(this).attr('active') == 'active') {
+
+					var sort_name = this.id;
+					var sort_value = $(this).attr('next_sort');
+					searchdata = searchdata + '&sort_name=' + sort_name + '&sort_value=' + sort_value;
+
+				}
+
+			});
 
 
 			$.ajax({
 					type: 'GET',
 					url: link,
+					data: searchdata,
 			})
 
 			.done(function (data) {
@@ -72,19 +115,6 @@ $(document).ready(function () {
 
 
 
-	$(document).on('click', '[href*="load_tours_function"]', function (event) {
-
-
-		event.preventDefault();
-
-		var fulllink = $(this).attr('href');	
-
-		var link = fulllink.substr(fulllink.lastIndexOf('/') + 1);
-
-		load_table(link);
-
-
-	});
 
 
 
