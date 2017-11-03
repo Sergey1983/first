@@ -63,17 +63,55 @@
 				<div class="col-md-6">
 					
 
-						<div class="form-group">
+						<div class="form-group" id="city_from_form_group">
 
 							{!! Form::label('city_from', 'Город отправления', ['class'=>'control-label col-md-4'])!!}
 
 							<div class="col-md-8">
 
 						 		{!! Form::select('city_from', $cities, null, ['placeholder' =>  'Выберите город', 'class'=>"form-control", 'id'=>'city_from'] )  !!}
+								
+								<div class="row ">
+
+
+									<div class="col-md-12 text-right">	
+
+@php 
+
+	$checked = ( (isset($tour)) && ($tour->city_return_add == 1)) ? true : false
+
+@endphp
+									
+									<small>Город возвращения отличается {!! Form::checkbox ('city_return_add', 1, $checked, ['id'=>'city_return_add'])!!}</small>
+
+									</div>
+
+								</div>
 
 						 	</div>
 							
 						</div>
+
+@if($checked)
+
+
+							<div class="form-group" id="city_return_form_group">
+
+								{!! Form::label('city_return', 'Город возвращения', ['class'=>'control-label col-md-4'])!!}
+
+								<div class="col-md-8">
+
+						 			{!! Form::select('city_return', $cities, null, ['placeholder' =>  'Выберите город', 'class'=>"form-control", 'id'=>'city_return'] )  !!}
+
+								</div>
+
+							</div>
+
+@endif
+
+
+
+
 
 						<div class="form-group">
 

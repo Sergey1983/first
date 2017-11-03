@@ -14,7 +14,7 @@ class TouristsTableSeeder extends Seeder
         $faker = Faker::create('ru_RU');
 
 
-    	for ($i=1; $i <=40; $i++) {
+    	for ($i=1; $i <=400; $i++) {
 
     	DB::table('tourists')->insert([
 
@@ -23,9 +23,10 @@ class TouristsTableSeeder extends Seeder
       		'nameEng' => Translit::translit($a),
       		'lastNameEng' => Translit::translit($b),
 			'birth_date' => $faker->date($format = 'Y-m-d', $max = 'now'),
-			'citizenship' => $faker->randomElement($array = array ('Россия','Беларусь','Украина')),
+			'citizenship' => 'Россия',
             'gender' => 'Мужчина',
-            'phone' => $faker->e164PhoneNumber();
+            'phone' => $faker->numberBetween($min = 1000000000, $max = 9999999999),
+            'email' => $faker->email(),
 
 			// 'doc_type' => "Внутррос. паспорт",
 			// 'seria'  => ($c = $faker->randomNumber($nbDigits = 4, $strict=true)),

@@ -110,11 +110,44 @@ class FunctionsController extends Controller
 
      {
      	
+        // return $request->all();
 
         $user = auth()->user();
 
+        $tourist_search = false;
 
-        // dd($request->all());
+        if(isset($request->tourist_name) OR isset($request->tourist_lastname)) {
+
+            $tourist_search = true;
+
+            $name = isset($request->tourist_name) ? [ ['name', 'like', '%'.$request->tourist_name.'%'] ] : [];
+            $last_name = isset($request->tourist_lastname) ? [ ['lastName', 'like', '%'.$request->tourist_lastname.'%'] ] : [];
+
+
+            $tourists = Tourist::where(array_merge($name, $last_name))->get(); 
+
+            // dd($tourists->toArray());
+
+            $tour_tourists_ids_array = [];
+
+            if(!empty($tourists)) {
+
+                foreach ($tourists as $key => $tourist) {
+                
+                  $tour_tourists_ids_array =  array_merge($tour_tourists_ids_array, $tourist->tours->pluck('id')->toArray());
+
+                }
+
+            }
+
+
+        } else {
+
+            $tour_tourists_ids_array = [];
+
+        }
+
+
 
         if(isset($request->sort_name)) {
 
@@ -197,19 +230,6 @@ class FunctionsController extends Controller
 
             }
 
-            // $depart[] = !is_null($request->depart_from) ? :;
-
-            // $depart[] = !is_null($request->depart_to) ? ['date_depart', '<=', $depart_to] : [];
-
-
-
-
-            // $depart = 
-
-            // [
-            //     ['date_depart', '>=', $depart_from],
-            //     ['date_depart', '<=', $depart_to]
-            // ];
 
         } else {
 
@@ -217,7 +237,6 @@ class FunctionsController extends Controller
 
 
         }
-
 
 
         if(!is_null($request->country)) {
@@ -279,25 +298,41 @@ class FunctionsController extends Controller
 
 
 
-// dd(array_merge($actuality, $created, $depart));
-
+// dump(array_merge($actuality, $created, $depart, $country, $operator, $hotel, $manager ));
+// dump($tour_tourists_ids_array);
+// die();
 
         $paginate = $request->paginate;
 
         if($user->role_id == 1 OR $user->permission ==1) {
 
-            // $tours = Tour::where($actuality, $created)->paginate(10);
 
-            $tours = Tour::where(array_merge($actuality, $created, $depart, $country, $operator, $hotel, $manager ))
+            $tours = Tour::when($tourist_search, function($query) use ($tour_tourists_ids_array) {
 
-            ->orderBy($sort_column, $sort_value)
+                return $query->whereIn('id', $tour_tourists_ids_array);
 
-            ->paginate($paginate);
+                })
+
+                ->where(array_merge($actuality, $created, $depart, $country, $operator, $hotel, $manager ))
+
+                ->orderBy($sort_column, $sort_value)
+
+                ->paginate($paginate);
 
 
         } else {
 
-            $tours = Tour::where(array_merge($actuality, $created, $depart, $country, $operator, $hotel, $manager,  ['user_id', $user->id]))->paginate($paginate);
+            $tours = Tour::when($tourist_search, function($query) use ($tour_tourists_ids_array) {
+
+                return $query->whereIn('id', $tour_tourists_ids_array);
+
+                })
+
+                ->where(array_merge($actuality, $created, $depart, $country, $operator, $hotel, $manager,  ['user_id', $user->id]))
+
+                ->orderBy($sort_column, $sort_value)
+
+                ->paginate($paginate);
 
 
         }
@@ -307,6 +342,78 @@ class FunctionsController extends Controller
         foreach ($tours as $key => $tour) {
             
             $tour->user_name = $tour->user->name;
+
+            $tour->number_of_tourists = $tour->tour_tourist->count();
+
+            switch($tour->currency) {
+
+                case "RUB":
+
+                    $currency = '&#x20bd';
+
+                break;
+
+                case "USD":
+
+                   $currency = '&#36';
+
+                break;
+
+                case "EUR":
+
+                    $currency = '&#8364';
+
+                break;
+
+
+            }
+
+            $tour->debt = ($tour->price - $tour->payments_from_tourists_sum()).' '.$currency;
+
+            $tour->price = $tour->price.' '.$currency;
+
+            $tour->price_rub = $tour->price_rub.' &#x20bd';
+
+            $tour->operator_price = $tour->operator_price.' '.$currency;
+
+            $tour->operator_price_rub = $tour->operator_price_rub.' &#x20bd';
+
+            $tour->status = substr($tour->status, 0, 2);
+
+
+            $from = $tour->city_from == 'Москва' ? 'MOW' : Airport::where('city', $tour->city_from)->first()->code;
+
+            $to = ($tour->airport == 'BKA' OR $tour->airport == 'DME' OR $tour->airport == 'SVO' OR $tour->airport == 'VKO') ? 'MOW' : $tour->airport;
+
+            $back = $tour->city_from == 'Москва' ? "MOW" : (!is_null($tour->city_return) ? Airport::where('city', $tour->city_return)->first()->code : $from );
+
+
+            $tour->product = $from.'-'.$to.'-'.$back;
+
+
+
+
+            if($tour->payments_from_tourists_rub_sum() != 0) {
+            
+            $tour->comission = round ( ( 1 - $tour->payments_to_operator_rub_sum() / $tour->payments_from_tourists_rub_sum() ) * 100, 2);
+
+            } else {$tour->comission = "?";}
+
+
+            foreach ($tour->tour_tourist as $tourist) {
+                
+                if($tourist->is_buyer == 1) {
+
+                    $buyer = Tourist::find($tourist->tourist_id);
+
+                    $tour->buyer = $buyer->lastName.' '.substr($buyer->name, 0, 2).'.';
+
+                }
+
+
+            }
+
+
         }
 
         return $tours;

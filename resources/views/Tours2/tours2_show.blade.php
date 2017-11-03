@@ -11,9 +11,17 @@
 		
 		@include('layouts.button_edit_tour')
 
+		@include('layouts.button_contract_preview')
+
 		@if($is_versions == 1) 
 			
 			@include('layouts.button_versions_tour')	
+
+		@endif
+
+		@if($tour->contracts->count() > 0) 
+			
+			@include('layouts.button_versions_contract')	
 
 		@endif
 

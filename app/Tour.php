@@ -19,6 +19,10 @@ class Tour extends Model
     }
 
 
+    public function buyer () {
+
+        return $this->belongsToMany('App\Tourist')->wherePivot('is_buyer', 1);
+    }
 
     public function previous_tours() {
 
@@ -47,7 +51,11 @@ class Tour extends Model
 
     }
 
+   public function contracts() {
 
+      return $this->hasMany('App\contract');
+
+    }
 
     public function previous_tour_tourist() {
 

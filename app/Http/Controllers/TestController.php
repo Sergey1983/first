@@ -12,62 +12,25 @@ class TestController extends Controller
 
 {
 
+public function download($id ='', $filename = '' ) { 
 
-		public function index() {
-
-			$tours = Tour::all();
-
-      		return view('test.name_sort', compact('tours'));
+// Check if file exists in storage directory
 
 
-		}
+ $file_path = storage_path('app/public/contracts/'.$id.'/') . $filename; 
 
-    
-	    public function search(Request $request) {
+ 
+ if ( file_exists( $file_path ) ) { 
 
-
-	    if ( $request->ajax() )	
-
-	    { 
-	    	$output="";
-	    	$search = $request->get('search');
-
-	        $tours = Tour::where('name', 'like', '%' .$search. '%')
-              ->orWhere('lastName', 'like', '%' .$search. '%')
-                ->get();
+	return response()->download($file_path);
 
 
-        if ($tours) {
+  // \Response::download( $file_path, $filename ); 
 
-   		foreach ($tours as $tour)
+  } else { // Error
 
+   exit( 'Requested file does not exist on our server!' );
 
-
-   			$output.='<tr>'.
-						'<td>'. $tour->id .'</td>'.
-						'<td>'. $tour->name .'</td>'.
-						'<td>'. $tour->lastName .'</td>'.
-						'<td>'. $tour->nameEng .'</td>'.
-						'<td>'. $tour->lastNameEng .'</td>'.
-						'<td>'. $tour->destination .'</td>'.
-						'<td>'. $tour->departure .'</td>'.
-						'<td>'. '<a href="/tours/' . $tour->id . '">
-						<button>Редактировать</button> 
-						</a>' .'</td>'.
-					'<tr>';
-
-
-
-
-        	}
-
-        		return Response($output);
-        
-
-
-	    }
-
-      
-      }
+    } }
 
 }

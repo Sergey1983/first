@@ -12,7 +12,7 @@ class Tour2sTouristsTableSeeder extends Seeder
 	       $tour2_id=1;
 	       $is_buyer_index=1;
 	        
-	        for ($i=1; $i <=40; $i++) {
+	        for ($i=1; $i <=400; $i++) {
 
 
 	        	if ($count == $is_buyer_index) 
@@ -22,12 +22,15 @@ class Tour2sTouristsTableSeeder extends Seeder
 	        		else {$is_buyer=0; $is_tourist=1;}
 		      	
 
-		      	DB::table('tour2_tourist')->insert([
+		      	DB::table('tour_tourist')->insert([
 
-		      		'tour2_id' => $tour2_id,
+		      		'tour_id' => $tour2_id,
 		      		'tourist_id' => $i,
+		      		'doc0' => $i, 
+		      		'doc1' => null,
 		      		'is_buyer' => $is_buyer,
 		      		'is_tourist' => $is_tourist, 
+		      		'user_id' => rand(1,3), 
 		      		'created_at' => \Carbon\Carbon::now(),
 		      		'updated_at' => \Carbon\Carbon::now(),
 

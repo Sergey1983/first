@@ -10,7 +10,8 @@
         "fzaninotto/faker": "1.4.*@dev",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "laravelcollective/html": "^5.4.0"
+        "laravelcollective/html": "^5.4.0",
+        "phpoffice/phpword": "^0.13.0"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",

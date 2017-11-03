@@ -82,6 +82,25 @@
 
 						</div>
 
+@unless(is_null($tour->operator_code))
+
+					 	<div class="form-group" id="status">
+
+
+							{!! Form::label('status', 'Код бронирования', ['class'=>'control-label  col-md-6'])!!}
+
+							<div class="col-md-6">
+
+							{!! Form::select ('status', ['Подтверждено'=>'Подтверждено', 'Отказ'=>'Отказ', 'Аннулировано'=>'Аннулировано'], null , ['placeholder' =>  'Выберите статус', 'class'=>"form-control", 'required'])!!}
+
+						 	</div>
+
+						</div>
+
+
+@endunless
+
+
 						<div class="form-group text-center">
 
 							{!! Form::submit(is_null($tour->operator_code)?'Сохранить!':'Изменить!', ["class"=>'btn btn-primary']) !!}

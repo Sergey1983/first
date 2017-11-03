@@ -25,9 +25,16 @@ class BookingController extends Controller
 
 		// dd($request->toArray());
 
+
 		$request = $request->toArray();
 
 		$tour = Tour::find($id);
+
+		if(is_null($tour->status)) {
+
+			$request['status'] = 'Бронирование';
+
+		}
 
 		$tour->update($request);
 

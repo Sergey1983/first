@@ -23,6 +23,8 @@ class PreviousVersionsTour extends Migration
  
 
             $table->string('city_from', 50);
+            $table->boolean('city_return_add')->default(false);
+            $table->string('city_return', 50)->nullable();
             $table->string('country', 50);
             $table->string('airport', 50);
             $table->string('operator', 250);

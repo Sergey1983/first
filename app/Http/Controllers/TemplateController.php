@@ -7,11 +7,11 @@ use App\Tour;
 use App\Contract_template;
 use Illuminate\Support\Facades\Storage;
 
-class TestFormController extends Controller
+class TemplateController extends Controller
 {
-    public function index() {
+    public function create() {
 
-    	return view('test.testform');
+    	return view('Templates.create_template');
     }
 
     public function store(Request $request ) {
@@ -19,7 +19,9 @@ class TestFormController extends Controller
 // dd($request->template_text);
 	        Contract_template::create($request->all());
 
-	        Storage::disk('local')->put('file.html', $request->template_text);
+return redirect()->back();
+
+	        // Storage::disk('local')->put('file.html', $request->template_text);
 
     }
 

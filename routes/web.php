@@ -1,6 +1,7 @@
 <?php
 
 
+Route::get('generate-docx', 'HomeController@generateDocx');
 
 
 Route::get('/', function()
@@ -37,6 +38,8 @@ Route::get('/test2', 'TestController2@index');
 
 
 Route::get('/test3', 'TestFormController@index');
+Route::post('/test3', 'TestFormController@store');
+
 Route::get('/test3/result', 'TestFormContPaymentTouristControllerroller@search');
 
 Route::group(['middleware' => 'auth'], function () {
@@ -48,11 +51,19 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::group(['middleware' => 'App\Http\Middleware\TourAccessMiddleware'], function () {
 
+		Route::get( '/download/contracts/{id}/{filename}', 'TestController@download');
+
+		Route::get('/tours_2/load_tours_function', 'FunctionsController@load_tours');
 		Route::get('/tours_2/{id}', ['as'=> 'tour.show', 'uses'=>'Tours2Controller@show']);
 		Route::get('/tours_2/{id}/edit/', 'Tours2Controller@edit');
 		Route::post('/tours_2/{id}','Tours2Controller@update');
-		Route::get('/tours_2/{id}/versions', ['as' => 'tour.version', 'uses' => 'VersionsController@show']);
+		Route::get('/tours_2/{id}/versions', ['as' => 'tour.versions', 'uses' => 'VersionsController@show']);
 		// Route::get('/tours_2/{id}/versions', ['as' => 'tour.version', 'uses' => 'VersionsController@return_versions']);
+		
+		Route::get('/tours_2/print_contract/{id}',['as'=>'contract.show', 'uses' =>'PrintingController@choose']);
+		Route::get('/tours_2/print_contract/{id}/contract', ['as'=>'contract.show', 'uses' =>'PrintingController@show']);
+		Route::get('/tours_2/print_contract/{id}/print', ['as'=>'contract.print', 'uses' => 'PrintingController@print_contract']);
+		Route::get('/tours_2/{id}/contract_versions', ['as' => 'contract.versions', 'uses' => 'PrintingController@versions']);
 
 
 
@@ -76,6 +87,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::group(['middleware' => 'App\Http\Middleware\AdminMiddleware'], function () {
 			
+			Route::get('/admin', function () {return view('admin_welcome'); }); 
 
 			Route::get('/admin/user/all', ['as' => 'user.index', 'uses' => 'UserController@index']);
 			Route::get('/admin/user/create', ['as' => 'user.create', 'uses' => 'UserController@create']);
@@ -86,11 +98,17 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::post('/admin/user/{id}/destroy', ['as' => 'user.destroy', 'uses' => 'UserController@destroy']);
 
 			
+			Route::get('admin/templates', function () { return view('Templates.template_welcome');});
+			Route::get('admin/templates/create', ['as' => 'template.create', 'uses' => 'TemplateController@create']);
+			Route::post('admin/templates/store', ['as' => 'template.store', 'uses' => 'TemplateController@store']);
+
 
 		});
 
 	Route::post('/checkpassport_function', "FunctionsController@check_passport");
 	Route::get('/load_tours_function', 'FunctionsController@load_tours');
+	// Route::get('/load_tours_function{page?}', 'FunctionsController@load_tours');
+
 	Route::post('/find_passengers', 'FunctionsController@find_passengers');
 	Route::post('/edit_tour_prepare_data', 'FunctionsController@edit_tour_prepare_data');
 	Route::post('/airport_load', 'FunctionsController@airport_load');

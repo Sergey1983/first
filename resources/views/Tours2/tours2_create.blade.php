@@ -26,6 +26,7 @@
 
 {{-- <script type="text/javascript" src="{{ URL::asset('js/jquery.formautofill.js') }}"></script>
  --}}
+ <script type="text/javascript" src="{{ URL::asset('js/create_tour/city_return_add.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/add_credit.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/visa_add_people.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/noexit_insurance_add_people.js') }}"></script>

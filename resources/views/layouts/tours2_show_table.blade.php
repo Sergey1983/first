@@ -151,6 +151,13 @@
 					<td>{{$tour->city_from}}</td>
 				</tr>
 
+@unless(is_null($tour->city_return))
+				<tr>
+					<td>Город возвращения</td>
+					<td>{{$tour->city_return}}</td>
+				</tr>
+@endunless
+
 				<tr>
 					<td>Cтрана пребывания</td>
 					<td>{{$tour->country}}

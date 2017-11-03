@@ -15,6 +15,11 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script type="text/javascript" src="{{ URL::asset('js/ajax_setup.js') }}"></script>
+
+
+    @if(Session::has('download.in.the.next.request'))
+         <meta http-equiv="refresh" content="0;url={{ Session::get('download.in.the.next.request') }}">
+    @endif
     
 </head>
 <body>

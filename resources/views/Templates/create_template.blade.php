@@ -2,9 +2,13 @@
 
 @section('content')
 
+<div class="container-fluid">
 	
 	<div id='wysiwig'></div>
-	<button id = 'save'>Сохранить</button>
+
+	<button id = 'save' class="btn btn-success">Сохранить</button>
+
+</div>
 
 
 
@@ -48,8 +52,17 @@ $('#save').on('click', function (event) {
 			data: {'template_text': written}
 
 			})
-			.done(function(){})
-			.fail(function(){})
+			.done(function(){
+
+				window.location.href = '/admin/templates';
+
+
+			})
+			.fail(function(){
+
+
+
+			})
 
 	}
 
