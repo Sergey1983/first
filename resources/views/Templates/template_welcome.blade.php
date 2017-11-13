@@ -6,6 +6,7 @@
 <div class="container-fluid">
 
 <a href="templates/create" role="button" class="btn btn-info">Создать шаблон договора</a>
+<a href="templates/edit" role="button" class="btn btn-info">Редактировать шаблон договора</a>
 
 
 <h2>Текущие версии шаблонов</h2>

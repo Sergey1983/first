@@ -4,7 +4,8 @@
 
 <div class="container-fluid">
 	
-	<div id='wysiwig'></div>
+	<div id='wysiwig'>
+	</div>
 
 	<button id = 'save' class="btn btn-success">Сохранить</button>
 
@@ -18,20 +19,46 @@
 <script type="text/javascript">
 	
 $(document).ready(function() {
-  $('#wysiwig').summernote({
 
-  	height:600,
- 	toolbar: [
-    // [groupName, [list of button]]
-    ['style', ['bold', 'italic', 'clear']],
-    // ['font', ['superscript', 'subscript']],
-    ['para', ['ul', 'ol', 'paragraph']],
-    ['undo',  ['undo']],
-	['redo', ['redo']],
-	['table', ['table']],
-	['codeview', ['codeview']]
-  ]
-  });
+$('#wysiwig').summernote({
+
+			  	height:600,
+			 	toolbar: [
+
+			    ['style', ['bold', 'italic', 'clear']],
+			    ['para', ['ul', 'ol', 'paragraph']],
+			    ['undo',  ['undo']],
+				['redo', ['redo']],
+				['table', ['table']],
+				['codeview', ['codeview']],
+				
+			  ]
+			  });
+
+
+
+	$.ajax({
+
+		method: 'POST', 
+		url: 'gethtml',
+		// data: {'template_text': written}
+
+		})
+		.done(function(data){
+		 
+		 	html = data;
+
+			$('#wysiwig').summernote('code', html);
+
+		})
+		.fail(function(){
+
+			html = "Нет шаблона на сервере";
+
+
+		})
+
+
 
 
 $('#save').on('click', function (event) {
@@ -51,7 +78,7 @@ $('#save').on('click', function (event) {
 		$.ajax({
 
 			method: 'POST', 
-			url: '{{ URL::asset('admin/templates/store') }}',
+			url: '{{ URL::asset('admin/templates/update') }}',
 			data: {'template_text': written}
 
 			})
@@ -63,7 +90,7 @@ $('#save').on('click', function (event) {
 			})
 			.fail(function(){
 
-				alert("Возникли проблемы при сохранении!!!");
+
 
 			})
 

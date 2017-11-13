@@ -16,7 +16,7 @@ class CreateContractTemplateTable extends Migration
 
     Schema::create('contract_templates', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('template_text');
+            $table->mediumText('template_text');
 
             $table->timestamps();
 

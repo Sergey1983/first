@@ -4,24 +4,78 @@
 
 <div class="container-fluid">
 
-	@if($files = Storage::allFiles('/public/contracts_'.$id.'/docx'))
+	<table class="table table-striped table-hover table-responsive no-margin-bottom">
 
-		@foreach ($files as $file)
+		<thead>
 
-			@php 
+			<tr>
 
-			$link = str_replace('public/', '', $file);
+				<th>Дата создания</th>
 
-			$link = '/download/'.$link;
+				<th>Тип</th>
 
-			@endphp
+				<th>Версия по типу док-та</th>
 
-		<a href="{{ URL::asset($link) }}" target="_blank">Документ</a>
+				<th>Версия заявки</th>
 
-		@endforeach
+				<th>Скачать</th>
+
+			</tr>
+
+		</thead>
 
 
-	@endif
+		@if($contract_versions === 'У тура еще нет документов') 
+
+			<tr><td colspan = "3" style="color:red" class="text-center">У тура еще нет документов!</td></tr>
+
+		@else 
+
+			@foreach ($contract_versions as $contract)
+			
+
+				<tr>
+
+					<td>{{$contract->created_at}}</td>
+					<td>{{$contract->contract_type}}</td>
+					<td>{{$contract->version_by_type}}</td>
+					<td>{{$contract->tour_version}}</td>
+					<td><a href="{{ URL::asset($contract->filename) }}" target="_blank">{{$contract->filename}}</a></td>
+
+				</tr>
+
+			@endforeach
+
+		@endif
+
+
+{{-- 
+		@if($files = Storage::allFiles('/contracts/'.$id))
+
+			@foreach ($files as $file)
+
+				@php 
+
+				$link = str_replace('public/', '', $file);
+
+				$link = '/download/'.$link;
+
+				@endphp
+
+		<tr>
+
+			<td></td>
+			<td></td>
+			<td><a href="{{ URL::asset($link) }}" target="_blank">{{pathinfo($file)['filename']}}</a></td>
+
+		</tr>
+
+			@endforeach
+
+
+		@endif --}}
+
+	</table>
 
 </div>
 

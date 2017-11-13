@@ -17,7 +17,7 @@ public function download($id ='', $filename = '' ) {
 // Check if file exists in storage directory
 
 
- $file_path = storage_path('app/public/contracts/'.$id.'/') . $filename; 
+ $file_path = storage_path('app/contracts/'.$id.'/') . $filename; 
 
  
  if ( file_exists( $file_path ) ) { 

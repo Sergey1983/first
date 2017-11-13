@@ -15,7 +15,6 @@ Route::get('/logout', ['as' => 'sessions.logout', 'uses' => 'SessionsController@
 
 
 
-
 Route::get('/tours', 'ToursController@index')->name('tours_list');
 
 Route::get('/tours/create', 'ToursController@create');
@@ -32,7 +31,7 @@ Route::post('/tours/{id}', 'ToursController@update');
 Route::get('/test', 'TestController@index');
 Route::get('/search', 'TestController@search');
 
-Route::get('/test2', 'TestController2@index');
+Route::get('/test2', 'TestController2@test');
 // Route::get('/load_tours', 'TestController2@load_tours');
 
 
@@ -101,6 +100,9 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('admin/templates', function () { return view('Templates.template_welcome');});
 			Route::get('admin/templates/create', ['as' => 'template.create', 'uses' => 'TemplateController@create']);
 			Route::post('admin/templates/store', ['as' => 'template.store', 'uses' => 'TemplateController@store']);
+			Route::get('admin/templates/edit', ['as' => 'template.edit', 'uses' => 'TemplateController@edit']);
+			Route::post('admin/templates/update', ['as' => 'template.edit', 'uses' => 'TemplateController@update']);
+			Route::post('admin/templates/gethtml', ['as' => 'template.edit', 'uses' => 'TemplateController@getHtml']);
 
 
 		});
