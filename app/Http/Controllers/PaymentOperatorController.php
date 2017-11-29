@@ -13,34 +13,20 @@ use App\Tour;
 class PaymentOperatorController extends Controller
 {
     
-	public function create($id)
+	public function create(Tour $tour)
 
 	{
 		
-		$tour = Tour::find($id);
-
 		return view('payment.operator.edit', compact('tour'));
 
 	}
 
-	public function create_with_deleted($id)
-	{
-
-		$tour = Tour::find($id);
-
-		session()->flash('with_deleted', 'true');
-
-		return redirect()->route('payment_operator.create', ['id' => $tour->id]);
-
-	}
 
 
-
-	public function store(paymentRequest $request, $id)
+	public function store(paymentRequest $request, Tour $tour)
 
 	{
 
-		$tour = Tour::find($id);
 
         $user = auth()->user();
 
@@ -50,17 +36,27 @@ class PaymentOperatorController extends Controller
 		Payments_to_operator::create(array_merge(['tour_id'=>$tour->id, 'user_id'=>$user->id], $request));
 
 
-		return redirect()->route('payment_operator.create', ['id' => $tour->id]);
+		// return redirect()->route('payment_operator.create', ['id' => $tour->id]);
 
+		return back();
 
 	}
 
 
+	public function create_with_deleted(Tour $tour)
+	{
 
-	public function delete($id, $payment_id)
+		session()->flash('with_deleted', 'true');
+
+		return back();
+		// return redirect()->route('payment_operator.create', ['id' => $tour->id]);
+
+	}
+
+
+	public function delete(Tour $tour, $payment_id)
 		
 	{
-		$tour = Tour::find($id);
 
         $user = auth()->user();
 		
@@ -68,8 +64,9 @@ class PaymentOperatorController extends Controller
 
 		Payments_to_operator::withTrashed()->where('id', $payment_id)->update(['deleted_by' => $user->id]);
 
-		return redirect()->route('payment_operator.create', ['id' => $tour->id]);
+		// return redirect()->route('payment_operator.create', ['id' => $tour->id]);
 
+		return back();
 	}
 
 }

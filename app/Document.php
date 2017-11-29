@@ -31,6 +31,12 @@ class Document extends Model
    		 }
 
 
+        public function previous_versions_of_document() {
+
+      return $this->hasMany('App\previous_document', 'doc_id');
+
+      }
+
 }
 
 

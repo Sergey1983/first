@@ -24,12 +24,22 @@
 </head>
 <body>
 
+
 @if (Auth::check())
 
 <div class="container-fluid">
-	<div class="col-md-12 text-right">
+	
+	<div class="col-md-9 text-left">
+
+		{!! Breadcrumbs::renderIfExists() !!}
+
+	</div>
+
+	<div class="col-md-3 text-right">
+
 		{{ Auth::user()->name}}
 		<a href="/logout">logout</a>
+		
 	</div>
 </div>
 

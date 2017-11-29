@@ -64,7 +64,7 @@
 			</div>
 
 
-@unless($tour->currency == 'rub')		
+@unless($tour->currency == 'RUB')		
 
 			<div class="col-md-12">
 
@@ -129,10 +129,15 @@
 						@if($errors->any())
 
 						<div class="alert alert-warning text-center">
+
 						  {{$errors->first('pay')}}<strong> в валюте!</strong>
+
 						</div>
+
 						<div class="alert alert-warning text-center">
+
 						  {{$errors->first('pay_rub')}} <strong>в рублях!</strong>
+
 						</div>
 
 							
@@ -211,7 +216,7 @@
 				<tr>
 					<th>Платеж №</th>
 					<th>Сумма в РУБ</th>
-				@unless($tour->currency=='rub')
+				@unless($tour->currency=='RUB')
 					<th>Сумма в {{$tour->currency}}
 				@endunless
 					<th>Менеджер</th>
@@ -235,9 +240,9 @@
 
 				<tr>
 					<td>{{$key+1}}</td>
-					<td>{{$payment->pay}}</td>
-				@unless($tour->currency=='rub')
 					<td>{{$payment->pay_rub}}</td>
+				@unless($tour->currency=='RUB')
+					<td>{{$payment->pay}}</td>
 				@endunless
 					<td>{{$payment->user->name}}</td>
 					<td>{{$payment->created_at}}</td>

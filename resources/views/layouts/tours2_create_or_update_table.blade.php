@@ -1,15 +1,50 @@
-
 <div class="container-fluid">
 
 	<div class="row">
 
-		<h2 class='col-md-12 text-center'>Конструктор пакетного тура</h2>
+		<h2 class='col-md-12 text-center'>{{$verb}}: {{$tour_type_rus}} тур. @if($verb == 'Обновить') Заявка <span id="id">{{$tour->id}}</span> @endif</h2>
 
 	</div>
 
 </div>
 
-<div class="container-fluid">
+
+
+
+		{!! 
+			Form::macro('buttonSearch', function($value, $name, $type=null, $disabled=null) {
+		    return "<button type=$type name='$name' class='btn btn-default btn-grey' $disabled>$value<span class='glyphicon glyphicon-search'></span></button>";
+			});
+
+		 !!}
+
+		{!! 
+			Form::macro('selectNonDisabled', function($value, $placeholder, $array, $disabled=null, $class=null) {
+
+				$select  = "<select class='form-control $class' $disabled name='$value'>";
+
+				$select .= "<option selected='selected' hidden='hidden' value=''>$placeholder</option>";
+
+				foreach ($array as $key => $value) {
+						
+				$select .= "<option value='$key'>$value</option>";
+
+				}
+
+				$select .= "</select>";
+
+		    return $select;
+
+			});
+
+		 !!}
+
+
+
+
+@include('Tours2.CreateOrUpdate.'.$tour_type.'_description')
+
+{{-- <div class="container-fluid">
 
 	<div class="row">
 
@@ -632,7 +667,7 @@
 
 
 </div>
-
+ --}}
 
 
 <div class="container-fluid">

@@ -33,31 +33,52 @@ class TourAccessMiddleware
 
         if (!($user->role_id == 1 OR $user->permission == 1))  {
 
-            if ($user->tours->count()==0) {
+            // if ($user->tours->count()==0) {
 
-                return redirect('/');
-            }  
+            //     return redirect('/');
+            // }  
 
-            elseif (previous_tour_tourist::where('tour_id', $id)->get()->count() == 0) {
+            // elseif (previous_tour_tourist::where('tour_id', $id)->get()->count() == 0) {
 
-                if(!($user->tours->contains(Tour::find($id))) ) {
+            //     if(!($user->tours->contains(Tour::find($id))) ) {
+
+            //         return redirect('/');
+
+            //     }
+
+            // }
+
+            // elseif($user->previous_tour_tourist->count()==0) {
+
+            //     return redirect('/');
+
+            // }
+
+            // elseif(!Tour::find($id)->previous_tour_tourist->sortBy('this_version')->first()->user->is($user))
+
+            //     {
+            //         return redirect('/');
+            //     }
+
+
+                if($user->previous_tour_tourist->count()==0) {
 
                     return redirect('/');
 
                 }
 
-            }
+                elseif(!($user->previous_tour_tourist->contains(Tour::find($id))) ) {
 
-            elseif($user->previous_tour_tourist->count()==0) {
-
-                return redirect('/');
-
-            }
-
-            elseif(!Tour::find($id)->previous_tour_tourist->sortBy('this_version')->first()->user->is($user))
-
-                {
                     return redirect('/');
+
+                }
+
+
+
+                elseif(!(Tour::find($id)->previous_tour_tourist->sortBy('this_version')->first()->user->is($user)) ) {
+
+                    return redirect('/');
+
                 }
 
             }

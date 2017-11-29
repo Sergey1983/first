@@ -16,6 +16,8 @@ class CreateContractTemplateTable extends Migration
 
     Schema::create('contract_templates', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('doc_type');
+            $table->string('tour_type');
             $table->mediumText('template_text');
 
             $table->timestamps();

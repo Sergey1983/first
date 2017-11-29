@@ -27,7 +27,7 @@
 
 						</div>
 
-@unless($tour->currency=='rub')
+@unless($tour->currency=='RUB')
 
 					 	<div class="form-group">
 

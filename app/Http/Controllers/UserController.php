@@ -31,6 +31,10 @@ class UserController extends Controller
 
     		'name' => 'required', 
 
+            'last_name' => 'required',
+
+            'patronymic' => 'required',
+
     		'email' => 'required|unique:users,email', 
 
             'password' => 'required|confirmed' 
@@ -41,6 +45,10 @@ class UserController extends Controller
         $user = new User;
 
         $user->name = request('name');
+
+        $user->last_name = request('last_name');
+
+        $user->patronymic = request('patronymic');
 
         $user->role_id = 2;
 
@@ -57,22 +65,22 @@ class UserController extends Controller
     }
 
 
-    public function edit($id) {
-
-        $user = User::find($id);
+    public function edit(User $user) {
 
         return view('user.edit', compact('user'));
-
-
 
     }
 
 
-    public function update ($id) {
+    public function update (User $user) {
 
         $this->validate(request(), [
 
             'name' => 'required', 
+
+            'last_name' => 'required',
+
+            'patronymic' => 'required',
 
             'email' => 'required|email', 
 
@@ -81,9 +89,11 @@ class UserController extends Controller
             ]);
 
 
-        $user = User::find($id);
-
         $user->name = request('name');
+
+        $user->last_name = request('last_name');
+
+        $user->patronymic = request('patronymic');
 
         $user->email = request('email');
 
@@ -91,13 +101,13 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('user.edit', $id);
+        return redirect()->route('user.edit', $user);
 
 
     }
 
 
-    public function update_permission ($id) {
+    public function update_permission (User $user) {
 
         $this->validate(request(), [
 
@@ -106,26 +116,35 @@ class UserController extends Controller
             ]);
 
 
-        $user = User::find($id);
-
         $user->permission = request('permission');
 
         $user->save();
 
-        return redirect()->route('user.edit', $id);
+        return redirect()->route('user.edit', $user);
 
 
     }
 
 
-    public function destroy($id) {
+    public function destroy(User $user) {
 
-        User::destroy($id);
+        $user->active = 0;
+
+        $user->save();
 
         return redirect()->route('user.index');
 
+    }
 
+    public function make_active(User $user) {
+
+        $user->active = 1;
+
+        $user->save();
+
+        return redirect()->route('user.index');
 
     }
+
 
 }

@@ -66,7 +66,7 @@
 
 						</div>
 
-@unless($tour->currency == 'rub')
+@unless($tour->currency == 'RUB')
 
 					 	<div class="form-group" id="payment_tourist_rub">
 
@@ -188,7 +188,7 @@
 				<tr>
 					<th>Платеж №</th>
 					<th>Сумма в {{strtoupper($tour->currency)}}</th>
-						@unless($tour->currency == 'rub')
+						@unless($tour->currency == 'RUB')
 							<th>Сумма в RUB</th>
 						@endunless
 					<th>Менеджер</th>
@@ -215,7 +215,7 @@
 				<tr>
 					<td>{{$key+1}}</td>
 					<td>{{$payment->pay}}</td>
-						@unless($tour->currency == 'rub')
+						@unless($tour->currency == 'RUB')
 							<td>{{$payment->pay_rub}}</td>
 						@endunless
 					<td>{{$payment->user->name}}</td>

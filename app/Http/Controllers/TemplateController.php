@@ -5,10 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Tour;
 use App\Contract_template;
+use App\Contract_Templates_Draft;
 use Illuminate\Support\Facades\Storage;
+use App\Services\Printing;
 
 class TemplateController extends Controller
 {
+
+
+    public function index($tour_type) {
+
+        $doc_templates = Contract_template::where('tour_type', Printing::tour_type($tour_type))->get()->sortByDesc('created_at');
+
+        return view('Templates.'.$tour_type, compact('doc_templates', 'tour_type'));
+    }
+
     public function create() {
 
     	return view('Templates.create_template');
@@ -17,23 +28,38 @@ class TemplateController extends Controller
     public function store(Request $request ) {
 
 
-    	   	// $request->merge(['template_text' => $clean_template_text]);
-
     	   	$request->merge(['template_text' => self::CleanHTML($request)]);    	   	
 
 	        Contract_template::create($request->all());
 
-	        // return 'success';
+            $draft = Contract_Templates_Draft::updateOrCreate(['doc_type' => $request->doc_type, 'tour_type' => $request->tour_type ,'template_text'=>$request->template_text]);
 
-			// return redirect()->back();
-
-	        // Storage::disk('local')->put('file.html', $request->template_text);
 
     }
 
-    public function edit() {
+    public function store_draft(Request $request ) {
 
-		    return view('Templates.edit_template');
+
+            $request->merge(['template_text' => self::CleanHTML($request)]);     
+
+
+            $draft = Contract_Templates_Draft::updateOrCreate(['doc_type' => $request->doc_type, 'tour_type' => $request->tour_type], ['template_text'=>$request->template_text]);
+
+
+    }
+
+
+    public function edit($tour_type, $doc_type) {
+
+
+            // $doc_type = $doc_type === 'contract' ? "Договор" : "Допсоглашение";
+
+            $doc_type = Printing::doc_type($doc_type);
+
+            $tour_type = Printing::tour_type($tour_type);
+
+
+		    return view('Templates.edit_template', compact('doc_type', 'tour_type'));
 
     }
 
@@ -50,18 +76,85 @@ class TemplateController extends Controller
     
     {
     
-   		$html = Contract_template::get()->last()->template_text;
+   		$html = Contract_Templates_Draft::where([['doc_type', $request->doc_type], ['tour_type', $request->tour_type]])->get()->last()->template_text;
 	
+
    		return $html;
     }
 
     public function cleanHTML ($request) {
 
-    	    $from = ['<br>', '<b>', '</b>', '<table class="table table-bordered">', '<table class="table no-border">', '<i>', '</i>'];
-    		
-    		$to = ['', '<strong>', '</strong>', '<table class="table table-bordered" style="width: 100%; border-color: #000000; border-width: 2px">', '<table class="table no-border" style="width: 100%">', '<em>', '</em>'];
+        $dictionary = [
+
+            '<br>' => '',
+
+            '<b>' => '<strong>',
+            
+            '</b>' => '</strong>',
+
+            '<table class="table table-bordered">' => '<table class="table table-bordered" style="width: 100%; border-color: #000000; border-width: 2px; text-align: center">',
+
+            '<table class="table no-border">' => '<table class="table no-border" style="width: 100%;">',
+
+            '<i>' => '<em>',
+
+            '</i>' => '</em>',
+
+            'div' => 'p',
+
+            '<td><p>' => '<td>',
+
+            '</p></td>' => '</td>',
+
+            '<td>' => '<td><p>',
+
+            '</td>' => '</p></td>'
+
+
+        ];
+
+        $from = array_keys($dictionary);
+
+        $to = array_values($dictionary);
 
     		return $clean_template_text = str_replace($from, $to, $request->template_text);
     }
+
+
+    public function template_show_version(Contract_template $template)
+    {
+
+        return view('Templates.template_show_version', compact('template'));
+    }
+
+
+    // public static function tour_type ($tour_type){
+
+
+    //         switch($tour_type) {
+
+    //             case 'packet_tour':
+
+    //                   $tour_type = "Пакетный";
+
+    //                   break;
+
+    //             case 'hotel':
+
+    //                   $tour_type = "Отельный";
+
+    //                   break;
+
+    //             case 'avia':
+
+    //                   $tour_type = "Авиа";
+
+    //                   break;
+
+
+    //         }
+
+    //         return $tour_type;
+    // }
 
 }

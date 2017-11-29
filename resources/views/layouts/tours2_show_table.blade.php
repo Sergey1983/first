@@ -1,6 +1,6 @@
 
 
-<div class="container-fluid">
+{{-- <div class="container-fluid">
 	
 	<div class="row">
 		
@@ -14,7 +14,6 @@
 					<th colspan='2'>Параметры заявки</th>
 
 				</tr>
-
 
 					<tr>
 						<td class="col-md-6">Номер заявки</td>
@@ -143,7 +142,7 @@
 
 				<tr>
 					<td class="col-md-4">Продукт</td>
-					<td>Отельный тур</td>
+					<td><strong>{{$tour->tour_type}}</strong></td>
 				</tr>
 
 				<tr>
@@ -266,7 +265,7 @@
 	</div>
 
 
-</div>
+</div> --}}
 
 
 <div class="container-fluid margin-bottom-10">

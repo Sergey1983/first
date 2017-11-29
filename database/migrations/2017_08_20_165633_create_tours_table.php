@@ -16,7 +16,7 @@ class CreateToursTable extends Migration
             $table->foreign('user_id')->references('id')
             ->on('users')->onDelete('cascade');
 
-
+            $table->string('tour_type', 50);
             $table->string('city_from', 50);
             $table->boolean('city_return_add')->default(false);
             $table->string('city_return', 50)->nullable();
@@ -43,7 +43,7 @@ class CreateToursTable extends Migration
             $table->string('visa', 50);
             $table->boolean('visa_add_people')->default(false);
             $table->string('visa_people', 255)->nullable();
-            $table->string('sightseeing', 255);
+            $table->string('sightseeing', 255)->nullable();
             $table->boolean('change_sightseeing')->default(false);
             $table->string('extra_info', 255)->nullable();
             $table->integer('first_payment')->nullable();

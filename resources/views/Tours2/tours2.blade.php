@@ -5,15 +5,25 @@
 
 <div class="container-fluid">
 
-	@include('layouts.create_tour_button')
+	<div class="col-md-8">
+
+		@include('layouts.create_tour_button')
+		@include('layouts.create_hotel_tour_button')
+		@include('layouts.create_avia_button')
+
+	</div>
+
 
 		@if (auth()->user()->id == 1)
 
+	<div class="col-md-4 text-right">
 
 		@include('layouts.admin_panel_button')
-
+	
+	</div>
 
 		@endif
+
 
 </div>
 

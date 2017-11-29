@@ -93,7 +93,9 @@ $(document).ready(function() {
 
 						request.push({name: 'tour_id', value: id});
 
-						id = get_tour_id();
+						// id = get_tour_id();
+
+						id = $("#id").text();
 
 						var url = '/tours_2/'+id+'';
 

@@ -4,7 +4,7 @@ $(document).ready(function () {
 
 	$(document).on('change', '#currency', function(){
 
-		if($('#currency').val() != 'rub'){
+		if($('#currency').val() != 'RUB'){
 
 			$('input[id$="price"]').removeAttr('readonly');
 			$('input[id$="price"]').attr('placeholder', 'Введите стоимость в валюте');

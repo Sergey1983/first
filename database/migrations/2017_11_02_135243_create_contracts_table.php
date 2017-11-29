@@ -20,9 +20,9 @@ class CreateContractsTable extends Migration
             $table->foreign('tour_id')->references('id')
             ->on('tours')->onDelete('cascade');
 
-            $table->string('contract_type');
+            $table->string('doc_type');
             $table->integer('version_by_type');
-            // $table->integer('tour_version');
+            $table->integer('tour_version');
             
 
             $table->mediumText('text');

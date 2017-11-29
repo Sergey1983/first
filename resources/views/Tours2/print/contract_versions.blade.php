@@ -4,6 +4,15 @@
 
 <div class="container-fluid">
 
+	<div class="col-md-12 text-center margin-bottom-10">
+		
+		<h3>История документов. Заявка {{$tour->id}}. Продукт {{$tour->tour_type}}</h3>
+
+	</div>
+
+
+	<div class="col-md-12">
+
 	<table class="table table-striped table-hover table-responsive no-margin-bottom">
 
 		<thead>
@@ -14,7 +23,7 @@
 
 				<th>Тип</th>
 
-				<th>Версия по типу док-та</th>
+				<th>Id документа</th>
 
 				<th>Версия заявки</th>
 
@@ -37,10 +46,10 @@
 				<tr>
 
 					<td>{{$contract->created_at}}</td>
-					<td>{{$contract->contract_type}}</td>
-					<td>{{$contract->version_by_type}}</td>
-					<td>{{$contract->tour_version}}</td>
-					<td><a href="{{ URL::asset($contract->filename) }}" target="_blank">{{$contract->filename}}</a></td>
+					<td>{{$contract->doc_type}}</td>
+					<td>{{$contract->id}}</td>
+					<td><a href="{{ URL::asset('tours_2/'.$contract->tour_id.'/versions#version'.$contract->tour_version ) }}">{{$contract->tour_version}}</a></td>
+					<td><a href="{{ URL::asset('download/'.$contract->tour_id.'/'.$contract->filename) }}" target="_blank">{{$contract->filename}}</a></td>
 
 				</tr>
 
@@ -76,6 +85,8 @@
 		@endif --}}
 
 	</table>
+
+	</div>
 
 </div>
 

@@ -33,8 +33,7 @@ class paymentRequest extends FormRequest
 
     {
 
-
-        $tour = Tour::find(request()->id);
+        $tour = request()->tour;
 
         $rules = [];
 

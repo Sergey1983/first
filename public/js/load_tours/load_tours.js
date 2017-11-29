@@ -111,7 +111,7 @@ $(document).ready(function () {
 								'<td>'+tour.buyer+'</td>'+
 								'<td>'+tour.number_of_tourists+'</td>'+
 								'<td>'+tour.country+'</td>'+
-								'<td>'+tour.product+'</td>'+
+								'<td>'+(tour.tour_type == 'Пакетный' ? tour.product : tour.tour_type)+'</td>'+
 								'<td>'+tour.date_depart+'</td>'+
 								'<td>'+tour.nights+'</td>'+
 								'<td>'+tour.price+'</td>'+

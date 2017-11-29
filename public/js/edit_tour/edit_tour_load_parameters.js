@@ -4,8 +4,8 @@ $(document).ready(function() {
 
 	// Get Tour id
 	
-	id = get_tour_id();
-		
+	// id = get_tour_id();
+	id = $("#id").text()
 
 	// Get tour params:
 

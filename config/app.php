@@ -27,6 +27,11 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
+ /********************CHANGE***************/
+    'faker_locale' => 'ru_RU',
+ /********************CHANGE***************/
+
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
@@ -179,7 +184,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         // Barryvdh\Debugbar\ServiceProvider::class,
-
+        // Watson\Breadcrumbs\ServiceProvider::class, 
+        DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
     ],
 
     /*
@@ -230,6 +236,9 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        // 'Breadcrumbs' => Watson\Breadcrumbs\Facade::class,
+        'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
+
 
     ],
 

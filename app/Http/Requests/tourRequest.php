@@ -138,7 +138,7 @@ class tourRequest extends FormRequest
 
 
 
-           if(request()->currency != 'rub') {
+           if(request()->currency != 'RUB') {
 
             $rules['price'] = 'required';
 
@@ -168,6 +168,12 @@ class tourRequest extends FormRequest
            if(request()->change_sightseeing == 1) {
 
             $rules['sightseeing'] = 'required';
+
+           }
+
+           if(request()->tour_type == 'Авиа') {
+
+            $rules['extra_info'] = 'required';
 
            }
            

@@ -4,7 +4,7 @@
 @section('content')
 
 
-<div class="container-fluid">
+<div class="container-fluid margin-bottom-10 text-center">
 
 	<div class="col-md-12">
 
@@ -15,7 +15,7 @@
 </div>
 
 
-<div class="container-fluid margin-bottom-10">
+<div class="container-fluid margin-bottom-25 text-center">
 
 	<div class="col-md-12">
 
@@ -40,7 +40,8 @@
 		    <th>Id менеджера</th>
 		    <th>Имя:</th>
 		    <th>Email</th>
-		    <th></th>
+		    <th>Активный?</th>
+		    <th>Действие</th>
 		  	</tr>
 
 		@foreach ($users as $user)
@@ -50,7 +51,18 @@
 			<td><?= $user->id ?></td>
 			<td><?= $user->name ?></td>
 			<td><?= $user->email ?></td>
-			<td><a href="{{route('user.edit', $user->id)}}">Редактировать</a></td>
+			<td>{{$user->active == 1 ? "Да" : "Нет"}}
+			<td>@if ($user->active == 1) 
+
+				<a href="{{route('user.edit', $user->id)}}">Редактировать</a> 
+
+				@else 
+
+				<a href="{{route('user.make-active', $user->id)}}">Сделать активным</a>
+
+				@endif
+
+			</td>
 			</tr>
 
 

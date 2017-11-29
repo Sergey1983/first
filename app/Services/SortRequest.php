@@ -21,14 +21,13 @@ class SortRequest extends RequestVariables
 
         $request_array = request()->all();
 
-        // dd($request_array);
-
         $number_of_tourists = count(request()->name);
 
         $request_sorted = [];
 
         $request_sorted['tour'] = array_intersect_key($request_array, parent::$keys_tour);
 
+            $request_sorted['tour']['tour_type'] = $request->tour_type;
             $request_sorted['tour']['price'] = $request->price?: $request->price_rub;
             $request_sorted['tour']['first_payment'] = $request->first_payment ?: null;
             $request_sorted['tour']['bank'] = $request->bank ?: null;

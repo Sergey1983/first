@@ -25,8 +25,8 @@ class PreviousTourist extends Migration
             $table->string('birth_date');
             $table->string('citizenship');
             $table->string('gender');
-            $table->string('phone');
-            $table->string('email');
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }

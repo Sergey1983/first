@@ -13,20 +13,20 @@ use App\Tour;
 class PaymentTouristController extends Controller
 {
     
-	public function create($id)
+	public function create(Tour $tour)
 
 	{
 		
-		$tour = Tour::find($id);
+		// $tour = Tour::find($id);
 
 		return view('payment.tourist.edit', compact('tour'));
 
 	}
 
-	public function create_with_deleted($id)
+	public function create_with_deleted(Tour $tour)
 	{
 
-		$tour = Tour::find($id);
+		// $tour = Tour::find($id);
 
 		session()->flash('with_deleted', 'true');
 
@@ -38,11 +38,11 @@ class PaymentTouristController extends Controller
 
 
 
-	public function store(paymentRequest $request, $id)
+	public function store(paymentRequest $request, Tour $tour)
 
 	{
 
-		$tour = Tour::find($id);
+		// $tour = Tour::find($id);
 
         $user = auth()->user();
 
@@ -60,7 +60,7 @@ class PaymentTouristController extends Controller
 
 
 
-	public function delete($id, $payment_id)
+	public function delete(Tour $tour, $payment_id)
 	
 	{
 		$tour = Tour::find($id);

@@ -12,44 +12,59 @@ use App\Contract;
 
 use App\Tour;
 
+use App\Document;
+
+use App\Services\Printing;
+
+
 class PrintingController extends Controller
 {
 
 
-  public function choose($id) {
+  public function choose(Tour $tour) {
 
-
-    return view('Tours2.print.contract_choose', compact('id'));
+    return view('Tours2.print.contract_choose', compact('tour'));
 
   }
 
 
-  public function show($id) {
+  public function show(Tour $tour, $doc_type) {
 
-    $template = Contract_template::get()->last()->template_text;
+    $templates = Contract_template::where([['doc_type', Printing::doc_type($doc_type)], ['tour_type', $tour->tour_type ]])->get();
 
-    // dump($template);
+    $template = $templates->isNotEmpty() ? $templates->last()->template_text : 'Нет шаблонов для данного типа туров!';
 
-    // // $template = self::process_template($template, $id);
 
-    // dd($template);
+    // $template = Contract_template::where([['doc_type', Printing::doc_type($doc_type)], ['tour_type', $tour_type ]])->get()->last()->template_text ?: 'Нет шаблонов для данного типа туров!';
 
-    return view('Tours2.print.contract_preview', compact('template', 'id'));
+    $template = Printing::process_template($template, $tour->id);
+
+    return view('Tours2.print.contract_preview', compact('template', 'tour', 'doc_type'));
 
   }
    
   
-  public function print_contract ($id, Request $request) {
+  public function print_contract (Tour $tour, $doc_type, Request $request) {
 
-   	$type = 'Договор';
+
+    $tour_version = $tour->previous_tour_tourist->sortBy('this_version')->last()->this_version;
 
     $user = auth()->user()->id;
 
-    $template = Contract_template::get()->last()->template_text;
+      $templates_available = Contract_template::where([['doc_type', Printing::doc_type($doc_type)], ['tour_type', $tour->tour_type]])->get();
 
-    $html = self::process_template($template, $id);
+      if($templates_available->isEmpty()) {  return redirect()->back()->withErrors('Нет шаблона для этого типа тура и договора!'); }
+
+    $template = $templates_available->last()->template_text;
+
+    $html = Printing::process_template($template, $tour->id);
 
     $version_by_type = 1;
+
+    $manager = Printing::findManager($tour->id);
+
+    $buyer = $tour->buyer->first()->lastName.' '.substr($tour->buyer->first()->name, 0, 2).'.';
+
 
 // $contract = new Contract; 
 
@@ -79,7 +94,6 @@ class PrintingController extends Controller
           'marginBottom' => 1000, 
           'marginLeft' => 1000,
           'marginRight' => 1000,
-          // 'colsNum' => 1,
       );
 
       $section = $objWriter->addSection($sectionStyle);
@@ -91,8 +105,8 @@ class PrintingController extends Controller
       'width' => 100 * 50,
       ));
         $table->addRow();
-        $cell = $table->addCell()->addText("Заказчик ______");
-        $cell = $table->addCell()->addText("Турист ______", array('bold'=>false), array('align'=>'right'));
+        $cell = $table->addCell()->addText("Турагент ".$manager."______________");
+        $cell = $table->addCell()->addText("Заказчик ".$buyer."______________", array('bold'=>false), array('align'=>'right'));
 
 
       \PhpOffice\PhpWord\Shared\Html::addHtml($section, $html);
@@ -114,19 +128,27 @@ class PrintingController extends Controller
 
             // } 
 
-            if(Contract::where('tour_id', $id)->get()->isEmpty()) {
+            if(Contract::where('tour_id', $tour->id)->get()->isEmpty()) {
 
-              Storage::makeDirectory('/contracts/'.$id);
+              Storage::makeDirectory('/contracts/'.$tour->id);
 
-              $filename = 'contract_'.$id.'_1.docx';
+              $filename = $doc_type.'_'.$tour->id.'_1.docx';
 
             } else {
 
-             $version_by_type = Contract::where([['tour_id', $id], ['contract_type', $type]])->get()->sortBy('created_at')->last()->version_by_type; 
+                $contracts = Contract::where([['tour_id', $tour->id], ['doc_type', $doc_type]])->get();
 
-             ++$version_by_type;
+                if($contracts->isNotEmpty()) {
 
-             $filename = 'contract_'.$id.'_'.$version_by_type.'.docx';
+                 $version_by_type = $contracts->sortBy('created_at')->last()->version_by_type; 
+
+                 ++$version_by_type;
+
+                }
+
+
+             $filename = $doc_type.'_'.$tour->id.'_'.$version_by_type.'.docx';
+
 
 
               // $files = Storage::files('/contracts/'.$id);
@@ -149,9 +171,9 @@ class PrintingController extends Controller
               // $filename = 'contract_'.$id.'_'.$count.'.docx';
             }
 
-            $objWriter->save(storage_path('app').'/contracts/'.$id.'/'.$filename);
+            $objWriter->save(storage_path('app').'/contracts/'.$tour->id.'/'.$filename);
 
-            $contract = Contract::create(['text' => $template, 'tour_id' => $id, 'contract_type' => $type, 'version_by_type' => $version_by_type, 'user_id' => $user, 'filename' => $filename]);
+            $contract = Contract::create(['text' => $template, 'tour_id' => $tour->id, 'doc_type' => $doc_type, 'version_by_type' => $version_by_type, 'tour_version'=>$tour_version, 'user_id' => $user, 'filename' => $filename]);
 
 //'version' => $version,
 
@@ -166,7 +188,7 @@ class PrintingController extends Controller
         
         }
 
-        $download_link = '/download/contracts/'.$id.'/'.$filename;
+        $download_link = '/download/'.$tour->id.'/'.$filename;
 
         $request->session()->flash('download.in.the.next.request', $download_link);
 
@@ -179,33 +201,44 @@ class PrintingController extends Controller
 
    }
 
-   public static function process_template ($template, $id) {
-
-      $tour = Tour::find($id);
-
-      $template = str_replace('$tour+id', $tour->id, $template);
-
-      $template = str_replace('$tour+buyer+name', $tour->buyer->first()->name, $template);
-
-      $template = str_replace('$tour+buyer+lastName', $tour->buyer->first()->lastName, $template);
-
-      
-
-      return $template;
-
-   }
 
 
-  public function versions($id) {
+  public function versions(Tour $tour) {
 
-    $contract_versions = Contract::where('tour_id', $id)->get();
+
+    $contract_versions = Contract::where('tour_id', $tour->id)->get();
 
     $contract_versions = $contract_versions->isNotEmpty() ? $contract_versions : 'У тура еще нет документов';
 
 
-    return view('Tours2.print.contract_versions', compact('id', 'contract_versions'));
+    return view('Tours2.print.contract_versions', compact('id', 'contract_versions', 'tour'));
 
   }
+
+
+  public function download(Tour $tour, $filename = '' ) { 
+
+  // Check if file exists in storage directory
+
+
+   $file_path = storage_path('app/contracts/'.$tour->id.'/') . $filename; 
+
+   
+   if ( file_exists( $file_path ) ) { 
+
+    return response()->download($file_path);
+
+
+    // \Response::download( $file_path, $filename ); 
+
+    } else { // Error
+
+     exit( 'Requested file does not exist on our server!' );
+
+      } 
+
+}
+
 
 
 

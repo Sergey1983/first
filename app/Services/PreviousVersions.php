@@ -23,6 +23,7 @@ use App\Tour_tourist;
 class PreviousVersions extends RequestVariables {
 
 
+
         // public $keys_tourist = ['name', 'lastName', 'birth_date', 'doc_fullnumber'];
         // public $keys_tourist_eng = ['nameEng', 'lastNameEng'];
         // public $keys_tour = ['city_from', 'hotel'];
@@ -32,9 +33,9 @@ class PreviousVersions extends RequestVariables {
         // public $keys_hidden = ['cannot_change_old_tourists', 'tour_exists', 'is_update'];
 
 
-        public static function createVersion ($tour) {
+        public static function createVersion ($tour, $another_user_id = null) {
 
-
+        RequestVariables::init();
 
 
             $version_last_saved = previous_tour_tourist::where('tour_id', $tour->id)->orderBy('this_version', 'desc')->first();
@@ -53,14 +54,12 @@ class PreviousVersions extends RequestVariables {
 
                 $last_version_creation_time = $tour->tour_tourist[0]->updated_at->toDateTimeString();
 
-
             }
 
 
+            $user_created_version_id = is_null($another_user_id) ? Tour_tourist::where('tour_id', $tour->id)->first()->user_id : $another_user_id;
 
-            $user_created_version_id = Tour_tourist::where('tour_id', $tour->id)->first()->user_id;
 
-            // dd($user_created_version_id);
 
             $tour_array = array_intersect_key($tour->toArray(), array_merge(parent::$keys_tour, parent::$keys_user));
 
@@ -184,66 +183,124 @@ class PreviousVersions extends RequestVariables {
     }
 
 
-    public function GetIdsOfToursToSavePreviousVersionsOf ($number_of_tourists, $request_array_tourist)
-    
-    {
-    
-        $ids_of_tourists_to_be_updated = [];
+    public static function create_version_extra($updated_tourists_ids, $updated_docs_ids, $no_need_to_save_version_tour_id, $user_id) {
+
+        // Here we create versions of tours which are not updated directly, but which tourists and/or documents were updated in other tours
+
+            $tour_ids = array();
+
+            foreach ($updated_tourists_ids as $tourist_id) {
+               
+                $tourist = Tourist::find($tourist_id);
+
+                $tourist->tours->pluck('id')->each(function($item, $key) use (&$tour_ids) {
 
 
-        for($i=0; $i<$number_of_tourists; $i++) {
 
-            // Create array ['attributeN' => 'valueN',
-           //                'attributeN+1' => 'valueN+1']
+                    if (!in_array($item, $tour_ids)) {
+                        
+                        $tour_ids[] = $item;    
 
-            foreach ($request_array_tourist as $key => $value) {
+                    }
+
+
+
+                });
+
+            }
+
+            foreach ($updated_docs_ids as $doc_id) {
+
+                $doc = Tour_tourist::where('doc0', $doc_id)->orWhere('doc1', $doc_id)->get()->pluck('tour_id')->each(function($item, $key) use (&$tour_ids) {
+
+                    
+                    if (!in_array($item, $tour_ids)) {
+                        
+                        $tour_ids[] = $item;    
+
                 
-                    $tourist_to_update[$key] = $value[$i];
-  
+                    }
+
+                });
+
+            }
+
+            // Deleting id of tour which was updated when we passed variables to this fuction (we have already created PrevVersion for it)
+            $tour_ids = array_diff($tour_ids, array($no_need_to_save_version_tour_id));
+
+            foreach ($tour_ids as $id) {
+                
+                $tour = Tour::find($id);
+
+                self::createVersion($tour, $user_id);
             }
 
 
-            if ($tourist_checked = Tourist::where('doc_fullnumber', $tourist_to_update['doc_fullnumber'])->first() ) {
 
-                    if(Tourist::where($tourist_to_update)->count() === 0 ) 
-                        // Executed when we have a tourist with doc_fullnubmer from request, but other fields for this tourist are different
-                        // I.e. - this tourist is being updated during this sesssion
-                    {
-
-                        $ids_of_tourists_to_be_updated[] = $tourist_checked->id;
-
-                    }
-
-                }
-
-        }
-        
-
-        //getting models of tourist to be updated
-        $non_existing_tourists = Tourist::find($ids_of_tourists_to_be_updated);
-
-        $tours_to_update_ids = [];
-
-
-        foreach ($non_existing_tourists as $non_existing_tourist) {
-
-             foreach ($non_existing_tourist->tours as $key => $value) {
-              
-
-                 if(!in_array($value->id, $tours_to_update_ids)) {
-
-                    $tours_to_update_ids[]=$value->id;
-
-                    }
-
-             };
-
-             
-        }
-
-    return $tours_to_update_ids;
 
     }
+
+
+    // public function GetIdsOfToursToSavePreviousVersionsOf ($number_of_tourists, $request_array_tourist)
+    
+    // {
+    
+    //     $ids_of_tourists_to_be_updated = [];
+
+
+    //     for($i=0; $i<$number_of_tourists; $i++) {
+
+    //         // Create array ['attributeN' => 'valueN',
+    //        //                'attributeN+1' => 'valueN+1']
+
+    //         foreach ($request_array_tourist as $key => $value) {
+                
+    //                 $tourist_to_update[$key] = $value[$i];
+  
+    //         }
+
+
+    //         if ($tourist_checked = Tourist::where('doc_fullnumber', $tourist_to_update['doc_fullnumber'])->first() ) {
+
+    //                 if(Tourist::where($tourist_to_update)->count() === 0 ) 
+    //                     // Executed when we have a tourist with doc_fullnubmer from request, but other fields for this tourist are different
+    //                     // I.e. - this tourist is being updated during this sesssion
+    //                 {
+
+    //                     $ids_of_tourists_to_be_updated[] = $tourist_checked->id;
+
+    //                 }
+
+    //             }
+
+    //     }
+        
+
+    //     //getting models of tourist to be updated
+    //     $non_existing_tourists = Tourist::find($ids_of_tourists_to_be_updated);
+
+    //     $tours_to_update_ids = [];
+
+
+    //     foreach ($non_existing_tourists as $non_existing_tourist) {
+
+    //          foreach ($non_existing_tourist->tours as $key => $value) {
+              
+
+    //              if(!in_array($value->id, $tours_to_update_ids)) {
+
+    //                 $tours_to_update_ids[]=$value->id;
+
+    //                 }
+
+    //          };
+
+             
+    //     }
+
+    // return $tours_to_update_ids;
+
+    // }
 
 
 

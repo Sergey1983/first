@@ -21,7 +21,7 @@ class PreviousVersionsTour extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
  
-
+            $table->string('tour_type', 50);
             $table->string('city_from', 50);
             $table->boolean('city_return_add')->default(false);
             $table->string('city_return', 50)->nullable();
@@ -48,7 +48,7 @@ class PreviousVersionsTour extends Migration
             $table->string('visa', 50);
             $table->boolean('visa_add_people')->default(false);
             $table->string('visa_people', 255)->nullable();
-            $table->string('sightseeing', 255);
+            $table->string('sightseeing', 255)->nullable();
             $table->boolean('change_sightseeing')->default(false);
             $table->string('extra_info', 255)->nullable();
             $table->integer('first_payment')->nullable();
@@ -61,6 +61,8 @@ class PreviousVersionsTour extends Migration
             $table->integer('operator_payment')->nullable();
             $table->date('operator_full_pay')->nullable();
             $table->date('operator_part_pay')->nullable();
+            $table->string('status', 50)->nullable();
+
 
             $table->timestamps();
 

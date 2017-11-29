@@ -26,6 +26,8 @@ use App\Services\SortRequest;
 
 use App\Services\CheckRequest;
 
+use App\Services\Printing;
+
 use App\Cities;
 
 use App\Test;
@@ -49,15 +51,10 @@ class Tours2Controller extends Controller
 {
 
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function index()
 
     {
-
 
         // $user = auth()->user();
 
@@ -81,39 +78,23 @@ class Tours2Controller extends Controller
 
 
 
-
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create($tour_type)
     
     {
 
-        return view('Tours2.tours2_create');
+        $tour_type_rus = Printing::tour_type($tour_type);
+
+        return view('Tours2.tours2_create', compact('tour_type', 'tour_type_rus'));
     
     }
 
 
-
-
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    // public function store(Request $request)
 
     public function store(tourRequest $request)
 
     {
 
         $request_sorted = SortRequest::return_sorted($request);
-
 
         $request_sorted['user'] = ['user_id'=> request()->user()->id];
 
@@ -322,72 +303,49 @@ class Tours2Controller extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+
+    // public function show($id)
+    public function show(Tour $tour)
     
     {
-        $tour = Tour::find($id);
 
         $user = $tour->users;
 
+        $tour_type = Printing::tour_type_reverse($tour->tour_type);
 
         $tour_tourists = $tour->tourists;
 
         $tour_tourists_docs = $tour->tour_tourist;
 
-        $is_versions = 0;
+        $is_versions = previous_tour_tourist::where('tour_id', $tour->id)->get()->isNotEmpty() ? 1 : 0;
 
-        $versions = previous_tour::where('tour_id', $tour->id)->orderBy('version', 'desc')->first();
-
-        if(count($versions) > 0) {
-
-            $is_versions = 1;
-
-        } 
-
-
-        return view('Tours2.tours2_show', compact('tour', 'tour_tourists', 'tour_tourists_docs', 'is_versions', 'user'));
+        return view('Tours2.tours2_show', compact('tour', 'tour_tourists', 'tour_tourists_docs', 'is_versions', 'user', 'tour_type'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+ 
+
+    public function edit(Tour $tour, $tour_type)
+
     {
   
-        $tour = Tour::find($id);
+        $tour_type_rus = Printing::tour_type($tour_type);
         
-        return view('Tours2.tours2_edit', compact('tour'));
+        return view('Tours2.tours2_edit', compact('tour', 'tour_type', 'tour_type_rus'));
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(tourRequest $request, $id)
+
+
+    public function update(tourRequest $request, Tour $tour)
 
     {
-
-
 
         $request_sorted = SortRequest::return_sorted($request);
 
         $request_sorted['user'] = ['user_id'=> request()->user()->id];
 
-        $tour = Tour::find($id);
-
-        $is_tour_no_updates = CheckRequest::checkTourForUpdates($request_sorted['tour'], $id);
+        $is_tour_no_updates = CheckRequest::checkTourForUpdates($request_sorted['tour'], $tour->id);
 
         return self::PreProcess($request_sorted, $tour, 'update', $is_tour_no_updates);
 
@@ -611,17 +569,13 @@ class Tours2Controller extends Controller
 
             } else if ($action == 'update') {
 
-                // PreviousVersions::createVersion($tour);
-
                    if(!$is_tour_no_updates) { 
 
                         $tour->update(array_merge($request_sorted['tour'], $request_sorted['user'])); 
 
-
                     }
 
             }
-
 
             $tourists_and_documents['tourists'] = $request_sorted['tourists'];
             $tourists_and_documents['documents'] = $request_sorted['documents'];
@@ -636,7 +590,6 @@ class Tours2Controller extends Controller
         } else {
 
         $checked_tourists_and_documents = CheckRequest::return_checked_tourists_and_docs($request_sorted['tourists'], $request_sorted['documents']);
-
 
 
              if(isset($checked_tourists_and_documents['fatal_error'])) {
@@ -689,7 +642,6 @@ class Tours2Controller extends Controller
 
                     } else if ($action == 'update') {
 
-                        // PreviousVersions::createVersion($tour);
 
                            if(!$is_tour_no_updates) { 
 
@@ -738,6 +690,9 @@ class Tours2Controller extends Controller
 
         $number_of_tourists = count($checked_array['tourists']);
 
+        $updated_tourists_ids = [];
+        $updated_docs_ids = [];
+
         foreach ($checked_array['tourists'] as $tourist_number => $tourist_values) {
 
 
@@ -752,6 +707,8 @@ class Tours2Controller extends Controller
                 if (isset($tourist_values['check_info']['to_be_updated'])) {
 
                     $tourist->update(self::unsetCheckInfo($tourist_values));
+                    //Collecting ids of updated tourists to update other tours where they are:
+                    $updated_tourists_ids[] = $tourist->id;
 
                 } 
 
@@ -775,6 +732,8 @@ class Tours2Controller extends Controller
                         if (isset($doc_values['check_info']['to_be_updated'])) {
 
                         $document->update(self::unsetCheckInfo($doc_values));
+                        //Collecting ids of updated docs to update other tours where they are:
+                        $updated_docs_ids[] = $document->id;
 
                         } 
 
@@ -813,7 +772,18 @@ class Tours2Controller extends Controller
             $tour->tourists()->sync($update_array);
         }
 
+
+        if(!empty($updated_tourists_ids) OR !empty($updated_docs_ids)) {
+
+            PreviousVersions::create_version_extra($updated_tourists_ids, $updated_docs_ids, $tour->id, $user_array['user_id']);
+        }
+
+
     }
+
+
+
+
 
 
     public static function unsetCheckInfo ($array) {

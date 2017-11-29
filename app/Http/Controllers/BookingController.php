@@ -6,39 +6,52 @@ use Illuminate\Http\Request;
 
 use App\Tour;
 
+use App\previous_tour;
+
+use App\Services\PreviousVersions;
+
+
+
+
 class BookingController extends Controller
 
 {
 
-	public function bookingEdit($id)
+
+	public function bookingEdit(Tour $tour)
 	{
 		
-		$tour = Tour::find($id);
+		// $tour = Tour::find($id);
 
 		return view('booking.booking_edit', compact('tour'));
 
 	}
     
-	public function bookingUpdate($id, Request $request)
+	public function bookingUpdate(Tour $tour, Request $request)
 
 	{
 
-		// dd($request->toArray());
-
-
 		$request = $request->toArray();
 
-		$tour = Tour::find($id);
+		// $tour = Tour::find($id);
+		
+		$createVersion = true;
 
 		if(is_null($tour->status)) {
 
 			$request['status'] = 'Бронирование';
 
+			previous_tour::where('tour_id', $tour->id)->first()->update(['status'=> 'Бронирование']);
+
+			$createVersion = false;
+
 		}
 
 		$tour->update($request);
 
-		return redirect()->route('tour.show', ['id' => $id]);
+		if($createVersion) { PreviousVersions::createVersion($tour); }
+
+		return redirect()->route('tour.show', ['tour' => $tour]);
 
 	}
 

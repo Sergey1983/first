@@ -34,15 +34,20 @@ class Tourist extends Model
 	
     public function tours() {
 
-		return $this->belongsToMany('App\Tour')->withPivot('is_buyer', 'is_tourist', 'user_id')->withTimestamps();
+		return $this->belongsToMany('App\Tour')->withPivot('is_buyer', 'is_tourist', 'user_id', 'doc0', 'doc1')->withTimestamps();
 
 	}
 
 
-    public function versionsTourist() {
+    public function previous_versions_of_tourist() {
 
     	return $this->hasMany('App\previous_tourist');
     }
+
+    // public function versionsTourist() {
+
+    // 	return $this->hasMany('App\previous_tourist');
+    // }
 
 
      public function documents()

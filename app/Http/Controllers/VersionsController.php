@@ -32,7 +32,7 @@ class VersionsController extends Controller
 
     use Excludable;
 
-    public function show($id)
+    public function show(Tour $tour)
 
     {
     	
