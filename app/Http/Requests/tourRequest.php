@@ -177,6 +177,14 @@ class tourRequest extends FormRequest
 
            }
            
+           if(request()->city_return_add == 1) {
+
+            $rules['city_return'] = 'required';
+
+           }
+
+
+
            $request_array = request()->all();
 
 

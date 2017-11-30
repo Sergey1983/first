@@ -26,8 +26,8 @@
 								{!! Form::hidden('city_return_add', 0)!!}
 						 		{!! Form::hidden('city_return', 'ОтельныйТур')!!}
 						 		{!! Form::hidden('airport', 'OTEL')  !!}
-								{!! Form::hidden('date_hotel', 0) !!}
-
+{{-- 								{!! Form::hidden('date_hotel', 0) !!}
+ --}}
 {{-- 						<div class="form-group" id="city_from_form_group">
 
 							{!! Form::label('city_from', 'Город отправления', ['class'=>'control-label col-md-4'])!!}

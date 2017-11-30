@@ -78,6 +78,8 @@ $(document).ready(function() {
 
 					var request = $('#tour_form, #passengers_form').serializeArray();
 
+							//Check for return_city value (set as "city_from" if absent). We dont' care for "Отельный", because there are no city_from, cicy_return...
+
 
 
 					if(action == 'create') {
@@ -87,6 +89,9 @@ $(document).ready(function() {
 						verb = "Создать";
 
 						button_send_data = "#submit_button";
+
+						request = check_return_city(request);
+
 
 
 					} else if(action =='update') {
@@ -102,6 +107,8 @@ $(document).ready(function() {
 						verb = "Обновить";
 
 						button_send_data = "#update_button";
+
+						request = check_return_city(request);
 
 
 
@@ -621,3 +628,7 @@ $(document).ready(function() {
 		});
 
 });
+
+
+
+

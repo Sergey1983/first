@@ -197,6 +197,12 @@ console.log('get_tour_info_for_versions.js loaded');
 						'</tr>'+
 
 						'<tr>'+
+							'<td>Город возвращения</td>'+
+							'<td id = "city_return_'+j+'">'+tour.city_return+'</td>'+
+						'</tr>'+
+
+
+						'<tr>'+
 							'<td>Cтрана пребывания</td>'+
 							'<td id = "country_'+j+'">'+tour.country+'</td>'+
 						'</tr>'+
@@ -752,6 +758,11 @@ console.log('get_tour_info_for_versions.js loaded');
 						'<tr>'+
 							'<td>Город отправления</td>'+
 							'<td id = "city_from_'+j+'">'+tour.city_from+'</td>'+
+						'</tr>'+
+
+						'<tr>'+
+							'<td>Город возвращения</td>'+
+							'<td id = "city_return_'+j+'">'+tour.city_return+'</td>'+
 						'</tr>'+
 
 						'<tr>'+

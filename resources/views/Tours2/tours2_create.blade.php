@@ -22,7 +22,7 @@
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/add_rooms.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/change_sightseeing.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/add_price_rub.js') }}"></script>
-
+<script type="text/javascript" src="{{ URL::asset('js/create_tour/check_return_city.js') }}"></script>
 
 {{-- <script type="text/javascript" src="{{ URL::asset('js/jquery.formautofill.js') }}"></script>
  --}}

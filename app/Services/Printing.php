@@ -76,25 +76,25 @@ class Printing
 
 
 
-  public static function doc_type($doc_type) {
+    public static function doc_type($doc_type) {
 
 
-        $doc_type = $doc_type === 'contract' ? "Договор" : "Допсоглашение";
+          $doc_type = $doc_type === 'contract' ? "Договор" : "Допсоглашение";
 
-        return $doc_type;
-
-
-  }
+          return $doc_type;
 
 
+    }
 
 
 
-   public static function process_template ($template, $id) {
 
-      $tour = Tour::find($id);
+   public static function process_template ($template, $tour) {
 
       //$first_manager
+
+
+      setlocale(LC_TIME, 'ru_RU');
 
       $offset = 0;
 
@@ -113,21 +113,32 @@ class Printing
       }
 
 
-      $first_manager = self::findManager($id);
+      $first_manager = self::findManager($tour);
 
       //$number_of_adults, $number_of_children
 
-      $eighteen = \Carbon\Carbon::now()->subYears(18)->startOfDay();
 
-        $adults = $tour->tourists->where('birth_date', '<', $eighteen)->count();
+      $still_child_if_younger = strtotime($tour->date_depart." + ".($tour->nights+1)." days -18 years");
 
-        $children = $tour->tourists->count() - $adults;
+      // dump($still_child_if_younger);
+
+      // dump(strftime('%Y-%m-%d', $still_child_if_younger));
+
+      // dump(strftime('%d %B %Y',  $still_child_if_younger));
+
+      // dump($tour->tourists->where('birth_date', '>=', strftime('%Y-%m-%d', $still_child_if_younger))->pluck('name'));
+
+        $children = $tour->tourists->where('birth_date', '>=', strftime('%Y-%m-%d', $still_child_if_younger))->count();
+
+        $adults = $tour->tourists->count() - $children;
 
       // $date_hotel
 
       $date_hotel = is_null($tour->date_hotel)
-      ? $tour->date_depart 
-      : date("Y-m-d" ,strtotime("+1 days", strtotime($tour->date_depart)) );
+
+        ? strftime('%d %B %Y', strtotime(strtotime($tour->date_depart)) ) 
+      
+        : strftime('%d %B %Y', strtotime("+1 days", strtotime($tour->date_depart)) );
 
 
       // $visa
@@ -139,20 +150,19 @@ class Printing
       $noexit_insurance = $tour->noexit_insurance_add_people===0 ? $tour->noexit_insurance : $tour->noexit_insurance_people;
 
 
-
       $dictionary = [
 
         '$id' => $tour->id,
 
         '$first_manager' => $first_manager,
 
-        '$created' => date('Y-m-d', strtotime($tour->created_at)),
+        '$created' => strftime('%d %B %Y', strtotime($tour->created_at)),
 
         '$buyerName' => $tour->buyer->first()->name,
 
         '$buyerLastName' => $tour->buyer->first()->lastName,
 
-        '$operator_full_pay' => is_null($tour->operator_full_pay)? "<span style='color: red'>ДАТА ОТСУТСТВУЕТ</span>" : $tour->operator_full_pay,
+        '$operator_full_pay' => is_null($tour->operator_full_pay)? "<span style='color: red'>ДАТА ОТСУТСТВУЕТ</span>" : strftime('%d %B %Y', strtotime($tour->operator_full_pay)),
 
         '$adults' => $adults,
 
@@ -160,9 +170,9 @@ class Printing
 
         '$country' => $tour->country,
 
-        '$date_depart' => $tour->date_depart,
+        '$date_depart' => strftime('%d %B %Y', strtotime($tour->date_depart)),
 
-        '$date_return' =>  date("Y-m-d" ,strtotime("+".$tour->nights." days", strtotime($tour->date_depart)) ),
+        '$date_return' =>  strftime('%d %B %Y' ,strtotime("+".$tour->nights." days", strtotime($tour->date_depart)) ),
 
         '$hotel' => $tour->hotel,
 
@@ -192,7 +202,7 @@ class Printing
 
         '$price' => number_format($tour->price,  '0', '', ' '),
 
-        '$today' => date('Y-m-d'),
+        '$today' => strftime('%d %B %Y'),
 
         '$operator' => $tour->operator_model->description,
 
@@ -216,56 +226,58 @@ class Printing
 
     public static function process_tourists($tour, $tourists_tr) {
 
-    $tourists = $tour->tourists;
+      setlocale(LC_TIME, 'ru_RU');
 
-    $new_strings = '';
+      $tourists = $tour->tourists;
 
-    foreach ($tourists as $tourist) {
+      $new_strings = '';
 
-      $document = self::get_document($tourist, 'doc0');
+      foreach ($tourists as $tourist) {
 
-      if ($tourist->pivot->doc1 !== null )  
-        {
-          
-          $document = $document."\n".self::get_document($tourist, 'doc1');
-          
-           }
-      
-      $dictionary = [
+        $document = self::get_document($tourist, 'doc0');
 
-        '$tourist+name' => $tourist->name, 
-        '$tourist+lastName' => $tourist->lastName,
-        '$tourist+gender' => $tourist->gender,
-        '$tourist+birth_date' => $tourist->birth_date,
-        '$tourist+doc_number' => $document, 
+        if ($tourist->pivot->doc1 !== null )  
+          {
+            
+            $document = $document."\n".self::get_document($tourist, 'doc1');
+            
+             }
+        
+        $dictionary = [
 
-       ];
+          '$tourist+name' => $tourist->name, 
+          '$tourist+lastName' => $tourist->lastName,
+          '$tourist+gender' => $tourist->gender,
+          '$tourist+birth_date' => strftime('%d %B %Y', strtotime($tourist->birth_date)),
+          '$tourist+doc_number' => $document, 
 
-       $new_string = $tourists_tr;
+         ];
 
-       $new_strings .= '<tr style="text-align: center">'.str_replace(array_keys($dictionary), array_values($dictionary), $new_string).'</tr>';
+         $new_string = $tourists_tr;
+
+         $new_strings .= '<tr style="text-align: center">'.str_replace(array_keys($dictionary), array_values($dictionary), $new_string).'</tr>';
 
 
-    }
+      }
 
-    return $new_strings;
+      return $new_strings;
 
   }
  
 
 
 
-  public static function findManager ($id) {
+  public static function findManager ($tour) {
 
-      $tour = Tour::find($id);
-
-      if(!empty($tour->previous_tours->sortBy('created_at')->first()->user->name)) {
+      if(!empty($user = $tour->previous_tours->sortBy('created_at')->first()->user)) {
         
-        $user = $tour->previous_tours->sortBy('created_at')->first()->user;
-
         $first_manager = $user->name.' '.$user->last_name;
 
-      } else { $first_manager = "Менеджер не установлен"; }
+      } else { 
+
+        $first_manager = "Менеджер не установлен"; 
+
+      }
 
       return $first_manager;
 
