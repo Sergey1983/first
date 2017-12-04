@@ -219,7 +219,16 @@ class CheckRequest extends RequestVariables
 
 					// CHECK IF EXISTING DOCUMENTS FROM REQUEST NEED TO BE UPDATED: 
 
-					if ( ($doc_values['date_issue'] != $doc_exists->date_issue) OR ($doc_values['date_expire'] != $doc_exists->date_expire) ) {
+					if ( ($doc_values['date_issue'] != $doc_exists->date_issue) OR ($doc_values['date_expire'] != $doc_exists->date_expire)
+
+						OR (isset($doc_values['who_issued']) AND ($doc_values['who_issued'] != $doc_exists->who_issued))
+
+						OR (isset($doc_values['address_pass']) AND ($doc_values['address_pass'] != $doc_exists->address_pass))
+ 
+ 						OR (isset($doc_values['address_real']) AND ($doc_values['address_real'] != $doc_exists->address_real))
+					 ) 
+
+					{
 
 						$documents_array[$doc_id]['check_info']['to_be_updated'] = true;
 
@@ -288,6 +297,25 @@ class CheckRequest extends RequestVariables
 		$tourist_in_db = array_intersect_key(Tourist::find($tourist_id)->toArray(), parent::$keys_tourist);
 
 		$differences = array_diff_assoc($tourist_in_db, $tourist_from_request);
+
+		foreach ($differences as $key => $value) {
+			
+			if($key == 'cancel_patronymic') {
+			
+				unset($differences[$key]);
+
+			}
+		}
+
+		foreach ($differences as $key => $value) {
+			
+			if($key == 'patronymic' && $value == null) {
+			
+				$differences[$key] = "Отсутствует";
+
+			}
+		}
+
 
         return $differences;
 
@@ -422,7 +450,6 @@ class CheckRequest extends RequestVariables
 
 				foreach ($tours as $key => $tour ) {
 
-
 						$this_same = true;
 
 					do {
@@ -433,8 +460,9 @@ class CheckRequest extends RequestVariables
 
 						$this_same = self::checkIfBuyerSame($tour_buyer, $checked_tourists_and_documents, $tour->id);
 
-						if(!$this_same) {break;}
+						if(!$this_same) 
 
+							{ break; }
 
 
 						if(count($tour_tourists)!= count($checked_tourists_and_documents['tourists'])) {
@@ -449,6 +477,7 @@ class CheckRequest extends RequestVariables
 						$tourist_ids_array = $tour_tourists->pluck('tourist_id')->toArray();
 
 						$document_ids_array = array_merge($tour_tourists->pluck('doc0')->toArray(), $tour_tourists->pluck('doc1')->toArray());
+
 
 						foreach ($document_ids_array as $key => $value) {
 

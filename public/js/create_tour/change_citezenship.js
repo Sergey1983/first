@@ -10,7 +10,6 @@ $(document).ready(function () {
 
 		if(this.checked){
 
-
 			$('select[id="citizenship['+number+']"]').replaceWith('<input placeholder="Введите гражданство" class="form-control" id="citizenship['+number+']" name="citizenship['+number+']" type="text">');
 
 		} else {

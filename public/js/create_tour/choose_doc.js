@@ -7,9 +7,9 @@ $(document).ready(function(){
 
 		var name = $(this).attr('name');
 
-
 		var value = $(this).val(); 
 
+		var row = $(this).closest('.row');
 
 		var numbers = name.match(/\d+/g);
 
@@ -29,6 +29,12 @@ $(document).ready(function(){
 
 		$('[name="doc_seria['+tourist_number+'][0]"]').removeAttr('disabled');
 		$('[name="doc_number['+tourist_number+'][0]"]').removeAttr('disabled');
+
+
+
+
+		$('#russian_passport_row_'+tourist_number+'_'+doc_number+'').remove();
+
 
 
 		if(value == 'Загран. паспорт'||value == 'Внутррос. паспорт') {
@@ -52,7 +58,55 @@ $(document).ready(function(){
 
 				);
 
+			if(value == 'Внутррос. паспорт') {
 
+				$(row).after(
+
+					'<div class="row" id="russian_passport_row_'+tourist_number+'_'+doc_number+'">'+
+
+						'<div class="form-group col-md-3">'+
+
+							'<label for="who_issued[0][0]" class="control-label col-md-12 no-padding-right">Кем выдан?</label>'+
+
+							'<div class="col-md-12">'+
+
+								'<textarea placeholder="Кем выдан паспорт" class="form-control" id="extra_info" required="" name="who_issued['+tourist_number+']['+doc_number+']" cols="50" rows="4"></textarea>'+
+
+							'</div>'+
+
+						'</div>'+
+
+						'<div class="form-group col-md-3">'+
+
+							'<label for="address_pass[0][0]" class="control-label col-md-12 no-padding-right">Прописка</label>'+
+
+							'<div class="col-md-12">'+
+
+								'<textarea placeholder="Введите адрес по прописке в паспорте" class="form-control" id="extra_info" required="" name="address_pass['+tourist_number+']['+doc_number+']" cols="50" rows="4"></textarea>'+
+
+							'</div>'+
+
+						'</div>'+
+
+					
+						'<div class="form-group col-md-3">'+
+
+							'<label for="address_real[0][0]" class="control-label col-md-12 no-padding-right">Факт. адрес</label>'+
+
+							'<div class="col-md-12">'+
+
+								'<textarea placeholder="Введите маршрут" class="form-control" id="extra_info" required="" name="address_real['+tourist_number+']['+doc_number+']" cols="50" rows="4"></textarea>'+
+
+							'</div>'+
+
+						'</div>'+
+
+					'</div>'
+
+
+					);
+
+			}
 
 
 		} 

@@ -13,6 +13,8 @@ class CreateTouristsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('lastName');
+            $table->string('patronymic')->nullable();
+            $table->integer('cancel_patronymic')->default(0);
             $table->string('nameEng');
             $table->string('lastNameEng');
             $table->string('birth_date');

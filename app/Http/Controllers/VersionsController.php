@@ -348,11 +348,12 @@ class VersionsController extends Controller
                                         if($this_values['version'] != $previous_values['version']){
 
                                             $this_doc_to_check = array_filter($this_tourist['docs'][$this_doc_position], function($k) {
-                                                                                        return $k == 'date_issue' OR $k == 'date_expire';
+                                                                                        return $k == 'date_issue' OR $k == 'date_expire' OR $k == 'who_issued' 
+                                                                                        OR $k == 'address_pass' OR $k == 'address_real';
                                                                                     }, ARRAY_FILTER_USE_KEY);
 
                                             $previous_doc_to_check = array_filter($previous_tourist['docs'][$previous_doc_position],                                                                        function($k) {
-                                                                                        return $k == 'date_issue' OR $k == 'date_expire';
+                                                                                        return $k == 'date_issue' OR $k == 'date_expire' OR $k == 'who_issued' OR $k == 'address_pass' OR $k == 'address_real';
                                                                                     }, ARRAY_FILTER_USE_KEY);
 
                                             $differences_docs = array_keys(array_diff($this_doc_to_check, $previous_doc_to_check));
@@ -460,7 +461,32 @@ class VersionsController extends Controller
         }
 
 // die();
-// dd($return_array);
+
+
+
+        foreach ($return_array as $key => $version) {
+
+            foreach ($version['tourists'] as $key_t => $tourist) {
+
+                if ($tourist['patronymic'] == null ) { $return_array[$key]['tourists'][$key_t]['patronymic'] = '&nbsp';}
+                if ($tourist['phone'] == null ) { $return_array[$key]['tourists'][$key_t]['phone'] = '&nbsp';}
+                if ($tourist['email'] == null ) { $return_array[$key]['tourists'][$key_t]['email'] = '&nbsp';}
+
+             foreach ($tourist['docs'] as $key_d => $document) {
+
+                    if ($document['date_expire'] == null ) { $return_array[$key]['tourists'][$key_t]['docs'][$key_d]['date_expire'] = '&nbsp';}
+                    if ($document['who_issued'] == null ) { $return_array[$key]['tourists'][$key_t]['docs'][$key_d]['who_issued'] = '&nbsp';}
+                    if ($document['address_pass'] == null ) { $return_array[$key]['tourists'][$key_t]['docs'][$key_d]['address_pass'] = '&nbsp';}
+                    if ($document['address_real'] == null ) { $return_array[$key]['tourists'][$key_t]['docs'][$key_d]['address_real'] = '&nbsp';}
+
+                }
+
+
+            }
+
+   
+           
+        }
 
 return $return_array;
 

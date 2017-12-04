@@ -16,10 +16,13 @@ class SortRequest extends RequestVariables
     
     {
 
+
     RequestVariables::init();
 
 
         $request_array = request()->all();
+
+// dump($request_array);
 
         $number_of_tourists = count(request()->name);
 
@@ -56,6 +59,10 @@ class SortRequest extends RequestVariables
 
         }
 
+// dump('request sorted', $request_sorted);
+// die();
+
+// dd(isset($request_array['check_info_tourists']) AND isset($request_array['check_info_docs']));
 
         if(isset($request_array['check_info_tourists']) AND isset($request_array['check_info_docs']) ) {
 
@@ -75,6 +82,7 @@ class SortRequest extends RequestVariables
             }
 
         }
+
 
 
         foreach ($tourists_array as $property=>$values) {

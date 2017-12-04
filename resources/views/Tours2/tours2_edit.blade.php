@@ -40,6 +40,7 @@
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/choose_doc.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/mouse_over_dis_docs.js ') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/check_return_city.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/create_tour/cancel_patronymic.js') }}"></script>
 
 
 @endsection

@@ -27,6 +27,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
+        'patronymic' => 'Иванович',
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
     ];
@@ -97,6 +98,7 @@ $factory->define(App\Tourist::class, function (Faker\Generator $faker) {
 
     		'name' => ($name = $faker->firstName),
     		'lastName' => ($lastName = $faker->lastName),
+        'patronymic' => 'Иванович',
       		'nameEng' => Translit::translit($name),
       		'lastNameEng' => Translit::translit($lastName),
 			'birth_date' => $faker->date($format = 'Y-m-d', $max = 'now'),

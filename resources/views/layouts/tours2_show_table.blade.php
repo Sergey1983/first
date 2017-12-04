@@ -368,7 +368,33 @@
 
 
 					</table>
+					
+	@if($document->doc_type == 'Внутррос. паспорт')
 
+					<table class="table table-responsive table-bordered table-striped">
+
+						<tr>
+
+						    <th class="col-md-4">Кем выдан</th>
+						    <th class="col-md-4">Адрес прописка</th>
+						    <th class="col-md-4">Адрес фактич.</th>
+
+						</tr>
+
+						<tr>
+
+						    <td>{{$document->who_issued}}</td>
+						    <td>{{$document->address_pass}}</td>
+						    <td>{{$document->address_real}}</td>
+						
+						</tr>
+
+
+
+
+					</table>
+
+	@endif
 			</div>
 			
 
@@ -399,7 +425,37 @@
 						</tr>
 
 
+
+
 					</table>
+
+
+	@if($document->doc_type == 'Внутррос. паспорт')
+
+					<table class="table table-responsive table-bordered table-striped">
+
+						<tr>
+
+						    <th class="col-md-4">Кем выдан</th>
+						    <th class="col-md-4">Адрес прописка</th>
+						    <th class="col-md-4">Адрес фактич.</th>
+
+						</tr>
+
+						<tr>
+
+						    <td>{{$document->who_issued}}</td>
+						    <td>{{$document->address_pass}}</td>
+						    <td>{{$document->address_real}}</td>
+						
+						</tr>
+
+
+
+
+					</table>
+
+	@endif
 
 			</div>
 @endif

@@ -20,6 +20,8 @@ class PreviousTourist extends Migration
             $table->integer('version')->unsigned();
             $table->string('name');
             $table->string('lastName');
+            $table->string('patronymic')->nullable();
+            $table->integer('cancel_patronymic')->default(0);
             $table->string('nameEng');
             $table->string('lastNameEng');
             $table->string('birth_date');

@@ -561,6 +561,7 @@ class Tours2Controller extends Controller
     {
 
 
+
        if(isset($request_sorted['allchecked']) AND $request_sorted['allchecked'] == true) {
 
             if($action == 'save') { 
@@ -630,6 +631,7 @@ class Tours2Controller extends Controller
 
             break;
 
+
             case "checkifsame":
 
                 $result = CheckRequest::CheckIfTourTouristDocsExists($request_sorted['tour'], $request_sorted['buyer'], $checked_tourists_and_documents);
@@ -683,9 +685,6 @@ class Tours2Controller extends Controller
 
 
     public static function SaveTouristsAndDocuments($checked_array, $buyer_array, $user_array, $tour, $action) {
-
-        // dd($checked_array);
-
 
 
         $number_of_tourists = count($checked_array['tourists']);

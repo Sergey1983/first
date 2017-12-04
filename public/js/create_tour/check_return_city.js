@@ -22,6 +22,22 @@ function check_return_city (request) {
 
 		}  
 
+
+		$('input[name^="cancel_patronymic"]').each(function (index, element) {
+
+			if($(this).is(':not(:checked)')) {
+
+			request[request.length] = {name: 'cancel_patronymic['+index+']', value: "0"};
+			
+			}
+
+			
+
+		});
+
+
+
+
 		return request;
 
 

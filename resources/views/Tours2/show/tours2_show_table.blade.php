@@ -39,6 +39,7 @@
 
 				    <th>Id</th>
 				    <th>Имя</th>
+				    <th>Отчество</th>
 				    <th>Фамилия</th>
 				    <th>Имя Англ.</th>
 				    <th>Фамилия Англ.</th>    
@@ -62,6 +63,7 @@
 				    <td>{{$tourist->id}}</td>
 				    <td>{{$tourist->name}}</td>
 				    <td>{{$tourist->lastName}}</td>
+				    <td>{{$tourist->patronymic}}</td>
 				    <td>{{$tourist->nameEng}}</td>
 				    <td>{{$tourist->lastNameEng}}</td>    
 				    <td>{{$tourist->birth_date}}</td>
@@ -106,6 +108,33 @@
 
 					</table>
 
+@if($document->doc_type == 'Внутррос. паспорт')
+
+					<table class="table table-responsive table-bordered table-striped ">
+
+						<tr>
+
+						    <th class="col-md-4">Кем выдан</th>
+						    <th class="col-md-4">Адрес прописка</th>
+						    <th class="col-md-4">Адрес фактич.</th>
+
+						</tr>
+
+						<tr>
+
+						    <td>{{$document->who_issued}}</td>
+						    <td>{{$document->address_pass}}</td>
+						    <td>{{$document->address_real}}</td>
+						
+						</tr>
+
+
+
+
+					</table>
+
+	@endif
+
 			</div>
 			
 
@@ -138,6 +167,32 @@
 
 					</table>
 
+	@if($document->doc_type == 'Внутррос. паспорт')
+
+					<table class="table table-responsive table-bordered table-striped">
+
+						<tr>
+
+						    <th class="col-md-4">Кем выдан</th>
+						    <th class="col-md-4">Адрес прописка</th>
+						    <th class="col-md-4">Адрес фактич.</th>
+
+						</tr>
+
+						<tr>
+
+						    <td>{{$document->who_issued}}</td>
+						    <td>{{$document->address_pass}}</td>
+						    <td>{{$document->address_real}}</td>
+						
+						</tr>
+
+
+
+
+					</table>
+
+	@endif
 			</div>
 @endif
 

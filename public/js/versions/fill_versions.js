@@ -109,6 +109,7 @@ $(document).ready(function() {
 									    '<th>Id</th>'+
 									    '<th>Имя</th>'+
 									    '<th>Фамилия</th>'+
+									    '<th>Отчество</th>'+
 									    '<th>Имя Англ.</th>'+
 									    '<th>Фамилия Англ.</th>'+
 									    '<th>День рож-я</th>'+
@@ -124,6 +125,7 @@ $(document).ready(function() {
 									    '<td>'+tourist.id+'</td>'+
 									    '<td id="name_'+j+'_'+m+'">'+tourist.name+'</td>'+
 									    '<td id="lastName_'+j+'_'+m+'">'+tourist.lastName+'</td>'+
+									    '<td id="patronymic_'+j+'_'+m+'">'+tourist.patronymic+'</td>'+
 									    '<td id="nameEng_'+j+'_'+m+'">'+tourist.nameEng+'</td>'+
 									    '<td id="lastNameEng_'+j+'_'+m+'">'+tourist.lastNameEng+'</td>'+    
 									    '<td id="birth_date_'+j+'_'+m+'">'+tourist.birth_date+'</td>'+
@@ -190,6 +192,30 @@ $(document).ready(function() {
 
 
 										'</table>'+
+													(document.doc_type == 'Внутррос. паспорт' ? 
+
+													'<table class="table table-responsive table-bordered table-striped">'+
+
+														'<tr>'+
+
+														    '<th class="col-md-4">Кем выдан</th>'+
+														    '<th class="col-md-4">Адрес прописка</th>'+
+														    '<th class="col-md-2">Адрес фактич.</th>'+
+
+														'</tr>'+
+
+														'<tr>'+
+
+														    '<td id="who_issued_'+j+'_'+m+'_'+l+'">'+document.who_issued+'</td>'+
+														    '<td id="address_pass_'+j+'_'+m+'_'+l+'">'+document.address_pass+'</td>'+
+														    '<td id="address_real_'+j+'_'+m+'_'+l+'">'+document.address_real+'</td>'+
+														
+														'</tr>'+
+
+
+													'</table>'
+
+													: '')+
 
 								'</div>'
 
@@ -321,7 +347,7 @@ $("#row_tourist_and_documents_"+j+"_"+m+"").append(
 
 					$.each(docs, function (doc_position, field_names) {
 
-						doc_position = Number(doc_position+1);
+						doc_position = Number(doc_position)+1;
 
 						$.each(field_names, function (index, field_name) {
 
@@ -491,6 +517,33 @@ $("#row_tourist_and_documents_"+j+"_"+m+"").append(
 
 										'</table>'+
 
+
+													(document.doc_type == 'Внутррос. паспорт' ? 
+
+													'<table class="table table-responsive table-bordered table-striped">'+
+
+														'<tr>'+
+
+														    '<th class="col-md-4">Кем выдан</th>'+
+														    '<th class="col-md-4">Адрес прописка</th>'+
+														    '<th class="col-md-2">Адрес фактич.</th>'+
+
+														'</tr>'+
+
+														'<tr>'+
+
+														    '<td>'+document.who_issued+'</td>'+
+														    '<td>'+document.address_pass+'</td>'+
+														    '<td>'+document.address_real+'</td>'+
+														
+														'</tr>'+
+
+
+													'</table>'
+
+													: '')+
+
+
 								'</div>'
 
 
@@ -605,6 +658,32 @@ $("#row_tourist_and_documents_"+j+"_"+m+"").append(
 
 
 													'</table>'+
+
+
+													(document.doc_type == 'Внутррос. паспорт' ? 
+
+													'<table class="table table-responsive table-bordered table-striped">'+
+
+														'<tr>'+
+
+														    '<th class="col-md-4">Кем выдан</th>'+
+														    '<th class="col-md-4">Адрес прописка</th>'+
+														    '<th class="col-md-2">Адрес фактич.</th>'+
+
+														'</tr>'+
+
+														'<tr>'+
+
+														    '<td>'+document.who_issued+'</td>'+
+														    '<td>'+document.address_pass+'</td>'+
+														    '<td>'+document.address_real+'</td>'+
+														
+														'</tr>'+
+
+
+													'</table>'
+
+													: '')+
 
 											'</div>'
 

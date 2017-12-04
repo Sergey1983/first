@@ -18,44 +18,50 @@ $(document).ready(function() {
 			'<div class="row">'+
 
 					'<div class="form-group col-md-3">'+
-						'<label for="name['+i+']" class="control-label col-md-4">Имя</label>'+
-						
-						'<div class="col-md-8">'+
-							'<input placeholder="Имя" class="form-control" name="name['+i+']" type="text" id="name['+i+']">'+
-						'</div>'+
 
-					'</div>'+
-
-
-					'<div class="form-group col-md-3">'+
 						'<label for="lastName['+i+']" class="control-label col-md-4">Фамилия</label>'+
 						
 						'<div class="col-md-8">'+
+
 							'<input placeholder="Фамилия" class="form-control" name="lastName['+i+']" type="text" id="lastName['+i+']">'+
+
 						'</div>'+
 
 					'</div>'+
 
+
 					'<div class="form-group col-md-3">'+
 
-						'<button class="btn btn-default btn-grey col-md-4" id="transliterate_'+i+'" type="button" disabled="disabled">Трансл.<span class="glyphicon glyphicon-chevron-right"></span>'+
-						'</button>'+
+						'<label for="lastNameEng['+i+']" class="control-label col-md-4">Фам. анг.</label>'+
 
 						'<div class="col-md-8">'+
 
-							'<input placeholder="Imya" class="form-control " name="nameEng['+i+']" type="text">'+
-
-						'</div>'+
-						
-					'</div>'+
-
-					'<div class="form-group col-md-3">'+
-
-
-						'<div class="col-md-8 no-padding-left">'+
-
 							'<input placeholder="Familiya" class="form-control" name="lastNameEng['+i+']" type="text">'+
 
+						'</div>'+
+
+					'</div>'+
+
+					'<div class="form-group col-md-3 no-margin-bottom ">'+
+
+						'<label for="birth_date['+i+']" class="control-label col-md-4">Дата рождения</label>'+
+
+						'<div class="col-md-8">'+
+
+							'<input placeholder="Дата рожд." class="form-control" name="birth_date['+i+']" type="date" id="birth_date['+i+']">'+
+						
+						'</div>'+
+
+					'</div>'+
+
+					'<div class="form-group col-md-3 no-margin-bottom">'+
+
+						'<label for="phone['+i+']" class="control-label col-md-4">Телефон</label>'+
+
+						'<div class="col-md-8">'+
+
+							'<input placeholder="Телефон" class="form-control" name="phone['+i+']" type="text">'+
+						
 						'</div>'+
 
 					'</div>'+
@@ -65,26 +71,87 @@ $(document).ready(function() {
 
 			'<div class="row">'+
 
+					
+					'<div class="form-group col-md-3">'+
 
-				'<div class="form-group col-md-3 no-margin-bottom ">'+
+						'<label for="name['+i+']" class="control-label col-md-4">Имя</label>'+
+						
+						'<div class="col-md-8">'+
 
-					'<label for="birth_date['+i+']" class="control-label col-md-4">Дата рождения</label>'+
+							'<input placeholder="Имя" class="form-control" name="name['+i+']" type="text" id="name['+i+']">'+
 
+						'</div>'+
+
+					'</div>'+
+
+					'<div class="form-group col-md-3">'+
+
+						'<label for="nameEng['+i+']" class="control-label col-md-4">Имя анг.</label>'+
+
+						'<div class="col-md-8">'+
+
+							'<input placeholder="Imya" class="form-control" name="nameEng['+i+']" type="text">'+
+
+						'</div>'+
+
+					'</div>'+			
+
+					'<div class="form-group col-md-3">'+
+
+						'<label for="gender['+i+']" class="control-label col-md-4">Пол</label>'+
+
+						'<div class="col-md-8">'+
+
+							'<select class="form-control " name="gender['+i+']"><option selected="selected" hidden="hidden" value="">Пол</option><option value="Мужчина">Мужчина</option><option value="Женщина">Женщина</option></select>'+
+
+						'</div>'+
+
+					'</div>'+		
+
+
+					'<div class="form-group col-md-3 no-margin-bottom">'+
+
+						'<label for="email['+i+']" class="control-label col-md-4">Email</label>'+
+
+						'<div class="col-md-8">'+
+
+							'<input placeholder="Email" class="form-control" name="email['+i+']" type="text">'+
+						
+						'</div>'+
+
+					'</div>'+
+
+			'</div>'+
+
+
+			'<div class="row">'+
+
+				'<div class="form-group col-md-3">'+
+
+					'<label for="patronymic['+i+']" class="control-label col-md-4">Отчество</label>'+
+					
 					'<div class="col-md-8">'+
 
-					'<input placeholder="Дата рождения" class="form-control" name="birth_date['+i+']" type="date" id="birth_date['+i+']">'+
-					
+						'<input placeholder="Отчество" class="form-control" name="patronymic['+i+']" type="text" id="patronymic['+i+']">'+
+
+						'<div class="row text-right padding-right-15">'+
+						
+							'<small>Отчество не нужно <input id="cancel_patronymic_'+i+'" name="cancel_patronymic['+i+']" type="checkbox" value="1"></small>'+
+
+						'</div>'+
+						
 					'</div>'+
 
 				'</div>'+
 
-				'<div class="form-group col-md-3 no-margin-bottom">'+
+
+				'<div class="form-group col-md-3 col-md-offset-3">'+
 
 					'<label for="citizenship['+i+']" class="control-label col-md-4">Гражданство</label>'+
 
 					'<div class="col-md-8">'+
 
-					'<select class="form-control" id="citizenship_'+i+'" name="citizenship['+i+']"><option value="Россия">Россия</option></select>'+
+					'<select class="form-control" id="citizenship['+i+']" name="citizenship['+i+']"><option value="Россия">Россия</option></select>'+
 
 						'<div class="row text-right padding-right-15">'+
 						
@@ -92,42 +159,12 @@ $(document).ready(function() {
 
 						'</div>'+
 
-
-					'</div>'+
-
-
-
-				'</div>'+
-
-				'<div class="col-md-6">'+
-
-					'<div class="form-group col-md-3 no-padding-left padding-right-15">'+
-
-						'<select class="form-control " name="gender['+i+']"><option selected="selected" hidden="hidden" value="">Пол</option><option value="Мужчина">Мужчина</option><option value="Женщина">Женщина</option></select>'+
-
-					'</div>'+
-
-
-					'<div class="form-group col-md-3">'+
-						
-						'<input placeholder="Телефон" class="form-control" name="phone['+i+']" type="text">'+
-
-					'</div>'+
-
-
-					'<div class="form-group col-md-4">'+
-
-
-							'<input placeholder="Email" class="form-control" name="email['+i+']" type="text">'+
-
 					'</div>'+
 
 				'</div>'+
-
-
-
 
 			'</div>'+
+
 
 
 			'<div class="row">'+
@@ -162,22 +199,19 @@ $(document).ready(function() {
 
 				'</div>'+
 
-				'<div class="col-md-6">'+
 
-					'<div class="col-md-3  no-padding">'+
 
-					'<button type="button" name="check_doc_'+i+'" class="btn btn-default btn-grey">Найти по паспорту<span class="glyphicon glyphicon-search"></span></button>'+
+				'<div class="col-md-3">'+
 
-					'</div>'+
 
-					'<div class="form-group col-md-3">'+
+					'<div class="form-group col-md-6">'+
 
 							'<input placeholder="Дата выдачи" class="form-control d-block-inline no-padding-right" id="date_issue_1" name="date_issue['+i+'][0]" type="date">'+
 							'<small>Дата выдачи</small>'+
 
 					'</div>'+
 
-					'<div class="form-group col-md-3">'+
+					'<div class="form-group col-md-6">'+
 
 							'<input placeholder="Дата окончания" class="form-control d-block-inline no-padding-right" id="date_expire_1" name="date_expire['+i+'][0]" type="date">'+
 							'<small>Дата окончания</small>'+
@@ -187,8 +221,25 @@ $(document).ready(function() {
 				'</div>'+
 
 
+				'<div class="form-group col-md-3 no-margin-bottom no-padding-left">'+
+
+					'<div class="col-md-6 no-padding-left col-md-offset-6">'+
+
+						'<button type="button" name="check_doc_'+i+'" class="btn btn-default btn-grey">Найти по паспорту<span class="glyphicon glyphicon-search"></span></button>'+
+
+					'</div>'+
+					
+					'<div class="col-md-12 no-padding-left text-right">'+
+
+						'<small>Для поиска достаточно ввести только номер документа</small>'+
+							
+					'</div>'+
+
+				'</div>'+
+
 
 			'</div>'+
+
 
 			'<div class="row" id="row_second_doc_'+i+'">'+
 
@@ -229,22 +280,18 @@ $(document).ready(function() {
 
 				'</div>'+
 
-				'<div class="col-md-6">'+
 
-					'<div class="col-md-3 no-padding">'+
+				'<div class="col-md-3">'+
 
-					// '<button type="button" name="check_doc['+i+'][1]" class="btn btn-default btn-grey" disabled="">Найти по паспорту<span class="glyphicon glyphicon-search"></span></button>'+
 
-					'</div>'+
-
-					'<div class="form-group col-md-3">'+
+					'<div class="form-group col-md-6">'+
 
 							'<input placeholder="Дата выдачи" class="form-control d-block-inline no-padding-right" disabled="disabled" id="date_issue_2" name="date_issue['+i+'][1]" type="date">'+
 							'<small>Дата выдачи</small>'+
 
 					'</div>'+
 
-					'<div class="form-group col-md-3">'+
+					'<div class="form-group col-md-6">'+
 
 							'<input placeholder="Дата окончания" class="form-control d-block-inline no-padding-right" disabled="disabled" id="date_expire_2" name="date_expire['+i+'][1]" type="date">'+
 							'<small>Дата окончания</small>'+
@@ -252,6 +299,7 @@ $(document).ready(function() {
 					'</div>'+
 
 				'</div>'+
+
 
 			'</div>'+
 
@@ -283,8 +331,6 @@ $(document).ready(function() {
 					'</div>'+
 
 			'</div>'+
-
-
 
 
 		'</div>'

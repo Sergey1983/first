@@ -524,7 +524,7 @@ class FunctionsController extends Controller
 
     {
 
-            $doc_needed_fields = array_flip(['doc_type', 'doc_number', 'doc_seria', 'date_issue', 'date_expire']);
+            $doc_needed_fields = array_flip(['doc_type', 'doc_number', 'doc_seria', 'date_issue', 'date_expire', 'who_issued', 'address_pass', 'address_real']);
 
 
                     $i = 0;

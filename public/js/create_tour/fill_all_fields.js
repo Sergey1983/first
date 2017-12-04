@@ -6,6 +6,9 @@
 
 	function fill_all_fields(data) {
 
+
+		console.log(data);
+
 			/// Tour info filling: 
 
 			/// ADDING TOURIST FIELDS IF NEEDED
@@ -27,10 +30,6 @@
 
 				$('#add_doc_2_'+tourist+'').trigger('click');
 			}
-
-
-
-			
 
 
 
@@ -61,8 +60,18 @@
 
 				    			name.val(tour[property]);
 
-				    		
-				    		} else if (name[0].nodeName =='SELECT') {
+				    		} 
+
+				    		else if(property.includes('cancel_patronymic') && tour[property] == '1') {
+
+								$('input[name="'+property+'"]').trigger('click');
+
+				    			// $("input[name='"+property+"']").attr('checked', 'checked');
+
+
+				    		}
+
+				    		else if (name[0].nodeName =='SELECT') {
 
 
 				    			if(property.includes('citizenship') && tour[property] != 'Россия') {

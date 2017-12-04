@@ -63,7 +63,7 @@ $(document).ready(function() {
 
 						doc2_unchecked = doc2_unchecked.slice(0,-2);
 
-						console.log(doc2_unchecked);
+						// console.log(doc2_unchecked);
 				
 
 						$("*").find('input, textarea').attr("readonly", "").removeAttr('readonly');
@@ -78,7 +78,6 @@ $(document).ready(function() {
 
 					var request = $('#tour_form, #passengers_form').serializeArray();
 
-							//Check for return_city value (set as "city_from" if absent). We dont' care for "Отельный", because there are no city_from, cicy_return...
 
 
 
@@ -90,8 +89,9 @@ $(document).ready(function() {
 
 						button_send_data = "#submit_button";
 
-						request = check_return_city(request);
+						//Check for return_city value (set as "city_from" if absent). We dont' care for "Отельный", because there are no city_from, cicy_return...
 
+						request = check_return_city(request);
 
 
 					} else if(action =='update') {
@@ -108,13 +108,15 @@ $(document).ready(function() {
 
 						button_send_data = "#update_button";
 
+						//Check for return_city value (set as "city_from" if absent). We dont' care for "Отельный", because there are no city_from, cicy_return...
+
 						request = check_return_city(request);
 
 
 
 					}
 
-
+					// console.log(request); return;
 
 						$('.alert-validation').each(function () {
 
@@ -132,7 +134,7 @@ $(document).ready(function() {
 
 						.done(function (data) {
 
-
+							console.log(data);
 
 						if(data == 'success')	{
 
@@ -388,6 +390,8 @@ $(document).ready(function() {
 								if (doc.check_info.hasOwnProperty('differences')) {
 
 									$.each(doc.check_info.differences, function (property, value) {
+
+										value = value == null ? 'нет значения' : value;
 
 										value = value.replace(/(\d+)-(\d+)-(\d+)/, '$3\-$2\-$1');
 									

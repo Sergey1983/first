@@ -16,7 +16,7 @@
 		    return "<button type=$type name='$name' class='btn btn-default btn-grey' $disabled>$value<span class='glyphicon glyphicon-search'></span></button>";
 			});
 
-		 !!}
+		!!}
 
 		{!! 
 			Form::macro('selectNonDisabled', function($value, $placeholder, $array, $disabled=null, $class=null) {
@@ -725,45 +725,63 @@
 			<div class='row'>
 
 					<div class='form-group col-md-3'>
-						{!! Form::label('name[0]', 'Имя', ['class'=>'control-label col-md-4'])!!}
-						
-						<div class="col-md-8">
-							{!! Form::text ('name[0]', null, ['placeholder' => 'Имя', 'class'=>'form-control'])!!}
-						</div>
 
-					</div>
-
-
-					<div class='form-group col-md-3'>
 						{!! Form::label('lastName[0]', 'Фамилия', ['class'=>'control-label col-md-4'])!!}
 						
 						<div class="col-md-8">
+
 							{!! Form::text ('lastName[0]', null, ['placeholder' => 'Фамилия', 'class'=>'form-control'])!!}
+
 						</div>
 
 					</div>
 
+
 					<div class='form-group col-md-3'>
 
-						<button class='btn btn-default btn-grey col-md-4' id="transliterate_0" type="button" disabled="disabled">Трансл.<span class="glyphicon glyphicon-chevron-right" 
-						></span>
-						</button>
+						{!! Form::label('lastNameEng[0]', 'Фамил. анг.', ['class'=>'control-label col-md-4 no-padding-right'])!!}
+
 
 						<div class="col-md-8">
-
-							{!! Form::text ('nameEng[0]', null, ['placeholder' => 'Imya', 'class'=>'form-control '])!!}
+							
+							{!! Form::text ('lastNameEng[0]', null, ['placeholder' => 'Familiya', 'class'=>'form-control'])!!}
 
 						</div>
 						
 					</div>
 
-					<div class='form-group col-md-3'>
 
+					<div class='form-group col-md-3 no-margin-bottom '>
 
-						<div class="col-md-8 no-padding-left">
+						{!! Form::label('birth_date[0]', 'Дата рожд.', ['class'=>'control-label col-md-4'])!!}
 
-							{!! Form::text ('lastNameEng[0]', null, ['placeholder' => 'Familiya', 'class'=>'form-control'])!!}
+						<div class="col-md-8">
 
+							{!! Form::date ('birth_date[0]', null, ['placeholder' => 'Дата рождения', 'class'=>'form-control'])!!}
+						
+						</div>
+
+					</div>
+
+{{-- 					<div class='form-group col-md-3 no-margin-bottom no-padding-left'>
+
+						<div class="col-md-6 no-padding-left padding-right-15">
+
+						{!! Form::text ('phone[0]', null, ['placeholder' => 'Телефон', 'class'=>'form-control'])!!}
+
+						
+						</div>
+
+					</div> --}}
+
+					<div class='form-group col-md-3 no-margin-bottom'>
+
+						{!! Form::label('phone[0]', 'Телефон', ['class'=>'control-label col-md-4'])!!}
+
+						<div class="col-md-8">
+
+							{!! Form::text ('phone[0]', null, ['placeholder' => 'Телефон', 'class'=>'form-control'])!!}
+						
 						</div>
 
 					</div>
@@ -771,7 +789,112 @@
 
 			</div>
 
-			<div class='row'>
+			<div class="row">
+				
+					<div class='form-group col-md-3'>
+
+						{!! Form::label('name[0]', 'Имя', ['class'=>'control-label col-md-4'])!!}
+						
+						<div class="col-md-8">
+						
+							{!! Form::text ('name[0]', null, ['placeholder' => 'Имя', 'class'=>'form-control'])!!}
+						
+						</div>
+
+					</div>
+
+					<div class='form-group col-md-3'>
+
+						{!! Form::label('nameEng[0]', 'Имя анг.', ['class'=>'control-label col-md-4'])!!}
+
+						<div class="col-md-8">
+
+							{!! Form::text ('nameEng[0]', null, ['placeholder' => 'Imya', 'class'=>'form-control '])!!}
+
+						</div>
+
+					</div>
+
+
+					<div class='form-group col-md-3'>
+
+						{!! Form::label('gender[0]', 'Пол', ['class'=>'control-label col-md-4'])!!}
+
+						<div class="col-md-8">
+
+							{!! Form::selectNonDisabled ('gender[0]', 'Пол', $gender)!!}
+
+						</div>
+
+					</div>
+
+{{-- 					<div class='form-group col-md-3 no-margin-bottom no-padding-left'>
+
+						<div class="col-md-6 no-padding-left padding-right-15">
+
+							{!! Form::text ('email[0]', null, ['placeholder' => 'Email', 'class'=>'form-control'])!!}
+
+						
+						</div>
+
+					</div> --}}
+					<div class='form-group col-md-3 no-margin-bottom '>
+
+						{!! Form::label('email[0]', 'Email', ['class'=>'control-label col-md-4'])!!}
+
+						<div class="col-md-8">
+
+							{!! Form::text ('email[0]', null, ['placeholder' => 'Email', 'class'=>'form-control'])!!}
+						
+						</div>
+
+					</div>
+
+			</div>		
+
+
+			<div class="row">
+				
+					<div class='form-group col-md-3'>
+
+						{!! Form::label('patronymic[0]', 'Отчество', ['class'=>'control-label col-md-4'])!!}
+						
+						<div class="col-md-8">
+
+							{!! Form::text ('patronymic[0]', null, ['placeholder' => 'Отчество', 'class'=>'form-control'])!!}
+
+							<div class="row text-right padding-right-15">	
+							
+								<small>Отчество не нужно {!! Form::checkbox ('cancel_patronymic[0]', 1, null, ['id'=>'cancel_patronymic_0'])!!}</small>
+
+							</div>			
+
+						</div>
+
+					</div>
+
+					<div class='form-group col-md-3 col-md-offset-3'>
+						
+						{!! Form::label('citizenship[0]', 'Гражданство', ['class'=>'control-label col-md-4'])!!}
+
+						<div class="col-md-8">
+
+							{!! Form::select('citizenship[0]', ['Россия'=>'Россия'], null, ['class'=>"form-control", 'id'=>'citizenship[0]']) !!}
+
+								<div class="row text-right padding-right-15">	
+								
+									<small>Другое {!! Form::checkbox ('change_citezenship', 1, null, ['id'=>'change_citezenship_0'])!!}</small>
+
+								</div>					
+
+						</div>
+
+					</div>
+
+
+			</div>			
+
+{{-- 			<div class='row'>
 
 
 				<div class='form-group col-md-3 no-margin-bottom '>
@@ -835,7 +958,7 @@
 
 
 
-			</div>
+			</div> --}}
 
 
 			<div class='row'>
@@ -870,26 +993,37 @@
 
 				</div>
 
-				<div class="col-md-6">
+				<div class="col-md-3">
 
-					<div class="col-md-3  no-padding">
 
-					{!! Form::buttonSearch('Найти по паспорту', 'check_doc_0', 'button') !!}
-
-					</div>
-
-					<div class="form-group col-md-3">
+					<div class="form-group col-md-6">
 
 							{!! Form::date ('date_issue[0][0]', null, ['placeholder' => 'Дата выдачи', 'class'=>'form-control d-block-inline no-padding-right', 'id' => 'date_issue_1'])!!}
 							<small>Дата выдачи</small>
 
 					</div>
 
-					<div class="form-group col-md-3">
+					<div class="form-group col-md-6">
 
 							{!! Form::date ('date_expire[0][0]', null, ['placeholder' => 'Дата окончания', 'class'=>'form-control d-block-inline no-padding-right', 'id' => 'date_expire_1'])!!}
 							<small>Дата окончания</small>
+					
+					</div>
 
+				</div>
+
+				<div class='form-group col-md-3 no-margin-bottom no-padding-left'>
+
+					<div class="col-md-6 no-padding-left col-md-offset-6">
+
+						{!! Form::buttonSearch('Найти по паспорту', 'check_doc_0', 'button') !!}
+
+					</div>
+
+					<div class="col-md-12 no-padding-left text-right">
+
+						<small>Для поиска достаточно ввести только номер документа</small>
+							
 					</div>
 
 				</div>
@@ -937,20 +1071,19 @@
 
 				</div>
 
-				<div class="col-md-6">
 
-					<div class="col-md-3 no-padding">
 
-				</div>
+				<div class="col-md-3">
 
-					<div class="form-group col-md-3">
+
+					<div class="form-group col-md-6">
 
 							{!! Form::date ('date_issue[0][1]', null, ['placeholder' => 'Дата выдачи', 'class'=>'form-control d-block-inline no-padding-right', 'disabled'=>'disabled', 'id' => 'date_issue_2'])!!}
 							<small>Дата выдачи</small>
 
 					</div>
 
-					<div class="form-group col-md-3">
+					<div class="form-group col-md-6">
 
 							{!! Form::date ('date_expire[0][1]', null, ['placeholder' => 'Дата окончания', 'class'=>'form-control d-block-inline  no-padding-right', 'disabled'=>'disabled', 'id' => 'date_expire_2'])!!}
 							<small>Дата окончания</small>
@@ -958,6 +1091,19 @@
 					</div>
 
 				</div>
+{{-- 
+
+				<div class='form-group col-md-3 no-margin-bottom no-padding-left'>
+
+					<div class="col-md-6 no-padding-left padding-right-15">
+
+							{!! Form::date ('date_expire[0][1]', null, ['placeholder' => 'Дата окончания', 'class'=>'form-control d-block-inline  no-padding-right', 'disabled'=>'disabled', 'id' => 'date_expire_2'])!!}
+							<small>Дата окончания</small>
+					
+					</div>
+
+				</div> --}}
+
 
 			</div>
 

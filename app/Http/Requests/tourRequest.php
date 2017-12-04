@@ -34,6 +34,9 @@ class tourRequest extends FormRequest
     public function rules()
     {
 
+
+
+      
       if(request()->allchecked == 'false') {
 
         $rules = 
@@ -58,6 +61,7 @@ class tourRequest extends FormRequest
 
             'name.*' => ['required', 'regex: /^[а-яёА-ЯЁ-]+$/u'],
             'lastName.*' => ['required', 'regex: /^[а-яёА-ЯЁ-]+$/u'],
+            'patronymic.*' => ['required', 'regex: /^[а-яёА-ЯЁ-]+$/u'],
 
             // 'name.*' => ['required', 'regex: /^[x{0430}-\x{044F}\x{0410}-\x{042F}-]+$/u'],
             // 'lastName.*' => ['required', 'regex: /^[x{0430}-\x{044F}\x{0410}-\x{042F}-]+$/u'],
@@ -90,45 +94,37 @@ class tourRequest extends FormRequest
                 foreach ($doc_types as $doc_id => $value) {
 
 
-                  if($value == "Загран. паспорт" OR $value ==  "Внутррос. паспорт") {
+                      if($value == "Загран. паспорт" OR $value ==  "Внутррос. паспорт") {
 
-                    $rules['doc_number.'.$tourist_id.'.'.$doc_id] = 'required|numeric';
+                        $rules['doc_number.'.$tourist_id.'.'.$doc_id] = 'required|numeric';
 
-                    $rules['doc_seria.'.$tourist_id.'.'.$doc_id] = ($value == "Загран. паспорт") 
+                        $rules['doc_seria.'.$tourist_id.'.'.$doc_id] = ($value == "Загран. паспорт") 
 
-                                                                    ? 'required|digits:2' 
+                                                                        ? 'required|digits:2' 
 
-                                                                    : 'required|digits:4';
+                                                                        : 'required|digits:4';
+
+                            if($value ==  "Внутррос. паспорт") {
+
+                              if($tourist_id == request()->is_buyer) {
+
+                                  $rules['who_issued.'.$tourist_id.'.'.$doc_id] = 'required';
+                                  $rules['address_pass.'.$tourist_id.'.'.$doc_id] = 'required';
+                                  $rules['address_real.'.$tourist_id.'.'.$doc_id] = 'required';
+                            }
+
+                      }
 
 
+                      } 
 
-                  } else {
+                      else {
 
-                    $rules['doc_number.'.$tourist_id.'.'.$doc_id] = ['required', 'regex: /^[a-zA-Z0-9а-яёА-ЯЁ-]+$/u'];
-
-
-                  }
+                        $rules['doc_number.'.$tourist_id.'.'.$doc_id] = ['required', 'regex: /^[a-zA-Z0-9а-яёА-ЯЁ-]+$/u'];
 
 
-             //      $rules['doc_number.'.$tourist_id.'.'.$doc_id] = 
+                      }
 
-             //      ($value == "Загран. паспорт" OR $value ==  "Внутррос. паспорт")
-
-             //      ? 'required|numeric' 
-
-             //      : ['required', 'regex: /^[a-zA-Z0-9\x{0430}-\x{044F}\x{0410}-\x{042F}-]+$/u'];
-                
-             //    }
-
-             //      $rules['doc_seria.'.$tourist_id.'.'.$doc_id] = 
-
-             //      ($value == "Загран. паспорт" OR $value ==  "Внутррос. паспорт")
-
-             //      ? 'required|numeric' 
-
-             //      : ['required', 'regex: /^[a-zA-Z0-9\x{0430}-\x{044F}\x{0410}-\x{042F}-]+$/u'];
-
-             // }
 
                   }
               } 
@@ -136,6 +132,15 @@ class tourRequest extends FormRequest
 
 
 
+           foreach (request()->cancel_patronymic as  $id => $cancel_patronymic) {
+
+              if($cancel_patronymic == 1) {
+             
+               $rules['patronymic.'.$id] = []; 
+             
+             }
+
+            } 
 
 
            if(request()->currency != 'RUB') {
@@ -213,192 +218,16 @@ class tourRequest extends FormRequest
            $number_of_tourists = count(request()->name);
 
 
-
            $inputed_tourists_id = array();
 
 
-           // $cannot_changetourist = $bool = filter_var($request_array['allchecked'], FILTER_VALIDATE_BOOLEAN); // TRUE (cannot) OR FALSE (can!)
+      } else {
 
+        $rules = [];
+      }
 
 
-            // Check if passport already exists in the DB. 
 
-            // If tourist belongs to a tour different from this one:
-
-     
-
-        //   for($i=0; $i<$number_of_tourists; $i++) {
-
-        //       $tourist_attr_same_asindb_count=0;
-
-
-        //         if ($tourist = Tourist::where('doc_fullnumber', $request_array_tourist['doc_fullnumber'][$i])->first() ) {
-
-        //             // If so, check other input fields of tourist who has this passport:
-
-        //               $here_unnecessary_attr = ['doc_fullnumber'];
-
-        //               $request_array_tourist_no_doc = array_diff_key($request_array_tourist, ['doc_fullnumber' => 0]);
-
-        //               $tourist_attr_to_check_count = count($request_array_tourist_no_doc);
-
-
-        //               foreach ($request_array_tourist_no_doc as $attribute => $values) { 
-
-        //                             if( $tourist->$attribute != $values[$i] ) {
-
-        //                               if($cannot_changetourist) {
-
-
-        //                                 if($tourist->tours->count() > $update) {
-
-        //                                 // If other field is different, create a rule (always returns false) with value from DB:
-
-        //                                 $value_from_DB = $tourist->$attribute;
-
-        //                                 $attribute_to_lower = strtolower($attribute);
-
-        //                                 $rules["$attribute.$i"] = "{$attribute_to_lower}_fail:$value_from_DB"; 
-        //                                 // validation rule-name can be lowercase only
-
-        //                                   }
-
-        //                                 }
-        //                                 // }
-
-        //                             } else { 
-
-
-        //                                 // If other field is same:
-
-        //                                 $tourist_attr_same_asindb_count+=1;
-
-
-        //                                   if($tourist_attr_same_asindb_count == $tourist_attr_to_check_count) {
-
-        //                                     $array=array();
-
-        //                                     $array['tourist_id'] = $tourist->id;
-
-        //                                     if ($request_array['is_buyer'] == $i) { 
-
-        //                                         $array['is_buyer'] = 1;
-
-        //                                         $array['is_tourist'] = $request_array['is_tourist']; // Buyer can be a tourist or not (1 or 0)
-
-        //                                     } else {
-
-        //                                         $array['is_buyer'] = 0;
-
-        //                                         $array['is_tourist'] = 1; // Tourist (no buyer) is always tourist
-
-        //                                     }
-
-        //                                     $inputed_tourists_id[] = $array;
-
-        //                                   }
-
-
-        //                             }
-
-                
-        //                 }
-
-        //         }
-
-
-        //    }
-
-
-
-
-        // if(count($inputed_tourists_id) == $number_of_tourists) {
-
-        //      // Check if such tour exists in the DB:
-
-        //      $tour_already_exists = false;
-
-        //      $tour_where_clause = array();
-
-        //      foreach ($request_array_tour as $key => $value) {
-               
-        //           $tour_where_clause[] = [$key, $value];
-        //      }
-
-
-
-        //      $tour_duplicates = Tour::where($tour_where_clause)->get();
-
-
-        //      if(empty($tour_duplicates->toArray() ) ) {
-
-        //        $tour_duplicates = null;
-
-        //      } else {
-
-        //         foreach ($tour_duplicates as $tour_duplicate) {
-
-        //           if(count($tour_duplicate->tourists) == $number_of_tourists) {
-
-        //             foreach ($tour_duplicate->tourists as $tourist) {
-
-        //               $tour_duplicate_pivot_array[] = array_diff_key($tourist->pivot->toArray(), array_flip($keys_timestamps), ['tour_id'=>0]);
-
-        //             }
-
-
-
-        //             if ($tour_duplicate_pivot_array == $inputed_tourists_id) {
-
-
-        //               $tour_already_exists = true;
-
-        //               $same_tour_id = $tour_duplicate->id;
-
-
-        //               $rules["tour_exists"] = "tour_exists: $same_tour_id";
-
-
-
-        //             }
-
-
-        //           }
-
-        //         }
-
-        //      }
-
-        // }
-
-    
-           
-          // Check if such Заявка exists
-
-          // Check if such tour exists
-
-          // If tour exists, check how many tourists are attached to it and compare with number of tourists
-
-          // if tour->tourist->count() = $tour_exists->tourist->count()
-
-          // Проверить doc_fullnumber всех туристов из input-a, есть ли турист с таким doc_fullnumber  в базе. 
-
-          // Если да, проверить, соотвествуют ли массив id всех туристов массиву tour->tourist;
-
-          // Если да, проверить, совпадают ли остальные поля туристов из input-a c тем, что есть в tourist в базе.
-
-          // Если да, выкинуть правило "Точно такая же заявка уже существует в базе!"
-
-
-         
-
-// 
-        // dd($rules);
-
-} else {
-
-  $rules = [];
-}
            return $rules;
 
     }
@@ -411,6 +240,7 @@ class tourRequest extends FormRequest
                 '*.required' => 'Введите значение!',
                 'name.*regex' => 'Только рус. буквы и "-"!', 
                 'lastName.*regex' => 'Только рус. буквы и "-"!', 
+                'patronymic.*' => 'Только рус. буквы и "-"!', 
                 'nameEng.*regex' => 'Только лат. буквы и "-"!', 
                 'lastNameEng.*regex' => 'Только лат. буквы и "-"!', 
                 // 'doc_fullnumber.*distinct' => 'В одном туре не может быть 2-х одинаковых паспортов!',
@@ -424,7 +254,9 @@ class tourRequest extends FormRequest
                 'doc_number.*regex' => 'Цирфы, буквы лат. и рус., и "-"! ', 
                 'is_buyer.required' => 'Выберите заказчика!',
                 'is_tourist.required' => 'Выберите "да" или "нет"!',
-
+                'who_issued.*.required' => 'Для заказчика обязательно!',
+                'address_pass.*.required' => 'Для заказчика обязательно!',
+                'address_real.*.required' => 'Для заказчика обязательно!'                
                 ];
 
       $update = request()->input('is_update');
