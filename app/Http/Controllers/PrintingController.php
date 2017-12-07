@@ -39,7 +39,9 @@ class PrintingController extends Controller
 
     $template = Printing::process_template($template, $tour);
 
-    return view('Tours2.print.contract_preview', compact('template', 'tour', 'doc_type'));
+    $doc_type_rus = Printing::doc_type($doc_type);
+
+    return view('Tours2.print.contract_preview', compact('template', 'tour', 'doc_type', 'doc_type_rus'));
 
   }
    
@@ -63,7 +65,7 @@ class PrintingController extends Controller
 
     $manager = Printing::findManager($tour);
 
-    $buyer = $tour->buyer->first()->lastName.' '.substr($tour->buyer->first()->name, 0, 2).'.';
+    $buyer = $tour->buyer->first()->lastName.' '.substr($tour->buyer->first()->name, 0, 2).'.'.substr($tour->buyer->first()->patronymic, 0, 2);
 
         
       $objWriter =  new \PhpOffice\PhpWord\PhpWord();

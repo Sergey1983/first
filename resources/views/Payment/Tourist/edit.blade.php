@@ -51,20 +51,37 @@
 
 						</div>
 
+@unless($tour->currency == 'RUB')
+
+					 	<div class="form-group">
 
 
-					 	<div class="form-group" id="pay_rub">
-
-
-							{!! Form::label('pay_rub', 'Сумма в рублях', ['class'=>'control-label  col-md-4'])!!}
+							{!! Form::label(null, 'Стоимость тура в RUB', ['class'=>'control-label  col-md-4'])!!}
 
 							<div class="col-md-4">
 
-						 		{!! Form::text('pay_rub', null, ['placeholder' =>  'Введите сумму в рублях', 'class'=>"form-control", 'id'=>'pay_rub', 'required'] )  !!}
+								<div class="well well-sm" style="margin-bottom:0px;">{{$tour->price_rub}}</div>
 
 						 	</div>
 
 						</div>
+
+					 	<div class="form-group">
+
+
+							{!! Form::label(null, 'Турист должен в RUB', ['class'=>'control-label  col-md-4'])!!}
+
+							<div class="col-md-4">
+
+								<div class="well well-sm" style="margin-bottom:0px;">{{$tour->price_rub - $tour->payments_from_tourists_rub_sum()}}</div>
+
+						 	</div>
+
+						</div>
+
+
+@endunless
+
 
 @unless($tour->currency == 'RUB')
 
@@ -82,6 +99,21 @@
 						</div>
 
 @endunless
+
+					 	<div class="form-group" id="pay_rub">
+
+
+							{!! Form::label('pay_rub', 'Сумма в рублях', ['class'=>'control-label  col-md-4'])!!}
+
+							<div class="col-md-4">
+
+						 		{!! Form::text('pay_rub', null, ['placeholder' =>  'Введите сумму в рублях', 'class'=>"form-control", 'id'=>'pay_rub', 'required'] )  !!}
+
+						 	</div>
+
+						</div>
+
+
 
 
 		@unless($tour->price==$tour->payments_from_tourists_sum())

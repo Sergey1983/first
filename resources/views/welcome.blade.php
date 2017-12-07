@@ -2,6 +2,8 @@
 
 @section('content')
 
+
+
 <div class="container-fluid text-center">
 
 {!! Form::open(['id'=>'login', 'class'=>'form-inline', 'method'=>'post', 'route'=>'sessions.login'])!!}

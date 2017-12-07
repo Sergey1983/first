@@ -6,7 +6,16 @@ Route::get('generate-docx', 'HomeController@generateDocx');
 
 Route::get('/', function()
 {
-	return view('welcome');
+	if(!Auth::check()) {
+	
+		return view('welcome');
+
+	} else {
+
+		return redirect()->route('home');
+
+	}
+
 })->name('login');
 
 Route::post('/login', ['as' => 'sessions.login', 'uses' => 'SessionsController@login']);
@@ -39,7 +48,6 @@ Route::get('/test2', 'TestController2@test');
 Route::get('/test3', 'TestFormController@index');
 Route::post('/test3', 'TestFormController@store');
 
-Route::get('/test3/result', 'TestFormContPaymentTouristControllerroller@search');
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -113,6 +121,8 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::post('admin/templates/store_draft', ['as' => 'template_draft.store', 'uses' => 'TemplateController@store_draft']);
 			Route::post('admin/templates/gethtml', ['as' => 'template.gethtml', 'uses' => 'TemplateController@getHtml']);
 			Route::get('admin/templates/view/{template}', ['as' => 'template.show', 'uses' => 'TemplateController@template_show_version']);
+
+			Route::resource('airports', 'AirportController');
 
 		});
 

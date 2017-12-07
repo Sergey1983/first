@@ -37,15 +37,15 @@ class BookingController extends Controller
 		
 		$createVersion = true;
 
-		if(is_null($tour->status)) {
+		// if(is_null($tour->status)) {
 
-			$request['status'] = 'Бронирование';
+		// 	$request['status'] = 'Бронирование';
 
-			previous_tour::where('tour_id', $tour->id)->first()->update(['status'=> 'Бронирование']);
+		// 	previous_tour::where('tour_id', $tour->id)->first()->update(['status'=> 'Бронирование']);
 
-			$createVersion = false;
+		// 	$createVersion = false;
 
-		}
+		// }
 
 		$tour->update($request);
 

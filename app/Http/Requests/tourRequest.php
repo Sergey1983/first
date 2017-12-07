@@ -84,12 +84,17 @@ class tourRequest extends FormRequest
             // 'doc_fullnumber.*' => 'required|digits_between:3,15', 
             'is_buyer' => 'required',
             'is_tourist' => 'required',   
+
            ];
 
 
            if (isset(request()->doc_type)) {
 
+             $rus_pass_for_buyer_exists = false;
+
              foreach (request()->doc_type as $tourist_id => $doc_types) {
+
+
                
                 foreach ($doc_types as $doc_id => $value) {
 
@@ -106,14 +111,19 @@ class tourRequest extends FormRequest
 
                             if($value ==  "Внутррос. паспорт") {
 
-                              if($tourist_id == request()->is_buyer) {
+                                if($tourist_id == request()->is_buyer) {
 
-                                  $rules['who_issued.'.$tourist_id.'.'.$doc_id] = 'required';
-                                  $rules['address_pass.'.$tourist_id.'.'.$doc_id] = 'required';
-                                  $rules['address_real.'.$tourist_id.'.'.$doc_id] = 'required';
+                                    $rus_pass_for_buyer_exists = true;
+
+                                    $rules['who_issued.'.$tourist_id.'.'.$doc_id] = 'required:is_buyer,==,'.$tourist_id;
+                                    $rules['address_pass.'.$tourist_id.'.'.$doc_id] = 'required:is_buyer,==,'.$tourist_id;
+                                    $rules['address_real.'.$tourist_id.'.'.$doc_id] = 'required:is_buyer,==,'.$tourist_id;
+                                
+                                }
+
+                                $rules['date_expire.'.$tourist_id.'.'.$doc_id] = 'nullable';
+
                             }
-
-                      }
 
 
                       } 
@@ -128,7 +138,19 @@ class tourRequest extends FormRequest
 
                   }
               } 
+
+
+              if(!$rus_pass_for_buyer_exists) {
+
+                  $rules['rus_pas.'.request()->is_buyer] = 'required';
+
+              }
+
           }
+
+
+
+
 
 
 
@@ -190,6 +212,7 @@ class tourRequest extends FormRequest
 
 
 
+
            $request_array = request()->all();
 
 
@@ -237,7 +260,6 @@ class tourRequest extends FormRequest
     {
 
       $messages = [
-                '*.required' => 'Введите значение!',
                 'name.*regex' => 'Только рус. буквы и "-"!', 
                 'lastName.*regex' => 'Только рус. буквы и "-"!', 
                 'patronymic.*' => 'Только рус. буквы и "-"!', 
@@ -254,9 +276,12 @@ class tourRequest extends FormRequest
                 'doc_number.*regex' => 'Цирфы, буквы лат. и рус., и "-"! ', 
                 'is_buyer.required' => 'Выберите заказчика!',
                 'is_tourist.required' => 'Выберите "да" или "нет"!',
-                'who_issued.*.required' => 'Для заказчика обязательно!',
-                'address_pass.*.required' => 'Для заказчика обязательно!',
-                'address_real.*.required' => 'Для заказчика обязательно!'                
+                'who_issued.*required' => 'Для заказчика обязательно!',
+                'address_pass.*required' => 'Для заказчика обязательно!',
+                'address_real.*required' => 'Для заказчика обязательно!',
+                'rus_pas.*' => 'Закачик должен иметь российский паспорт!',
+                                '*.required' => 'Введите значение!'
+               
                 ];
 
       $update = request()->input('is_update');

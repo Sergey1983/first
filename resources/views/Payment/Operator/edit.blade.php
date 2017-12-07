@@ -215,10 +215,10 @@
 
 				<tr>
 					<th>Платеж №</th>
-					<th>Сумма в РУБ</th>
 				@unless($tour->currency=='RUB')
 					<th>Сумма в {{$tour->currency}}
-				@endunless
+				@endunless					
+					<th>Сумма в РУБ</th>
 					<th>Менеджер</th>
 					<th>Время добавление</th>
 					<th></th>
@@ -240,10 +240,10 @@
 
 				<tr>
 					<td>{{$key+1}}</td>
-					<td>{{$payment->pay_rub}}</td>
 				@unless($tour->currency=='RUB')
 					<td>{{$payment->pay}}</td>
 				@endunless
+					<td>{{$payment->pay_rub}}</td>
 					<td>{{$payment->user->name}}</td>
 					<td>{{$payment->created_at}}</td>
 					<td>

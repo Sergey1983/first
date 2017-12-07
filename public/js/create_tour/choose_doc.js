@@ -27,14 +27,15 @@ $(document).ready(function(){
 
 		change_another_doc_select(tourist_number, doc_number, value);
 
-		$('[name="doc_seria['+tourist_number+'][0]"]').removeAttr('disabled');
-		$('[name="doc_number['+tourist_number+'][0]"]').removeAttr('disabled');
+		$('[name="doc_seria['+tourist_number+']['+doc_number+']"]').val('').removeAttr('disabled');
+		$('[name="doc_number['+tourist_number+']['+doc_number+']"]').removeAttr('disabled');
 
 
 
 
 		$('#russian_passport_row_'+tourist_number+'_'+doc_number+'').remove();
 
+		$('input[name="date_expire['+tourist_number+']['+doc_number+']"]').removeAttr('disabled');
 
 
 		if(value == 'Загран. паспорт'||value == 'Внутррос. паспорт') {
@@ -59,6 +60,8 @@ $(document).ready(function(){
 				);
 
 			if(value == 'Внутррос. паспорт') {
+
+				$('input[name="date_expire['+tourist_number+']['+doc_number+']"]').val('').attr('disabled', 'disabled');
 
 				$(row).after(
 

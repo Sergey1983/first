@@ -15,7 +15,7 @@ class ToursTableSeeder extends Seeder
     {
 
 
-      factory(App\Tour::class, 100)->create()->each(function($tour) {
+      factory(App\Tour::class, 1000)->create()->each(function($tour) {
 
         $tour->previous_tours()->create(array_merge(['version'=>1], $tour->toArray()) );
 
@@ -154,7 +154,6 @@ class ToursTableSeeder extends Seeder
      //      'operator_code' => 'ROUPUP10982374',
      //      'operator_price' => $price-100, 
      //      'operator_price_rub' => $price_rub-1000, 
-     //      'operator_payment' => null, 
      //      'operator_full_pay' => null, 
      //      'operator_part_pay' => null, 
      //      'status' => $faker->randomElement($array = array ('Бронирование', 'Подтверждено', 'Отказ', 'Аннулировано')),

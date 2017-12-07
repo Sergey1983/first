@@ -77,7 +77,6 @@ $factory->define(App\Tour::class, function(Faker\Generator $faker){
           'operator_code' => 'ROUPUP10982374',
           'operator_price' => $price-100, 
           'operator_price_rub' => $price_rub-1000, 
-          'operator_payment' => null, 
           'operator_full_pay' => null, 
           'operator_part_pay' => null, 
           'status' => $faker->randomElement($array = array ('Бронирование', 'Подтверждено', 'Отказ', 'Аннулировано')),

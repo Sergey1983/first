@@ -165,7 +165,7 @@ class CheckRequest extends RequestVariables
 		$to_return['tourists'] = $tourists_array;
 		$to_return['documents'] = $documents_array;
 
-
+// die();
 		return $to_return;
 	}
 
@@ -219,14 +219,42 @@ class CheckRequest extends RequestVariables
 
 					// CHECK IF EXISTING DOCUMENTS FROM REQUEST NEED TO BE UPDATED: 
 
-					if ( ($doc_values['date_issue'] != $doc_exists->date_issue) OR ($doc_values['date_expire'] != $doc_exists->date_expire)
 
-						OR (isset($doc_values['who_issued']) AND ($doc_values['who_issued'] != $doc_exists->who_issued))
+					$found_difference = false;
 
-						OR (isset($doc_values['address_pass']) AND ($doc_values['address_pass'] != $doc_exists->address_pass))
+
+
+					foreach(array_flip(parent::$key_doc_changable) as $key ) {
+
+
+						if(isset($doc_values[$key])) {
+// dump($doc_values[$key]);
+// dump($doc_exists->{$key});
+
+							if($found_difference = ($doc_values[$key] != $doc_exists->{$key})) {
+
+
+								break;
+							}
+
+						}
+
+					}
+
+
+
+
+
+					// if ( ($doc_values['date_issue'] != $doc_exists->date_issue) OR ((isset($doc_values['date_expire']) AND $doc_values['date_expire'] != $doc_exists->date_expire)
+
+					// 	OR (isset($doc_values['who_issued']) AND ($doc_values['who_issued'] != $doc_exists->who_issued))
+
+					// 	OR (isset($doc_values['address_pass']) AND ($doc_values['address_pass'] != $doc_exists->address_pass))
  
- 						OR (isset($doc_values['address_real']) AND ($doc_values['address_real'] != $doc_exists->address_real))
-					 ) 
+ 				// 		OR (isset($doc_values['address_real']) AND ($doc_values['address_real'] != $doc_exists->address_real))
+					//  ) 
+
+					if($found_difference)
 
 					{
 
@@ -236,6 +264,11 @@ class CheckRequest extends RequestVariables
 
 						$differences = array_diff_assoc($doc_in_db, $doc_values);
 
+						if($doc_in_db['doc_type'] == "Внутррос. паспорт") {
+
+							unset($differences['date_expire']);
+						}
+
 						$documents_array[$doc_id]['check_info']['differences'] = $differences;
 
 						}
@@ -244,7 +277,6 @@ class CheckRequest extends RequestVariables
 
 			}
 
-			
 			return $documents_array;
 
 	}

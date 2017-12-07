@@ -259,7 +259,7 @@
 
 			<nav aria-label="Page navigation example">
 
-			  <ul class="pagination">
+			  <pagination class="pagination" >
 
 			    <li class="page-item">
 
@@ -288,7 +288,7 @@
 
 			    </li>
 
-			  </ul>
+			  </pagination>
 
 			</nav>
 

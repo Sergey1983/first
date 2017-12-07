@@ -63,7 +63,6 @@ class PaymentTouristController extends Controller
 	public function delete(Tour $tour, $payment_id)
 	
 	{
-		$tour = Tour::find($id);
 
         $user = auth()->user();
 		

@@ -28,6 +28,7 @@ $(document).ready(function() {
 
 					event.preventDefault();
 
+
 					create_or_update(event.data.value); 
 
 					// console.log('verb after function', verb);
@@ -38,7 +39,7 @@ $(document).ready(function() {
 
 				function create_or_update(action) {
 
-
+// console.log('1');
 
 
 				if ($("input[name='all_disabled']").attr('value') == 'true') {
@@ -74,11 +75,12 @@ $(document).ready(function() {
 
 				}
 
+// console.log('2');
+
+
 
 
 					var request = $('#tour_form, #passengers_form').serializeArray();
-
-
 
 
 					if(action == 'create') {
@@ -124,7 +126,15 @@ $(document).ready(function() {
 						})
 
 
-					$.ajax({
+					// setTimeout(function(){
+					// 	$(request).each(function(i, element) {console.log(i, element)});
+					// 	console.log(request); 
+
+					// }, 2000); return;
+
+					// setTimeout( function() { 
+
+						$.ajax({
 
 						type: 'post',
 						url: url,
@@ -547,19 +557,31 @@ $(document).ready(function() {
 								    
 									else if (property == 'tour_exists') {
 
-								    $('div[class="input submit"]').append('<p class="p-error">'+' '+errors[property]+'</p>');
+									    $('div[class="input submit"]').append('<p class="p-error">'+' '+errors[property]+'</p>');
 
 
 									}
 
+									else if (property.includes('rus_pas') ) {
+
+										console.log(property);
+
+										var tourist_id = property.replace('rus_pas[', '').replace(']','');
+
+										$('[class*="inputs_'+tourist_id+'"]').append('<p class="p-error">'+errors[property]+'</p>');
+
+
+									}
 
 									else {
 
 									
-								    $('[name="'+property+'"]').parent('div').append('<div class="alert-validation">'+''+errors[property]+'</div>');
+									    $('[name="'+property+'"]').parent('div').append('<div class="alert-validation">'+''+errors[property]+'</div>');
 								    
 
-									}
+									} 
+
+
 
 								}
 							        
@@ -569,7 +591,9 @@ $(document).ready(function() {
 
 							$('div[class="row submit"]').append('<div class="col-md-3 text-left"><div class="alert-validation">В форме есть ошибки! См. выше!</div></div>');
 
-						});			
+						});
+
+						 // }, 2000);			
 
 				};
 

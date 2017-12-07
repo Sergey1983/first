@@ -80,9 +80,13 @@ $(document).ready(function () {
 				
 				console.log(data);
 
+				var prev_url = data.prev_page_url == null ? null : getAndDecrementLastNumber(data.prev_page_url);
+				var next_url = data.next_page_url == null ? null : getAndIncrementLastNumber(data.next_page_url, data.last_page);
 
-				$('[aria-label="Previous"]').attr('href', data.prev_page_url);
-				$('[aria-label="Next"]').attr('href', data.next_page_url);
+
+
+				$('[aria-label="Previous"]').attr('href', prev_url);
+				$('[aria-label="Next"]').attr('href', next_url);
 
 
 				// var thead = $('#load_tours_table_thead');
@@ -90,12 +94,16 @@ $(document).ready(function () {
 
 				tbody.empty();
 
-				$('ul[class="pagination"]').find('li').not(':first').not(':last').remove();
+				$('pagination[class="pagination"]').find('li').not(':first').not(':last').remove();
 
-				for (var i = 1; i <= data.last_page; i++) {
+				var from = data.current_page;
+
+				var to = data.current_page+20 < data.last_page ? data.current_page+20 : data.last_page;				
+
+				for (var i = from; i <= to; i++) {
 
 					$('[aria-label="Next"]').parent().before('<li '+(data.current_page == i ? 'class="page-item active"' : 'class="page-item"')+'"><a class="page-link" id ="paginator'+i+'" href="../load_tours_function?page='+i+'">'+i+'</a></li>');
-					// $('#paginator'+i+'').attr('href', 'load_tours_function?page='+i+'');
+
 				}
 
 				$(data.data).each(function (key, tour) {
@@ -111,7 +119,7 @@ $(document).ready(function () {
 								'<td>'+tour.buyer+'</td>'+
 								'<td>'+tour.number_of_tourists+'</td>'+
 								'<td>'+tour.country+'</td>'+
-								'<td>'+(tour.tour_type == 'Пакетный' ? tour.product : tour.tour_type)+'</td>'+
+								'<td>'+(tour.tour_type == 'Пакетный' ? '<span data-toggle="tooltip" data-placement="top" title="'+tour.product_tooltip+'">'+tour.product+'</span>' : tour.tour_type)+'</td>'+
 								'<td>'+tour.date_depart+'</td>'+
 								'<td>'+tour.nights+'</td>'+
 								'<td>'+tour.price+'</td>'+
@@ -186,6 +194,52 @@ $(document).ready(function () {
 		$("input[name='paginate']").attr('value', paginate);
 		$("input[name='tourist_name']").attr('value', tourist_name);
 		$("input[name='tourist_lastname']").attr('value', tourist_lastname);
+
+	}
+
+	function getAndIncrementLastNumber(str, lastpage) {
+
+
+		var link_num = str.match(/\d+$/)[0];
+
+
+		if (Number(link_num)+20 > lastpage) {
+
+			return null;
+
+		} else {
+
+		    return str.replace(/\d+$/, function(s) {
+
+		        return +s+20;
+		   
+		    });
+
+		}
+
+
+	}
+
+	function getAndDecrementLastNumber(str) {
+
+
+		var link_num = str.match(/\d+$/)[0];
+
+
+		if (Number(link_num)-20 < 0) {
+
+			return 1;
+
+		} else {
+
+		    return str.replace(/\d+$/, function(s) {
+
+		        return +s-20;
+		   
+		    });
+
+		}
+
 
 	}
 

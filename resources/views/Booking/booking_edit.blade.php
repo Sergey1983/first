@@ -36,7 +36,7 @@
 
 							<div class="col-md-6">
 
-						 		{!! Form::text('operator_price', $tour->operator_price, ['placeholder' =>  'Введите сумму в '.strtoupper($tour->currency).'', 'class'=>"form-control", 'id'=>'operator_price', 'required'] )  !!}
+						 		{!! Form::text('operator_price', $tour->operator_price, ['placeholder' =>  'Введите сумму в '.strtoupper($tour->currency).'', 'class'=>"form-control", 'id'=>'operator_price'] )  !!}
 
 						 	</div>
 
@@ -51,7 +51,7 @@
 
 							<div class="col-md-6">
 
-						 		{!! Form::text('operator_price_rub', $tour->operator_price_rub, ['placeholder' =>  'Введите сумму в RUB', 'class'=>"form-control", 'id'=>'operator_price_rub', 'required'] )  !!}
+						 		{!! Form::text('operator_price_rub', $tour->operator_price_rub, ['placeholder' =>  'Введите сумму в RUB', 'class'=>"form-control", 'id'=>'operator_price_rub'] )  !!}
 
 						 	</div>
 
@@ -64,7 +64,7 @@
 
 							<div class="col-md-6">
 
-								{!! Form::date ('operator_full_pay', $tour->operator_full_pay, ['class'=>'form-control', 'id'=>'operator_full_pay', 'required'])!!}
+								{!! Form::date ('operator_full_pay', $tour->operator_full_pay, ['class'=>'form-control', 'id'=>'operator_full_pay'])!!}
 
 						 	</div>
 
@@ -76,29 +76,27 @@
 
 							<div class="col-md-6">
 
-								{!! Form::date ('operator_part_pay', $tour->operator_part_pay, ['class'=>'form-control', 'id'=>'operator_part_pay', 'required'])!!}
+								{!! Form::date ('operator_part_pay', $tour->operator_part_pay, ['class'=>'form-control', 'id'=>'operator_part_pay'])!!}
 
 						 	</div>
 
 						</div>
 
-@unless(is_null($tour->operator_code))
 
 					 	<div class="form-group" id="status">
 
 
-							{!! Form::label('status', 'Код бронирования', ['class'=>'control-label  col-md-6'])!!}
+							{!! Form::label('status', 'Статус бронирования', ['class'=>'control-label  col-md-6'])!!}
 
 							<div class="col-md-6">
 
-							{!! Form::select ('status', ['Подтверждено'=>'Подтверждено', 'Отказ'=>'Отказ', 'Аннулировано'=>'Аннулировано'], null , ['placeholder' =>  'Выберите статус', 'class'=>"form-control", 'required'])!!}
+							{!! Form::select ('status', ['Бронирование'=>'Бронирование', 'Подтверждено'=>'Подтверждено', 'Отказ'=>'Отказ', 'Аннулировано'=>'Аннулировано'], $tour->status , ['placeholder' =>  'Выберите статус', 'class'=>"form-control", 'required'])!!}
 
 						 	</div>
 
 						</div>
 
 
-@endunless
 
 
 						<div class="form-group text-center">

@@ -53,7 +53,6 @@ class CreateToursTable extends Migration
             $table->string('operator_code', 50)->nullable();
             $table->integer('operator_price')->nullable();
             $table->integer('operator_price_rub')->nullable();
-            $table->integer('operator_payment')->nullable();
             $table->date('operator_full_pay')->nullable();
             $table->date('operator_part_pay')->nullable();
             $table->string('status', 50)->nullable();

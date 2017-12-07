@@ -33,7 +33,7 @@ class CreatePreviousDocumentsTable extends Migration
             $table->string('doc_number');
             $table->integer('seria');
             $table->date('date_issue');
-            $table->date('date_expire');
+            $table->date('date_expire')->nullable();
 
 
             $table->string('who_issued')->nullable();

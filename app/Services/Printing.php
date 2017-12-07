@@ -143,12 +143,32 @@ class Printing
 
       // $visa
 
-      $visa = $tour->visa_add_people === 0 ? 'Есть для всех туристов' : $tour->visa_people;
+      $visa = $tour->visa_add_people === 0 ? $tour->visa." для всех туристов" : $tour->visa_people;
 
       // $noexitinsurance
 
       $noexit_insurance = $tour->noexit_insurance_add_people===0 ? $tour->noexit_insurance : $tour->noexit_insurance_people;
 
+      $buyer_pass = $tour->buyer->first()->documents->where('doc_type', "Внутррос. паспорт")->first();
+
+      $f = new \NumberFormatter("ru", \NumberFormatter::SPELLOUT);
+
+      $spellpricerub = $f->format($tour->price_rub);
+
+      if($tour->currency == 'RUB') {
+
+        $spellpricecur = null;
+      
+      } else {
+
+          switch($tour->currency) {
+
+            case('USD'): $spellpricecur = $f->format($tour->price).' дол. США'; break;
+            case('EUR'): $spellpricecur = $f->format($tour->price).' евро'; break;
+
+          }
+
+      }
 
       $dictionary = [
 
@@ -162,6 +182,12 @@ class Printing
 
         '$buyerLastName' => $tour->buyer->first()->lastName,
 
+        '$buyerPatronymic' => $tour->buyer->first()->patronymic,
+
+        '$buyerPhone' => $tour->buyer->first()->phone,
+
+        '$buyerEmail' => $tour->buyer->first()->email,
+
         '$operator_full_pay' => is_null($tour->operator_full_pay)? "<span style='color: red'>ДАТА ОТСУТСТВУЕТ</span>" : strftime('%d %B %Y', strtotime($tour->operator_full_pay)),
 
         '$adults' => $adults,
@@ -169,6 +195,8 @@ class Printing
         '$children' => $children,
 
         '$country' => $tour->country,
+
+        '$airport' => $tour->airport,
 
         '$date_depart' => strftime('%d %B %Y', strtotime($tour->date_depart)),
 
@@ -196,17 +224,34 @@ class Printing
 
         '$city_return' => $tour->city_return,
 
-        '$extra_info' => is_null($tour->extra_info) ? '________________________________________________________' : $tour->extra_info,
+        '$extra_info' => is_null($tour->extra_info) ? '________________________________________________________' : nl2br($tour->extra_info),
 
         '$price_rub' => number_format($tour->price_rub, '0', '', ' '),
 
-        '$price' => number_format($tour->price,  '0', '', ' '),
+        '$price' => $tour->currency == 'RUB' ? null : number_format($tour->price,  '0', '', ' '),
+
+        '$spellpricerub' => $spellpricerub.' рублей',
+
+        '$spellpricecur' => $spellpricecur,
 
         '$today' => strftime('%d %B %Y'),
 
         '$operator' => $tour->operator_model->description,
 
         '$nights' => $tour->nights,
+
+        '$seria' => substr($buyer_pass->doc_number, 0, $buyer_pass->seria),
+
+        '$doc_number' => substr($buyer_pass->doc_number, $buyer_pass->seria),
+
+        '$date_issued' => $buyer_pass->date_issue,
+
+        '$who_issued' => $buyer_pass->who_issued,
+
+        '$address_pass' => $buyer_pass->address_pass,
+
+        '$address_real' => $buyer_pass->address_real,
+
 
 
       ];
@@ -234,7 +279,7 @@ class Printing
 
       foreach ($tourists as $tourist) {
 
-        $document = self::get_document($tourist, 'doc0');
+        $document = self::get_document($tourist);
 
         if ($tourist->pivot->doc1 !== null )  
           {
@@ -247,6 +292,7 @@ class Printing
 
           '$tourist+name' => $tourist->name, 
           '$tourist+lastName' => $tourist->lastName,
+          '$tourist+patronymic' => $tourist->patronymic,
           '$tourist+gender' => $tourist->gender,
           '$tourist+birth_date' => strftime('%d %B %Y', strtotime($tourist->birth_date)),
           '$tourist+doc_number' => $document, 
@@ -283,9 +329,28 @@ class Printing
 
   }
 
-  public static function get_document($tourist, $docX) {
+  public static function get_document($tourist) {
 
-        $document = Document::find($tourist->pivot->$docX);
+       
+
+       for($i=0; $i<=1; $i++) {
+
+        if(!is_null(Document::find($tourist->pivot->{'doc'.$i})))
+
+          {
+
+            $document = Document::find($tourist->pivot->{'doc'.$i});
+
+             if ($document->doc_type == "Загран. паспорт") {
+
+              break;
+
+             }
+
+        }
+
+      }
+
 
         $document = $document->seria == 0 ? $document->doc_number : substr($document->doc_number, 0, $document->seria).' '.substr($document->doc_number, $document->seria);
 

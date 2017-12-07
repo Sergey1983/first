@@ -337,6 +337,7 @@ class FunctionsController extends Controller
 
         }
 
+
         // return view('Tours2.tours2', compact('tours'));
 
         foreach ($tours as $key => $tour) {
@@ -390,12 +391,17 @@ class FunctionsController extends Controller
 
             $tour->product = $from.'-'.$to.'-'.$back;
 
+            $tour->product_tooltip = $tour->city_from.'-'.$tour->country.'-'.$tour->city_return;
+
 
 
 
             if($tour->payments_from_tourists_rub_sum() != 0) {
-            
-            $tour->comission = round ( ( 1 - $tour->payments_to_operator_rub_sum() / $tour->payments_from_tourists_rub_sum() ) * 100, 2);
+
+
+                $tour->comission = round ( ( 1 - $tour->payments_to_operator_rub_sum() / $tour->payments_from_tourists_rub_sum() ) * 100, 2);
+
+
 
             } else {$tour->comission = "?";}
 
@@ -415,6 +421,7 @@ class FunctionsController extends Controller
 
 
         }
+
 
         return $tours;
 

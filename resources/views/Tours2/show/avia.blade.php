@@ -96,8 +96,16 @@
 
 				<tr>
 					<td>Статус оплаты оператору</td>
-					@php $debt_operator = $tour->operator_price_rub - $tour->payments_to_operator_rub_sum(); @endphp
-					@php $debt_operator = $debt_operator == 0 ? 'Оплачено' : 'Не оплачено' @endphp
+						@php $debt_operator = $tour->operator_price_rub - $tour->payments_to_operator_rub_sum(); 
+
+						switch($debt_operator) {
+
+							case 0: $debt_operator = 'Оплачено'; break;
+							case $tour->operator_price_rub: $debt_operator = 'Не оплачено'; break;
+							default: $debt_operator = 'Частично';
+						}
+						
+						@endphp
 
 					<td>{{!is_null($tour->operator_price_rub) ? $debt_operator : 'Заявка ещё не подтверждена' }}
 					</td>
