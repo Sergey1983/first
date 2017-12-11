@@ -33,6 +33,9 @@
 
 </div>
 
+{{-- {{phpinfo()}}
+ --}}
+
 @include('layouts.errors')
 
 

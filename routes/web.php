@@ -123,6 +123,7 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('admin/templates/view/{template}', ['as' => 'template.show', 'uses' => 'TemplateController@template_show_version']);
 
 			Route::resource('airports', 'AirportController');
+			Route::resource('operators', 'OperatorsController');
 
 		});
 

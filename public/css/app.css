@@ -97,6 +97,11 @@ body
     margin-bottom: 5px !important;
 }
 
+.no-margin {
+
+    margin: 0 !important;
+}
+
 .margin-bottom-10 {
 
     margin-bottom: 10px;
@@ -198,4 +203,9 @@ body
 
     min-height: 20px !important;
 
+}
+
+.width-25 {
+
+    width: 25% !important;
 }

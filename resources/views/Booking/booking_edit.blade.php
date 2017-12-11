@@ -40,6 +40,12 @@
 
 						 	</div>
 
+							<div class="col-md-offset-6 padding-right-15">
+
+								<small>Стоимость в валюте в заявке: {{$tour->price}} {{$tour->currency}}</small>
+
+						 	</div>
+
 						</div>
 
 @endunless
@@ -52,6 +58,12 @@
 							<div class="col-md-6">
 
 						 		{!! Form::text('operator_price_rub', $tour->operator_price_rub, ['placeholder' =>  'Введите сумму в RUB', 'class'=>"form-control", 'id'=>'operator_price_rub'] )  !!}
+
+						 	</div>
+
+							<div class="col-md-offset-6 padding-right-15">
+
+								<small>Стоимость в рублях в заявке: {{$tour->price_rub}} РУБ.</small>
 
 						 	</div>
 

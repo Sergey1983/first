@@ -142,7 +142,7 @@ $(document).ready(function () {
 			})
 			.fail( function () {
 				
-				tbody.append('<tr><th>Произошла ошибка!</th></tr>');
+				$("#tbody_tours").append('<tr><th>Произошла ошибка!</th></tr>');
 
 			});
 

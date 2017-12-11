@@ -4,6 +4,8 @@
 
 
 
+
+
 <div class="container-fluid text-center">
 	
 <a href="/tours_2/print_contract/{{$tour->id}}/contract" role="button" class="btn btn-primary active" style="text-decoration: none">Печатать ДОГОВОР</a>

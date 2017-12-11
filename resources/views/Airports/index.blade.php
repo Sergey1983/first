@@ -4,19 +4,14 @@
 
 <div class="container-fluid">
 	
-	<div class="row">
+	<div class="row margin-bottom-25">
 
 			{!! Form::open(['method'=> "get", 'route' => ['airports.index']]) !!}
 
-		<div class="col-md-1">
 
-			{!! Form::label('country', 'Страна', ['class'=>'control-label col-md-4 no-padding'])!!}
+		<div class="col-md-2">
 
-		</div>
-
-		<div class="col-md-2 no-padding">
-
-			{!! Form::text ('country', null , [ 'class'=>"form-control"])!!}
+			{!! Form::select('country', $countries, null, ['placeholder'=>'Выберите страну', 'class'=>"form-control"])!!}
 
 			
 		</div>
@@ -24,24 +19,21 @@
 		<div class="col-md-2">
 
 			{!!Form::submit('Показать по стране', ['class' => 'btn btn-default'])!!}
-
 	
 			
 		</div>
 
 			{!! Form::close() !!}
 
-	</div>
 
-	<div class="row margin-bottom-25">
+		<div class="col-md-1 col-md-offset-6">
 
-		<div class="col-md-offset-1">
+			<a href="{{route('airports.create')}}" class="btn btn-success no-margin" role="button">Создать аэропорт</a>
 
-			<small>Вбейте пустое значение и нажмите кнопку, чтобы вывести все</small>
-		
 		</div>
 
 	</div>
+
 
 </div>
 
@@ -57,7 +49,7 @@
 				<th>Название</th>
 				<th>Город</th>
 				<th>Страна</th>
-				<th>Популярность по стране<th>
+				<th class="text-center">Популярность по стране<th>
 				<th><th>
 
 			</tr>
@@ -74,8 +66,8 @@
 				<td>{{$airport->name}}</td>
 				<td>{{$airport->city}}</td>
 				<td>{{$airport->country}}</td>
-				<td>{{$airport->popularity}}<td>
-				<td><a href="{{route('airports.show', ['id'=>$airport->id])}}" class="btn btn-info" role="button">Редактировать</a><td>
+				<td class="text-center">{{$airport->popularity}}<td>
+				<td><a href="{{route('airports.edit', ['id'=>$airport->id])}}"  role="button">Редактировать</a><td>
 
 			</tr>
 			

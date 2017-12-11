@@ -172,3 +172,56 @@ Breadcrumbs::register('template.show', function ($breadcrumbs, $template) {
 	$breadcrumbs->parent('template.index', Printing::tour_type_reverse($template->tour_type));
     $breadcrumbs->push($template->doc_type.' шаблон от '.$template->created_at, route('template.show', $template));
 });
+
+
+//Главная > Панель админа > Аэропорты
+
+Breadcrumbs::register('airports.index', function ($breadcrumbs) {
+
+	$breadcrumbs->parent('admin.start');
+    $breadcrumbs->push('Аэропорты', route('airports.index'));
+});
+
+
+//Главная > Панель админа > Создать аэропорт
+
+Breadcrumbs::register('airports.create', function ($breadcrumbs) {
+
+	$breadcrumbs->parent('airports.index');
+    $breadcrumbs->push('Создать аэропорт', route('airports.create'));
+});
+
+//Главная > Панель админа > Редактировать аэропорт
+
+Breadcrumbs::register('airports.edit', function ($breadcrumbs, $airport) {
+
+	$breadcrumbs->parent('airports.index');
+    $breadcrumbs->push('Редактировать аэропорт', route('airports.edit', $airport));
+});
+
+
+
+//Главная > Панель админа > Операторы
+
+Breadcrumbs::register('operators.index', function ($breadcrumbs) {
+
+	$breadcrumbs->parent('admin.start');
+    $breadcrumbs->push('Операторы', route('operators.index'));
+});
+
+
+//Главная > Панель админа > Создать оператор
+
+Breadcrumbs::register('operators.create', function ($breadcrumbs) {
+
+	$breadcrumbs->parent('operators.index');
+    $breadcrumbs->push('Создать оператора', route('operators.create'));
+});
+
+//Главная > Панель админа > Редактировать оператор
+
+Breadcrumbs::register('operators.edit', function ($breadcrumbs, $operator) {
+
+	$breadcrumbs->parent('operators.index');
+    $breadcrumbs->push('Редактировать оператора', route('operators.edit', $operator));
+});

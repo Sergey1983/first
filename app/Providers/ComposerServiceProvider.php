@@ -17,7 +17,7 @@ public function boot()
         );
 
         View::composer(
-            ['Tours2.tours2_table', 'layouts.tours2_table'], 'App\Http\ViewComposers\TourSearchViewComposer'
+            ['Tours2.tours2_table', 'layouts.tours2_table', 'Airports.create_or_update', 'Airports.index'], 'App\Http\ViewComposers\TourSearchViewComposer'
         );
 
 

@@ -69,7 +69,9 @@
                 <tr><td>$tourist+gender</td><td>Турист: пол</td></tr>
                 <tr><td>$tourist+birth_date</td><td>Турист: дата рождения</td></tr>
                 <tr><td>$tourist+doc_number</td><td>Турист: номер документа</td></tr>
-
+                <tr><td>$managerName</td><td>Менедежер: имя</td></tr>
+                <tr><td>$managerLastName</td><td>Менедежер: фамилия</td></tr>
+                <tr><td>$managerPatronymic</td><td>Менедежер: отчество</td></tr>
             </tbody>
 
           </table>

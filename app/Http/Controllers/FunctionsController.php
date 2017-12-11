@@ -386,7 +386,7 @@ class FunctionsController extends Controller
 
             $to = ($tour->airport == 'BKA' OR $tour->airport == 'DME' OR $tour->airport == 'SVO' OR $tour->airport == 'VKO') ? 'MOW' : $tour->airport;
 
-            $back = $tour->city_from == 'Москва' ? "MOW" : (!is_null($tour->city_return) ? Airport::where('city', $tour->city_return)->first()->code : $from );
+            $back = Airport::where('city', $tour->city_return)->first()->code;
 
 
             $tour->product = $from.'-'.$to.'-'.$back;
@@ -396,14 +396,18 @@ class FunctionsController extends Controller
 
 
 
-            if($tour->payments_from_tourists_rub_sum() != 0) {
+            if(($tour->payments_from_tourists_rub_sum() != 0) AND ($tour->operator_price_rub == $tour->payments_to_operator_rub_sum()) )
 
+             {
 
                 $tour->comission = round ( ( 1 - $tour->payments_to_operator_rub_sum() / $tour->payments_from_tourists_rub_sum() ) * 100, 2);
+        
 
+            } else {
 
+                $tour->comission = "-";
 
-            } else {$tour->comission = "?";}
+            }
 
 
             foreach ($tour->tour_tourist as $tourist) {

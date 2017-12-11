@@ -163,12 +163,14 @@ class Printing
 
           switch($tour->currency) {
 
-            case('USD'): $spellpricecur = $f->format($tour->price).' дол. США'; break;
-            case('EUR'): $spellpricecur = $f->format($tour->price).' евро'; break;
+            case('USD'): $spellpricecur = nl2br($f->format($tour->price).' условных единиц (у.е.), '.PHP_EOL.'1 у.е. равна 1 доллар США '.PHP_EOL.'по курсу туроператора на день оплаты'); break;
+            case('EUR'): $spellpricecur = $f->format($tour->price).' условных единиц (у.е.), 1 у.е. равна 1 евро по курсу туроператора на день оплаты'; break;
 
           }
 
       }
+
+      $manager = $tour->previous_tours->sortBy('created_at')->first()->user;
 
       $dictionary = [
 
@@ -200,7 +202,7 @@ class Printing
 
         '$date_depart' => strftime('%d %B %Y', strtotime($tour->date_depart)),
 
-        '$date_return' =>  strftime('%d %B %Y' ,strtotime("+".$tour->nights." days", strtotime($tour->date_depart)) ),
+        '$date_return' =>  strftime('%d %B %Y' ,strtotime("+".$tour->nights." days", strtotime($date_hotel)) ),
 
         '$hotel' => $tour->hotel,
 
@@ -236,7 +238,7 @@ class Printing
 
         '$today' => strftime('%d %B %Y'),
 
-        '$operator' => $tour->operator_model->description,
+        '$operator' => nl2br($tour->operator_model->description),
 
         '$nights' => $tour->nights,
 
@@ -251,6 +253,12 @@ class Printing
         '$address_pass' => $buyer_pass->address_pass,
 
         '$address_real' => $buyer_pass->address_real,
+
+        '$managerName' => $manager->name,
+
+        '$managerLastName' => $manager->name,
+
+        '$managerPatronymic' => $manager->patronymic,
 
 
 
@@ -279,20 +287,16 @@ class Printing
 
       foreach ($tourists as $tourist) {
 
-        $document = self::get_document($tourist);
+        $is_foreign = false;
 
-        if ($tourist->pivot->doc1 !== null )  
-          {
-            
-            $document = $document."\n".self::get_document($tourist, 'doc1');
-            
-             }
+        $document = self::get_document($tourist, $is_foreign);
+
         
         $dictionary = [
 
-          '$tourist+name' => $tourist->name, 
-          '$tourist+lastName' => $tourist->lastName,
-          '$tourist+patronymic' => $tourist->patronymic,
+          '$tourist+name' => $is_foreign ? $tourist->nameEng : $tourist->name, 
+          '$tourist+lastName' => $is_foreign ? $tourist->lastNameEng : $tourist->lastName,
+          '$tourist+patronymic' => $is_foreign ? null : $tourist->patronymic,
           '$tourist+gender' => $tourist->gender,
           '$tourist+birth_date' => strftime('%d %B %Y', strtotime($tourist->birth_date)),
           '$tourist+doc_number' => $document, 
@@ -317,7 +321,7 @@ class Printing
 
       if(!empty($user = $tour->previous_tours->sortBy('created_at')->first()->user)) {
         
-        $first_manager = $user->name.' '.$user->last_name;
+        $first_manager = $user->last_name.' '.substr($user->last_name, 0, 2).'.'.substr($user->patronymic, 0, 2);
 
       } else { 
 
@@ -329,7 +333,7 @@ class Printing
 
   }
 
-  public static function get_document($tourist) {
+  public static function get_document($tourist, &$is_foreign) {
 
        
 
@@ -342,6 +346,8 @@ class Printing
             $document = Document::find($tourist->pivot->{'doc'.$i});
 
              if ($document->doc_type == "Загран. паспорт") {
+
+              $is_foreign = true;
 
               break;
 

@@ -226,7 +226,8 @@
 					    <th>Продукт:</th>
 					    <th class="sort" id="date_depart" active="not" next_sort="desc">Вылет</th>
 					    <th>Ночей</th>
-					    <th colspan="3">Стоимость</th>
+					    <th colspan="2">Стоимость</th>
+					    <th>%</th>
 					    <th style="word-break: break-word">Долг клиента </th>
 					    <th colspan="2">К оплате</th>
 					    <th></th>
@@ -234,8 +235,8 @@
 				</thead>
 {{-- 			@foreach ($tours as $tour)
  --}}			<tbody id="tbody_tours">
-				
-{{-- 					<tr>
+{{-- 				
+					<tr>
 
 						<td>{{ $tour->id }}</td>
 						<td>{{ date("Y-m-d", strtotime($tour->created_at)) }}</td>
@@ -249,9 +250,9 @@
 						Подробнее
 						</a></td>
 
-					</tr>
+					</tr> --}}
 
-				</tbody> --}}
+				</tbody>
 
 {{-- 			@endforeach
  --}}

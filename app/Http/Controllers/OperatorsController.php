@@ -2,32 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Airport;
+use App\Operator;
 use Illuminate\Http\Request;
 
-class AirportController extends Controller
+class OperatorsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
 
-        if(is_null($request->country)) {
-                      
-            $airports = Airport::paginate(100);
+        $operators = Operator::paginate(50);
 
-        } else {
-
-            $airports = Airport::where('country', $request->country)->paginate(100);
-
-        }
-
-
-
-        return view('Airports.index', compact('airports'));
+        return view('Operators.index', compact('operators'));
     }
 
     /**
@@ -39,7 +29,7 @@ class AirportController extends Controller
     {
         $action = 'Создать';
 
-        return view('Airports.create_or_update', compact('action'));
+        return view('Operators.create_or_update', compact('action'));    
     }
 
     /**
@@ -50,61 +40,58 @@ class AirportController extends Controller
      */
     public function store(Request $request)
     {
-      
-        Airport::create($request->toArray());
+        
+        Operator::create($request->toArray());
 
-        return redirect()->route('airports.index');
+        return redirect()->route('operators.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Airport  $airport
+     * @param  \App\Operator  $operator
      * @return \Illuminate\Http\Response
      */
-    public function show(Airport $airport)
+    public function show(Operator $operator)
     {
-
-
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Airport  $airport
+     * @param  \App\Operator  $operator
      * @return \Illuminate\Http\Response
      */
-    public function edit(Airport $airport)
+    public function edit(Operator $operator)
     {
         $action = 'Редактировать';
 
-        return view('Airports.create_or_update', compact('action', 'airport'));
+        return view('Operators.create_or_update', compact('action', 'operator'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Airport  $airport
+     * @param  \App\Operator  $operator
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Airport $airport)
+    public function update(Request $request, Operator $operator)
     {
-        
-        $airport->update($request->toArray());
+        $operator->update($request->toArray());
 
-        return redirect()->route('airports.index');
-
+        return redirect()->route('operators.index');
 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Airport  $airport
+     * @param  \App\Operator  $operator
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Airport $airport)
+    public function destroy(Operator $operator)
     {
         //
     }
