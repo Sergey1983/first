@@ -34,8 +34,6 @@ class tourRequest extends FormRequest
     public function rules()
     {
 
-
-
       
       if(request()->allchecked == 'false') {
 
@@ -47,7 +45,7 @@ class tourRequest extends FormRequest
             'airport' => 'required',
             'operator' => 'required',
             'nights' => 'required',
-            'date_depart' => 'required',
+            'date_depart' => 'required|after_or_equal:today',
             'hotel' => 'required',
             'room' => 'required',
             'food_type' => 'required',
@@ -57,7 +55,8 @@ class tourRequest extends FormRequest
             'noexit_insurance' => 'required',
             'med_insurance' => 'required',
             'visa' => 'required',
-            'source' => 'required', 
+            'source' => 'required',
+            'operator_full_pay' => 'required', 
 
             'name.*' => ['required', 'regex: /^[а-яёА-ЯЁ-]+$/u'],
             'lastName.*' => ['required', 'regex: /^[а-яёА-ЯЁ-]+$/u'],
@@ -127,6 +126,15 @@ class tourRequest extends FormRequest
 
 
                       } 
+
+
+                      elseif($value == "Св-во о рождении"){
+
+                          $rules['date_expire.'.$tourist_id.'.'.$doc_id] = 'nullable';
+                          $rules['doc_number.'.$tourist_id.'.'.$doc_id] = ['required', 'regex: /^[a-zA-Z0-9а-яёА-ЯЁ№ ]+$/u'];
+
+
+                      }
 
                       else {
 
@@ -210,8 +218,19 @@ class tourRequest extends FormRequest
 
            }
 
+           if(request()->country == 'Россия') {
 
+            $rules['doc_type.*.*'] = 'not_in:Загран. паспорт';
 
+           }
+
+           $number_of_tourists = count(request()->name);
+
+          if($number_of_tourists == 1){
+
+            $rules['is_tourist'] = 'not_in:0';
+
+           }
 
            $request_array = request()->all();
 
@@ -238,7 +257,7 @@ class tourRequest extends FormRequest
 
 
 
-           $number_of_tourists = count(request()->name);
+
 
 
            $inputed_tourists_id = array();
@@ -280,7 +299,10 @@ class tourRequest extends FormRequest
                 'address_pass.*required' => 'Для заказчика обязательно!',
                 'address_real.*required' => 'Для заказчика обязательно!',
                 'rus_pas.*' => 'Закачик должен иметь российский паспорт!',
-                                '*.required' => 'Введите значение!'
+                'doc_type.*.*not_in' => "При поездках по России не требуется!",       
+                'is_tourist.*not_in' => "Должен быть хотя бы 1 турист!",                
+                'date_depart.*after_or_equal' => 'Равно или позже сегодня!',
+                '*.required' => 'Введите значение!',
                
                 ];
 

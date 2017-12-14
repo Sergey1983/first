@@ -1,10 +1,10 @@
-<div class="container-fluid">
+<div class="container-fluid margin-top-25">
 
 	<div class="row">
 
 		<div class="col-md-12">
 
-			<h3>Описание тура:</h3>
+			<h4>Описание тура:</h4>
 
 		</div>
 
@@ -15,7 +15,7 @@
 				
 		<div class="col-md-12">
 
-			<div class="tour padding col-md-12">
+			<div class="tour padding-all-10 col-md-12">
 
 			{!!Form::open(['id' => 'tour_form', 'class' =>'form-horizontal'])!!}
 
@@ -539,13 +539,14 @@
 
 
 @if(!$checked)
-
-								{!! Form::text('sightseeing', 'Нет', ['class'=>"form-control", 'id'=>'sightseeing', 'readonly'=>'readonly' ]) !!}
+{{-- 
+								{!! Form::text('sightseeing', 'Нет', ['class'=>"form-control", 'id'=>'sightseeing', 'readonly'=>'readonly' ]) !!} --}}
+						 		{!! Form::textarea('sightseeing', null, ['placeholder' =>  'Введите текст', 'class'=>"form-control", 'id'=>'sightseeing', 'readonly'=>'readonly'] )  !!}
 
 @else 
 
-								{!! Form::text('sightseeing', 'Нет', ['class'=>"form-control", 'id'=>'sightseeing']) !!}
-
+{{-- 								{!! Form::text('sightseeing', 'Нет', ['class'=>"form-control", 'id'=>'sightseeing']) !!} --}}
+						 		{!! Form::textarea('sightseeing', null, ['placeholder' =>  'Введите текст', 'class'=>"form-control", 'id'=>'sightseeing'] )  !!}
 @endif
 
 
@@ -579,7 +580,28 @@
 
 						</div>
 
+
+					 	<div class="form-group">
+							
+								{!! Form::label('operator_full_pay', 'Срок полной оплаты оператору', ['class'=>'control-label col-md-4'])!!}
+
+							<div class="col-md-8">
+
+
+								{!! Form::date ('operator_full_pay', null, ['class'=>'form-control', 'id'=>'operator_full_pay'])!!}
+
+
+						 	</div>
+
+						</div>
+
+						
 				</div>
+
+
+
+
+
 
 				{!!Form::close()!!}
 

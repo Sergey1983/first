@@ -63,6 +63,7 @@ $(document).ready(function(){
 
 				$('input[name="date_expire['+tourist_number+']['+doc_number+']"]').val('').attr('disabled', 'disabled');
 
+
 				$(row).after(
 
 					'<div class="row" id="russian_passport_row_'+tourist_number+'_'+doc_number+'">'+
@@ -113,17 +114,21 @@ $(document).ready(function(){
 
 
 		} 
-
-
-
+		
 		 else {
 
 
+			if(value == 'Св-во о рождении') {
+
+				$('input[name="date_expire['+tourist_number+']['+doc_number+']"]').val('').attr('disabled', 'disabled');
+
+
+			}		 	
 
 			$(id).empty().append(
 
 						
-					'<input placeholder="Серия"  name="seria['+tourist_number+']['+doc_number+']" type="text" hidden value="0">'+
+					'<input placeholder="Серия" name="seria['+tourist_number+']['+doc_number+']" type="text" hidden value="0">'+
 
 
 					'<div class="col-md-12 no-padding-left">'+

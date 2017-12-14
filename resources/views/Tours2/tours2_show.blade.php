@@ -4,7 +4,7 @@
 
 @include('tours2.show.tours2_show_table')
 
-
+{{-- 
 <div class="container-fluid">
 
 	<div class="row">
@@ -26,7 +26,7 @@
 		@endif
 
 	</div>
-</div>
+</div> --}}
 
 
 @endsection

@@ -1,10 +1,9 @@
-
 @extends('layouts.master')
 
 @section('content')
 
 
-<div class="container-fluid margin-bottom-10 text-center">
+{{-- <div class="container-fluid margin-bottom-10 text-center">
 
 	<div class="col-md-12">
 
@@ -12,10 +11,10 @@
 
 	</div>
 
-</div>
+</div> --}}
 
 
-<div class="container-fluid margin-bottom-25 text-center">
+<div class="container-fluid margin-top-25 margin-bottom-25 text-left">
 
 	<div class="col-md-12">
 

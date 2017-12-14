@@ -152,9 +152,13 @@ $(document).ready(function () {
 
 	function serch_form_fullfill(iteration=null) {
 		
-		var actuality = $("select[name='actuality_f']").val();
+		var actuality = $("input[name='actuality_f']:checked").val();
+
+		console.log(actuality);
 		var created_from = $("input[name='created_from_f']").val();
 		var created_to = $("input[name='created_to_f']").val();
+		var ids_from = $("input[name='ids_from_f']").val();
+		var ids_to = $("input[name='ids_to_f']").val();
 		var depart_from = $("input[name='depart_from_f']").val();
 		var depart_to = $("input[name='depart_to_f']").val();
 		var country = $("select[name='country_f']").val();
@@ -180,6 +184,8 @@ $(document).ready(function () {
 		$("input[name='actuality']").attr('value', actuality);
 		$("input[name='created_from']").attr('value', created_from);
 		$("input[name='created_to']").attr('value', created_to);
+		$("input[name='ids_from']").attr('value', ids_from);
+		$("input[name='ids_to']").attr('value', ids_to);		
 		$("input[name='depart_from']").attr('value', depart_from);
 		$("input[name='depart_to']").attr('value', depart_to);
  		// $("select[name='country'] option[value='"+country+"']").attr('selected', 'selected');

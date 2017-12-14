@@ -3,7 +3,7 @@
 @section ('content')
 
 
-<div class="container-fluid">
+{{-- <div class="container-fluid">
 
 	<div class="col-md-8">
 
@@ -25,7 +25,7 @@
 		@endif
 
 
-</div>
+</div> --}}
 
 @include('layouts.tours2_table')
 

@@ -157,9 +157,9 @@ class FunctionsController extends Controller
 
         } else {
 
-            $sort_column = 'id';
+            $sort_column = 'created_at';
 
-            $sort_value = 'asc';
+            $sort_value = 'desc';
 
         }
 
@@ -237,6 +237,28 @@ class FunctionsController extends Controller
 
 
         }
+
+        if(!is_null($request->ids_from) OR !is_null($request->ids_to)) {
+
+
+            $ids_from = $request->ids_from;
+
+            $ids_to = $request->ids_to;
+
+            $created = 
+
+            [
+                ['id', '>=', $ids_from],
+                ['id', '<=', $ids_to]
+            ];
+
+        } else {
+
+            $created = [];
+
+
+        }
+
 
 
         if(!is_null($request->country)) {
@@ -500,6 +522,7 @@ class FunctionsController extends Controller
             $id = $request->input(0);
 
             $tour = Tour::find($id);
+
 
             $tour_array = collect($tour)->except(['id', 'user_id', 'updated_at', 'created_at'])->toArray();
 

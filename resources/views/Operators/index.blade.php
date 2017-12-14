@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container-fluid">
+<div class="container-fluid margin-top-25">
 	
 	<div class="row margin-bottom-25">
 

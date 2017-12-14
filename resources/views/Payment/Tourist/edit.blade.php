@@ -5,13 +5,13 @@
 <script type="text/javascript" src="{{ URL::asset('js/various/alert_fadeout.js') }}"></script>
 
 
-<div class="container-fluid text-center margin-bottom-10">
+{{-- <div class="container-fluid text-center margin-bottom-10">
 	
 	<h3>Внести оплату от туриста</h3>
 
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid"> --}}
 
 
 @php
@@ -20,7 +20,7 @@
 
 @endphp
 
-		<div class="col-md-6 col-md-offset-3">
+		<div class="col-md-6 margin-top-25">
 	
 			{!!Form::open(['id' => 'payment_tourist', 'class' =>'form-horizontal'])!!}
 
@@ -124,15 +124,19 @@
 
 						</div>
 
-								@if($errors->any())
+						@if($errors->any())
 
-								<div class="alert alert-warning text-center">
-								<strong>{{$errors->first('pay')}}</strong>
+				            @foreach ($errors->all() as $error)
+
+ 								<div class="alert alert-warning text-center">
+
+					                {{ $error }}
+
 								</div>
 
-									
+							@endforeach
 
-								@endif
+						@endif
 
 
 
@@ -181,7 +185,7 @@
 
 <div class="container-fluid">
 
-	<div class="col-md-8 col-md-offset-2">
+	<div class="col-md-8">
 
 
 		<div class="row text-right"> 
@@ -207,7 +211,7 @@
 
 <div class="container-fluid">
 
-	<div class="col-md-8 col-md-offset-2">
+	<div class="col-md-8">
 
 
 	<div class="row"> 

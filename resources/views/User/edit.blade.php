@@ -3,7 +3,7 @@
 
 @section('content')
 
-<div class="container-fluid text-center margin-bottom-10">
+{{-- <div class="container-fluid text-center margin-bottom-10">
 
 	<div class="col-md-5 col-md-offset-3">
 
@@ -11,11 +11,11 @@
 
 	</div>
 
-</div>
+</div> --}}
 
-<div class="container-fluid">
+<div class="container-fluid margin-top-25">
 
-	<div class="col-md-5 col-md-offset-3">
+	<div class="col-md-5">
 
 
 		{!! Form::open(['id'=>'register_user', 'class'=>'inline', 'route'=>array('user.update', $user->id)])!!}
@@ -34,6 +34,11 @@
 
 			</div>
 
+			<div class="form-group">
+				
+				{!! Form::text('patronymic', $user->patronymic, ['Placeholder'=>'Отчество', "class"=>"form-control"]) !!}
+
+			</div>
 
 			<div class="form-group">
 
@@ -66,10 +71,19 @@
 
 </div>
 
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
 <div class="container-fluid text-center margin-bottom-10">
 
-	<div class="col-md-5 col-md-offset-3">
+	<div class="col-md-5">
 
 			<h2>Может видеть все заявки?</h2>
 
@@ -80,7 +94,7 @@
 
 <div class="container-fluid">
 
-	<div class="col-md-5 col-md-offset-3">
+	<div class="col-md-5">
 
 		{!! Form::open(['id'=>'permission_user', 'class'=>'inline', 'route'=>array('user.update_permission', $user->id)])!!}
 
@@ -117,7 +131,7 @@
 
 <div class="container-fluid">
 
-	<div class="col-md-5 col-md-offset-3 text-center">
+	<div class="col-md-5 text-center">
 
 		<h2>Удалить менеджера?</h2>
 
@@ -129,7 +143,7 @@
 
 <div class="container-fluid">
 
-	<div class="col-md-5 col-md-offset-3">
+	<div class="col-md-5">
 
 		{!! Form::open(['id'=>'delete_user', 'class'=>'inline', 'method' => 'GET', 'route' => array('user.destroy-warning', $user) ])!!}
 

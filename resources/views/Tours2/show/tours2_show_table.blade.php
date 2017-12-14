@@ -7,12 +7,36 @@
 
 <div class="container-fluid margin-bottom-10">
 
-	@include('buttons.book_tour')
-    @include('buttons.pay_tourist')	
+	<div class="col-md-6 no-padding-left">
 
-@unless(is_null($tour->operator_price_rub))	
-	@include('buttons.pay_operator')
-@endunless
+		@include('buttons.book_tour')
+	    @include('buttons.pay_tourist')	
+
+		@unless(is_null($tour->operator_price_rub))	
+			@include('buttons.pay_operator')
+		@endunless
+
+	</div>
+
+	<div class="col-md-6">
+		
+		@include('layouts.button_edit_tour')
+
+		@include('layouts.button_contract_preview')
+
+		@if($is_versions == 1) 
+			
+			@include('layouts.button_versions_tour')	
+
+		@endif
+
+		@if($tour->contracts->count() > 0) 
+			
+			@include('layouts.button_versions_contract')	
+
+		@endif
+
+	</div>
 
 </div>
 
@@ -38,9 +62,9 @@
 				<tr>
 
 				    <th>Id</th>
+				    <th>Фамилия</th>
 				    <th>Имя</th>
 				    <th>Отчество</th>
-				    <th>Фамилия</th>
 				    <th>Имя Англ.</th>
 				    <th>Фамилия Англ.</th>    
 				    <th>День рож-я</th>
@@ -61,8 +85,8 @@
 
 
 				    <td>{{$tourist->id}}</td>
+				    <td>{{$tourist->lastName}}</td>			    
 				    <td>{{$tourist->name}}</td>
-				    <td>{{$tourist->lastName}}</td>
 				    <td>{{$tourist->patronymic}}</td>
 				    <td>{{$tourist->nameEng}}</td>
 				    <td>{{$tourist->lastNameEng}}</td>    
@@ -218,7 +242,7 @@
 						<tr>
 
 						    <td>Да</td>
-						    <td>{{$tour_tourists_doc->is_buyer == 1 ? 'Да, едет' : 'Нет, не едет' }}</td>
+						    <td>{{$tour_tourists_doc->is_tourist == 1 ? 'Да, едет' : 'Нет, не едет' }}</td>
 
 						
 						</tr>

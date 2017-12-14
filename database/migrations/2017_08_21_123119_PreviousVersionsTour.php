@@ -48,9 +48,9 @@ class PreviousVersionsTour extends Migration
             $table->string('visa', 50);
             $table->boolean('visa_add_people')->default(false);
             $table->string('visa_people', 255)->nullable();
-            $table->string('sightseeing', 255)->nullable();
+            $table->text('sightseeing')->nullable();
             $table->boolean('change_sightseeing')->default(false);
-            $table->string('extra_info', 255)->nullable();
+            $table->text('extra_info')->nullable();
             $table->integer('first_payment')->nullable();
             $table->string('bank', 50)->nullable();
             $table->string('source', 50);

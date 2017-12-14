@@ -17,7 +17,9 @@ class TemplateController extends Controller
 
         $doc_templates = Contract_template::where('tour_type', Printing::tour_type($tour_type))->get()->sortByDesc('created_at');
 
-        return view('Templates.'.$tour_type, compact('doc_templates', 'tour_type'));
+        $tour_type_rus = Printing::tour_type($tour_type);
+
+        return view('Templates.'.$tour_type, compact('doc_templates', 'tour_type', 'tour_type_rus'));
     }
 
     public function create() {
@@ -54,12 +56,12 @@ class TemplateController extends Controller
 
             // $doc_type = $doc_type === 'contract' ? "Договор" : "Допсоглашение";
 
-            $doc_type = Printing::doc_type($doc_type);
+            $doc_type_rus = Printing::doc_type($doc_type);
 
-            $tour_type = Printing::tour_type($tour_type);
+            $tour_type_rus = Printing::tour_type($tour_type);
 
 
-		    return view('Templates.edit_template', compact('doc_type', 'tour_type'));
+		    return view('Templates.edit_template', compact('doc_type_rus', 'tour_type_rus'));
 
     }
 

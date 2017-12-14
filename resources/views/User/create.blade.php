@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container-fluid text-center margin-bottom-10">
+{{-- <div class="container-fluid text-center margin-bottom-10">
 
 		<div class="col-md-5 col-md-offset-3">
 	
@@ -10,11 +10,11 @@
 
 		</div>
 
-</div>
+</div> --}}
 
-<div class="container-fluid">
+<div class="container-fluid margin-top-25">
 
-	<div class="col-md-5 col-md-offset-3">
+	<div class="col-md-5">
 
 			{!! Form::open(['id'=>'register_user', 'class'=>'inline form-horizontal', 'method'=>'post'])!!}
 

@@ -6,6 +6,7 @@ use Illuminate\View\View;
 use App\Country;
 use App\Operator;
 use App\User;
+use App\Airport;
 
 
 
@@ -38,19 +39,21 @@ class TourSearchViewComposer
 
         
 
-        $countries = Country::select('country', 'popularity')->get()->toArray();
+        $countries = Airport::all()->sortBy('country')->pluck('country')->unique()->toArray();
 
-        usort($countries, 'App\Services\SortNullAlwaysLast::cmp');
+        $countries = array_combine($countries, $countries);
 
-        foreach ($countries as $key => $value) {
+        // usort($countries, 'App\Services\SortNullAlwaysLast::cmp');
 
-            $country = $value['country'];
+        // foreach ($countries as $key => $value) {
 
-            unset($countries[$key]);
+        //     $country = $value['country'];
 
-            $countries[$country] = $country;
+        //     unset($countries[$key]);
+
+        //     $countries[$country] = $country;
             
-        }
+        // }
         
 
         $this->countries = $countries;

@@ -1,10 +1,10 @@
-<div class="container-fluid">
+<div class="container-fluid margin-top-25">
 
 	<div class="row">
 
 		<div class="col-md-12">
 
-			<h3>Описание тура:</h3>
+			<h4>Описание тура:</h4>
 
 		</div>
 
@@ -15,7 +15,7 @@
 				
 		<div class="col-md-12">
 
-			<div class="tour padding col-md-12">
+			<div class="tour padding-all-10 col-md-12">
 
 			{!!Form::open(['id' => 'tour_form', 'class' =>'form-horizontal'])!!}
 
@@ -29,8 +29,8 @@
 						 		{!! Form::hidden('airport', 'AVIA')  !!} --}}
 								{!! Form::hidden('operator', 'АвиаТур') !!}
 								{!! Form::hidden('nights', 0) !!}
-								{!! Form::hidden('date_depart', '1900-11-21') !!}
-								{!! Form::hidden('date_hotel', 0) !!}
+{{-- 								{!! Form::hidden('date_depart', '1900-11-21') !!}
+ --}}								{!! Form::hidden('date_hotel', 0) !!}
 								{!! Form::hidden('hotel', 'АвиаТур') !!}
 								{!! Form::hidden('room', 'АвиаТур') !!}
 								{!! Form::hidden('add_rooms', 0) !!}
@@ -161,11 +161,11 @@
 
 						 	</div>
 
-						</div>
+						</div> --}}
 
 					 	<div class="form-group">
 							
-								{!! Form::label('date_depart', 'Пребывание с', ['class'=>'control-label col-md-4'])!!}
+								{!! Form::label('date_depart', 'Вылет', ['class'=>'control-label col-md-4'])!!}
 
 							<div class="col-md-8">
 
@@ -173,7 +173,7 @@
 
 								{!! Form::date ('date_depart', null, ['class'=>'form-control', 'id'=>'date_depart'])!!}
 
-								<div class="row ">
+{{-- 								<div class="row ">
 
 
 									<div class="col-md-12 text-right">	
@@ -188,14 +188,14 @@
 
 									</div>
 
-								</div>
+								</div> --}}
 
 
 						 	</div>
 
 						</div>
 
-					 	<div class="form-group">
+{{-- 					 	<div class="form-group">
 
 
 							{!! Form::label('hotel', 'Отель', ['class'=>'control-label col-md-4'])!!}
@@ -616,6 +616,22 @@
 
 
 						 		{!! Form::textarea('extra_info', null, ['placeholder' =>  'Введите маршрут', 'class'=>"form-control", 'id'=>'extra_info', 'required'] )  !!}
+
+
+						 	</div>
+
+						</div>
+
+
+
+					 	<div class="form-group">
+							
+								{!! Form::label('operator_full_pay', 'Срок полной оплаты оператору', ['class'=>'control-label col-md-4'])!!}
+
+							<div class="col-md-8">
+
+
+								{!! Form::date ('operator_full_pay', null, ['class'=>'form-control', 'id'=>'operator_full_pay'])!!}
 
 
 						 	</div>

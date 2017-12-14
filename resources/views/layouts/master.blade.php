@@ -27,35 +27,143 @@
 
 @if (Auth::check())
 
-<div class="container-fluid">
+<div class="container-fluid white background-black letter-spacing-035">
 	
-	<div class="col-md-9 text-left">
-
-		{!! Breadcrumbs::renderIfExists() !!}
+	<div class="col-md-3 text-left  margin-top-10 margin-bottom-10">
+		
+		ВИСТА-ТУР ОРЕНБУРГ, АВТОМАТИКИ
 
 	</div>
 
-	<div class="col-md-3 text-right">
+	<div class="col-md-2 col-md-offset-6 margin-top-10 margin-bottom-10 text-right">
+		
+		<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+		@php	
+		
+			$user = Auth::user();
+			$user = $user->last_name.' '.substr($user->last_name, 0, 2).'.'.substr($user->patronymic, 0, 2);
 
-		{{ Auth::user()->name}}
-		<a href="/logout">logout</a>
+		@endphp
+
+		{{ $user }} 
+
+	</div>
+
+
+	<div class="col-md-1 text-right margin-top-10 margin-bottom-10">
+
+
+		<a href="/logout">
+			<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+			ВЫХОД
+		
+		</a>
 		
 	</div>
 </div>
 
-@endif
 
 
-<div class = 'container-fluid margin-bottom-10'>
-
-	<div class="row text-center">
-		<div class="col-md-12">		
-			<h3>ВИСТА-ТУР <small>ОРЕНБУРГ</small></h3>
-		</div>
-	</div>
+<div class = 'container-fluid margin-bottom-10 background-blue letter-spacing-035'>
 	
+	<nav class="navbar navbar-default background-transparent border-color-transparent no-border no-margin-bottom">
+
+		<div class="container-fluid">
+			
+
+			{!! Breadcrumbs::renderIfExists() !!}
+
+			@if (Route::current()->getName() == 'home')
+
+				<ul class="nav navbar-nav">
+
+                    <li>
+
+                        <a class="color-white" href="{{route('tour.create', ['tour_type'=> 'packet_tour'])}}">
+
+                        	Создать Пакетный Тур
+                        </a>
+
+                    </li>
+                
+            
+					<li>
+
+                        <a  class="color-white" href="{{route('tour.create', ['tour_type'=> 'hotel'])}}">
+
+							Создать Отельный Тур
+
+                        </a>
+
+                    </li>
+
+					<li>
+
+                        <a  class="color-white" href="{{route('tour.create', ['tour_type'=> 'avia'])}}">
+								
+								Создать Авиа Тур
+							
+                        </a>
+
+                    </li>
+
+
+	           </ul>
+
+		        @if (auth()->user()->id == 1)
+
+					<ul class="nav navbar-nav navbar-right">
+
+						<li>
+
+	                        <a  class="color-white" href="{{route('admin.start')}}">
+									
+									Панель Админа
+								
+	                        </a>
+
+	                    </li>
+
+					</ul>
+
+				@endif
+	                    
+			@endif
+	           
+	    </nav>
+
+
+		</div>
+
 </div>
 
+<div class = 'container-fluid letter-spacing-035 heading-div'>
+
+	<h4>
+
+
+{{$headings[Route::current()->getName()]}} 
+
+
+
+@isset($doc_type_rus) 
+	{{ Illuminate\Support\Str::lower($doc_type_rus) }}
+@endisset
+
+@isset($tour_type_rus) 
+	{{Illuminate\Support\Str::lower($tour_type_rus)}} тур
+@endisset
+
+
+	</h4>
+
+
+
+</div>
+
+
+
+@endif
 
 @yield('content')
 

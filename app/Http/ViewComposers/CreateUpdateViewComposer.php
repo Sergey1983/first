@@ -38,37 +38,44 @@ class CreateUpdateViewComposer
         // Dependencies automatically resolved by service container...
 
 
-        $cities = Cities::select('city', 'popularity')->get()->toArray();
+        $cities = Airport::where('country', 'Россия')->OrderBy('city')->pluck('city')->toArray();
 
-        usort($cities, 'App\Services\SortNullAlwaysLast::cmp');
+        $cities = array_combine($cities, $cities);
 
-        foreach ($cities as $key => $value) {
+        // Cities::all()->toArray();
 
-            $city = $value['city'];
+        // // usort($cities, 'App\Services\SortNullAlwaysLast::cmp');
 
-            unset($cities[$key]);
+        // foreach ($cities as $key => $value) {
 
-            $cities[$city] = $city;
+        //     $city = $value['city'];
+
+        //     unset($cities[$key]);
+
+        //     $cities[$city] = $city;
             
-        }
+        // }
         
         $this->cities = $cities;
 
         
 
-        $countries = Country::select('country', 'popularity')->get()->toArray();
+        // $countries = Country::all()->toArray();
+        $countries = Airport::all()->sortBy('country')->pluck('country')->unique()->toArray();
 
-        usort($countries, 'App\Services\SortNullAlwaysLast::cmp');
+        $countries = array_combine($countries, $countries);
 
-        foreach ($countries as $key => $value) {
+        // usort($countries, 'App\Services\SortNullAlwaysLast::cmp');
 
-            $country = $value['country'];
+        // foreach ($countries as $key => $value) {
 
-            unset($countries[$key]);
+        //     $country = $value['country'];
 
-            $countries[$country] = $country;
+        //     unset($countries[$key]);
+
+        //     $countries[$country] = $country;
             
-        }
+        // }
         
 
         $this->countries = $countries;

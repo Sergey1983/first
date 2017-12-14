@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container-fluid">
+<div class="container-fluid margin-top-25">
 	
 	<div class="row margin-bottom-25">
 
@@ -16,7 +16,7 @@
 			
 		</div>
 
-		<div class="col-md-2">
+		<div class="col-md-2 no-padding-right">
 
 			{!!Form::submit('Показать по стране', ['class' => 'btn btn-default'])!!}
 	
@@ -79,7 +79,9 @@
 	</table>
 
 
-	{{$airports->links()}}
+	{{$airports->appends($_GET)->links()}}
+
+
 </div>
 
 @endsection

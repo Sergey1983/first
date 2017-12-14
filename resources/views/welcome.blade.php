@@ -4,7 +4,7 @@
 
 
 
-<div class="container-fluid text-center">
+<div class="container-fluid text-center margin-top-25">
 
 {!! Form::open(['id'=>'login', 'class'=>'form-inline', 'method'=>'post', 'route'=>'sessions.login'])!!}
 

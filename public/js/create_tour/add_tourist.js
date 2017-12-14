@@ -13,7 +13,7 @@ $(document).ready(function() {
 
 		$new_passenger = (
 
-		'<div class="inputs_'+i+' padding">'+
+		'<div class="inputs_'+i+' padding-all-10">'+
 
 			'<div class="row">'+
 

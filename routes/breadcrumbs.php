@@ -136,6 +136,13 @@ Breadcrumbs::register('user.edit', function ($breadcrumbs, $user) {
     $breadcrumbs->push('Редактировать менеджера', route('user.edit', $user));
 });
 
+//Главная > Панель админа > Редактировать менеджера
+
+Breadcrumbs::register('user.destroy-warning', function ($breadcrumbs, $user) {
+
+	$breadcrumbs->parent('user.index');
+    $breadcrumbs->push('Удалить менеджера', route('user.destroy-warning', $user));
+});
 
 //Главная > Панель админа > Шаблоны
 

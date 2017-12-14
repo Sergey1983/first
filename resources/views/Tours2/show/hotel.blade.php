@@ -1,5 +1,9 @@
+@php 
+      setlocale(LC_TIME, 'ru_RU');
 
-<div class="container-fluid">
+@endphp
+
+<div class="container-fluid margin-top-25">
 	
 	<div class="row">
 		
@@ -86,14 +90,15 @@
 
 @endif
 
+
 					<tr>
 						<td>Срок полной оплаты опер-ру</td>
-						<td>{{is_null($tour->operator_full_pay)? 'Заявка ещё не подтверждена': date_format(date_create_from_format('Y-m-d', $tour->operator_full_pay), 'd-m-Y')}}</td>
+						<td>{{ is_null($tour->operator_full_pay) ? 'Заявка ещё не подтверждена' : strftime('%d %B %Y', strtotime($tour->operator_full_pay)) }}</td>
 					</tr>
 					
 					<tr>
 						<td>Срок частичной оплаты опер-ру</td>
-						<td>{{is_null($tour->operator_part_pay)? 'Заявка ещё не подтверждена': date_format(date_create_from_format('Y-m-d', $tour->operator_part_pay), 'd-m-Y')}}</td>
+						<td>{{ is_null($tour->operator_part_pay) ? 'Заявка ещё не подтверждена' : strftime('%d %B %Y', strtotime($tour->operator_part_pay)) }}</td>
 					</tr>
 
 					<tr>
@@ -187,22 +192,35 @@
  					<td>{{$airport}}</td>	
  				</tr> --}}
 
-				<tr>
-					<td>Пребывание с</td>
-					@php $date=date_create_from_format('Y-m-d', $tour->date_depart)
-					@endphp
-					<td>{{date_format($date, 'd-m-Y')}}</td>
-				</tr>
-
 {{-- 				<tr>
-					<td>Пребывание в отеле</td>
-					<td>{{ $date = $tour->date_hotel ? date('d-m-Y', strtotime($tour->date_depart. ' + 1 days')) : date_format($date, 'd-m-Y') }}</td>
+					<td>Пребывание с</td> --}}
+						@php
+						$date_depart = strtotime($tour->date_depart);
+						@endphp
+{{-- 					<td>{{strftime('%d %B %Y', $date_depart)}}</td>
 				</tr> --}}
 
 
 				<tr>
+					<td>Пребывание в отеле</td>
+						@php
+						$date_hotel = $tour->date_hotel == 0 ? $date_depart : strtotime("+1 days", $date_depart);
+						@endphp
+
+					<td>{{ strftime('%d %B %Y', $date_hotel) }}</td>
+				</tr>
+
+				<tr>
 					<td>Ночей в отеле</td>
-					<td>{{$tour->nights}}</td>
+					<td>{{$nights = $tour->nights}}</td>
+				</tr>
+
+				<tr>
+					<td>Обратный вылет</td>
+					@php
+						$date_return = strtotime('+'.$nights.' days', $date_hotel);
+					@endphp
+					<td>{{strftime('%d %B %Y', $date_return)}}</td>
 				</tr>
 
 				<tr>

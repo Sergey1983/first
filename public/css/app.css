@@ -37,6 +37,22 @@ body
 
 }
 
+.padding-left-15 {
+
+    padding-left:  15px !important;
+}
+
+.padding-left-14 {
+
+    padding-left:  14px !important;
+}
+
+
+.padding-left-25 {
+
+    padding-left:  25px !important;
+}
+
 .no-padding-right {
 
     padding-right: 0 !important;
@@ -48,10 +64,17 @@ body
     padding-right:  15px !important;
 }
 
-.padding-right-15 {
 
-    padding-left:  15px !important;
+.padding-right-30 {
+
+    padding-right: 30px !important;
 }
+
+.padding-all-10 {
+
+    padding: 10px;
+}
+
 
 .form .control-label {
     padding-top: 7px !important;
@@ -81,6 +104,19 @@ body
 
 }
 
+
+.color-black {
+
+    color: black !important;
+
+}
+
+.color-white {
+
+    color: white !important;
+
+}
+
 .no-margin-bottom {
 
     margin-bottom: 0 !important;
@@ -107,9 +143,27 @@ body
     margin-bottom: 10px;
 }
 
+.margin-bottom-15 {
+
+    margin-bottom: 15px;
+    
+}
+
 .margin-bottom-25 {
 
     margin-bottom: 25px;
+}
+
+.margin-top-10 {
+
+    margin-top: 10px;
+    
+}
+
+.margin-top-15 {
+
+    margin-top: 15px;
+    
 }
 
 .margin-top-25 {
@@ -121,6 +175,11 @@ body
 .margin-left-15 {
 
     margin-left: 15px;
+}
+
+.no-border {
+
+    border: 0px !important;
 }
 
 .colortext {
@@ -160,15 +219,7 @@ body
 
 }
 
-.padding {
 
-    padding: 10px;
-}
-
-.padding-right-30 {
-
-    padding-right: 30px !important;
-}
 
 [class*=inputs_] {
 
@@ -209,3 +260,77 @@ body
 
     width: 25% !important;
 }
+
+.white, .white a {
+  color: #fff;
+}
+
+.background-black {
+
+    background-color: #323533;
+}
+
+.background-blue {
+
+    background-color: #5e9cec;
+}
+
+.background-transparent {
+
+    background-color: transparent !important;
+}
+
+.border-color-transparent {
+
+    border-color: transparent !important;
+
+}
+
+
+
+.letter-spacing-035 {
+
+    letter-spacing: 0.35px !important;
+}
+
+.active-breadcrumb {
+
+    background-color: white;
+    pointer-events: none;
+    color: black;
+}
+
+.navbar-default .navbar-nav>li>a {
+    height: 55px;
+    display: flex !important;
+    align-items: center !important;
+
+}
+
+.filter-form {
+    background-color: #eaeef2;
+    margin-left: 0 !important;
+    padding-bottom: 10px !important;
+    border-radius: 3px;
+}
+
+.datepicker {
+
+    padding-right: 6px !important;
+    padding-left: 6px !important;
+}
+
+.medium-label {
+
+    padding-top: 5px !important;
+    text-decoration: bold;
+    color: #576c78;
+
+}
+
+.heading-div {
+
+    border-bottom: 1px solid black;
+}
+
+/*.datepicker { font-size: 13px !important; }*/

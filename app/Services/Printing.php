@@ -94,7 +94,7 @@ class Printing
       //$first_manager
 
 
-      setlocale(LC_TIME, 'ru_RU');
+      setlocale(LC_ALL, 'ru_RU');
 
       $offset = 0;
 
@@ -134,11 +134,11 @@ class Printing
 
       // $date_hotel
 
-      $date_hotel = is_null($tour->date_hotel)
+      $date_hotel = $tour->date_hotel == 0
 
-        ? strftime('%d %B %Y', strtotime(strtotime($tour->date_depart)) ) 
+        ? strtotime($tour->date_depart) 
       
-        : strftime('%d %B %Y', strtotime("+1 days", strtotime($tour->date_depart)) );
+        : strtotime("+1 days", strtotime($tour->date_depart)) ;
 
 
       // $visa
@@ -202,13 +202,13 @@ class Printing
 
         '$date_depart' => strftime('%d %B %Y', strtotime($tour->date_depart)),
 
-        '$date_return' =>  strftime('%d %B %Y' ,strtotime("+".$tour->nights." days", strtotime($date_hotel)) ),
+        '$date_return' =>  strftime('%d %B %Y', strtotime("+".$tour->nights." days", $date_hotel)),
+
+        '$date_hotel' => strftime('%d %B %Y', $date_hotel),
 
         '$hotel' => $tour->hotel,
 
         '$room' => $tour->room,
-
-        '$date_hotel' => $date_hotel,
 
         '$food' => $tour->food_type,
 

@@ -7,7 +7,7 @@
         {!! implode('', $errors->all('<div class="container-fluid"><p style="color:red">:message</p></div>')) !!}
 @endif
 
-<div class="container-fluid">
+<div class="container-fluid margin-top-25">
 	
 	@include('layouts.button_print_contract')
 

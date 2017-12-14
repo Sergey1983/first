@@ -74,6 +74,7 @@ class UserController extends Controller
 
     public function update (User $user) {
 
+
         $this->validate(request(), [
 
             'name' => 'required', 
@@ -84,7 +85,7 @@ class UserController extends Controller
 
             'email' => 'required|email', 
 
-            'password' => 'required|confirmed',
+            // 'password' => 'required|confirmed',
 
             ]);
 

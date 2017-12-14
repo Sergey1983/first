@@ -1,5 +1,9 @@
+@php 
+      setlocale(LC_TIME, 'ru_RU');
 
-<div class="container-fluid">
+@endphp
+
+<div class="container-fluid margin-top-25">
 	
 	<div class="row">
 		
@@ -153,6 +157,11 @@
 				<tr>
 					<td class="col-md-4">Продукт</td>
 					<td><strong>{{$tour->tour_type}}</strong></td>
+				</tr>
+
+				<tr>
+					<td>Дата вылета с</td>
+					<td>{{$date_depart = strftime('%d %B %Y', strtotime($tour->date_depart))}}</td>
 				</tr>
 
 				<tr>

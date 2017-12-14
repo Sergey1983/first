@@ -1,4 +1,4 @@
-	<div class="row col-md-12 text-center">
+	<div class="row col-md-12 margin-bottom-10">
 		<a href="{{URL::asset('admin/templates/'.$tour_type.'/contract/edit')}}" role="button" class="btn btn-info">Шаблон ДОГОВОРА: создать/редактировать</a>
 		<a href="{{URL::asset('admin/templates/'.$tour_type.'/agreement/edit')}}" role="button" class="btn btn-info">Шаблон ДОПСОГЛАШЕНИЯ: создать/редактировать</a>
 	</div>	

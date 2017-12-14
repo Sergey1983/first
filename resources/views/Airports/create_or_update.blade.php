@@ -2,11 +2,11 @@
 
 @section('content')
 
-<div class="container-fluid text-center margin-bottom-10">
+{{-- <div class="container-fluid text-center margin-bottom-10">
 	
 	<h3>{{$action}} аэропорт</h3>
 
-</div>
+</div> --}}
 
 
 @php
@@ -25,9 +25,9 @@
 
 @endphp
 
-<div class="container-fluid">
+<div class="container-fluid margin-top-25">
 
-		<div class="col-md-5 col-md-offset-3">
+		<div class="col-md-5">
 	
 			{!!Form::open(['class' =>'form-horizontal', 'route'=> $route, 'method'=>$method])!!}
 
@@ -35,7 +35,7 @@
 					 	<div class="form-group" id="status">
 
 
-							{!! Form::label('country', 'Страна', ['class'=>'control-label  col-md-6'])!!}
+							{!! Form::label('country', 'Страна', ['class'=>'control-label  col-md-3'])!!}
 
 							<div class="col-md-6">
 
@@ -49,7 +49,7 @@
 					 	<div class="form-group">
 
 
-							{!! Form::label('city', 'Город', ['class'=>'control-label col-md-6'])!!}
+							{!! Form::label('city', 'Город', ['class'=>'control-label col-md-3'])!!}
 
 							<div class="col-md-6">
 
@@ -65,7 +65,7 @@
 					 	<div class="form-group">
 
 
-							{!! Form::label('name', 'Название', ['class'=>'control-label col-md-6'])!!}
+							{!! Form::label('name', 'Название', ['class'=>'control-label col-md-3'])!!}
 
 							<div class="col-md-6">
 
@@ -81,7 +81,7 @@
 					 	<div class="form-group">
 
 
-							{!! Form::label('code', 'Код', ['class'=>'control-label  col-md-6'])!!}
+							{!! Form::label('code', 'Код', ['class'=>'control-label  col-md-3'])!!}
 
 							<div class="col-md-6">
 
@@ -95,7 +95,7 @@
 					 	<div class="form-group" id="status">
 
 
-							{!! Form::label('popularity', 'Популярность', ['class'=>'control-label  col-md-6'])!!}
+							{!! Form::label('popularity', 'Популярность', ['class'=>'control-label  col-md-3'])!!}
 
 							<div class="col-md-6">
 
@@ -106,9 +106,9 @@
 						</div>
 
 
-						<div class="form-group text-center">
+						<div class="form-group  padding-left-14">
 
-							{!! Form::submit('Сохранить', ["class"=>'btn btn-primary']) !!}
+							{!! Form::submit('Сохранить', ["class"=>'btn btn-primary col-md-offset-3']) !!}
 
 
 						</div>

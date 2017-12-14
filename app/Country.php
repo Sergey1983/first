@@ -18,7 +18,9 @@ class Country extends Model
    public function airports_array()
     
     {
-        $airports = $this->airports;
+
+
+        $airports = $this->airports->sortBy('city');
 
         $airports_array['-'] = '-';
 

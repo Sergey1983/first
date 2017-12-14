@@ -4,20 +4,20 @@
 
 <script type="text/javascript" src="{{ URL::asset('js/various/alert_fadeout.js') }}"></script>
 
-<div class="container-fluid text-center margin-bottom-10">
+{{-- <div class="container-fluid text-center margin-bottom-10">
 	
 	<h3>Внести оплату оператору</h3>
 
-</div>
+</div> --}}
 
-<div class="container-fluid">
+<div class="container-fluid margin-top-25">
 
 
-		<div class="col-md-12">
+		<div class="row">
 
 			{!!Form::open(['id' => 'payment_operator', 'class' =>'form-horizontal'])!!}
 
-			<div class="col-md-12">
+			<div class="col-md-5">
 				
 
 					 	<div class="form-group">
@@ -61,12 +61,10 @@
 
 						</div>
 	
-			</div>
 
 
 @unless($tour->currency == 'RUB')		
 
-			<div class="col-md-12">
 
 					 	<div class="form-group">
 
@@ -108,9 +106,9 @@
 
 						</div>
 
-			</div>
 
 @endunless
+
 
 
 
@@ -126,23 +124,25 @@
 
 						</div>
 
+
 						@if($errors->any())
 
-						<div class="alert alert-warning text-center">
+				            @foreach ($errors->all() as $error)
 
-						  {{$errors->first('pay')}}<strong> в валюте!</strong>
+ 								<div class="alert alert-warning text-center">
 
-						</div>
+					                {{ $error }}
 
-						<div class="alert alert-warning text-center">
+								</div>
 
-						  {{$errors->first('pay_rub')}} <strong>в рублях!</strong>
-
-						</div>
-
-							
+							@endforeach
 
 						@endif
+
+
+
+
+
 
 		@endunless
 
@@ -150,7 +150,7 @@
 		
 		</div>
 
-</div>
+	</div>
 
 
 @unless($tour->payments_to_operator()->onlyTrashed()->get()->isEmpty())
@@ -177,7 +177,7 @@
 
 <div class="container-fluid">
 
-	<div class="col-md-8 col-md-offset-2">
+	<div class="col-md-7">
 
 		<div class="row text-right"> 
 
@@ -202,7 +202,7 @@
 
 <div class="container-fluid">
 
-	<div class="col-md-8 col-md-offset-2">
+	<div class="col-md-7">
 
 
 

@@ -245,15 +245,6 @@ class CheckRequest extends RequestVariables
 
 
 
-					// if ( ($doc_values['date_issue'] != $doc_exists->date_issue) OR ((isset($doc_values['date_expire']) AND $doc_values['date_expire'] != $doc_exists->date_expire)
-
-					// 	OR (isset($doc_values['who_issued']) AND ($doc_values['who_issued'] != $doc_exists->who_issued))
-
-					// 	OR (isset($doc_values['address_pass']) AND ($doc_values['address_pass'] != $doc_exists->address_pass))
- 
- 				// 		OR (isset($doc_values['address_real']) AND ($doc_values['address_real'] != $doc_exists->address_real))
-					//  ) 
-
 					if($found_difference)
 
 					{
@@ -264,10 +255,26 @@ class CheckRequest extends RequestVariables
 
 						$differences = array_diff_assoc($doc_in_db, $doc_values);
 
-						if($doc_in_db['doc_type'] == "Внутррос. паспорт") {
+						if(in_array($doc_in_db['doc_type'], array("Внутррос. паспорт", "Св-во о рождении"))) {
 
 							unset($differences['date_expire']);
 						}
+
+
+						if(in_array($doc_in_db['doc_type'], array("Загран. паспорт", "Св-во о рождении", "Другой документ"))) {
+
+							unset($differences['who_issued']);
+							unset($differences['address_pass']);
+							unset($differences['address_real']);
+						}
+						//For situations where in DB there is 'who_issued' (or other fields) == null, we delete the null values.
+							// foreach ($differences as $key => $difference) {
+								
+							// 	if(is_null($difference)) {
+
+							// 		unset($differences[$key]);
+							// 	}
+							// }
 
 						$documents_array[$doc_id]['check_info']['differences'] = $differences;
 

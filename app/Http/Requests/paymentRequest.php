@@ -55,20 +55,32 @@ class paymentRequest extends FormRequest
         }
 
 
-        $checksum = $payments->sum('pay') + request()->pay;
+
+
+
         $checksum_rub = $payments->sum('pay_rub') + request()->pay_rub;
-
-
-        if ($checksum > $price) {
-
-            $rules['pay'] = 'toomuch';
-        }
 
         if($checksum_rub > $price_rub) {
 
             $rules['pay_rub'] = 'toomuch';
 
         }
+
+        if(isset(request()->pay)) {
+
+            $checksum = $payments->sum('pay') + request()->pay;
+
+            if ($checksum > $price) {
+
+                $rules['pay'] = 'toomuchсur';
+            }
+
+
+
+        }
+
+
+
 
 
         return $rules;
@@ -77,7 +89,11 @@ class paymentRequest extends FormRequest
     public function messages() {
 
 
-        $messages = ['toomuch' =>'Слишком большое значение'];
+        $messages = [
+
+            'toomuch' =>'Слишком большое значение в рублях!',
+            'toomuchсur' => 'Слишком большое значение в валюте!'
+        ];
 
         return $messages;
 
