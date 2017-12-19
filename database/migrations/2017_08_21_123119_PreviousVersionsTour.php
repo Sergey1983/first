@@ -20,7 +20,8 @@ class PreviousVersionsTour extends Migration
             $table->integer('version')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
- 
+            $table->integer('branch_id')->references('id')->on('branches')->onDelete('cascade');
+
             $table->string('tour_type', 50);
             $table->string('city_from', 50);
             $table->boolean('city_return_add')->default(false);

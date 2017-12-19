@@ -21,67 +21,24 @@ class TourAccessMiddleware
 
     {
 
-        // dump($request->user()->tours);
-        // dump($request->id);
-        // dump(Tour::find($request->id));
-        // dump($request->user()->tours->contains(Tour::find($request->id)));
-
 
         $user = $request->user();
-        $id = $request->id;
-
-
-        if (!($user->role_id == 1 OR $user->permission == 1))  {
-
-            // if ($user->tours->count()==0) {
-
-            //     return redirect('/');
-            // }  
-
-            // elseif (previous_tour_tourist::where('tour_id', $id)->get()->count() == 0) {
-
-            //     if(!($user->tours->contains(Tour::find($id))) ) {
-
-            //         return redirect('/');
-
-            //     }
-
-            // }
-
-            // elseif($user->previous_tour_tourist->count()==0) {
-
-            //     return redirect('/');
-
-            // }
-
-            // elseif(!Tour::find($id)->previous_tour_tourist->sortBy('this_version')->first()->user->is($user))
-
-            //     {
-            //         return redirect('/');
-            //     }
-
-
-                if($user->previous_tour_tourist->count()==0) {
-
-                    return redirect('/');
-
-                }
-
-                elseif(!($user->previous_tour_tourist->contains(Tour::find($id))) ) {
-
-                    return redirect('/');
-
-                }
+        $tour = $request->tour;
 
 
 
-                elseif(!(Tour::find($id)->previous_tour_tourist->sortBy('this_version')->first()->user->is($user)) ) {
+        if(($user->permission !=1) && ($tour->user->id != $user->id)) {
 
-                    return redirect('/');
+            return redirect('/');
 
-                }
+        }
 
-            }
+        elseif((!$user->isAdmin()) && ($tour->branch != $user->branch)) {
+
+            return redirect('/');
+
+        }
+
 
         return $next($request);
     }

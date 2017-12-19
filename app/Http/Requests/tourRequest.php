@@ -91,9 +91,22 @@ class tourRequest extends FormRequest
 
              $rus_pass_for_buyer_exists = false;
 
+             $not_foreign_countries = array("Россия", "Абхазия", "Казахстан", "Такджикистан", "Киргизия", "Беларусь", "Украина");
+
+            if(!in_array(request()->country, $not_foreign_countries)) {
+
+               $foreing_country = true;
+
+              }
+
+
              foreach (request()->doc_type as $tourist_id => $doc_types) {
 
+                  if(isset($foreing_country)) {
 
+                   $for_pass_4_foreing_country_exists = false;
+
+                  }
                
                 foreach ($doc_types as $doc_id => $value) {
 
@@ -107,6 +120,18 @@ class tourRequest extends FormRequest
                                                                         ? 'required|digits:2' 
 
                                                                         : 'required|digits:4';
+
+                            if($value ==  "Загран. паспорт") {
+
+                              if(isset($foreing_country)) {
+
+                                $for_pass_4_foreing_country_exists = true;
+
+                              }
+
+                            }
+
+
 
                             if($value ==  "Внутррос. паспорт") {
 
@@ -145,6 +170,13 @@ class tourRequest extends FormRequest
 
 
                   }
+
+                  if((isset($foreing_country)) && !$for_pass_4_foreing_country_exists) {
+
+                      $rules['for_pas.'.$tourist_id] = 'required';
+
+                  }
+
               } 
 
 
@@ -299,6 +331,7 @@ class tourRequest extends FormRequest
                 'address_pass.*required' => 'Для заказчика обязательно!',
                 'address_real.*required' => 'Для заказчика обязательно!',
                 'rus_pas.*' => 'Закачик должен иметь российский паспорт!',
+                'for_pas.*' => 'Для данного тура нужен загранпаспорт!',
                 'doc_type.*.*not_in' => "При поездках по России не требуется!",       
                 'is_tourist.*not_in' => "Должен быть хотя бы 1 турист!",                
                 'date_depart.*after_or_equal' => 'Равно или позже сегодня!',

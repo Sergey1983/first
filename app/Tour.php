@@ -37,6 +37,11 @@ class Tour extends Model
 
     }
 
+    public function branch() {
+
+        return $this->belongsTo('App\Branch');
+
+    }
 
     public function country_model() {
 

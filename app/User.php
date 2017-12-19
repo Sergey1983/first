@@ -27,13 +27,17 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    
 
-    public function roles() {
+
+    public function role() {
 
         return $this->belongsTo('App\Role');
     }    
 
+    public function isAdmin() {
+
+        return $this->role->role === "Admin" ? true : false;
+    }    
 
 
     public function tours() {
@@ -83,5 +87,12 @@ class User extends Authenticatable
 
     {
         return $this->hasMany('App\Document');
+    }
+
+    public function branch()
+
+    {
+
+        return $this->belongsTo('App\Branch');
     }
 }

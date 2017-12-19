@@ -58,8 +58,6 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::group(['middleware' => 'App\Http\Middleware\TourAccessMiddleware'], function () {
 
-		Route::get( '/download/contracts/{id}/{filename}', 'TestController@download');
-
 		Route::get('/tours_2/load_tours_function', 'FunctionsController@load_tours');
 		Route::get('/tours_2/{tour}', ['as'=> 'tour.show', 'uses'=>'Tours2Controller@show']);
 		Route::get('/tours_2/{tour}/edit/{tour_type}',['as'=>'tour.edit', 'uses' => 'Tours2Controller@edit']);
@@ -95,7 +93,7 @@ Route::group(['middleware' => 'auth'], function () {
 	});
 
 
-		Route::group(['middleware' => 'App\Http\Middleware\AdminMiddleware'], function () {
+		Route::group(['middleware' => 'admin'], function () {
 			
 			Route::get('/admin', function () {return view('admin_welcome'); })->name('admin.start'); 
 
@@ -124,21 +122,18 @@ Route::group(['middleware' => 'auth'], function () {
 
 			Route::resource('airports', 'AirportController');
 			Route::resource('operators', 'OperatorsController');
+			Route::resource('branches', 'BranchesController');
 
 		});
 
 	Route::post('/checkpassport_function', "FunctionsController@check_passport");
 	Route::get('/load_tours_function', 'FunctionsController@load_tours');
-	// Route::get('/load_tours_function{page?}', 'FunctionsController@load_tours');
 
 	Route::post('/find_passengers', 'FunctionsController@find_passengers');
 	Route::post('/edit_tour_prepare_data', 'FunctionsController@edit_tour_prepare_data');
 	Route::post('/airport_load', 'FunctionsController@airport_load');
-    // Route::get('/load_tours', 'TestController2@load_tours');
-
 
 	Route::post('/return_versions', 'VersionsController@return_versions');
-
 
 	Route::get('/testform', ['as' => 'testform', 'uses' => 'FormController@create']);
 	Route::post('/testform', 'FormController@store');

@@ -27,6 +27,8 @@ class CreateUsersTable extends Migration
             $table->integer('permission');
             
             $table->string('email')->unique();
+            $table->integer('branch_id')->references('id')->on('branches')->onDelete('cascade');
+
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

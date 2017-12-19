@@ -6,24 +6,6 @@
 	
 	<div class="row margin-bottom-25">
 
-{{-- 			{!! Form::open(['method'=> "get", 'route' => ['airports.index']]) !!}
-
-
-		<div class="col-md-2">
-
-			{!! Form::select('country', $countries, null, ['placeholder'=>'Выберите страну', 'class'=>"form-control"])!!}
-
-			
-		</div>
-
-		<div class="col-md-2">
-
-			{!!Form::submit('Показать по стране', ['class' => 'btn btn-default'])!!}
-	
-			
-		</div>
-
-			{!! Form::close() !!} --}}
 
 
 		<div class="col-md-1">
@@ -72,7 +54,6 @@
 
 
 	</table>
-
 
 	{{$operators->links()}}
 </div>

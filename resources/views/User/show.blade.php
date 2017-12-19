@@ -39,6 +39,8 @@
 		    <th>Id менеджера</th>
 		    <th>Имя:</th>
 		    <th>Email</th>
+		    <th>Филиал</th>
+		    <th>Видит заявки</th>
 		    <th>Активный?</th>
 		    <th>Действие</th>
 		  	</tr>
@@ -50,6 +52,8 @@
 			<td><?= $user->id ?></td>
 			<td><?= $user->name ?></td>
 			<td><?= $user->email ?></td>
+			<td><?= $user->branch->name ?></td>
+			<td>{{$user->permission == 1 ? 'Всего филиала' : 'Только свои'}}</td>
 			<td>{{$user->active == 1 ? "Да" : "Нет"}}
 			<td>@if ($user->active == 1) 
 

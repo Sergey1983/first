@@ -27,7 +27,7 @@ class RequestVariables {
 
 	public static function init() {
 
-		self::$keys_tour = array_flip(['tour_type', 'city_from', 'city_return_add', 'city_return', 'country', 'airport', 'operator', 'nights', 'date_depart', 'date_hotel', 'hotel', 'room', 'add_rooms', 'food_type', 'change_food_type' , 'currency', 'price', 'price_rub', 'is_credit', 'first_payment', 'bank',  'transfer', 'noexit_insurance', 'noexit_insurance_add_people', 'noexit_insurance_people', 'med_insurance', 'visa', 'visa_people', 'visa_add_people', 'change_sightseeing',  'sightseeing', 'extra_info', 'source', 'add_source', 'extra_info', 'status', 'operator_code', 'operator_price', 'operator_price_rub', 'operator_full_pay', 'operator_part_pay']);
+		self::$keys_tour = array_flip(['tour_type', 'city_from', 'city_return_add', 'city_return', 'country', 'airport', 'operator', 'nights', 'date_depart', 'date_hotel', 'hotel', 'room', 'add_rooms', 'food_type', 'change_food_type' , 'currency', 'price', 'price_rub', 'is_credit', 'first_payment', 'bank',  'transfer', 'noexit_insurance', 'noexit_insurance_add_people', 'noexit_insurance_people', 'med_insurance', 'visa', 'visa_people', 'visa_add_people', 'change_sightseeing',  'sightseeing', 'extra_info', 'source', 'add_source', 'extra_info', 'status', 'operator_code', 'operator_price', 'operator_price_rub', 'operator_full_pay', 'operator_part_pay', 'branch_id']);
 
         self::$keys_tourist = array_flip(['name', 'lastName', 'patronymic', 'cancel_patronymic', 'nameEng', 'lastNameEng', 'birth_date', 'citizenship', 'gender', 'phone', 'email', 'doc_fullnumber']);
 

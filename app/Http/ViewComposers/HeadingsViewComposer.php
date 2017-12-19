@@ -82,6 +82,10 @@ class HeadingsViewComposer
                 'operators.create' => 'Создать оператора',
                 'operators.edit' => 'Редактировать оператора',
 
+                'branches.index' => 'Список филиалов',
+                'branches.create' => 'Создать филиал',
+                'branches.edit' => 'Редактировать филиал',                
+
 
 
             ]

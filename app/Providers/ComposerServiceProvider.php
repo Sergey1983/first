@@ -24,6 +24,10 @@ public function boot()
             ['*'], 'App\Http\ViewComposers\HeadingsViewComposer'
         );
 
+        View::composer(
+            ['user.create', 'user.edit', 'Tours2.CreateOrUpdate.*'], 'App\Http\ViewComposers\BranchesViewComposer'
+        );
+
     }
 
     /**

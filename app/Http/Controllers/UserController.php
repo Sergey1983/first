@@ -37,6 +37,8 @@ class UserController extends Controller
 
     		'email' => 'required|unique:users,email', 
 
+            'branch_id' =>'required',
+
             'password' => 'required|confirmed' 
 
     		]);
@@ -53,6 +55,8 @@ class UserController extends Controller
         $user->role_id = 2;
 
         $user->email = request('email');
+
+        $user->branch_id = request('branch_id');
 
         $user->password = bcrypt(request('password'));
 
@@ -85,6 +89,8 @@ class UserController extends Controller
 
             'email' => 'required|email', 
 
+            'branch_id' =>'required',
+
             // 'password' => 'required|confirmed',
 
             ]);
@@ -97,6 +103,8 @@ class UserController extends Controller
         $user->patronymic = request('patronymic');
 
         $user->email = request('email');
+
+        $user->branch_id = request('branch_id');
 
         $user->password = bcrypt(request('password'));
 

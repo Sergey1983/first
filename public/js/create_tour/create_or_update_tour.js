@@ -562,13 +562,23 @@ $(document).ready(function() {
 
 									}
 
-									else if (property.includes('rus_pas') ) {
+									else if (property.includes('rus_pas')) {
 
 										console.log(property);
 
 										var tourist_id = property.replace('rus_pas[', '').replace(']','');
 
-										$('[class*="inputs_'+tourist_id+'"]').append('<p class="p-error">'+errors[property]+'</p>');
+										$('[class*="inputs_'+tourist_id+'"]').append('<p class="alert-validation">'+errors[property]+'</p>');
+
+									}
+									
+									else if (property.includes('for_pas')) {
+
+										console.log(property);
+
+										var tourist_id = property.replace('for_pas[', '').replace(']','');
+
+										$('[class*="inputs_'+tourist_id+'"]').append('<p class="alert-validation">'+errors[property]+'</p>');
 
 
 									}

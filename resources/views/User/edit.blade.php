@@ -3,15 +3,6 @@
 
 @section('content')
 
-{{-- <div class="container-fluid text-center margin-bottom-10">
-
-	<div class="col-md-5 col-md-offset-3">
-
-		<h2>Редактировать менеджера</h2>
-
-	</div>
-
-</div> --}}
 
 <div class="container-fluid margin-top-25">
 
@@ -46,6 +37,11 @@
 
 			</div>
 
+			<div class="form-group">
+				
+				{!! Form::select('branch_id', $branches, $user->branch_id, ["class"=>"form-control"])!!}
+
+			</div>
 
 			<div class="form-group">
 
@@ -85,7 +81,7 @@
 
 	<div class="col-md-5">
 
-			<h2>Может видеть все заявки?</h2>
+			<h2>Может видеть все заявки филиала?</h2>
 
 	</div>
 

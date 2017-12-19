@@ -29,9 +29,14 @@
 
 <div class="container-fluid white background-black letter-spacing-035">
 	
+	@php
+			$user = Auth::user();
+
+	@endphp	
+	
 	<div class="col-md-3 text-left  margin-top-10 margin-bottom-10">
 		
-		ВИСТА-ТУР ОРЕНБУРГ, АВТОМАТИКИ
+		ВИСТА-ТУР ОРЕНБУРГ, {{Illuminate\Support\Str::upper($user->branch->name)}} 
 
 	</div>
 
@@ -40,8 +45,7 @@
 		<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 		@php	
 		
-			$user = Auth::user();
-			$user = $user->last_name.' '.substr($user->last_name, 0, 2).'.'.substr($user->patronymic, 0, 2);
+			$user = $user->last_name.' '.substr($user->name, 0, 2).'.'.substr($user->patronymic, 0, 2);
 
 		@endphp
 

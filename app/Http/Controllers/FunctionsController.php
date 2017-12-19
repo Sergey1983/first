@@ -326,7 +326,10 @@ class FunctionsController extends Controller
 
         $paginate = $request->paginate;
 
-        if($user->role_id == 1 OR $user->permission ==1) {
+        if($user->permission !=0) {
+
+
+            $branch = ! $user->isAdmin() ? array(['branch_id', $user->branch->id]) : [];
 
 
             $tours = Tour::when($tourist_search, function($query) use ($tour_tourists_ids_array) {
@@ -335,7 +338,7 @@ class FunctionsController extends Controller
 
                 })
 
-                ->where(array_merge($actuality, $created, $depart, $country, $operator, $hotel, $manager ))
+                ->where(array_merge($actuality, $created, $depart, $country, $operator, $hotel, $manager, $branch ))
 
                 ->orderBy($sort_column, $sort_value)
 
@@ -344,13 +347,14 @@ class FunctionsController extends Controller
 
         } else {
 
+
             $tours = Tour::when($tourist_search, function($query) use ($tour_tourists_ids_array) {
 
                 return $query->whereIn('id', $tour_tourists_ids_array);
 
                 })
 
-                ->where(array_merge($actuality, $created, $depart, $country, $operator, $hotel, $manager,  ['user_id', $user->id]))
+                ->where(array_merge($actuality, $created, $depart, $country, $operator, $hotel, $manager,  array(['user_id', $user->id])))
 
                 ->orderBy($sort_column, $sort_value)
 

@@ -595,6 +595,27 @@
 
 						</div>
 
+
+@if(Auth::user()->isAdmin()) 
+
+
+					 	<div class="form-group">
+							
+							{!! Form::label('branch_id', 'Филиал', ['class'=>'control-label col-md-4'])!!}
+
+							<div class="col-md-8">
+
+						 		{!! Form::select('branch_id', $branches, 
+
+						 			null
+
+						 		, ['placeholder' =>  'Филиал', 'class'=>"form-control", 'id'=>'currency'] )  !!}
+
+						 	</div>
+
+						</div>
+@endif
+
 						
 				</div>
 

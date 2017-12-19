@@ -136,6 +136,15 @@
 
 @endunless
 
+@if(Auth::user()->isAdmin())
+
+				<tr>
+					<td>Филиал</td>
+					<td>{{$tour->branch->name}}</td>
+				</tr>
+
+
+@endif
 
 
 

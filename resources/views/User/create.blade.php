@@ -2,15 +2,6 @@
 
 @section('content')
 
-{{-- <div class="container-fluid text-center margin-bottom-10">
-
-		<div class="col-md-5 col-md-offset-3">
-	
-			<h3>Создать менеджера:</h3>
-
-		</div>
-
-</div> --}}
 
 <div class="container-fluid margin-top-25">
 
@@ -45,6 +36,13 @@
 				</div>
 
 
+				<div class="form-group">
+					
+					{!! Form::select('branch_id', $branches, null, ["class"=>"form-control"])!!}
+
+				</div>
+
+				
 				<div class="form-group">
 
 				{!! Form::password('password', ['Placeholder'=>'password', "class"=>"form-control"]) !!}

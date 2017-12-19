@@ -232,3 +232,28 @@ Breadcrumbs::register('operators.edit', function ($breadcrumbs, $operator) {
 	$breadcrumbs->parent('operators.index');
     $breadcrumbs->push('Редактировать оператора', route('operators.edit', $operator));
 });
+
+//Главная > Панель админа > Филиалы
+
+Breadcrumbs::register('branches.index', function ($breadcrumbs) {
+
+	$breadcrumbs->parent('admin.start');
+    $breadcrumbs->push('Филиалы', route('branches.index'));
+});
+
+
+//Главная > Панель админа > Создать филиал
+
+Breadcrumbs::register('branches.create', function ($breadcrumbs) {
+
+	$breadcrumbs->parent('branches.index');
+    $breadcrumbs->push('Создать филиал', route('branches.create'));
+});
+
+//Главная > Панель админа > Редактировать филиал
+
+Breadcrumbs::register('branches.edit', function ($breadcrumbs, $operator) {
+
+	$breadcrumbs->parent('branches.index');
+    $breadcrumbs->push('Редактировать филиал', route('branches.edit', $operator));
+});

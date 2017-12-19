@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(DocumentsSeeder::class);
         // $this->call(Tour2sTouristsTableSeeder::class);
         $this->call(ContractTemplateDraftsSeeder::class);
+        $this->call(BranchesTableSeeder::class);
 
 
     }
