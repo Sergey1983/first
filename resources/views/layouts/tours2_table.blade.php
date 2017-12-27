@@ -40,6 +40,8 @@
 
 				{!! Form::text ('tourist_name', null , [ 'class'=>"form-control"])!!}
 				{!! Form::text ('tourist_lastname', null , [ 'class'=>"form-control"])!!}
+				{!! Form::text ('branch', null , [ 'class'=>"form-control"])!!}
+
 
 			{!! Form::close() !!}
 
@@ -292,20 +294,46 @@
 
 			</div>
 
+@php
+
+$isAdmin = Auth::user()->isAdmin();
+
+$col_size = $isAdmin ? 'col-md-6' : 'col-md-12';
+
+
+@endphp
+
 			<div class='form-group'>
 
-		 		<div class="col-md-12 medium-label">
+				<div class="{{$col_size}} medium-label no-padding-right">
 
 					<medium>Показывать заявок</medium>		 			
 
 		 		</div>
-				
-				<div class="col-md-12 no-padding-right">
+
+@if($isAdmin)
+				<div class="{{$col_size}} medium-label no-padding-right">
+
+					<medium>Филиал</medium>		 			
+
+		 		</div>
+
+@endif				
+				<div class="{{$col_size}} no-padding-right">
 
 					{!! Form::select ('paginate_f', [10=>'10', 20=>'20', 30=>'30', 50=>'50', 100 => '100'], 10 , ['placeholder' =>  'Выберите', 'class'=>"form-control"])!!}
 				</div>
+				
+@if($isAdmin)
 
+				<div class="{{$col_size}} no-padding-right">
+
+					{!! Form::select ('branch_f', $branches, null, ['placeholder' =>  'Выберите', 'class'=>"form-control"])!!}
+				</div>
+
+@endif
 			</div>
+
 
 
 	</div>

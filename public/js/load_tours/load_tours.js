@@ -154,7 +154,7 @@ $(document).ready(function () {
 		
 		var actuality = $("input[name='actuality_f']:checked").val();
 
-		console.log(actuality);
+		// console.log(actuality);
 		var created_from = $("input[name='created_from_f']").val();
 		var created_to = $("input[name='created_to_f']").val();
 		var ids_from = $("input[name='ids_from_f']").val();
@@ -169,6 +169,7 @@ $(document).ready(function () {
 		var paginate = $("select[name='paginate_f']").val();
 		var tourist_name = $("input[name='tourist_name_f']").val();
 		var tourist_lastname = $("input[name='tourist_lastname_f']").val();
+		var branch = $("select[name='branch_f']").val();
 
 
 		if(iteration == null) {
@@ -200,6 +201,8 @@ $(document).ready(function () {
 		$("input[name='paginate']").attr('value', paginate);
 		$("input[name='tourist_name']").attr('value', tourist_name);
 		$("input[name='tourist_lastname']").attr('value', tourist_lastname);
+		$("input[name='branch']").attr('value', branch);
+
 
 	}
 

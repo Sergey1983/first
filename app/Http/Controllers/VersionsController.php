@@ -16,6 +16,8 @@ use App\Airport;
 
 use App\Document;
 
+use App\Branch;
+
 use App\previous_tour_tourist;
 
 use App\previous_tourist;
@@ -134,10 +136,10 @@ class VersionsController extends Controller
        
             $return_array[$this_version]['tour'] = previous_tour::where([ ['tour_id',$tourists_and_documents[0]['tour_id'] ], ['version', $tourists_and_documents[0]['tour_version']] ])->first()->toArray();
 
-
             
             $return_array[$this_version]['tour']['user_name'] = User::find($return_array[$this_version]['tour']['user_id'])->name;
 
+            $return_array[$this_version]['tour']['branch_name'] = Branch::find($return_array[$this_version]['tour']['branch_id'])->name;
 
             if($return_array[$this_version]['tour']['airport'] != '-' ) {
 

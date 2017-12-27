@@ -25,7 +25,7 @@ public function boot()
         );
 
         View::composer(
-            ['user.create', 'user.edit', 'Tours2.CreateOrUpdate.*'], 'App\Http\ViewComposers\BranchesViewComposer'
+            ['user.create', 'user.edit', 'Tours2.CreateOrUpdate.*', 'layouts.tours2_table'], 'App\Http\ViewComposers\BranchesViewComposer'
         );
 
     }

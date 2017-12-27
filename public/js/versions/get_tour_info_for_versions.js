@@ -154,9 +154,15 @@ console.log('get_tour_info_for_versions.js loaded');
 					'</tr>'+
 
 					'<tr>'+
+						'<td>Филиал</td>'+
+						'<td id="branch_name_'+j+'">'+tour.branch_name+'</td>'+
+					'</tr>'+
+
+					'<tr>'+
 						'<td>Оплата в кредит?</td>'+
 						'<td>'+(tour.first_payment==null ? 'Нет': 'Да')+'</td>'+
 					'</tr>'+
+
 
 					(tour.first_payment!=null ?
 

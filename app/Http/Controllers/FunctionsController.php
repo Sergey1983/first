@@ -304,6 +304,7 @@ class FunctionsController extends Controller
             $hotel = [];
         }
 
+
         if(!is_null($request->manager)) {
 
             $manager = [
@@ -320,6 +321,21 @@ class FunctionsController extends Controller
 
 
 
+        if(!is_null($request->branch)) {
+
+            $branch_from_request = [
+
+                ['branch_id', $request->branch]
+
+            ];
+
+        } else {
+
+            $branch_from_request = [];
+        }
+
+
+
 // dump(array_merge($actuality, $created, $depart, $country, $operator, $hotel, $manager ));
 // dump($tour_tourists_ids_array);
 // die();
@@ -329,7 +345,7 @@ class FunctionsController extends Controller
         if($user->permission !=0) {
 
 
-            $branch = ! $user->isAdmin() ? array(['branch_id', $user->branch->id]) : [];
+            $branch = ! $user->isAdmin() ? array(['branch_id', $user->branch->id]) : $branch_from_request;
 
 
             $tours = Tour::when($tourist_search, function($query) use ($tour_tourists_ids_array) {

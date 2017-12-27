@@ -351,7 +351,7 @@ $("#row_tourist_and_documents_"+j+"_"+m+"").append(
 
 						$.each(field_names, function (index, field_name) {
 
-							console.log('#'+field_name+'_'+j+'_'+tourist_number+'_'+doc_position+'');
+							// console.log('#'+field_name+'_'+j+'_'+tourist_number+'_'+doc_position+'');
 
 							$('#'+field_name+'_'+j+'_'+tourist_number+'_'+doc_position+'').css('color', 'blue');
 
