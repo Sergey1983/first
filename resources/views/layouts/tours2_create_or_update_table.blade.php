@@ -374,7 +374,7 @@
 
 				</div>
 
-				<div class="col-md-3">
+				<div class="col-md-3" id="doc_0_div_dates_0">
 
 
 					<div class="form-group col-md-6">
@@ -457,7 +457,7 @@
 				<div class="col-md-3">
 
 
-					<div class="form-group col-md-6">
+					<div class="form-group col-md-6" id="doc_1_div_dates_0">
 
 							{!! Form::date ('date_issue[0][1]', null, ['placeholder' => 'Дата выдачи', 'class'=>'form-control d-block-inline no-padding-right', 'disabled'=>'disabled', 'id' => 'date_issue_2'])!!}
 							<small>Дата выдачи</small>

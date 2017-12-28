@@ -31,11 +31,16 @@ $(document).ready(function(){
 		$('[name="doc_number['+tourist_number+']['+doc_number+']"]').removeAttr('disabled');
 
 
-
-
 		$('#russian_passport_row_'+tourist_number+'_'+doc_number+'').remove();
 
 		$('input[name="date_expire['+tourist_number+']['+doc_number+']"]').removeAttr('disabled');
+
+
+
+
+		$(id_dates).find('input').val('');
+
+
 
 
 		if(value == 'Загран. паспорт'||value == 'Внутррос. паспорт') {
