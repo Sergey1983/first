@@ -69,6 +69,13 @@ $(document).ready(function() {
 
 				if (data.hasOwnProperty(property)) {
 
+					if(property.includes('citizenship') && data[property] != 'Россия') {
+
+						number = property.replace('citizenship[', '').replace(']', '');
+
+						$('#change_citezenship_'+number+'').trigger('click');
+
+					}
 
 					 $("[name='"+property+"']").val(data[property]);					
 

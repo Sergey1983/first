@@ -24,29 +24,29 @@ Route::get('/logout', ['as' => 'sessions.logout', 'uses' => 'SessionsController@
 
 
 
-Route::get('/tours', 'ToursController@index')->name('tours_list');
+// Route::get('/tours', 'ToursController@index')->name('tours_list');
 
-Route::get('/tours/create', 'ToursController@create');
+// Route::get('/tours/create', 'ToursController@create');
 
-Route::post('/tours/create', 'ToursController@store');
+// Route::post('/tours/create', 'ToursController@store');
 
-Route::get('/tours/{id}', 'ToursController@show');
+// Route::get('/tours/{id}', 'ToursController@show');
 
-Route::post('/tours/{id}', 'ToursController@update');
-
-
+// Route::post('/tours/{id}', 'ToursController@update');
 
 
-Route::get('/test', 'TestController@index');
-Route::get('/search', 'TestController@search');
 
-Route::get('/test2', 'TestController2@test');
+
+// Route::get('/test', 'TestController@index');
+// Route::get('/search', 'TestController@search');
+
+// Route::get('/test2', 'TestController2@test');
 // Route::get('/load_tours', 'TestController2@load_tours');
 
 
 
-Route::get('/test3', 'TestFormController@index');
-Route::post('/test3', 'TestFormController@store');
+// Route::get('/test3', 'TestFormController@index');
+// Route::post('/test3', 'TestFormController@store');
 
 
 Route::group(['middleware' => 'auth'], function () {
@@ -128,18 +128,16 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::post('/checkpassport_function', "FunctionsController@check_passport");
 	Route::get('/load_tours_function', 'FunctionsController@load_tours');
-
 	Route::post('/find_passengers', 'FunctionsController@find_passengers');
 	Route::post('/edit_tour_prepare_data', 'FunctionsController@edit_tour_prepare_data');
 	Route::post('/airport_load', 'FunctionsController@airport_load');
-
 	Route::post('/return_versions', 'VersionsController@return_versions');
 
-	Route::get('/testform', ['as' => 'testform', 'uses' => 'FormController@create']);
-	Route::post('/testform', 'FormController@store');
-	Route::post('/loadtestform', ['as' => 'loadtests', 'uses' => 'FormController@loadtests']);
+	// Route::get('/testform', ['as' => 'testform', 'uses' => 'FormController@create']);
+	// Route::post('/testform', 'FormController@store');
+	// Route::post('/loadtestform', ['as' => 'loadtests', 'uses' => 'FormController@loadtests']);
 
-	Route::get('/sometest', 'FormController@sometest');
+	// Route::get('/sometest', 'FormController@sometest');
 
 });
 

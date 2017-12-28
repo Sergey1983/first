@@ -10,6 +10,7 @@ use App\Tourist;
 
 use App\Tour;
 
+use App\User;
 
 
 class tourRequest extends FormRequest
@@ -86,6 +87,12 @@ class tourRequest extends FormRequest
 
            ];
 
+
+           if(request()->user()->isAdmin() ) {
+
+            $rules['branch_id'] = 'required';
+
+           }
 
            if (isset(request()->doc_type)) {
 

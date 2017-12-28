@@ -107,8 +107,8 @@ $(document).ready(function() {
 									'<tr>'+
 
 									    '<th>Id</th>'+
-									    '<th>Имя</th>'+
 									    '<th>Фамилия</th>'+
+									    '<th>Имя</th>'+
 									    '<th>Отчество</th>'+
 									    '<th>Имя Англ.</th>'+
 									    '<th>Фамилия Англ.</th>'+
@@ -123,8 +123,8 @@ $(document).ready(function() {
 									'<tr>'+
 
 									    '<td>'+tourist.id+'</td>'+
-									    '<td id="name_'+j+'_'+m+'">'+tourist.name+'</td>'+
 									    '<td id="lastName_'+j+'_'+m+'">'+tourist.lastName+'</td>'+
+									    '<td id="name_'+j+'_'+m+'">'+tourist.name+'</td>'+
 									    '<td id="patronymic_'+j+'_'+m+'">'+tourist.patronymic+'</td>'+
 									    '<td id="nameEng_'+j+'_'+m+'">'+tourist.nameEng+'</td>'+
 									    '<td id="lastNameEng_'+j+'_'+m+'">'+tourist.lastNameEng+'</td>'+    

@@ -653,7 +653,7 @@
 
 						 			null
 
-						 		, ['placeholder' =>  'Филиал', 'class'=>"form-control", 'id'=>'currency'] )  !!}
+						 		, ['placeholder' =>  'Выберите', 'class'=>"form-control", 'id'=>'currency'] )  !!}
 
 						 	</div>
 
