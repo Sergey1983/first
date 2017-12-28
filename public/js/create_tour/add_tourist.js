@@ -201,7 +201,7 @@ $(document).ready(function() {
 
 
 
-				'<div class="col-md-3">'+
+				'<div class="col-md-3" id="doc_0_div_dates_'+i+'">'+
 
 
 					'<div class="form-group col-md-6">'+
@@ -281,7 +281,7 @@ $(document).ready(function() {
 				'</div>'+
 
 
-				'<div class="col-md-3">'+
+				'<div class="col-md-3" id="doc_1_div_dates_'+i+'">'+
 
 
 					'<div class="form-group col-md-6">'+
