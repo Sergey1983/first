@@ -1,4 +1,3 @@
-{{-- test --}}
 
 @extends('layouts.master')
 
