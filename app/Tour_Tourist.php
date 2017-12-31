@@ -2,7 +2,7 @@
 
 namespace App;
 
-class tour_tourist extends Model
+class Tour_tourist extends Model
 {
 
 	protected $table='tour_tourist';

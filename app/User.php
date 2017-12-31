@@ -60,7 +60,7 @@ class User extends Authenticatable
 
     public function tour_tourist () {
 
-        return $this->hasMany('App\tour_tourist');
+        return $this->hasMany('App\Tour_tourist');
     }
 
     public function payments_from_tourists () {

@@ -8,7 +8,7 @@ use App\Tour;
 
 use App\Tourist;
 
-use App\Tour_Tourist;
+use App\Tour_tourist;
 
 use App\User;
 
