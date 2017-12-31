@@ -567,9 +567,13 @@ class FunctionsController extends Controller
 
     {
 
-        $country = Country::where('country', $request->country)->first();
+        // $country = Airport::where('country', $request->country)->get();
 
-        return $country->airports_array();
+        $airport = new Airport;
+
+        $country = $airport->airports_array($request->country);
+
+        return $country;
 
     }
 
