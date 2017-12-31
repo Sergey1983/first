@@ -1,10 +1,9 @@
-//test
-
 <?php
 
 namespace App;
 
 class Tour_tourist extends Model
+
 {
 
 	protected $table='tour_tourist';
