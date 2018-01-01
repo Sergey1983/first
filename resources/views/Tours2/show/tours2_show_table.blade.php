@@ -9,11 +9,11 @@
 
 	<div class="col-md-6 no-padding-left">
 
-		@include('buttons.book_tour')
-	    @include('buttons.pay_tourist')	
+		@include('Buttons.book_tour')
+	    @include('Buttons.pay_tourist')	
 
 		@unless(is_null($tour->operator_price_rub))	
-			@include('buttons.pay_operator')
+			@include('Buttons.pay_operator')
 		@endunless
 
 	</div>
