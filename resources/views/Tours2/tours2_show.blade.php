@@ -2,7 +2,7 @@
 
 @section ('content')
 
-@include('tours2.show.tours2_show_table')
+@include('Tours2.show.tours2_show_table')
 
 {{-- 
 <div class="container-fluid">
