@@ -58,7 +58,7 @@ class Tour extends Model
 
    public function contracts() {
 
-      return $this->hasMany('App\contract');
+      return $this->hasMany('App\Contract');
 
     }
 
