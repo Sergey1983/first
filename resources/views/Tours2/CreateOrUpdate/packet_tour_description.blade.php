@@ -91,7 +91,13 @@
 
 							<div class="col-md-8">
 
-						 		@php $airports = isset($tour) ? $tour->country_model->airports_array() : [0=>'Сначала выберите страну'] @endphp
+						 		@php 
+
+						 		$airport = new App\Airport;
+
+						 		$airports = isset($tour) ? $airport->airports_array($tour->country) : [0=>'Сначала выберите страну'] 
+
+						 		@endphp
 
 							
 

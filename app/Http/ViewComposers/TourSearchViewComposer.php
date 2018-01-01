@@ -43,18 +43,6 @@ class TourSearchViewComposer
 
         $countries = array_combine($countries, $countries);
 
-        // usort($countries, 'App\Services\SortNullAlwaysLast::cmp');
-
-        // foreach ($countries as $key => $value) {
-
-        //     $country = $value['country'];
-
-        //     unset($countries[$key]);
-
-        //     $countries[$country] = $country;
-            
-        // }
-        
 
         $this->countries = $countries;
 

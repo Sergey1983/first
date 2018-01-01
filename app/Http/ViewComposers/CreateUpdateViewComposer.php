@@ -41,26 +41,10 @@ class CreateUpdateViewComposer
         $cities = Airport::where('country', 'Россия')->OrderBy('city')->pluck('city')->toArray();
 
         $cities = array_combine($cities, $cities);
-
-        // Cities::all()->toArray();
-
-        // // usort($cities, 'App\Services\SortNullAlwaysLast::cmp');
-
-        // foreach ($cities as $key => $value) {
-
-        //     $city = $value['city'];
-
-        //     unset($cities[$key]);
-
-        //     $cities[$city] = $city;
-            
-        // }
-        
+      
         $this->cities = $cities;
 
         
-
-        // $countries = Country::all()->toArray();
         $countries = Airport::all()->sortBy('country')->pluck('country')->unique()->toArray();
 
         $countries = array_combine($countries, $countries);
