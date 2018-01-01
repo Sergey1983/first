@@ -16,7 +16,7 @@ class BranchesController extends Controller
     {
         $branches = Branch::all();
 
-        return view('branches.index', compact('branches'));
+        return view('Branches.index', compact('branches'));
     }
 
     /**

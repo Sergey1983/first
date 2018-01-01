@@ -23,7 +23,7 @@ class BookingController extends Controller
 		
 		// $tour = Tour::find($id);
 
-		return view('booking.booking_edit', compact('tour'));
+		return view('Booking.booking_edit', compact('tour'));
 
 	}
     

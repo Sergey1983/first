@@ -130,33 +130,6 @@ class TemplateController extends Controller
     }
 
 
-    // public static function tour_type ($tour_type){
 
-
-    //         switch($tour_type) {
-
-    //             case 'packet_tour':
-
-    //                   $tour_type = "Пакетный";
-
-    //                   break;
-
-    //             case 'hotel':
-
-    //                   $tour_type = "Отельный";
-
-    //                   break;
-
-    //             case 'avia':
-
-    //                   $tour_type = "Авиа";
-
-    //                   break;
-
-
-    //         }
-
-    //         return $tour_type;
-    // }
 
 }

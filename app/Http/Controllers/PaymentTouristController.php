@@ -19,7 +19,7 @@ class PaymentTouristController extends Controller
 		
 		// $tour = Tour::find($id);
 
-		return view('payment.tourist.edit', compact('tour'));
+		return view('Payment.Tourist.edit', compact('tour'));
 
 	}
 

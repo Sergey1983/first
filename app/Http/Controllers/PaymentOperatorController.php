@@ -17,7 +17,7 @@ class PaymentOperatorController extends Controller
 
 	{
 		
-		return view('payment.operator.edit', compact('tour'));
+		return view('Payment.operator.edit', compact('tour'));
 
 	}
 
