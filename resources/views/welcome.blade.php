@@ -1,4 +1,5 @@
-{{-- test --}}
+
+{{ phpinfo()}}
 @extends('layouts.master')
 
 @section('content')
