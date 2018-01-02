@@ -6,6 +6,9 @@ use App\Tour;
 
 use App\Document;
 
+use App\Branch;
+
+
 class Printing
 
 {
@@ -260,7 +263,7 @@ class Printing
 
         '$managerPatronymic' => $manager->patronymic,
 
-
+        '$branch_details' => nl2br($tour->branch->details)
 
       ];
 

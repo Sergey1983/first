@@ -1,5 +1,5 @@
 
-{{ phpinfo()}}
+
 @extends('layouts.master')
 
 @section('content')
@@ -9,6 +9,13 @@
 <div class="container-fluid text-center margin-top-25">
 
 {!! Form::open(['id'=>'login', 'class'=>'form-inline', 'method'=>'post', 'route'=>'sessions.login'])!!}
+
+
+	<div class="text-center margin-bottom-25"> 
+
+		<h3>За работу, друзья!:)</h3>
+
+	</div>
 
 	<div class="form-group">
 
