@@ -61,6 +61,8 @@ class PrintingController extends Controller
 
     $html = Printing::process_template($template, $tour);
 
+    // dd($html);
+
     $version_by_type = 1;
 
     $manager = Printing::findManager($tour);

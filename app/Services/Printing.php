@@ -274,7 +274,6 @@ class Printing
 
       $template = str_replace($from, $to, $template);
 
-      
    return $template;
 
    }
