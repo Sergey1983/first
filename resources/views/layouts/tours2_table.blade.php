@@ -1,4 +1,3 @@
-<div class="container-fluid margin-bottom-25">
 
 
 	<div class="row">
