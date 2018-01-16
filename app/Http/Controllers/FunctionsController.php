@@ -380,7 +380,6 @@ class FunctionsController extends Controller
         }
 
 
-        // return view('Tours2.tours2', compact('tours'));
 
         foreach ($tours as $key => $tour) {
             

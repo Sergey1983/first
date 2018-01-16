@@ -51,27 +51,27 @@ Route::get('/logout', ['as' => 'sessions.logout', 'uses' => 'SessionsController@
 
 Route::group(['middleware' => 'auth'], function () {
 
-	Route::get('/tours_2', ['as' => 'home', 'uses' => 'Tours2Controller@index']);
-	Route::get('/tours_2/create/{tour_type}', ['as' => 'tour.create', 'uses' => 'Tours2Controller@create']);	
-	Route::post('/tours_2/create', ['as' => 'tour.store', 'uses' => 'Tours2Controller@store']);
+	Route::get('/tours', ['as' => 'home', 'uses' => 'Tours2Controller@index']);
+	Route::get('/tours/create/{tour_type}', ['as' => 'tour.create', 'uses' => 'Tours2Controller@create']);	
+	Route::post('/tours/create', ['as' => 'tour.store', 'uses' => 'Tours2Controller@store']);
 
 
 	Route::group(['middleware' => 'App\Http\Middleware\TourAccessMiddleware'], function () {
 
 		Route::get('/tours_2/load_tours_function', 'FunctionsController@load_tours');
-		Route::get('/tours_2/{tour}', ['as'=> 'tour.show', 'uses'=>'Tours2Controller@show']);
-		Route::get('/tours_2/{tour}/edit/{tour_type}',['as'=>'tour.edit', 'uses' => 'Tours2Controller@edit']);
-		Route::post('/tours_2/{tour}',['as'=>'tour.update', 'uses' => 'Tours2Controller@update']);
+		Route::get('/tours/{tour}', ['as'=> 'tour.show', 'uses'=>'Tours2Controller@show']);
+		Route::get('/tours/{tour}/edit/{tour_type}',['as'=>'tour.edit', 'uses' => 'Tours2Controller@edit']);
+		Route::post('/tours/{tour}',['as'=>'tour.update', 'uses' => 'Tours2Controller@update']);
 
-		Route::get('/tours_2/{tour}/versions', ['as' => 'tour.versions', 'uses' => 'VersionsController@show']);
+		Route::get('/tours/{tour}/versions', ['as' => 'tour.versions', 'uses' => 'VersionsController@show']);
 		// Route::get('/tours_2/{id}/versions#version{version}', ['as' => 'tour.versions', 'uses' => 'VersionsController@show']);
 
 		// Route::get('/tours_2/{id}/versions', ['as' => 'tour.version', 'uses' => 'VersionsController@return_versions']);
 		
-		Route::get('/tours_2/print_contract/{tour}',['as'=>'contract.choose', 'uses' =>'PrintingController@choose']);
-		Route::get('/tours_2/print_contract/{tour}/{doc_type}', ['as'=>'contract.show', 'uses' =>'PrintingController@show']);
-		Route::get('/tours_2/print_contract/{tour}/print/{doc_type}', ['as'=>'contract.print', 'uses' => 'PrintingController@print_contract']);
-		Route::get('/tours_2/{tour}/contract_versions', ['as' => 'contract.versions', 'uses' => 'PrintingController@versions']);
+		Route::get('/tours/print_contract/{tour}',['as'=>'contract.choose', 'uses' =>'PrintingController@choose']);
+		Route::get('/tours/print_contract/{tour}/{doc_type}', ['as'=>'contract.show', 'uses' =>'PrintingController@show']);
+		Route::get('/tours/print_contract/{tour}/print/{doc_type}', ['as'=>'contract.print', 'uses' => 'PrintingController@print_contract']);
+		Route::get('/tours/{tour}/contract_versions', ['as' => 'contract.versions', 'uses' => 'PrintingController@versions']);
 		Route::get('/download/{tour}/{filename}', ['as' => 'contract.download', 'uses' => 'PrintingController@download']);
 
 

@@ -49,14 +49,12 @@ use Event;
 class Tours2Controller extends Controller
 
 {
-
-
  
     public function index()
 
     {
 
-            return view('Tours2.tours2');
+            return view('Tours2.tours');
 
     }
 
@@ -90,8 +88,6 @@ class Tours2Controller extends Controller
     }
 
 
-
-    // public function show($id)
     public function show(Tour $tour)
     
     {
@@ -106,7 +102,7 @@ class Tours2Controller extends Controller
 
         $is_versions = previous_tour_tourist::where('tour_id', $tour->id)->get()->isNotEmpty() ? 1 : 0;
 
-    return view('Tours2.tours2_show', compact('tour', 'tour_tourists', 'tour_tourists_docs', 'is_versions', 'user', 'tour_type'));
+        return view('Tours2.tours2_show', compact('tour', 'tour_tourists', 'tour_tourists_docs', 'is_versions', 'user', 'tour_type'));
     }
 
  

@@ -38,7 +38,7 @@ $(document).ready(function() {
 					$.ajax({
 
 						type: 'post',
-						url: '/tours_2/'+id+'' ,
+						url: '/tours/'+id+'' ,
 						data: request,
 
 						})
@@ -47,7 +47,7 @@ $(document).ready(function() {
 
 							 console.log(data);
 
-							window.location.href = '/tours_2';
+							window.location.href = '/tours';
 
 
 

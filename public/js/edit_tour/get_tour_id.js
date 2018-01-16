@@ -9,7 +9,7 @@
 
 		var path_edit = '/edit';
 
-		var path_tour = '/tours_2/';
+		var path_tour = '/tours/';
 
 		
 		var path_noedit = path.replace(path_edit, '');

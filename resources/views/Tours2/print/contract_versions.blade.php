@@ -48,8 +48,25 @@
 					<td>{{$contract->created_at}}</td>
 					<td>{{$contract->doc_type}}</td>
 					<td>{{$contract->id}}</td>
-					<td><a href="{{ URL::asset('tours_2/'.$contract->tour_id.'/versions#version'.$contract->tour_version ) }}">{{$contract->tour_version}}</a></td>
-					<td><a href="{{ URL::asset('download/'.$contract->tour_id.'/'.$contract->filename) }}" target="_blank">{{$contract->filename}}</a></td>
+					<td>
+
+						<a href="{{route('tour.versions', ['tour' => $contract->tour_id])}}/#version{{$contract->tour_version}}">{{$contract->tour_version}}</a>
+						
+{{-- 						<a href="{{ URL::asset('tours/'.$contract->tour_id.'/versions#version'.$contract->tour_version ) }}">{{$contract->tour_version}}</a> --}}
+
+					</td>
+					<td>
+
+						<a href="{{route('contract.download', ['tour' => $contract->tour_id, 'filename' => $contract->filename])}}">
+
+							{{$contract->filename}}
+
+						</a>
+
+{{-- 						<a href="{{ URL::asset('download/'.$contract->tour_id.'/'.$contract->filename) }}" target="_blank">{{$contract->filename}}
+						</a> --}}
+
+					</td>
 
 				</tr>
 

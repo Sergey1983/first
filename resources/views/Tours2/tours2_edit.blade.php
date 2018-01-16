@@ -1,10 +1,6 @@
-
-
 @extends('layouts.master')
 
 @section ('content')
-
-{{-- @include('layouts.tours2_edit_table') --}}
 
 @include('layouts.tours2_create_or_update_table', ['verb' =>'Обновить', 'button' =>'update_button', 'is_update'=> 1])
 

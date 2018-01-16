@@ -17,7 +17,7 @@ class SessionsController extends Controller
         }
 
 
-        return redirect('/tours_2');
+        return redirect()->route('home');
 
     }
 

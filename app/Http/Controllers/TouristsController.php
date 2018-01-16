@@ -10,15 +10,15 @@ class TouristsController extends Controller
 
 {
    
-    public function store(Request $request)
+    // public function store(Request $request)
 
-    {
+    // {
             
-            Tourist::create( $request->all() );
+    //         Tourist::create( $request->all() );
 
-            return redirect('/tours_2');
+    //         return redirect()->route('home');
 
-    }
+    // }
 
 
 

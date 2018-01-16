@@ -8,7 +8,7 @@ $(document).ready(function(){
 
 		$.ajax({
 			type: 'post',
-			url: '/tours_2',
+			url: '/tours',
 			data: parameters, 
 		})
 

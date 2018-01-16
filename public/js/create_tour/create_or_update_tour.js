@@ -85,7 +85,7 @@ $(document).ready(function() {
 
 					if(action == 'create') {
 
-						var url = '/tours_2/create';
+						var url = '/tours/create';
 
 						verb = "Создать";
 
@@ -104,7 +104,7 @@ $(document).ready(function() {
 
 						id = $("#id").text();
 
-						var url = '/tours_2/'+id+'';
+						var url = '/tours/'+id+'';
 
 						verb = "Обновить";
 
@@ -150,11 +150,11 @@ $(document).ready(function() {
 
 							if(action == 'create') {
 							
-								window.location.href = '/tours_2';
+								window.location.href = '/tours';
 
 							} else if( action == 'update') {
 
-								window.location.href = '/tours_2/'+id+'';
+								window.location.href = '/tours/'+id+'';
 
 							}
 

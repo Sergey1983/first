@@ -128,7 +128,7 @@ $(document).ready(function () {
 								'<td class="text-center">'+tour.debt+'</td>'+
 								'<td>'+tour.operator_price+'</td>'+
 								'<td>'+tour.operator_price_rub+'</td>'+
-								'<td><a class="btn btn-sm btn-info" href="/tours_2/'+tour.id+'">Подробнее</a></td>'+
+								'<td><a class="btn btn-sm btn-info" href="/tours/'+tour.id+'">Подробнее</a></td>'+
 						'</tr>'
 
 

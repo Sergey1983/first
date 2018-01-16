@@ -9,7 +9,7 @@ console.log('get_tour_id_for_versions.js loaded');
 
 		var path_versions = '/versions';
 
-		var path_tour = '/tours_2/';
+		var path_tour = '/tours/';
 
 		
 		var path_noedit = path.replace(path_versions, '');
