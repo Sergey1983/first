@@ -153,7 +153,7 @@ $(document).ready(function () {
 	function serch_form_fullfill(iteration=null) {
 		
 		var actuality = $("input[name='actuality_f']:checked").val();
-
+		
 		// console.log(actuality);
 		var created_from = $("input[name='created_from_f']").val();
 		var created_to = $("input[name='created_to_f']").val();

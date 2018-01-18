@@ -39,7 +39,7 @@ class VersionsController extends Controller
     {
     	
 
-        return view('Tours2.versions');
+        return view('Versions.versions');
 
     }
 

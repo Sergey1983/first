@@ -187,20 +187,53 @@ class FunctionsController extends Controller
         }
 
 
+        // if(!is_null($request->created_from) OR !is_null($request->created_to)) {
+
+
+        //     $created_from =  \Carbon\Carbon::createFromFormat('Y-m-d', $request->created_from);
+
+        //     $created_to = \Carbon\Carbon::createFromFormat('Y-m-d', $request->created_to);
+
+        //     $created = 
+
+        //     [
+        //         ['created_at', '>=', $created_from],
+        //         ['created_at', '<=', $created_to]
+        //     ];
+
+
+        // } else {
+
+        //     $created = [];
+
+
+        // }
+
+
 
         if(!is_null($request->created_from) OR !is_null($request->created_to)) {
 
+            $created_from = \Carbon\Carbon::createFromFormat('Y-m-d', $request->created_from); 
+            // $request->created_from;
+    
 
-            $created_from =  \Carbon\Carbon::createFromFormat('Y-m-d', $request->created_from);
+            $created_to = \Carbon\Carbon::createFromFormat('Y-m-d', $request->created_to)->endOfDay();
+            // $created_to = $request->created_to;
 
-            $created_to = \Carbon\Carbon::createFromFormat('Y-m-d', $request->created_to);
+            $created = [];
 
-            $created = 
+            if(!is_null($request->created_from)) {
 
-            [
-                ['created_at', '>=', $created_from],
-                ['created_at', '<=', $created_to]
-            ];
+                $created[] = ['created_at', '>=', $created_from];
+
+            }
+
+            if(!is_null($request->created_to)) {
+
+                $created[] = ['created_at', '<=', $created_to];
+
+            }
+
 
         } else {
 
@@ -245,7 +278,7 @@ class FunctionsController extends Controller
 
             $ids_to = $request->ids_to;
 
-            $created = 
+            $ids = 
 
             [
                 ['id', '>=', $ids_from],
@@ -254,7 +287,7 @@ class FunctionsController extends Controller
 
         } else {
 
-            $created = [];
+            $ids = [];
 
 
         }
@@ -305,6 +338,20 @@ class FunctionsController extends Controller
         }
 
 
+        if(!is_null($request->product)) {
+
+            $product = [
+
+                ['tour_type', $request->product]
+
+            ];
+
+        } else {
+
+            $product = [];
+        }
+
+
         if(!is_null($request->manager)) {
 
             $manager = [
@@ -317,7 +364,6 @@ class FunctionsController extends Controller
 
             $manager = [];
         }
-
 
 
 
@@ -339,6 +385,9 @@ class FunctionsController extends Controller
 // dump(array_merge($actuality, $created, $depart, $country, $operator, $hotel, $manager ));
 // dump($tour_tourists_ids_array);
 // die();
+        // dd($actuality, $created);
+
+        // dd(array_merge($actuality, $created, $depart, $country, $operator, $hotel, $manager, $product ));
 
         $paginate = $request->paginate;
 
@@ -354,7 +403,7 @@ class FunctionsController extends Controller
 
                 })
 
-                ->where(array_merge($actuality, $created, $depart, $country, $operator, $hotel, $manager, $branch ))
+                ->where(array_merge($actuality, $created, $depart, $country, $operator, $ids, $hotel, $manager, $product, $branch ))
 
                 ->orderBy($sort_column, $sort_value)
 
@@ -370,7 +419,7 @@ class FunctionsController extends Controller
 
                 })
 
-                ->where(array_merge($actuality, $created, $depart, $country, $operator, $hotel, $manager,  array(['user_id', $user->id])))
+                ->where(array_merge($actuality, $created, $depart, $country, $operator, $ids, $hotel, $manager, $product, array(['user_id', $user->id])))
 
                 ->orderBy($sort_column, $sort_value)
 

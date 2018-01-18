@@ -3,9 +3,6 @@
 @section ('content')
 
 
-
-
-
 <div class="container-fluid text-center margin-top-25">
 	
 <a

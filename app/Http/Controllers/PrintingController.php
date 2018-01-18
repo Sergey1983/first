@@ -23,7 +23,7 @@ class PrintingController extends Controller
 
   public function choose(Tour $tour) {
 
-    return view('Tours2.print.contract_choose', compact('tour'));
+    return view('Print.contract_choose', compact('tour'));
 
   }
 
@@ -41,7 +41,7 @@ class PrintingController extends Controller
 
     $doc_type_rus = Printing::doc_type($doc_type);
 
-    return view('Tours2.print.contract_preview', compact('template', 'tour', 'doc_type', 'doc_type_rus'));
+    return view('Print.contract_preview', compact('template', 'tour', 'doc_type', 'doc_type_rus'));
 
   }
    
@@ -157,7 +157,7 @@ class PrintingController extends Controller
     $contract_versions = $contract_versions->isNotEmpty() ? $contract_versions : 'У тура еще нет документов';
 
 
-    return view('Tours2.print.contract_versions', compact('id', 'contract_versions', 'tour'));
+    return view('Print.contract_versions', compact('id', 'contract_versions', 'tour'));
 
   }
 

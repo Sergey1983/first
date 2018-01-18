@@ -2,7 +2,7 @@
 
 @section ('content')
 
-@include('layouts.tours2_create_or_update_table', ['verb' =>'Обновить', 'button' =>'update_button', 'is_update'=> 1])
+@include('Tours.CreateOrEdit.create_or_update_table', ['verb' =>'Обновить', 'button' =>'update_button', 'is_update'=> 1])
 
 
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/fill_all_fields.js ') }}"></script>

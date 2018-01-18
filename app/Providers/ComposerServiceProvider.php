@@ -13,11 +13,11 @@ public function boot()
     {
         // Using class based composers...
         View::composer(
-            ['Tours2.tours2_create', 'Tours2.tours2_edit'], 'App\Http\ViewComposers\CreateUpdateViewComposer'
+            ['Tours.CreateOrEdit.create', 'Tours.CreateOrEdit.edit'], 'App\Http\ViewComposers\CreateUpdateViewComposer'
         );
 
         View::composer(
-            ['Tours2.tours2_table', 'layouts.tours2_table', 'Airports.create_or_update', 'Airports.index'], 'App\Http\ViewComposers\TourSearchViewComposer'
+            ['Tours.Index.tours_filters', 'Airports.create_or_update', 'Airports.index'], 'App\Http\ViewComposers\TourSearchViewComposer'
         );
 
         View::composer(
@@ -25,7 +25,7 @@ public function boot()
         );
 
         View::composer(
-            ['User.create', 'User.edit', 'Tours2.CreateOrUpdate.*', 'layouts.tours2_table'], 'App\Http\ViewComposers\BranchesViewComposer'
+            ['User.create', 'User.edit', 'Tours.CreateOrEdit.*', 'Tours.Index.tours_filters'], 'App\Http\ViewComposers\BranchesViewComposer'
         );
 
     }

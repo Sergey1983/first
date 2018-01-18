@@ -154,7 +154,8 @@ $(document).ready(function() {
 
 							} else if( action == 'update') {
 
-								window.location.href = '/tours/'+id+'';
+
+								window.location.href = "/tours/"+id+"";
 
 							}
 

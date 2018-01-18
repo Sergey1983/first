@@ -1,3 +1,49 @@
+@extends('layouts.master')
+
+@section ('content')
+
+
+@include('Tours.show.'.$tour_type)
+
+
+
+<div class="container-fluid margin-bottom-10">
+
+	<div class="col-md-6 no-padding-left">
+
+		@include('Tours.Show.Buttons.book_tour')
+	    @include('Tours.Show.Buttons.pay_tourist')	
+
+		@unless(is_null($tour->operator_price_rub))	
+			@include('Tours.Show.Buttons.pay_operator')
+		@endunless
+
+	</div>
+
+	<div class="col-md-6">
+		
+		@include('Tours.Show.Buttons.edit_tour')
+
+		@include('Tours.Show.Buttons.print_contract')
+
+		@if($is_versions == 1) 
+			
+			@include('Tours.Show.Buttons.versions_tour')	
+
+		@endif
+
+		@if($tour->contracts->count() > 0) 
+			
+			@include('Tours.Show.Buttons.versions_contract')	
+
+		@endif
+
+	</div>
+
+</div>
+
+
+
 <div class="container-fluid">
 
 
@@ -20,6 +66,7 @@
 				    <th>Id</th>
 				    <th>Фамилия</th>
 				    <th>Имя</th>
+				    <th>Отчество</th>
 				    <th>Имя Англ.</th>
 				    <th>Фамилия Англ.</th>    
 				    <th>День рож-я</th>
@@ -32,19 +79,17 @@
 
 				<tr>
 
-		@php
+@php
 
-			// $tourist = $tour_tourists_doc->tourist;
+	$tourist = $tour_tourists_doc->tourist;
 
-			$tourist = $tour_tourists_doc->previous_tourist->first();
-
-
-		@endphp
+@endphp
 
 
 				    <td>{{$tourist->id}}</td>
+				    <td>{{$tourist->lastName}}</td>			    
 				    <td>{{$tourist->name}}</td>
-				    <td>{{$tourist->lastName}}</td>
+				    <td>{{$tourist->patronymic}}</td>
 				    <td>{{$tourist->nameEng}}</td>
 				    <td>{{$tourist->lastNameEng}}</td>    
 				    <td>{{$tourist->birth_date}}</td>
@@ -74,11 +119,11 @@
 						</tr>
 
 						<tr>
-		@php
+@php
 
-			$document = $tour_tourists_doc->document0;
+	$document = $tour_tourists_doc->document0;
 
-		@endphp
+@endphp
 						    <td>{{$document->doc_type}}</td>
 						    <td>{{$document->doc_number}}</td>
 						    <td>{{$document->date_issue}}</td>
@@ -88,6 +133,33 @@
 
 
 					</table>
+
+@if($document->doc_type == 'Внутррос. паспорт')
+
+					<table class="table table-responsive table-bordered table-striped ">
+
+						<tr>
+
+						    <th class="col-md-4">Кем выдан</th>
+						    <th class="col-md-4">Адрес прописка</th>
+						    <th class="col-md-4">Адрес фактич.</th>
+
+						</tr>
+
+						<tr>
+
+						    <td>{{$document->who_issued}}</td>
+						    <td>{{$document->address_pass}}</td>
+						    <td>{{$document->address_real}}</td>
+						
+						</tr>
+
+
+
+
+					</table>
+
+	@endif
 
 			</div>
 			
@@ -121,6 +193,32 @@
 
 					</table>
 
+	@if($document->doc_type == 'Внутррос. паспорт')
+
+					<table class="table table-responsive table-bordered table-striped">
+
+						<tr>
+
+						    <th class="col-md-4">Кем выдан</th>
+						    <th class="col-md-4">Адрес прописка</th>
+						    <th class="col-md-4">Адрес фактич.</th>
+
+						</tr>
+
+						<tr>
+
+						    <td>{{$document->who_issued}}</td>
+						    <td>{{$document->address_pass}}</td>
+						    <td>{{$document->address_real}}</td>
+						
+						</tr>
+
+
+
+
+					</table>
+
+	@endif
 			</div>
 @endif
 
@@ -168,4 +266,8 @@
 
 @endforeach
 
-</div>
+
+
+@endsection
+
+

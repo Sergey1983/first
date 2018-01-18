@@ -6,7 +6,7 @@ use App\Events\TouristUpdated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-use App\Http\Controllers\Tours2Controller;
+use App\Http\Controllers\ToursController;
 
 
 class ExtractUpdatedTourist

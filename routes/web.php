@@ -51,17 +51,17 @@ Route::get('/logout', ['as' => 'sessions.logout', 'uses' => 'SessionsController@
 
 Route::group(['middleware' => 'auth'], function () {
 
-	Route::get('/tours', ['as' => 'home', 'uses' => 'Tours2Controller@index']);
-	Route::get('/tours/create/{tour_type}', ['as' => 'tour.create', 'uses' => 'Tours2Controller@create']);	
-	Route::post('/tours/create', ['as' => 'tour.store', 'uses' => 'Tours2Controller@store']);
+	Route::get('/tours', ['as' => 'home', 'uses' => 'ToursCOntroller@index']);
+	Route::get('/tours/create/{tour_type}', ['as' => 'tour.create', 'uses' => 'ToursCOntroller@create']);	
+	Route::post('/tours/create', ['as' => 'tour.store', 'uses' => 'ToursCOntroller@store']);
 
 
 	Route::group(['middleware' => 'App\Http\Middleware\TourAccessMiddleware'], function () {
 
 		Route::get('/tours/load_tours_function', 'FunctionsController@load_tours');
-		Route::get('/tours/{tour}', ['as'=> 'tour.show', 'uses'=>'Tours2Controller@show']);
-		Route::get('/tours/{tour}/edit/{tour_type}',['as'=>'tour.edit', 'uses' => 'Tours2Controller@edit']);
-		Route::post('/tours/{tour}',['as'=>'tour.update', 'uses' => 'Tours2Controller@update']);
+		Route::get('/tours/{tour}', ['as'=> 'tour.show', 'uses'=>'ToursCOntroller@show']);
+		Route::get('/tours/{tour}/edit/{tour_type}',['as'=>'tour.edit', 'uses' => 'ToursCOntroller@edit']);
+		Route::post('/tours/{tour}',['as'=>'tour.update', 'uses' => 'ToursCOntroller@update']);
 
 		Route::get('/tours/{tour}/versions', ['as' => 'tour.versions', 'uses' => 'VersionsController@show']);
 		// Route::get('/tours_2/{id}/versions#version{version}', ['as' => 'tour.versions', 'uses' => 'VersionsController@show']);

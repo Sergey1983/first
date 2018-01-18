@@ -9,7 +9,7 @@
 </div> --}}
 
 
-<span id="id" hidden="">@isset($tour) {{$tour->id}} @endisset</span>
+<span id="id" hidden="">@isset($tour){{$tour->id}}@endisset</span>
 
 		{!! 
 			Form::macro('buttonSearch', function($value, $name, $type=null, $disabled=null) {
@@ -42,7 +42,7 @@
 
 
 
-@include('Tours2.CreateOrUpdate.'.$tour_type.'_description')
+@include('Tours.CreateOrEdit.'.$tour_type.'_description')
 
 
 
