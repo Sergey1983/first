@@ -3,7 +3,7 @@
 @section ('content')
 
 
-@include('Tours.show.'.$tour_type)
+@include('Tours.Show.'.$tour_type)
 
 
 
