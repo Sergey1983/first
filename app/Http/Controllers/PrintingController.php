@@ -18,6 +18,7 @@ use App\Services\Printing;
 
 
 class PrintingController extends Controller
+
 {
 
 
@@ -33,9 +34,6 @@ class PrintingController extends Controller
     $templates = Contract_template::where([['doc_type', Printing::doc_type($doc_type)], ['tour_type', $tour->tour_type ]])->get();
 
     $template = $templates->isNotEmpty() ? $templates->last()->template_text : 'Нет шаблонов для данного типа туров!';
-
-
-    // $template = Contract_template::where([['doc_type', Printing::doc_type($doc_type)], ['tour_type', $tour_type ]])->get()->last()->template_text ?: 'Нет шаблонов для данного типа туров!';
 
     $template = Printing::process_template($template, $tour);
 
@@ -60,6 +58,9 @@ class PrintingController extends Controller
     $template = $templates_available->last()->template_text;
 
     $html = Printing::process_template($template, $tour);
+
+
+    // $html = htmlentities($html);
 
     // dd($html);
 
@@ -126,6 +127,10 @@ class PrintingController extends Controller
 
             }
 
+            $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($objWriter, 'Word2007');
+            
+            ob_clean();
+            
             $objWriter->save(storage_path('app').'/contracts/'.$tour->id.'/'.$filename);
 
             $contract = Contract::create(['text' => $template, 'tour_id' => $tour->id, 'doc_type' => $doc_type, 'version_by_type' => $version_by_type, 'tour_version'=>$tour_version, 'user_id' => $user, 'filename' => $filename]);

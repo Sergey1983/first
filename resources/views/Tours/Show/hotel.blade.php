@@ -1,5 +1,7 @@
 @php 
-      setlocale(LC_TIME, 'ru_RU');
+      setlocale(LC_TIME, 'ru_RU', 'ru_RU.utf8');
+      use App\Services\RusMonth;
+
 
 @endphp
 
@@ -93,12 +95,12 @@
 
 					<tr>
 						<td>Срок полной оплаты опер-ру</td>
-						<td>{{ is_null($tour->operator_full_pay) ? 'Заявка ещё не подтверждена' : strftime('%d %B %Y', strtotime($tour->operator_full_pay)) }}</td>
+						<td>{{ is_null($tour->operator_full_pay) ? 'Заявка ещё не подтверждена' : RusMonth::convert(strftime('%d %B %Y', strtotime($tour->operator_full_pay))) }}</td>
 					</tr>
 					
 					<tr>
 						<td>Срок частичной оплаты опер-ру</td>
-						<td>{{ is_null($tour->operator_part_pay) ? 'Заявка ещё не подтверждена' : strftime('%d %B %Y', strtotime($tour->operator_part_pay)) }}</td>
+						<td>{{ is_null($tour->operator_part_pay) ? 'Заявка ещё не подтверждена' : RusMonth::convert(strftime('%d %B %Y', strtotime($tour->operator_part_pay))) }}</td>
 					</tr>
 
 					<tr>
@@ -215,7 +217,7 @@
 						$date_hotel = $tour->date_hotel == 0 ? $date_depart : strtotime("+1 days", $date_depart);
 						@endphp
 
-					<td>{{ strftime('%d %B %Y', $date_hotel) }}</td>
+					<td>{{ RusMonth::convert(strftime('%d %B %Y', $date_hotel)) }}</td>
 				</tr>
 
 				<tr>
@@ -228,7 +230,7 @@
 					@php
 						$date_return = strtotime('+'.$nights.' days', $date_hotel);
 					@endphp
-					<td>{{strftime('%d %B %Y', $date_return)}}</td>
+					<td>{{RusMonth::convert(strftime('%d %B %Y', $date_return))}}</td>
 				</tr>
 
 				<tr>

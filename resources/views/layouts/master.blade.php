@@ -25,6 +25,8 @@
 <body>
 
 
+
+
 @if (Auth::check())
 
 <div class="container-fluid white background-black letter-spacing-035">

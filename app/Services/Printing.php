@@ -8,6 +8,7 @@ use App\Document;
 
 use App\Branch;
 
+use App\Services\RusMonth;
 
 class Printing
 
@@ -97,7 +98,7 @@ class Printing
       //$first_manager
 
 
-      setlocale(LC_ALL, 'ru_RU');
+      setlocale(LC_ALL, 'ru_RU', 'ru_RU.utf8');
 
       $offset = 0;
 
@@ -181,7 +182,7 @@ class Printing
 
         '$first_manager' => $first_manager,
 
-        '$created' => strftime('%d %B %Y', strtotime($tour->created_at)),
+        '$created' => RusMonth::convert(strftime('%d %B %Y', strtotime($tour->created_at))),
 
         '$buyerName' => $tour->buyer->first()->name,
 
@@ -193,7 +194,7 @@ class Printing
 
         '$buyerEmail' => $tour->buyer->first()->email,
 
-        '$operator_full_pay' => is_null($tour->operator_full_pay)? "<span style='color: red'>ДАТА ОТСУТСТВУЕТ</span>" : strftime('%d %B %Y', strtotime($tour->operator_full_pay)),
+        '$operator_full_pay' => is_null($tour->operator_full_pay)? "<span style='color: red'>ДАТА ОТСУТСТВУЕТ</span>" : RusMonth::convert(strftime('%d %B %Y', strtotime($tour->operator_full_pay))),
 
         '$adults' => $adults,
 
@@ -203,11 +204,11 @@ class Printing
 
         '$airport' => $tour->airport,
 
-        '$date_depart' => strftime('%d %B %Y', strtotime($tour->date_depart)),
+        '$date_depart' => RusMonth::convert(strftime('%d %B %Y', strtotime($tour->date_depart))),
 
-        '$date_return' =>  strftime('%d %B %Y', strtotime("+".$tour->nights." days", $date_hotel)),
+        '$date_return' =>  RusMonth::convert(strftime('%d %B %Y', strtotime("+".$tour->nights." days", $date_hotel))),
 
-        '$date_hotel' => strftime('%d %B %Y', $date_hotel),
+        '$date_hotel' => RusMonth::convert(strftime('%d %B %Y', $date_hotel)),
 
         '$hotel' => $tour->hotel,
 
@@ -239,7 +240,7 @@ class Printing
 
         '$spellpricecur' => $spellpricecur,
 
-        '$today' => strftime('%d %B %Y'),
+        '$today' => RusMonth::convert(strftime('%d %B %Y')),
 
         '$operator' => nl2br($tour->operator_model->description),
 
@@ -300,7 +301,7 @@ class Printing
           '$tourist+lastName' => $is_foreign ? $tourist->lastNameEng : $tourist->lastName,
           '$tourist+patronymic' => $is_foreign ? null : $tourist->patronymic,
           '$tourist+gender' => $tourist->gender,
-          '$tourist+birth_date' => strftime('%d %B %Y', strtotime($tourist->birth_date)),
+          '$tourist+birth_date' => RusMonth::convert(strftime('%d %B %Y', strtotime($tourist->birth_date))),
           '$tourist+doc_number' => $document, 
 
          ];

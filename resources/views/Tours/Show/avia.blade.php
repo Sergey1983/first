@@ -1,5 +1,7 @@
 @php 
-      setlocale(LC_TIME, 'ru_RU');
+      setlocale(LC_TIME, 'ru_RU', 'ru_RU.utf8');
+      use App\Services\RusMonth;
+
 
 @endphp
 
@@ -170,7 +172,7 @@
 
 				<tr>
 					<td>Дата вылета с</td>
-					<td>{{$date_depart = strftime('%d %B %Y', strtotime($tour->date_depart))}}</td>
+					<td>{{$date_depart = RusMonth::convert(strftime('%d %B %Y', strtotime($tour->date_depart)))}}</td>
 				</tr>
 
 				<tr>

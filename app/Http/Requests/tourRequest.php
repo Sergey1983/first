@@ -163,7 +163,7 @@ class tourRequest extends FormRequest
                       elseif($value == "Св-во о рождении"){
 
                           $rules['date_expire.'.$tourist_id.'.'.$doc_id] = 'nullable';
-                          $rules['doc_number.'.$tourist_id.'.'.$doc_id] = ['required', 'regex: /^[a-zA-Z0-9а-яёА-ЯЁ№ ]+$/u'];
+                          $rules['doc_number.'.$tourist_id.'.'.$doc_id] = ['required', 'regex: /^[a-zA-Z0-9а-яёА-ЯЁ№- ]+$/u'];
 
 
                       }
