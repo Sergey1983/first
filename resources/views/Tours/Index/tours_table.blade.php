@@ -9,7 +9,7 @@
 				    <th>№</th>
 				    <th class="sort" id="created_at" active="not" next_sort="desc">Создана</th>
 				    <th>C</th>
-				    <th>Код-туроператора</th>
+				    <th>№ брони</th>
 				    <th>Оператор</th>
 				    <th>Менеджер</th>
 				    <th>Заказчик</th>
