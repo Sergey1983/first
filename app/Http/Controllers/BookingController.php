@@ -10,6 +10,7 @@ use App\previous_tour;
 
 use App\Services\PreviousVersions;
 
+use Validator;
 
 
 
@@ -30,6 +31,25 @@ class BookingController extends Controller
 	public function bookingUpdate(Tour $tour, Request $request)
 
 	{
+
+		$messages = ['operator_part_pay.before_or_equal' => 'Дата частичной оплаты должна быть раньше или равна дате полной оплаты!'];
+
+
+		$validator = Validator::make($request->all(), [
+
+			'operator_part_pay' => 'before_or_equal:operator_full_pay'
+
+		], $messages)->validate();
+
+
+		// $this->validate($request, [
+
+		// 	'operator_part_pay' => 'before_or_equal:operator_full_pay'
+
+		// ]);		
+
+
+
 
 		$request = $request->toArray();
 

@@ -260,7 +260,7 @@ class Printing
 
         '$managerName' => $manager->name,
 
-        '$managerLastName' => $manager->name,
+        '$managerLastName' => $manager->last_name,
 
         '$managerPatronymic' => $manager->patronymic,
 

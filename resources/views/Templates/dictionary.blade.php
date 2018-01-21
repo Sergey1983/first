@@ -33,6 +33,7 @@
                 <tr><td>$buyerPatronymic</td><td>Покупатель: отчество</td></tr>
                 <tr><td>$buyerPhone</td><td>Покупатель: телефон</td></tr>
                 <tr><td>$buyerEmail</td><td>Покупатель: email</td></tr>
+                <tr><td>'$branch_details'</td><td>Реквизиты филиала</td></tr>
                 <tr><td>$seria</td><td>Покупатель: серия паспорта</td></tr>
                 <tr><td>$doc_number</td><td>Покупатель: номер паспорта</td></tr>
                 <tr><td>$date_issued</td><td>Покупатель: дата выдачи п.</td></tr>
@@ -76,8 +77,53 @@
 
           </table>
 
+            <h3>Таблицы с данными туристов</h3>
 
-        </div>
+                <div>
+                    
+                    В такой таблице каждая стока - это данные по одному туристу.
+                    Создаем таблицу. Создаем в ней строку с 
+                    <pre>
+                    {{htmlentities('<tr id="tourists_info>
+                        <td>$tourist+name</td>
+                        <td>$tourist+lastName</td>
+                        <td>$tourist+birth_date</td>...  и т.д.
+                    </tr>')}}
+                    </pre>
+
+                    Такие строки создадутся для каждого туриста из заявки.
+
+                </div>
+
+           <h3>Особые замечания (важные!)</h3>
+
+                <div>
+
+                    Переменную '$branch_details' нельзя закрывать в тэги.
+                    т.е. правильно:
+                    <pre style="text-align: left">
+                    {{htmlentities('
+                        <p>Какой-то текст</p>
+                            $branch_details
+                        <p>Какой-то текст</p>')}}
+                    </pre>
+
+                    Для таблиц обязательно указывать выравнивание ('text-align')!
+
+                    <pre><code>
+
+                    {{htmlentities('
+                        <table class="table table-bordered" 
+                        style="width: 100%; text-align: center">
+
+                            ... содержание таблицы ...
+
+                        </table>')}}
+
+                    <code></pre>
+
+                </div>
+
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>

@@ -46,20 +46,6 @@
 
 							</div>
 
-
-
-					 	<div class="form-group">
-
-
-							{!! Form::label('pay_rub', 'Сумма в рублях', ['class'=>'control-label  col-md-4'])!!}
-
-							<div class="col-md-6">
-
-						 		{!! Form::text('pay_rub', null, ['placeholder' =>  'Введите сумму в рублях' , 'class'=>"form-control", 'id'=>'pay_rub', 'required'] )  !!}
-
-						 	</div>
-
-						</div>
 	
 
 
@@ -111,7 +97,18 @@
 
 
 
+					 	<div class="form-group">
 
+
+							{!! Form::label('pay_rub', 'Сумма в рублях', ['class'=>'control-label  col-md-4'])!!}
+
+							<div class="col-md-6">
+
+						 		{!! Form::text('pay_rub', null, ['placeholder' =>  'Введите сумму в рублях' , 'class'=>"form-control", 'id'=>'pay_rub', 'required'] )  !!}
+
+						 	</div>
+
+						</div>
 
 
 

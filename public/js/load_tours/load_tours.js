@@ -115,6 +115,7 @@ $(document).ready(function () {
 								'<td>'+tour.created_at.replace(/\s.*/, '')+'</td>'+
 								'<td>'+tour.status+'</td>'+
 								'<td>'+tour.operator_code+'</td>'+
+								'<td>'+tour.operator+'</td>'+
 								'<td>'+tour.user_name+'</td>'+
 								'<td>'+tour.buyer+'</td>'+
 								'<td>'+tour.number_of_tourists+'</td>'+
@@ -128,10 +129,10 @@ $(document).ready(function () {
 								'<td class="text-center">'+tour.debt+'</td>'+
 								'<td>'+tour.operator_price+'</td>'+
 								'<td>'+tour.operator_price_rub+'</td>'+
-								'<td><a class="btn btn-sm btn-info" href="/tours/'+tour.id+'">Подробнее</a></td>'+
+								'<td><a class="btn btn-sm btn-info" href="/tours/'+tour.id+'"><span class="glyphicon glyphicon-eye-open"></span></a></td>'+
 						'</tr>'
 
-
+//test
 						);
 
 

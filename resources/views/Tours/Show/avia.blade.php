@@ -59,14 +59,14 @@
 				<tr>
 					<td>Валюта тура</td>
 					<td>{{strtoupper($tour->currency)}}</td>
-				</tr>
+				</tr> --}}
 
 				<tr>
 					<td>Стоимость для туриста ({{strtoupper($tour->currency)}}@unless(!isset($tour->price)){{' / RUB'}}@endunless)</td>
 					<td>{{isset($tour->price)? $tour->price : $tour->price_rub}}@unless(!isset($tour->price)) / {{$tour->price_rub}}@endunless </td>
 				</tr>
 
-				<tr>
+{{-- 				<tr>
 					<td>Долг туриста ({{strtoupper($tour->currency)}})</td>
 					<td>{{$tour->price - $tour->payments_from_tourists_sum()}}</td>
 				</tr>

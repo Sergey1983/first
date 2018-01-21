@@ -62,6 +62,8 @@ class CreateToursTable extends Migration
 
             $table->timestamps();
         });
+
+        DB::statement("ALTER TABLE tours AUTO_INCREMENT = 200;");
     }
     
 
