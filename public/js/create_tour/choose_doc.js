@@ -91,7 +91,7 @@ $(document).ready(function(){
 
 							'<div class="col-md-12">'+
 
-								'<textarea placeholder="Введите адрес по прописке в паспорте" class="form-control" id="extra_info" required="" name="address_pass['+tourist_number+']['+doc_number+']" cols="50" rows="4"></textarea>'+
+								'<textarea placeholder="Введите адрес по прописке в паспорте" class="form-control" id="address_pass" required="" name="address_pass['+tourist_number+']['+doc_number+']" cols="50" rows="4"></textarea>'+
 
 							'</div>'+
 
@@ -104,7 +104,7 @@ $(document).ready(function(){
 
 							'<div class="col-md-12">'+
 
-								'<textarea placeholder="Введите маршрут" class="form-control" id="extra_info" required="" name="address_real['+tourist_number+']['+doc_number+']" cols="50" rows="4"></textarea>'+
+								'<textarea placeholder="Введите адрес" class="form-control" id="address_real" required="" name="address_real['+tourist_number+']['+doc_number+']" cols="50" rows="4"></textarea>'+
 
 							'</div>'+
 

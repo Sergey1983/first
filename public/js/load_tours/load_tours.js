@@ -115,7 +115,7 @@ $(document).ready(function () {
 								'<td>'+tour.created_at.replace(/\s.*/, '')+'</td>'+
 								'<td>'+tour.status+'</td>'+
 								'<td>'+tour.operator_code+'</td>'+
-								'<td>'+tour.operator+'</td>'+
+								'<td>'+tour.operator.substr(0,9)+'</td>'+
 								'<td>'+tour.user_name+'</td>'+
 								'<td>'+tour.buyer+'</td>'+
 								'<td>'+tour.number_of_tourists+'</td>'+

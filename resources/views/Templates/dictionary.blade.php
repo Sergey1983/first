@@ -10,7 +10,21 @@
         </div>
         <div class="modal-body">
           
-          <table class="table table-responsive">
+<ul class="nav flex-column">
+  <li class="nav-item">
+    <a class="nav-link active" href="#variables">Переменные</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#tourists">Таблицы с туристами</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#important">Особо важное!</a>
+  </li>
+</ul>
+
+
+
+          <table id="variables" class="table table-responsive">
             
             <thead>
               
@@ -28,12 +42,13 @@
                 <tr><td>$id</td><td>Номер заявки (договора)</td></tr>
                 <tr><td>$first_manager</td><td>Менеджер, оформивший заявку</td></tr>
                 <tr><td>$created</td><td>Дата создания заявки</td></tr>
+                <tr><td>$updated</td><td>Дата последнего обновления заявки</td></tr>
                 <tr><td>$buyerName</td><td>Покупатель: имя</td></tr>
                 <tr><td>$buyerLastName</td><td>Покупатель: фамилия</td></tr>
                 <tr><td>$buyerPatronymic</td><td>Покупатель: отчество</td></tr>
                 <tr><td>$buyerPhone</td><td>Покупатель: телефон</td></tr>
                 <tr><td>$buyerEmail</td><td>Покупатель: email</td></tr>
-                <tr><td>'$branch_details'</td><td>Реквизиты филиала</td></tr>
+                <tr><td>$branch_details</td><td>Реквизиты филиала</td></tr>
                 <tr><td>$seria</td><td>Покупатель: серия паспорта</td></tr>
                 <tr><td>$doc_number</td><td>Покупатель: номер паспорта</td></tr>
                 <tr><td>$date_issued</td><td>Покупатель: дата выдачи п.</td></tr>
@@ -77,7 +92,7 @@
 
           </table>
 
-            <h3>Таблицы с данными туристов</h3>
+            <h3 id="tourists">Таблицы с данными туристов</h3>
 
                 <div>
                     
@@ -95,7 +110,7 @@
 
                 </div>
 
-           <h3>Особые замечания (важные!)</h3>
+           <h3 id="important">Особые замечания (важные!)</h3>
 
                 <div>
 
@@ -120,7 +135,18 @@
 
                         </table>')}}
 
-                    <code></pre>
+                    </code></pre>
+
+
+                    Разрыв страницы
+
+                    <pre><code>
+
+                    {{htmlentities('<pagebreak></pagebreak>')}}
+
+                    </code></pre>
+
+
 
                 </div>
 

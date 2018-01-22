@@ -184,6 +184,8 @@ class Printing
 
         '$created' => RusMonth::convert(strftime('%d %B %Y', strtotime($tour->created_at))),
 
+        '$updated' => RusMonth::convert(strftime('%d %B %Y', strtotime($tour->updated_at))),
+
         '$buyerName' => $tour->buyer->first()->name,
 
         '$buyerLastName' => $tour->buyer->first()->lastName,
@@ -324,7 +326,7 @@ class Printing
 
       if(!empty($user = $tour->previous_tours->sortBy('created_at')->first()->user)) {
         
-        $first_manager = $user->last_name.' '.substr($user->last_name, 0, 2).'.'.substr($user->patronymic, 0, 2);
+        $first_manager = $user->last_name.' '.substr($user->name, 0, 2).'.'.substr($user->patronymic, 0, 2);
 
       } else { 
 

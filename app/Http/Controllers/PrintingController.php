@@ -31,9 +31,9 @@ class PrintingController extends Controller
 
   public function show(Tour $tour, $doc_type) {
 
-    $templates = Contract_template::where([['doc_type', Printing::doc_type($doc_type)], ['tour_type', $tour->tour_type ]])->get();
-
-    $template = $templates->isNotEmpty() ? $templates->last()->template_text : 'Нет шаблонов для данного типа туров!';
+    $template = Contract_template::where([['doc_type', Printing::doc_type($doc_type)], ['tour_type', $tour->tour_type ]])->latest()->first();
+    
+    $template = !is_null($template) ? $template->template_text : 'Нет шаблонов для данного типа туров!';
 
     $template = Printing::process_template($template, $tour);
 
