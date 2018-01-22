@@ -53,7 +53,20 @@
 			<td><?= $user->name ?></td>
 			<td><?= $user->email ?></td>
 			<td><?= $user->branch->name ?></td>
-			<td>{{$user->permission == 1 ? 'Всего филиала' : 'Только свои'}}</td>
+			@php if ($user->role_id == 1) {
+
+				$permission = 'Все';
+			} 
+
+			else {
+
+				$permission = $user->permission == 1 ? 'Все филиала' : 'Только свои';
+
+			}
+
+			@endphp
+
+			<td>{{$permission}}</td>
 			<td>{{$user->active == 1 ? "Да" : "Нет"}}
 			<td>@if ($user->active == 1) 
 
