@@ -65,7 +65,7 @@ $('#store_draft, #store').on('click', function (event) {
 
 		var written = $('#wysiwig').summernote('code');
 		
-		console.log(written);
+		// console.log(written);
 
 		$.ajax({
 

@@ -34,7 +34,7 @@ class TemplateController extends Controller
 
 	        Contract_template::create($request->all());
 
-            $draft = Contract_Templates_Draft::updateOrCreate(['doc_type' => $request->doc_type, 'tour_type' => $request->tour_type ,'template_text'=>$request->template_text]);
+            $draft = Contract_Templates_Draft::updateOrCreate(['doc_type' => $request->doc_type, 'tour_type' => $request->tour_type], ['template_text'=>$request->template_text]);
 
 
     }
@@ -43,7 +43,6 @@ class TemplateController extends Controller
 
 
             $request->merge(['template_text' => self::CleanHTML($request)]);     
-
 
             $draft = Contract_Templates_Draft::updateOrCreate(['doc_type' => $request->doc_type, 'tour_type' => $request->tour_type], ['template_text'=>$request->template_text]);
 
