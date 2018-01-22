@@ -138,6 +138,20 @@
                     </code></pre>
 
 
+                    Чтобы таблица была на ширину страницы указывать style="width: 100%':
+
+                    <pre><code>
+
+                    {{htmlentities('
+                        <table class="table table-bordered" 
+                        style="width: 100%; text-align: center">
+
+                            ... содержание таблицы ...
+
+                        </table>')}}
+
+                    </code></pre>
+
                     Разрыв страницы
 
                     <pre><code>
