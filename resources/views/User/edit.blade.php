@@ -33,7 +33,7 @@
 
 			<div class="form-group">
 
-				{!! Form::text('email', $user->email, ['Placeholder'=>'email', 'readonly'=>'readonly', "class"=>"form-control"]) !!}
+				{!! Form::text('email', $user->email, ['Placeholder'=>'email', "class"=>"form-control"]) !!}
 
 			</div>
 

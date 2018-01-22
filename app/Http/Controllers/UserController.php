@@ -79,7 +79,7 @@ class UserController extends Controller
     public function update (User $user) {
 
 
-        $this->validate(request(), [
+        $validation_rules = [
 
             'name' => 'required', 
 
@@ -91,9 +91,27 @@ class UserController extends Controller
 
             'branch_id' =>'required',
 
-            // 'password' => 'required|confirmed',
+            ];
 
-            ]);
+        if (request('email') != $user->email) 
+
+        {
+        
+            $validation_rules['password'] = 'required|confirmed';
+
+        }
+
+        $messages = [
+
+            'password.required' => 'При изменении имейла нужно ввести пароль',
+
+            'password.confirmed' => 'При изменении имейла нужно подтвердить пароль'
+
+                        ];
+
+
+
+        $this->validate(request(), $validation_rules, $messages);
 
 
         $user->name = request('name');
