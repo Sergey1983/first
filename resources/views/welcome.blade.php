@@ -84,15 +84,7 @@
 
 </div>
 
-
-{{-- 		      @if ($errors->has('captcha'))
-		          <span class="help-block">
-		              <strong>{{ $errors->first('captcha') }}</strong>
-		          </span>
-		      @endif --}}
-
-{{-- {{phpinfo()}}
- --}}
+<script type="text/javascript" src="{{ URL::asset('js/captcha/refresh_captcha.js ') }}"></script>
 
 
 

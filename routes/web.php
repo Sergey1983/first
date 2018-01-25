@@ -6,12 +6,9 @@ Route::get('generate-docx', 'HomeController@generateDocx');
 
 
 Route::get('/', ['as'=>'sessions.loginindex', 'uses' => 'SessionsController@loginindex']);
-
 Route::post('/login', ['as' => 'sessions.login', 'uses' => 'SessionsController@login']);
-
 Route::get('/logout', ['as' => 'sessions.logout', 'uses' => 'SessionsController@logout']);
-
-
+Route::get('refresh_captcha', 'SessionsController@refresh_captcha');
 
 // Route::get('/tours', 'ToursController@index')->name('tours_list');
 
@@ -121,6 +118,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/edit_tour_prepare_data', 'FunctionsController@edit_tour_prepare_data');
 	Route::post('/airport_load', 'FunctionsController@airport_load');
 	Route::post('/return_versions', 'VersionsController@return_versions');
+
 
 	// Route::get('/testform', ['as' => 'testform', 'uses' => 'FormController@create']);
 	// Route::post('/testform', 'FormController@store');

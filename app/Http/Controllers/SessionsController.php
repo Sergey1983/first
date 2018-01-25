@@ -97,5 +97,11 @@ class SessionsController extends Controller
 
     }
 
+    public function refresh_captcha () {
+
+        return response()->json(['captcha'=> captcha_img()]);
+
+    }
+
 
 }
