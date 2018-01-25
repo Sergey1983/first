@@ -12,6 +12,7 @@
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4.0",
+        "mews/captcha": "^2.1",
         "phpoffice/phpword": "^0.13.0",
         "watson/breadcrumbs": "^1.0"
     },

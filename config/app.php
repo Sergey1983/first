@@ -186,6 +186,7 @@ return [
         // Barryvdh\Debugbar\ServiceProvider::class,
         // Watson\Breadcrumbs\ServiceProvider::class, 
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
+        Mews\Captcha\CaptchaServiceProvider::class,
     ],
 
     /*
@@ -238,6 +239,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         // 'Breadcrumbs' => Watson\Breadcrumbs\Facade::class,
         'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
+        'Captcha' => Mews\Captcha\Facades\Captcha::class,
 
 
     ],

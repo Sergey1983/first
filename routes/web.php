@@ -5,19 +5,7 @@ Route::get('/test', function () {return view('test'); });
 Route::get('generate-docx', 'HomeController@generateDocx');
 
 
-Route::get('/', function()
-{
-	if(!Auth::check()) {
-	
-		return view('welcome');
-
-	} else {
-
-		return redirect()->route('home');
-
-	}
-
-})->name('login');
+Route::get('/', ['as'=>'sessions.loginindex', 'uses' => 'SessionsController@loginindex']);
 
 Route::post('/login', ['as' => 'sessions.login', 'uses' => 'SessionsController@login']);
 
