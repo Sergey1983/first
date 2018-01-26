@@ -18,6 +18,17 @@ class Tour extends Model
 
     }
 
+    public function tourists_only_who_really_go() {
+
+        return $this->belongsToMany('App\Tourist')->wherePivot('is_tourist', 1)->withPivot('is_buyer', 'is_tourist', 'user_id', 'doc0', 'doc1')
+        ->withTimestamps();
+
+
+        // withPivot('is_buyer', 'is_tourist', 'user_id', 'doc0', 'doc1')
+        // ->withTimestamps();
+
+    }
+
 
     public function buyer () {
 

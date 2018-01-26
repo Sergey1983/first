@@ -286,7 +286,8 @@ class Printing
 
       setlocale(LC_TIME, 'ru_RU');
 
-      $tourists = $tour->tourists;
+      $tourists = $tour->tourists_only_who_really_go;
+
 
       $new_strings = '';
 
@@ -340,7 +341,6 @@ class Printing
 
   public static function get_document($tourist, &$is_foreign) {
 
-       
 
        for($i=0; $i<=1; $i++) {
 
