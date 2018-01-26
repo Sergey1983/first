@@ -35,7 +35,8 @@ class tourRequest extends FormRequest
     public function rules()
     {
 
-      
+
+// dd(request()->all());      
       if(request()->allchecked == 'false') {
 
         $rules = 
@@ -62,9 +63,6 @@ class tourRequest extends FormRequest
             'name.*' => ['required', 'regex: /^[а-яёА-ЯЁ-]+$/u'],
             'lastName.*' => ['required', 'regex: /^[а-яёА-ЯЁ-]+$/u'],
             'patronymic.*' => ['required', 'regex: /^[а-яёА-ЯЁ-]+$/u'],
-
-            // 'name.*' => ['required', 'regex: /^[x{0430}-\x{044F}\x{0410}-\x{042F}-]+$/u'],
-            // 'lastName.*' => ['required', 'regex: /^[x{0430}-\x{044F}\x{0410}-\x{042F}-]+$/u'],
             'nameEng.*' => ['required', 'regex: /[a-zA-Z\-]/u'],
             'lastNameEng.*' => ['required', 'regex: /[a-zA-Z\-]/u'], 
             'birth_date.*' => 'required',
@@ -78,10 +76,8 @@ class tourRequest extends FormRequest
 
                           ], 
             'doc_type.*.*' => 'required',
-            // 'doc_seria.*.*' => 'required|digits_between:2,4',
             'date_issue.*.*' => 'required',
             'date_expire.*.*' => 'required',
-            // 'doc_fullnumber.*' => 'required|digits_between:3,15', 
             'is_buyer' => 'required',
             'is_tourist' => 'required',   
 
@@ -180,8 +176,12 @@ class tourRequest extends FormRequest
 
                   if((isset($foreing_country)) && !$for_pass_4_foreing_country_exists) {
 
+                    if(!($tourist_id == request()->is_buyer && request()->is_tourist == 0)) {
+
                       $rules['for_pas.'.$tourist_id] = 'required';
 
+                    }
+                    
                   }
 
               } 
@@ -189,7 +189,9 @@ class tourRequest extends FormRequest
 
               if(!$rus_pass_for_buyer_exists) {
 
+
                   $rules['rus_pas.'.request()->is_buyer] = 'required';
+
 
               }
 
