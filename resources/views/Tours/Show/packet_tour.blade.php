@@ -202,7 +202,7 @@
  				</tr>
 
 				<tr>
-					<td>Пребывание с</td>
+					<td>Вылет туда</td>
 						@php
 						$date_depart = strtotime($tour->date_depart);
 						@endphp

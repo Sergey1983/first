@@ -133,7 +133,7 @@
 
 					 	<div class="form-group">
 							
-								{!! Form::label('date_depart', 'Пребывание с', ['class'=>'control-label col-md-4'])!!}
+								{!! Form::label('date_depart', 'Вылет туда', ['class'=>'control-label col-md-4'])!!}
 
 							<div class="col-md-8">
 
