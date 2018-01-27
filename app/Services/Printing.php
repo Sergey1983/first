@@ -132,9 +132,9 @@ class Printing
 
       // dump($tour->tourists->where('birth_date', '>=', strftime('%Y-%m-%d', $still_child_if_younger))->pluck('name'));
 
-        $children = $tour->tourists->where('birth_date', '>=', strftime('%Y-%m-%d', $still_child_if_younger))->count();
+        $children = $tour->tourists_only_who_really_go->where('birth_date', '>=', strftime('%Y-%m-%d', $still_child_if_younger))->count();
 
-        $adults = $tour->tourists->count() - $children;
+        $adults = $tour->tourists_only_who_really_go->count() - $children;
 
       // $date_hotel
 

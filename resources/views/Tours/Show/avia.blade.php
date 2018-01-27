@@ -27,7 +27,7 @@
 
 				<tr>
 					<td>Время подачи заявки</td>
-					<td>{{$tour->created_at}}</td>
+					<td>{{date('d-m-Y H-i-s', strtotime($tour->created_at))}}</td>
 				</tr>
 
 				<tr>

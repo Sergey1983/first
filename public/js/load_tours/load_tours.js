@@ -112,7 +112,7 @@ $(document).ready(function () {
 					$("#tbody_tours").append(
 						'<tr>'+
 								'<td>'+tour.id+'</td>'+
-								'<td>'+tour.created_at.replace(/\s.*/, '')+'</td>'+
+								'<td>'+toMmDdYy(tour.created_at.replace(/\s.*/, ''))+'</td>'+
 								'<td>'+tour.status+'</td>'+
 								'<td>'+tour.operator_code+'</td>'+
 								'<td>'+tour.operator.substr(0,9)+'</td>'+
@@ -121,7 +121,7 @@ $(document).ready(function () {
 								'<td>'+tour.number_of_tourists+'</td>'+
 								'<td>'+tour.country+'</td>'+
 								'<td>'+(tour.tour_type == 'Пакетный' ? '<span data-toggle="tooltip" data-placement="top" title="'+tour.product_tooltip+'">'+tour.product+'</span>' : tour.tour_type)+'</td>'+
-								'<td>'+tour.date_depart+'</td>'+
+								'<td>'+toMmDdYy(tour.date_depart)+'</td>'+
 								'<td>'+tour.nights+'</td>'+
 								'<td>'+tour.price+'</td>'+
 								'<td>'+tour.price_rub+'</td>'+
@@ -252,6 +252,15 @@ $(document).ready(function () {
 
 
 	}
+
+
+	var toMmDdYy = function(input) {
+	    var ptrn = /(\d{4})\-(\d{2})\-(\d{2})/;
+	    if(!input || !input.match(ptrn)) {
+	        return null;
+	    }
+	    return input.replace(ptrn, '$3-$2-$1');
+	};
 
 
 

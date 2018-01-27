@@ -92,7 +92,7 @@
 				    <td>{{$tourist->patronymic}}</td>
 				    <td>{{$tourist->nameEng}}</td>
 				    <td>{{$tourist->lastNameEng}}</td>    
-				    <td>{{$tourist->birth_date}}</td>
+				    <td>{{date('d-m-Y', strtotime($tourist->birth_date))}}</td>
 				    <td>{{$tourist->citizenship}}</td>
 				    <td>{{$tourist->gender}}</td>
 				    <td>{{$tourist->phone}}</td>
@@ -126,8 +126,8 @@
 @endphp
 						    <td>{{$document->doc_type}}</td>
 						    <td>{{$document->doc_number}}</td>
-						    <td>{{$document->date_issue}}</td>
-						    <td>{{$document->date_expire}}</td>
+						    <td>{{date('d-m-Y', strtotime($document->date_issue))}}</td>
+						    <td>{{is_null($document->date_expire) ?  '' : date('d-m-Y', strtotime($document->date_expire)) }}</td>
 						
 						</tr>
 
@@ -185,8 +185,8 @@
 
 						    <td>{{$document->doc_type}}</td>
 						    <td>{{$document->doc_number}}</td>
-						    <td>{{$document->date_issue}}</td>
-						    <td>{{$document->date_expire}}</td>
+						    <td>{{date('d-m-Y', strtotime($document->date_issue))}}</td>
+						    <td>{{is_null($document->date_expire) ?  '' : date('d-m-Y', strtotime($document->date_expire)) }}</td>
 						
 						</tr>
 
