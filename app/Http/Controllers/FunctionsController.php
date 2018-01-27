@@ -434,7 +434,7 @@ class FunctionsController extends Controller
             
             $tour->user_name = $tour->user->name;
 
-            $tour->number_of_tourists = $tour->tour_tourist->count();
+            $tour->number_of_tourists = $tour->tourists_only_who_really_go->count();
 
             switch($tour->currency) {
 

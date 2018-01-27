@@ -28,7 +28,7 @@ class CreateToursTable extends Migration
             $table->integer('nights');    
             $table->date('date_depart');
             $table->boolean('date_hotel')->default(false);      
-            $table->string('hotel', 255);
+            $table->string('hotel', 50);
             $table->string('room', 255);
             $table->boolean ('add_rooms')->default(false);
             $table->string('food_type', 255);

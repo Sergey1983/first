@@ -32,12 +32,19 @@ class BookingController extends Controller
 
 	{
 
-		$messages = ['operator_part_pay.before_or_equal' => 'Дата частичной оплаты должна быть раньше или равна дате полной оплаты!'];
+		$messages = [
+
+			'operator_part_pay.before_or_equal' => 'Дата частичной оплаты должна быть раньше или равна дате полной оплаты!',
+			'operator_price.regex' => 'Сумма к оплате: только цифры (и одна запятая)',
+			'operator_price_rub.regex' => 'Сумма к оплате: только цифры (и одна запятая)',
+	];
 
 
 		$validator = Validator::make($request->all(), [
 
-			'operator_part_pay' => 'before_or_equal:operator_full_pay'
+			'operator_part_pay' => 'before_or_equal:operator_full_pay', 
+			'operator_price' => 'regex: /^\d+(,\d+)?$/',
+			'operator_price_rub' => 'regex: /^\d+(,\d+)?$/'
 
 		], $messages)->validate();
 
@@ -50,8 +57,20 @@ class BookingController extends Controller
 
 
 
-
 		$request = $request->toArray();
+
+		$fmt = numfmt_create( 'ru_RU', \NumberFormatter::DECIMAL );
+
+		if(array_key_exists('operator_price', $request)) {
+
+			$request['operator_price'] = numfmt_parse($fmt, $request['operator_price']);
+		}
+
+
+		if(array_key_exists('operator_price_rub', $request)) {
+
+			$request['operator_price_rub'] = numfmt_parse($fmt, $request['operator_price']);
+		}
 
 		// $tour = Tour::find($id);
 		
