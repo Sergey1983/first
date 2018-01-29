@@ -32,6 +32,7 @@ class BookingController extends Controller
 
 	{
 
+
 		$messages = [
 
 			'operator_part_pay.before_or_equal' => 'Дата частичной оплаты должна быть раньше или равна дате полной оплаты!',
@@ -69,24 +70,15 @@ class BookingController extends Controller
 
 		if(array_key_exists('operator_price_rub', $request)) {
 
-			$request['operator_price_rub'] = numfmt_parse($fmt, $request['operator_price']);
+			$request['operator_price_rub'] = numfmt_parse($fmt, $request['operator_price_rub']);
 		}
 
-		// $tour = Tour::find($id);
+
+		unset($request['_token']);
 		
 		$createVersion = true;
 
-		// if(is_null($tour->status)) {
-
-		// 	$request['status'] = 'Бронирование';
-
-		// 	previous_tour::where('tour_id', $tour->id)->first()->update(['status'=> 'Бронирование']);
-
-		// 	$createVersion = false;
-
-		// }
-
-		$tour->update($request);
+		Tour::where('id', '=', $tour->id)->update($request);
 
 		if($createVersion) { PreviousVersions::createVersion($tour); }
 
