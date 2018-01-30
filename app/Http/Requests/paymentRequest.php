@@ -33,51 +33,55 @@ class paymentRequest extends FormRequest
 
     {
 
-        $tour = request()->tour;
 
-        $rules = [];
+        $rules = [
 
-        $pos = strpos(request()->url(), 'pay_tourist');
+            'pay' => 'regex: /^\d+(\.\d+)?$/',
+            'pay_rub' => 'regex: /^\d+(\.\d+)?$/',
 
+        ];
 
-        if($pos !== false) {
+//         $pos = strpos(request()->url(), 'pay_tourist');
 
-            $payments = $tour->payments_from_tourists;
-            $price = $tour->price;
-            $price_rub = $tour->price_rub;
+// //checks if it's payments to operator or tourist
 
-        } else {
+//         if($pos !== false) {
 
-            $payments = $tour->payments_to_operator;
-            $price = $tour->operator_price;
-            $price_rub = $tour->operator_price_rub;
+//             $payments = $tour->payments_from_tourists;
+//             $price = $tour->price;
+//             $price_rub = $tour->price_rub;
 
-        }
+//         } else {
 
+//             $payments = $tour->payments_to_operator;
+//             $price = $tour->operator_price;
+//             $price_rub = $tour->operator_price_rub;
 
-
-
-
-        $checksum_rub = $payments->sum('pay_rub') + request()->pay_rub;
-
-        if($checksum_rub > $price_rub) {
-
-            $rules['pay_rub'] = 'toomuch';
-
-        }
-
-        if(isset(request()->pay)) {
-
-            $checksum = $payments->sum('pay') + request()->pay;
-
-            if ($checksum > $price) {
-
-                $rules['pay'] = 'toomuchсur';
-            }
+//         }
 
 
 
-        }
+
+//         $checksum_rub = $payments->sum('pay_rub') + request()->pay_rub;
+
+//         if($checksum_rub > $price_rub) {
+
+//             $rules['pay_rub'] = 'toomuch';
+
+//         }
+
+//         if(isset(request()->pay)) {
+
+//             $checksum = $payments->sum('pay') + request()->pay;
+
+//             if ($checksum > $price) {
+
+//                 $rules['pay'] = 'toomuchсur';
+//             }
+
+
+
+//         }
 
 
 
@@ -91,8 +95,10 @@ class paymentRequest extends FormRequest
 
         $messages = [
 
-            'toomuch' =>'Слишком большое значение в рублях!',
-            'toomuchсur' => 'Слишком большое значение в валюте!'
+            // 'toomuch' =>'Слишком большое значение в рублях!',
+            // 'toomuchсur' => 'Слишком большое значение в валюте!',
+            'pay.regex' => 'Сумма к оплате: только цифры и (одна) точка. Правильно: "1000" и "1000.25". Неправильно: "1000,25"',
+            'pay_rub.regex' => 'Сумма к оплате: только цифры и (одна) точка. Правильно: "1000" и "1000.25". Неправильно: "1000,25"',
         ];
 
         return $messages;

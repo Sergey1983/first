@@ -10,6 +10,8 @@ use App\Payments_to_operator;
 
 use App\Tour;
 
+use Validator;
+
 class PaymentOperatorController extends Controller
 {
     
@@ -26,6 +28,42 @@ class PaymentOperatorController extends Controller
 	public function store(paymentRequest $request, Tour $tour)
 
 	{
+
+		$rules = [];
+
+
+        $payments = $tour->payments_to_operator;
+        $price = $tour->operator_price;
+        $price_rub = $tour->operator_price_rub;
+
+        $checksum_rub = $payments->sum('pay_rub') + request()->pay_rub;
+
+        if($checksum_rub > $price_rub) {
+
+            $rules['pay_rub'] = 'toomuch';
+
+        }
+
+        if(isset(request()->pay)) {
+
+            $checksum = $payments->sum('pay') + request()->pay;
+
+            if ($checksum > $price) {
+
+                $rules['pay'] = 'toomuchсur';
+            }
+
+        }
+
+
+        $messages = [
+
+            'toomuch' =>'Слишком большое значение в рублях!',
+            'toomuchсur' => 'Слишком большое значение в валюте!',
+        ];
+
+
+		$validator = Validator::make($request->all(), $rules, $messages)->validate();
 
 
         $user = auth()->user();

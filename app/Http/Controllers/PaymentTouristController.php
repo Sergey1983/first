@@ -10,6 +10,8 @@ use App\Payments_from_tourist;
 
 use App\Tour;
 
+use Validator;
+
 class PaymentTouristController extends Controller
 {
     
@@ -42,7 +44,43 @@ class PaymentTouristController extends Controller
 
 	{
 
-		// $tour = Tour::find($id);
+		$rules = [];
+
+        $payments = $tour->payments_from_tourists;
+        $price = $tour->price;
+        $price_rub = $tour->price_rub;
+
+
+       $checksum_rub = $payments->sum('pay_rub') + request()->pay_rub;
+
+        if($checksum_rub > $price_rub) {
+
+            $rules['pay_rub'] = 'toomuch';
+
+        }
+
+        if(isset(request()->pay)) {
+
+            $checksum = $payments->sum('pay') + request()->pay;
+
+            if ($checksum > $price) {
+
+                $rules['pay'] = 'toomuchсur';
+            }
+
+        }
+
+
+        $messages = [
+
+            'toomuch' =>'Слишком большое значение в рублях!',
+            'toomuchсur' => 'Слишком большое значение в валюте!',
+        ];
+
+
+		$validator = Validator::make($request->all(), $rules, $messages)->validate();
+
+
 
         $user = auth()->user();
 

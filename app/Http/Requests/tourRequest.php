@@ -52,7 +52,7 @@ class tourRequest extends FormRequest
             'room' => 'required',
             'food_type' => 'required',
             'currency' => 'required',
-            'price_rub' => 'required',
+            'price_rub' => 'required|regex: /^\d+(\.\d+)?$/',
             'transfer' => 'required',
             'noexit_insurance' => 'required',
             'med_insurance' => 'required',
@@ -216,7 +216,7 @@ class tourRequest extends FormRequest
 
            if(request()->currency != 'RUB') {
 
-            $rules['price'] = 'required';
+            $rules['price'] = 'required|regex: /^\d+(\.\d+)?$/';
 
            }
 
@@ -345,7 +345,8 @@ class tourRequest extends FormRequest
                 'is_tourist.*not_in' => "Должен быть хотя бы 1 турист!",                
                 'date_depart.*after_or_equal' => 'Равно или позже сегодня!',
                 '*.required' => 'Введите значение!',
-               
+                'price.regex' => 'Сумма к оплате: только цифры и (одна) точка. Правильно: "1000" и "1000.25". Неправильно: "1000,25"',
+                'price_rub.regex' => 'Сумма к оплате: только цифры и (одна) точка. Правильно: "1000" и "1000.25". Неправильно: "1000,25"',
                 ];
 
       $update = request()->input('is_update');
