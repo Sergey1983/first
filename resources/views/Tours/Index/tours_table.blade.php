@@ -17,7 +17,7 @@
 				    <th>Страна:</th>
 				    <th>Продукт:</th>
 				    <th class="sort" id="date_depart" active="not" next_sort="desc">Вылет</th>
-				    <th>Ночей</th>
+				    <th>Ноч.</th>
 				    <th colspan="2">Стоимость</th>
 				    <th>%</th>
 				    <th style="word-break: break-word">Долг клиента </th>

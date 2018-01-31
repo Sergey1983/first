@@ -461,13 +461,13 @@ class FunctionsController extends Controller
 
             $tour->debt = ($tour->price - $tour->payments_from_tourists_sum()).' '.$currency;
 
-            $tour->price = number_format($tour->price, 2, '.', ' ').' '.$currency;
+            $tour->price = number_format($tour->price, 0, '.', ' ').' '.$currency;
 
-            $tour->price_rub = number_format($tour->price_rub, 2, '.', ' ').' &#x20bd';
+            $tour->price_rub = number_format($tour->price_rub, 0, '.', ' ').' &#x20bd';
 
-            $tour->operator_price = number_format($tour->operator_price, 2, '.', ' ').' '.$currency;
+            $tour->operator_price = number_format($tour->operator_price, 0, '.', ' ').' '.$currency;
 
-            $tour->operator_price_rub = number_format($tour->operator_price_rub, 2, '.', ' ').' &#x20bd';
+            $tour->operator_price_rub = number_format($tour->operator_price_rub, 0, '.', ' ').' &#x20bd';
 
             $tour->status = substr($tour->status, 0, 2);
 
