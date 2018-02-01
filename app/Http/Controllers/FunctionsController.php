@@ -459,6 +459,25 @@ class FunctionsController extends Controller
 
             }
 
+
+// COMMISION: We put this in code before other money values, because $tour->operator_price_rub later is being added with ruble currency sign.
+
+            if(($tour->payments_from_tourists_rub_sum() != 0) AND ($tour->operator_price_rub == $tour->payments_to_operator_rub_sum()) )
+
+             {
+
+                $tour->comission = round ( ( 1 - $tour->payments_to_operator_rub_sum() / $tour->payments_from_tourists_rub_sum() ) * 100, 2);
+        
+
+            } else {
+
+                $tour->comission = "-";
+
+            }
+
+// COMMISION: end;
+
+
             $tour->debt = ($tour->price - $tour->payments_from_tourists_sum()).' '.$currency;
 
             $tour->price = number_format($tour->price, 0, '.', ' ').' '.$currency;
@@ -486,18 +505,6 @@ class FunctionsController extends Controller
 
 
 
-            if(($tour->payments_from_tourists_rub_sum() != 0) AND ($tour->operator_price_rub == $tour->payments_to_operator_rub_sum()) )
-
-             {
-
-                $tour->comission = round ( ( 1 - $tour->payments_to_operator_rub_sum() / $tour->payments_from_tourists_rub_sum() ) * 100, 2);
-        
-
-            } else {
-
-                $tour->comission = "-";
-
-            }
 
 
             foreach ($tour->tour_tourist as $tourist) {

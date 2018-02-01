@@ -79,20 +79,6 @@
 						</div>
 
 
-					 	<div class="form-group">
-
-
-							{!! Form::label('pay', 'Сумма в '.strtoupper($tour->currency).'', ['class'=>'control-label  col-md-4'])!!}
-
-							<div class="col-md-6">
-
-						 		{!! Form::text('pay', null, ['placeholder' =>  'Введите сумму в '.strtoupper($tour->currency).'' , 'class'=>"form-control", 'id'=>'pay', 'required'] )  !!}
-
-						 	</div>
-
-						</div>
-
-
 @endunless
 
 
@@ -110,7 +96,22 @@
 
 						</div>
 
+@unless($tour->currency == 'RUB')	
 
+					 	<div class="form-group">
+
+
+							{!! Form::label('pay', 'Сумма в '.strtoupper($tour->currency).'', ['class'=>'control-label  col-md-4'])!!}
+
+							<div class="col-md-6">
+
+						 		{!! Form::text('pay', null, ['placeholder' =>  'Введите сумму в '.strtoupper($tour->currency).'' , 'class'=>"form-control", 'id'=>'pay', 'required'] )  !!}
+
+						 	</div>
+
+						</div>
+
+@endunless
 
 
 		@unless($tour->operator_price_rub==$tour->payments_to_operator_rub_sum())
