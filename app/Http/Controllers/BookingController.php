@@ -33,9 +33,11 @@ class BookingController extends Controller
 	{
 
 
+
 		$rules = [
 
-			'operator_part_pay' => 'before_or_equal:operator_full_pay', 
+			'operator_full_pay' => 'date_format:Y-m-d',
+			'operator_part_pay' => 'date_format:Y-m-d|before_or_equal:operator_full_pay', 
 			'operator_price' => 'regex: /^\d+(\.\d+)?$/',
 			'operator_price_rub' => 'regex: /^\d+(\.\d+)?$/',
 
@@ -43,6 +45,8 @@ class BookingController extends Controller
 
 		$messages = [
 
+			'operator_full_pay.date_format'=>'Срок полной оплаты: Формат даты дд.мм.гггг!',
+			'operator_part_pay.date_format'=>'Срок частичной оплаты: Формат даты дд.мм.гггг!',
 			'operator_part_pay.before_or_equal' => 'Дата частичной оплаты должна быть раньше или равна дате полной оплаты!',
 			'operator_price.regex' => 'Сумма к оплате: только цифры и (одна) точка. Правильно: "1000" и "1000.25". Неправильно: "1000,25"',
 			'operator_price_rub.regex' => 'Сумма к оплате: только цифры и (одна) точка. Правильно: "1000" и "1000.25". Неправильно: "1000,25"',
