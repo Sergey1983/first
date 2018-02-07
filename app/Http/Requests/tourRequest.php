@@ -52,29 +52,23 @@ class tourRequest extends FormRequest
             'room' => 'required',
             'food_type' => 'required',
             'currency' => 'required',
-            'price_rub' => 'required|regex: /^\d+(\.\d+)?$/',
+            'price_rub' => 'required|regex: /^\d+(\.\d+)?$/|numeric|max:99999999',
             'transfer' => 'required',
             'noexit_insurance' => 'required',
             'med_insurance' => 'required',
             'visa' => 'required',
             'source' => 'required',
             'operator_full_pay' => 'required|date_format:Y-m-d', 
-
-            'name.*' => ['required', 'regex: /^[а-яёА-ЯЁ-]+$/u'],
-            'lastName.*' => ['required', 'regex: /^[а-яёА-ЯЁ-]+$/u'],
-            'patronymic.*' => ['required', 'regex: /^[а-яёА-ЯЁ-]+$/u'],
-            'nameEng.*' => ['required', 'regex: /[a-zA-Z\-]/u'],
-            'lastNameEng.*' => ['required', 'regex: /[a-zA-Z\-]/u'], 
+            'name.*' => 'required|regex: /^[а-яёА-ЯЁ-]+$/u|string|max:255',
+            'lastName.*' => 'required|regex: /^[а-яёА-ЯЁ-]+$/u|string|max:255',
+            'patronymic.*' => 'required|regex: /^[а-яёА-ЯЁ-]+$/u|string|max:255',
+            'nameEng.*' => 'required|regex: /[a-zA-Z\-]/u|string|max:255',
+            'lastNameEng.*' => 'required|regex: /[a-zA-Z\-]/u|string|max:255', 
             'birth_date.*' => 'required|date_format:Y-m-d',
             'citizenship.*' => 'required',
             'gender.*' => 'required',
-            'email.*' => 'nullable|email',
-            'phone.*' => [
-                            'nullable',
-                            'min:10',
-                            'regex: /^\+?\d+$/',
-
-                          ], 
+            'email.*' => 'nullable|email|string|max:50',
+            'phone.*' => 'nullable|regex: /^\+?\d+$/|string|min:10|max:20', 
             'doc_type.*.*' => 'required',
             'date_issue.*.*' => 'required|date_format:Y-m-d',
             'date_expire.*.*' => 'required|date_format:Y-m-d',
@@ -116,15 +110,21 @@ class tourRequest extends FormRequest
 
                       if($value == "Загран. паспорт" OR $value ==  "Внутррос. паспорт") {
 
-                        $rules['doc_number.'.$tourist_id.'.'.$doc_id] = 'required|numeric';
+                        // $rules['doc_number.'.$tourist_id.'.'.$doc_id] = 'required|numeric';
 
-                        $rules['doc_seria.'.$tourist_id.'.'.$doc_id] = ($value == "Загран. паспорт") 
+                        // $rules['doc_seria.'.$tourist_id.'.'.$doc_id] = ($value == "Загран. паспорт") 
 
-                                                                        ? 'required|digits:2' 
+                        //                                                 ? 'required|digits:2' 
 
-                                                                        : 'required|digits:4';
+                        //                                                 : 'required|digits:4';
 
                             if($value ==  "Загран. паспорт") {
+
+
+                              $rules['doc_number.'.$tourist_id.'.'.$doc_id] = 'required|numeric|max_zagran';
+
+                              $rules['doc_seria.'.$tourist_id.'.'.$doc_id] = 'required|digits:2';
+
 
                               if(isset($foreing_country)) {
 
@@ -138,15 +138,20 @@ class tourRequest extends FormRequest
 
                             if($value ==  "Внутррос. паспорт") {
 
-                                if($tourist_id == request()->is_buyer) {
 
-                                    $rus_pass_for_buyer_exists = true;
+                              $rules['doc_number.'.$tourist_id.'.'.$doc_id] = 'required|numeric|max_rus_pass';
 
-                                    $rules['who_issued.'.$tourist_id.'.'.$doc_id] = 'required:is_buyer,==,'.$tourist_id;
-                                    $rules['address_pass.'.$tourist_id.'.'.$doc_id] = 'required:is_buyer,==,'.$tourist_id;
-                                    $rules['address_real.'.$tourist_id.'.'.$doc_id] = 'required:is_buyer,==,'.$tourist_id;
-                                
-                                }
+                              $rules['doc_seria.'.$tourist_id.'.'.$doc_id] = 'required|digits:4';
+
+                              if($tourist_id == request()->is_buyer) {
+
+                                  $rus_pass_for_buyer_exists = true;
+
+                                  $rules['who_issued.'.$tourist_id.'.'.$doc_id] = 'required:is_buyer,==,'.$tourist_id;
+                                  $rules['address_pass.'.$tourist_id.'.'.$doc_id] = 'required:is_buyer,==,'.$tourist_id;
+                                  $rules['address_real.'.$tourist_id.'.'.$doc_id] = 'required:is_buyer,==,'.$tourist_id;
+                              
+                              }
 
                                 $rules['date_expire.'.$tourist_id.'.'.$doc_id] = 'nullable';
 
@@ -159,14 +164,14 @@ class tourRequest extends FormRequest
                       elseif($value == "Св-во о рождении"){
 
                           $rules['date_expire.'.$tourist_id.'.'.$doc_id] = 'nullable';
-                          $rules['doc_number.'.$tourist_id.'.'.$doc_id] = ['required', 'regex: /^[ a-zA-Z0-9а-яёА-ЯЁ№-]+$/u'];
+                          $rules['doc_number.'.$tourist_id.'.'.$doc_id] = ['required', 'regex: /^[ a-zA-Z0-9а-яёА-ЯЁ№-]+$/u', 'string', 'max:255'];
 
 
                       }
 
                       else {
 
-                        $rules['doc_number.'.$tourist_id.'.'.$doc_id] = ['required', 'regex: /^[ a-zA-Z0-9а-яёА-ЯЁ-]+$/u'];
+                        $rules['doc_number.'.$tourist_id.'.'.$doc_id] = ['required', 'regex: /^[ a-zA-Z0-9а-яёА-ЯЁ-]+$/u', 'string', 'max:255'];
 
 
                       }
@@ -216,7 +221,7 @@ class tourRequest extends FormRequest
 
            if(request()->currency != 'RUB') {
 
-            $rules['price'] = 'required|regex: /^\d+(\.\d+)?$/';
+            $rules['price'] = 'required|regex: /^\d+(\.\d+)?$/|numeric|max:99999999';
 
            }
 
@@ -320,20 +325,28 @@ class tourRequest extends FormRequest
     {
 
       $messages = [
-                'name.*regex' => 'Только рус. буквы и "-"!', 
+                'name.*regex' => 'Только рус. буквы и "-"!',
+                'name.*max' => 'Не больше 255 символов!', 
                 'lastName.*regex' => 'Только рус. буквы и "-"!', 
-                'patronymic.*' => 'Только рус. буквы и "-"!', 
+                'lastName.*max' => 'Не больше 255 символов!', 
+                'patronymic.*regex' => 'Только рус. буквы и "-"!', 
+                'patronymic.*max' => 'Не больше 255 символов!', 
                 'nameEng.*regex' => 'Только лат. буквы и "-"!', 
+                'nameEng.*max' => 'Не больше 255 символов!', 
                 'lastNameEng.*regex' => 'Только лат. буквы и "-"!', 
+                'lastNameEng.*max' => 'Не больше 255 символов!', 
                 // 'doc_fullnumber.*distinct' => 'В одном туре не может быть 2-х одинаковых паспортов!',
                 'phone.*regex' => 'Только + и цифры!',
                 'phone.*min' => 'Минимум 11 цифр',
+                'phone.*max' => 'Не больше 20 символов!', 
                 'email.*email' => 'Это не email!',
+                'email.*max' => 'Не больше 50 символов!', 
                 // 'doc_fullnumber.*required' => 'Введите значение!',
                 'doc_seria.*digits' => ":digits цифры!",
                 // 'doc_seria.*.*digits:4' => "4 цифры!",
                 'doc_number.*numeric' => "Только цифры",
                 'doc_number.*regex' => 'Цирфы, буквы лат. и рус., и "-"! ', 
+                'doc_number.*max' => 'Не больше 255 символов!',
                 'is_buyer.required' => 'Выберите заказчика!',
                 'is_tourist.required' => 'Выберите "да" или "нет"!',
                 'who_issued.*required' => 'Для заказчика обязательно!',
@@ -352,6 +365,10 @@ class tourRequest extends FormRequest
                 'date_expire.*.date_format' => 'Формат даты дд.мм.гггг!',
                 'price.regex' => 'Сумма к оплате: только цифры и (одна) точка. Правильно: "1000" и "1000.25". Неправильно: "1000,25"',
                 'price_rub.regex' => 'Сумма к оплате: только цифры и (одна) точка. Правильно: "1000" и "1000.25". Неправильно: "1000,25"',
+                'price.max' => 'Не больше чем 99999999 (если стоимость больше - бери деньги и беги в Казахстан!',
+                'price_rub.max' => 'Не больше чем 99999999 (если стоимость больше - бери деньги и беги в Казахстан!',
+                'price.numeric' => 'Цена - это число!',
+                'price_rub.numeric' => 'Цена - это число!',
                 ];
 
       $update = request()->input('is_update');

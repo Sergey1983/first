@@ -46,6 +46,11 @@ class AppServiceProvider extends ServiceProvider
             Validator::extend("toomuch", "App\Services\TooMuchValidator@toomuchValidate");
             Validator::extend("toomuchсur", "App\Services\TooMuchcurValidator@toomuchcurValidate");
 
+            Validator::extend("max_zagran", "App\Services\ZagranLengthValidator@Validate");
+            Validator::replacer("max_zagran", "App\Services\ZagranLengthValidator@Replace");
+
+            Validator::extend("max_rus_pass", "App\Services\RusPassLengthValidator@Validate");
+            Validator::replacer("max_rus_pass", "App\Services\RusPassLengthValidator@Replace");
 
         // Validator::extend("lastName_fail", "App\Services\CustomValidator@lastNameFailValidate");
 

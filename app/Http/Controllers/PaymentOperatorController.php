@@ -29,7 +29,14 @@ class PaymentOperatorController extends Controller
 
 	{
 
-		$rules = [];
+		$rules = [
+
+
+			'pay' => 'numeric|max:99999999',
+			'pay_rub' => 'numeric|max:99999999'
+
+
+		];
 
 
         $payments = $tour->payments_to_operator;
@@ -60,6 +67,8 @@ class PaymentOperatorController extends Controller
 
             'toomuch' =>'Слишком большое значение в рублях!',
             'toomuchсur' => 'Слишком большое значение в валюте!',
+            'pay.max' => 'Сумма: Не больше чем 99999999 (если стоимость больше - бери деньги и беги в Казахстан!)',
+            'pay_rub.max' => 'Сумма: Не больше чем 99999999 (если стоимость больше - бери деньги и беги в Казахстан!)'	
         ];
 
 
