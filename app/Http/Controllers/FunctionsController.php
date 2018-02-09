@@ -116,6 +116,9 @@ class FunctionsController extends Controller
 
         $tourist_search = false;
 
+        // $actuality_yes = false;
+
+
         if(isset($request->tourist_name) OR isset($request->tourist_lastname)) {
 
             $tourist_search = true;
@@ -126,7 +129,8 @@ class FunctionsController extends Controller
 
             $tourists = Tourist::where(array_merge($name, $last_name))->get(); 
 
-            // dd($tourists->toArray());
+
+
 
             $tour_tourists_ids_array = [];
 
@@ -149,6 +153,9 @@ class FunctionsController extends Controller
 
 
 
+
+
+
         if(isset($request->sort_name)) {
 
             $sort_column = $request->sort_name;
@@ -166,23 +173,37 @@ class FunctionsController extends Controller
 
         if($request->actuality == "Да") {
 
-            $actuality = [
+            $actuality = 
 
-                ['date_depart', '>=', date("Y-m-d H:i:s")]
+                        [
+
+                ['date_depart', '>=', date("Y-m-d H:i:s")],
 
                         ];
 
+            $actuality_yes = true;
+
+            // $status = ['Бронирование', 'Подтверждено'];
+
+
         } else if ($request->actuality == "Нет") {
 
-            $actuality = [
+            $actuality =
+
+                        [
 
                 ['date_depart', '<=', date("Y-m-d H:i:s") ]
 
                         ];
 
+            // $status = ['Бронирование', 'Подтверждено', 'Отказ', 'Аннулировано'];
+
+
         } else if ($request->actuality == "Любые") {
 
                 $actuality = [];
+
+            // $status = ['Бронирование', 'Подтверждено', 'Отказ', 'Аннулировано'];
 
         }
 
@@ -277,6 +298,12 @@ class FunctionsController extends Controller
             $ids_from = $request->ids_from;
 
             $ids_to = $request->ids_to;
+
+            // if(!empty($tour_tourists_ids_array)) {
+
+
+            //     $ids = 
+            // }
 
             $ids = 
 
@@ -396,14 +423,22 @@ class FunctionsController extends Controller
 
             $branch = ! $user->isAdmin() ? array(['branch_id', $user->branch->id]) : $branch_from_request;
 
-
             $tours = Tour::when($tourist_search, function($query) use ($tour_tourists_ids_array) {
 
                 return $query->whereIn('id', $tour_tourists_ids_array);
 
                 })
 
-                ->where(array_merge($actuality, $created, $depart, $country, $operator, $ids, $hotel, $manager, $product, $branch ))
+
+
+                // ->when($actuality_yes, function($query){
+
+                // return $query->whereIn('status', ['Бронирование', 'Подтверждено'])->OrwhereNull('status');
+
+                // })
+
+
+                ->where(array_merge($actuality, $created, $depart, $country, $operator, $ids, $hotel, $manager, $product, $branch))
 
                 ->orderBy($sort_column, $sort_value)
 
@@ -411,6 +446,7 @@ class FunctionsController extends Controller
 
 
         } else {
+
 
 
             $tours = Tour::when($tourist_search, function($query) use ($tour_tourists_ids_array) {
@@ -462,7 +498,21 @@ class FunctionsController extends Controller
 
 // COMMISION: We put this in code before other money values, because $tour->operator_price_rub later is being added with ruble currency sign.
 
-            if(($tour->payments_from_tourists_rub_sum() != 0) AND ($tour->operator_price_rub == $tour->payments_to_operator_rub_sum()) )
+                            if($tour->currency == 'RUB') {
+
+                                $operator_price = $tour->operator_price_rub;
+                                $already_paid_to_opeartor = $tour->payments_to_operator_rub_sum();
+
+                            } else {
+
+                                $operator_price = $tour->operator_price;
+                                $already_paid_to_opeartor = $tour->payments_to_operator_sum();
+                            }
+
+
+
+
+            if(($tour->payments_from_tourists_rub_sum() != 0) AND ($operator_price  == $already_paid_to_opeartor) )
 
              {
 
