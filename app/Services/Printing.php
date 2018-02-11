@@ -153,7 +153,13 @@ class Printing
 
       $noexit_insurance = $tour->noexit_insurance_add_people===0 ? $tour->noexit_insurance : $tour->noexit_insurance_people;
 
-      $buyer_pass = $tour->buyer->first()->documents->where('doc_type', "Внутррос. паспорт")->first();
+
+      // $buyer_pass = $tour->buyer->first()->documents->where('doc_type', "Внутррос. паспорт")->first();
+
+      $doc0 = Document::find($tour->buyer->first()->pivot->doc0);
+      $doc1 = Document::find($tour->buyer->first()->pivot->doc1);
+
+      $buyer_pass = $doc0->doc_type == "Внутррос. паспорт" ? $doc0 : $doc1;
 
       $f = new \NumberFormatter("ru", \NumberFormatter::SPELLOUT);
 

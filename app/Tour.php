@@ -32,7 +32,7 @@ class Tour extends Model
 
     public function buyer () {
 
-        return $this->belongsToMany('App\Tourist')->wherePivot('is_buyer', 1);
+        return $this->belongsToMany('App\Tourist')->wherePivot('is_buyer', 1)->withPivot('doc0', 'doc1');
     }
 
     public function previous_tours() {
