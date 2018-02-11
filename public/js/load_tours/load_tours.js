@@ -83,11 +83,12 @@ $(document).ready(function () {
 				var prev_url = data.prev_page_url == null ? null : getAndDecrementLastNumber(data.prev_page_url);
 				var next_url = data.next_page_url == null ? null : getAndIncrementLastNumber(data.next_page_url, data.last_page);
 
+				console.log(prev_url,next_url);
 
-
+				// $('[aria-label="Previous"]').attr('href', '../load_tours_function?page='+prev_url+'');
+				// $('[aria-label="Next"]').attr('href', '../load_tours_function?page='+next_url+'');
 				$('[aria-label="Previous"]').attr('href', prev_url);
 				$('[aria-label="Next"]').attr('href', next_url);
-
 
 				// var thead = $('#load_tours_table_thead');
 				var tbody = $('#tbody_tours');
@@ -95,6 +96,7 @@ $(document).ready(function () {
 				tbody.empty();
 
 				$('pagination[class="pagination"]').find('li').not(':first').not(':last').remove();
+				//leaves only "Previous" and "Next" li-s
 
 				var from = data.current_page;
 
@@ -238,7 +240,7 @@ $(document).ready(function () {
 
 		if (Number(link_num)-20 < 0) {
 
-			return 1;
+			return str.replace(/\d+$/, 1);
 
 		} else {
 

@@ -466,6 +466,8 @@ class FunctionsController extends Controller
 
 
 
+
+
         foreach ($tours as $key => $tour) {
             
             $tour->user_name = $tour->user->name;
