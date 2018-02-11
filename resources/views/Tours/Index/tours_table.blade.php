@@ -65,8 +65,30 @@
 		      </a>
 
 		    </li>
+{{-- 
+		    <li class="page-item">
 
+		      <a class="page-link" href="#" aria-label="Previous">
 
+		        <span aria-hidden="true">&lt;</span>
+
+		        <span class="sr-only">Previous</span>
+
+		      </a>
+
+		    </li> --}}
+
+{{-- 		    <li class="page-item">
+
+		      <a class="page-link" href="#" aria-label="Next">
+
+		        <span aria-hidden="true">&gt;</span>
+
+		        <span class="sr-only">Previous</span>
+
+		      </a>
+
+		    </li> --}}
 
 
 		    <li class="page-item">
