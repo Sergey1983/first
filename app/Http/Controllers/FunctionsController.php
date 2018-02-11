@@ -536,9 +536,9 @@ class FunctionsController extends Controller
 
             $tour->price_rub = number_format($tour->price_rub, 0, '.', ' ').' &#x20bd';
 
-            $tour->operator_price = number_format($tour->operator_price, 0, '.', ' ').' '.$currency;
-
             $tour->operator_price_rub = number_format($tour->operator_price_rub, 0, '.', ' ').' &#x20bd';
+
+            $tour->operator_price = ($tour->currency == 'RUB') ? $tour->operator_price_rub : number_format($tour->operator_price, 0, '.', ' ').' '.$currency;
 
             $tour->status = substr($tour->status, 0, 2);
 
