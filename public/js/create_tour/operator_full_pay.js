@@ -17,7 +17,6 @@ $(document).ready(function () {
 
 		date_depart_Date = new Date(date_depart_Date.setHours(0));
 
-
 		console.log('date_depart_Date', date_depart_Date);
 
 		var now = new Date();
@@ -30,7 +29,7 @@ $(document).ready(function () {
 
 		console.log('diff_days', diff_days);
 
-		var operator_full_pay = new Date();
+		// var operator_full_pay = new Date();
 
 		if(diff_days<0) {
 
@@ -38,29 +37,44 @@ $(document).ready(function () {
 
 		} else if (diff_days < 7) {
 
-			operator_full_pay.setDate(now.getDate() + 1);
+			operator_full_pay = new Date(now);
 
 			console.log('operator_full_pay', operator_full_pay);
 		
-		} else if (diff_days >=8 || diff_days <= 31 ) {
+		} else if (diff_days >=8 && diff_days < 31 ) {
 
-			operator_full_pay.setDate(now.getDate() + 3);
+			console.log('now.getDate()', now.getDate() );
+
+			var operator_full_pay = new Date(now.setDate(now.getDate() + 2));
 
 			console.log('operator_full_pay', operator_full_pay);
 
 		} else {
 
-			operator_full_pay.setDate(now.getDate() - 31);
+			console.log('date_depart_Date', date_depart_Date);
+
+			var operator_full_pay = new Date(date_depart_Date.setDate(date_depart_Date.getDate() - 31));
 
 			console.log('operator_full_pay', operator_full_pay);
 
 		}
 
+				function formatDate(date) {
+				    var d = new Date(date),
+				        month = '' + (d.getMonth() + 1),
+				        day = '' + d.getDate(),
+				        year = d.getFullYear();
+
+				    if (month.length < 2) month = '0' + month;
+				    if (day.length < 2) day = '0' + day;
+
+				    return [year, month, day].join('-');
+				}
 
 
 
 
-		// $('input[name="operator_full_pay"]').val(date_depart_Date.toISOString().substring(0, 10));
+		$('input[name="operator_full_pay"]').val(formatDate(operator_full_pay));
 
 
 	});
