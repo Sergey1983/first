@@ -22,7 +22,7 @@ class SortRequest extends RequestVariables
 
         $request_array = request()->all();
 
-// dump($request_array);
+// dd($request_array);
 
         $number_of_tourists = count(request()->name);
 
@@ -49,20 +49,33 @@ class SortRequest extends RequestVariables
             $request_sorted['tour']['extra_info'] = $request->extra_info ?: null;
 
 
-
-        $tourists_array =  array_intersect_key($request_array, parent::$keys_tourist);
-
-
         if($request_array['allchecked']=='true') {
 
             $request_sorted['allchecked'] = true;
 
         }
+        
 
-// dump('request sorted', $request_sorted);
-// die();
+        $tourists_array =  array_intersect_key($request_array, parent::$keys_tourist);
 
-// dd(isset($request_array['check_info_tourists']) AND isset($request_array['check_info_docs']));
+
+        foreach ($tourists_array as $property => $values) {
+
+                for ($i=0; $i<$number_of_tourists; $i++) {
+
+                    $request_sorted['tourists'][$i][$property] = $values[$i];
+
+                    }
+
+        }
+
+        // if($request_array['allchecked']=='true') {
+
+        //     $request_sorted['allchecked'] = true;
+
+        // }
+
+
 
         if(isset($request_array['check_info_tourists']) AND isset($request_array['check_info_docs']) ) {
 
@@ -73,9 +86,9 @@ class SortRequest extends RequestVariables
 
             foreach ($check_info_tourists as $tourist_id => $value) {
                 
-                if(isset($value['id']) AND  $value['id']== 'new') {
+                if(isset($value['id']) AND  $value['id'] == 'new') {
 
-                    $check_info_tourists[$tourist_id] = ["exists"=>false];
+                    $check_info_tourists[$tourist_id] = [ "exists" => false ];
 
                 }
 
@@ -85,15 +98,15 @@ class SortRequest extends RequestVariables
 
 
 
-        foreach ($tourists_array as $property=>$values) {
+        // foreach ($tourists_array as $property => $values) {
 
-                for ($i=0; $i<$number_of_tourists; $i++) {
+        //         for ($i=0; $i<$number_of_tourists; $i++) {
 
-                    $request_sorted['tourists'][$i][$property] = $values[$i];
+        //             $request_sorted['tourists'][$i][$property] = $values[$i];
 
-                    }
+        //             }
 
-        }
+        // }
         
 
         if(isset($check_info_tourists)) {
@@ -136,31 +149,36 @@ class SortRequest extends RequestVariables
         $documents_array = array_intersect_key($request_array, parent::$keys_document);
 
 
-        foreach ($documents_array['doc_number'] as $tourist_id => $doc_ids) {
+        // IF doc has seria (for ex. 'seria' = 1234, doc_number = '567890') transform it to ('seria' = 4, 'doc_number' = 1234567890) where 'seria' pre-transformed 'seria' length;
 
-            foreach ($doc_ids as $doc_id => $doc_number_value) {
+                foreach ($documents_array['doc_number'] as $tourist_id => $doc_ids) {
 
-                    if (isset($documents_array['doc_seria'][$tourist_id][$doc_id])) {
+                    foreach ($doc_ids as $doc_id => $doc_number_value) {
 
-                        $seria = $documents_array['doc_seria'][$tourist_id][$doc_id];
+                            if (isset($documents_array['doc_seria'][$tourist_id][$doc_id])) {
 
-                        $new_doc_number = $seria . $doc_number_value;
+                                $seria = $documents_array['doc_seria'][$tourist_id][$doc_id];
 
-                        $documents_array['doc_number'][$tourist_id][$doc_id] = $new_doc_number;
+                                $new_doc_number = $seria . $doc_number_value;
 
-                        $documents_array['seria'][$tourist_id][$doc_id] = strlen($seria);
-                    
-                    } else {
+                                $documents_array['doc_number'][$tourist_id][$doc_id] = $new_doc_number;
 
-                        $documents_array['seria'][$tourist_id][$doc_id] = 0;
+                                $documents_array['seria'][$tourist_id][$doc_id] = strlen($seria);
+                            
+                            } else {
+
+                                $documents_array['seria'][$tourist_id][$doc_id] = 0;
+
+                            }
 
                     }
 
-            }
+                }
 
-        }
+                unset($documents_array['doc_seria']);
 
-        unset($documents_array['doc_seria']);
+
+
 
 
         foreach ($documents_array as $property => $tourist_ids) {

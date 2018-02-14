@@ -41,15 +41,16 @@
               
                 <tr><td>$id</td><td>Номер заявки (договора)</td></tr>
                 <tr><td>$first_manager</td><td>Менеджер, оформивший заявку</td></tr>
-                <tr><td>$created</td><td>Дата создания заявки</td></tr>
                 <tr><td>$updated</td><td>Дата последнего обновления заявки</td></tr>
                 <tr><td>$buyerName</td><td>Покупатель: имя</td></tr>
                 <tr><td>$buyerLastName</td><td>Покупатель: фамилия</td></tr>
                 <tr><td>$buyerPatronymic</td><td>Покупатель: отчество</td></tr>
                 <tr><td>$buyerPhone</td><td>Покупатель: телефон</td></tr>
                 <tr><td>$buyerEmail</td><td>Покупатель: email</td></tr>
+                <tr><td>$buyerBirth</td><td>Покупатель: дата рождения</td></tr>
                 <tr><td>$branch_details</td><td>Реквизиты филиала</td></tr>
                 <tr><td>$seria</td><td>Покупатель: серия паспорта</td></tr>
+                <tr><td>$currency</td><td>Валюта тура</td></tr>
                 <tr><td>$doc_number</td><td>Покупатель: номер паспорта</td></tr>
                 <tr><td>$date_issued</td><td>Покупатель: дата выдачи п.</td></tr>
                 <tr><td>$who_issued</td><td>Покупатель: паспорт выдан кем</td></tr>

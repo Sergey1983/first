@@ -274,7 +274,7 @@ class tourRequest extends FormRequest
 
           if($number_of_tourists == 1){
 
-            $rules['is_tourist'] = 'not_in:0';
+            $rules['is_tourist'] = 'required|not_in:0';
 
            }
 
@@ -313,7 +313,6 @@ class tourRequest extends FormRequest
 
         $rules = [];
       }
-
 
 
            return $rules;

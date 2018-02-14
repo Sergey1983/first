@@ -202,6 +202,8 @@ class Printing
 
         '$buyerEmail' => $tour->buyer->first()->email,
 
+        '$buyerBirth' => $tour->buyer->first()->birth_date,
+
         '$operator_full_pay' => is_null($tour->operator_full_pay)? "<span style='color: red'>ДАТА ОТСУТСТВУЕТ</span>" : RusMonth::convert(strftime('%d %B %Y', strtotime($tour->operator_full_pay))),
 
         '$adults' => $adults,
@@ -209,6 +211,8 @@ class Printing
         '$children' => $children,
 
         '$country' => $tour->country,
+
+        '$currency' => $tour->currency,
 
         '$airport' => $tour->airport,
 
