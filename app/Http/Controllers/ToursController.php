@@ -82,7 +82,7 @@ class ToursController extends Controller
 
         $request_sorted['branch'] = ['branch_id'=> request()->user()->branch->id];
 
-        return self::PreProcess($request_sorted, $tour='null', 'save');
+        return self::PreProcess($request_sorted, $tour=null, 'save');
 
 
     }
@@ -156,7 +156,6 @@ class ToursController extends Controller
     {
 
 
-
        if(isset($request_sorted['allchecked']) AND $request_sorted['allchecked'] == true) {
 
             if($action == 'save') { 
@@ -173,19 +172,24 @@ class ToursController extends Controller
 
             }
 
+// dump('$tour->tourists2', $tour->tourists);
+
             $tourists_and_documents['tourists'] = $request_sorted['tourists'];
             $tourists_and_documents['documents'] = $request_sorted['documents'];
 
+            //Changes happen here...
             self::SaveTouristsAndDocuments($tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour, $action);
+
+// dump('$tour->tourists2', $tour->tourists);
 
 
             PreviousVersions::createVersion($tour);
-
+// die();
             return 'success';
 
         } else {
 
-        $checked_tourists_and_documents = CheckRequest::return_checked_tourists_and_docs($request_sorted['tourists'], $request_sorted['documents']);
+        $checked_tourists_and_documents = CheckRequest::return_checked_tourists_and_docs($request_sorted['tourists'], $request_sorted['documents'], $tour);
 
 
              if(isset($checked_tourists_and_documents['fatal_error'])) {
@@ -201,6 +205,8 @@ class ToursController extends Controller
         switch($check) {
 
             case "save":
+
+// dump('$tour->tourists1', $tour->tour_tourists);
 
               if($action == 'save') { 
 
@@ -220,8 +226,17 @@ class ToursController extends Controller
 
                 self::SaveTouristsAndDocuments($checked_tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour, $action);
 
-                PreviousVersions::createVersion($tour);
+// dump('$tour->tourists2', $tour->tourists);
 
+
+                // Блядь, когда в предыдущей функции делается ->sync(), видимо, не успевает обновить relationship между моделями tour->tourist поэтому нужно инициировать $tour еще раз. Может это связано с тем, что у меня в таблице tour_tourists нет id...
+                $tour = Tour::find($tour->id);
+
+                            // dump('tour->tourists2', $tour->tourists);
+
+
+                PreviousVersions::createVersion($tour);
+// die();
                 return 'success';
 
             break;
@@ -281,6 +296,9 @@ class ToursController extends Controller
 
     public static function SaveTouristsAndDocuments($checked_array, $buyer_array, $user_array, $tour, $action) {
 
+// dump($tour->tourists);
+// dump($action);
+// dump($checked_array);
 
         $number_of_tourists = count($checked_array['tourists']);
 
@@ -319,6 +337,7 @@ class ToursController extends Controller
 
                     $document = Document::create(array_merge(['tourist_id'=>$tourist->id], $user_array, self::unsetCheckInfo($doc_values)));
 
+
                 } else if($doc_values['check_info']['exists'] == true) {
 
                     $document = Document::find($doc_values['check_info']['id']);
@@ -339,6 +358,7 @@ class ToursController extends Controller
 
 
             }
+
 
             $doc_ids['doc1'] = isset($doc_ids['doc1']) ? $doc_ids['doc1'] : null;
 
@@ -363,7 +383,14 @@ class ToursController extends Controller
 
         if($action == 'update') {
 
+            // dump($update_array);
+            // dump('tour->tourists1', $tour->tourists);
+
             $tour->tourists()->sync($update_array);
+
+            // $tour = Tour::find($tour->id);
+
+            // dump('tour->tourists2', $tour->tourists);
         }
 
 
@@ -371,7 +398,6 @@ class ToursController extends Controller
 
             PreviousVersions::create_version_extra($updated_tourists_ids, $updated_docs_ids, $tour->id, $user_array['user_id']);
         }
-
 
     }
 

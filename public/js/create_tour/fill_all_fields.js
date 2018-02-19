@@ -52,9 +52,7 @@
 				    	 
 				    	var name  = $('[name="'+property+'"]');
 
-				    	if(! name.length == 0 ){
-
-
+				    	if(! name.length == 0 ) {
 
 				    		if((name[0].nodeName == 'INPUT' && name.attr('type')!='checkbox') || (name[0].nodeName == 'TEXTAREA')) {
 
@@ -88,7 +86,23 @@
 
 				    				name.val(tour[property]);
 
-				    			 } else {
+				    			 } else if (tour[property] == 'Загран не готов') {
+
+				    			 	var matches = property.match(/\[(.*?)\]/g);
+
+				    				var tourist_number  = matches[0].replace('[', '').replace(']', '');
+				    				var doc_number  = matches[1].replace('[', '').replace(']', '');
+
+			    					zagran_ne_gotov(tourist_number, doc_number, 'fill_all_fields');
+
+				    				// name.val(tour[property]).change({msg:'fill_all_fields'}, function(event){
+
+				    				// 	zagran_ne_gotov(tourist_number, doc_number, event.data.msg);
+
+				    				// });
+
+				    			 } 
+				    			 else {
 
 				    				name.val(tour[property]).change();
 

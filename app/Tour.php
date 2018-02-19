@@ -5,7 +5,6 @@ namespace App;
 use App\Traits\Excludable;
 
 
-
 class Tour extends Model
 {
 

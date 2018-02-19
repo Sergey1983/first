@@ -8,6 +8,8 @@ use App\Document;
 
 use App\Branch;
 
+use App\Airport;
+
 use App\Services\RusMonth;
 
 class Printing
@@ -180,6 +182,7 @@ class Printing
 
       }
 
+
       $manager = $tour->previous_tours->sortBy('created_at')->first()->user;
 
       $dictionary = [
@@ -214,7 +217,7 @@ class Printing
 
         '$currency' => $tour->currency,
 
-        '$airport' => $tour->airport,
+        '$airport' => $tour->airport.', ' .Airport::where('code', $tour->airport)->first()->city,
 
         '$date_depart' => RusMonth::convert(strftime('%d %B %Y', strtotime($tour->date_depart))),
 
@@ -224,7 +227,7 @@ class Printing
 
         '$hotel' => $tour->hotel,
 
-        '$room' => $tour->room,
+        '$room' => str_replace("\r\n", "</p><p>", $tour->room),
 
         '$food' => $tour->food_type,
 
@@ -360,20 +363,28 @@ class Printing
 
             $document = Document::find($tourist->pivot->{'doc'.$i});
 
-             if ($document->doc_type == "Загран. паспорт") {
+             if ($document->doc_type == "Загран. паспорт" OR $document->doc_type == "Загран не готов") {
 
               $is_foreign = true;
 
               break;
 
-             }
+            }
 
         }
 
       }
 
 
+      if($document->doc_type == "Загран не готов") {
+
+        $document = "Паспорт еще не выдан";
+
+      } else {
+
         $document = $document->seria == 0 ? $document->doc_number : substr($document->doc_number, 0, $document->seria).' '.substr($document->doc_number, $document->seria);
+
+      }
 
         return $document;
 }

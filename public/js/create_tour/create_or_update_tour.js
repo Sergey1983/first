@@ -67,7 +67,7 @@ $(document).ready(function() {
 						// console.log(doc2_unchecked);
 				
 
-						$("*").find('input, textarea').attr("readonly", "").removeAttr('readonly');
+						$("*").find('input:not([zagran_ne_gotov]), textarea').attr("readonly", "").removeAttr('readonly');
 						$("*").find('button, select, [type="checkbox"], [type="radio"]').attr("disabled", "").removeAttr('disabled');
 
 						$(doc2_unchecked).not('[name="add_doc_2"]').attr('disabled', 'disabled');
@@ -657,7 +657,7 @@ $(document).ready(function() {
 			console.log(doc2_unchecked);
 	
 
-			$("*").find('input, textarea').attr("readonly", "").removeAttr('readonly');
+			$("*").find('input:not([zagran_ne_gotov]), textarea').attr("readonly", "").removeAttr('readonly');
 			$("*").find('button, select, [type="checkbox"], [type="radio"]').attr("disabled", "").removeAttr('disabled');
 
 			$(doc2_unchecked).not('[name="add_doc_2"]').attr('disabled', 'disabled');

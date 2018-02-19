@@ -118,6 +118,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/edit_tour_prepare_data', 'FunctionsController@edit_tour_prepare_data');
 	Route::post('/airport_load', 'FunctionsController@airport_load');
 	Route::post('/return_versions', 'VersionsController@return_versions');
+	Route::post('/zagran_ne_gotov_number', '\App\Services\ZagranNeGotovFunctions@get_number');	
 
 
 	// Route::get('/testform', ['as' => 'testform', 'uses' => 'FormController@create']);

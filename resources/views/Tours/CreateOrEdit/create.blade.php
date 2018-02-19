@@ -4,6 +4,8 @@
 
 @include('Tours.CreateOrEdit.create_or_update_table', ['verb' =>'Создать', 'button' =>'submit_button', 'is_update'=> 0])
 
+<script type="text/javascript" src="{{ URL::asset('js/create_tour/initial_functions.js') }}"></script>
+
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/fill_all_fields.js ') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/add_tourist.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/create_or_update_tour.js') }}"></script>

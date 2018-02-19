@@ -42,7 +42,7 @@ class CheckRequest extends RequestVariables
 
 
 	
-	public static function return_checked_tourists_and_docs($tourists_array, $documents_array)
+	public static function return_checked_tourists_and_docs($tourists_array, $documents_array, $tour)
 
 	{
 
@@ -125,33 +125,69 @@ class CheckRequest extends RequestVariables
 
 				$tourist_to_check = array_filter($tourist_from_request, function($k) {return ($k != 'phone' AND $k !='email'); }, ARRAY_FILTER_USE_KEY);
 
-				$tourists_in_db = Tourist::where($tourist_to_check)->get();
 
+				// Let's check if this tour exists:
 
-				$tourists_array[$tourist_number]['check_info']['exists'] = $tourists_in_db->isEmpty() ? false  : true;
+				if(!is_null($tour)) {
 
-				if ($tourists_in_db->isNotEmpty()) {
+					//Let's check if one of the tour's tourists has the same values as tourist in the request:
 
-					$tourists_array[$tourist_number]['check_info']['to_choose'] = true;
+					$tourist_exists_in_this_tour = false;
 
-					if($tourists_in_db->count() == 1 ) {
+					foreach($tour->tourists as $tourist) {
 
-						$tour_info = self::LastTourInfo($tourists_in_db[0]); 
+						$tourist_id = $tourist->id;
 
-						$tourists_array[$tourist_number]['check_info']['id'][$tourists_in_db[0]->id]['last_tour'] = $tour_info;
+						$tourist = array_intersect_key($tourist->toArray(), parent::$keys_tourist);
 
-					} else {
+						$tourist = array_filter($tourist, function($k) {return ($k != 'phone' AND $k !='email'); }, ARRAY_FILTER_USE_KEY);
 
-						foreach ($tourists_in_db as $key => $tourist_in_db) {
+						if($tourist_exists_in_this_tour = $tourist == $tourist_to_check) {
 
-							$tour_info = self::LastTourInfo($tourist_in_db); 
-							
-							$tourists_array[$tourist_number]['check_info']['id'][$tourist_in_db->id]['last_tour'] = $tour_info;
+							$tourists_array[$tourist_number]['check_info']['exists'] = true;
 
+							$tourists_array[$tourist_number]['check_info']['id'] = $tourist_id;
+
+							break;
 						}
-
 					}
 
+
+
+				} 
+
+
+				else {
+
+
+						$tourists_in_db = Tourist::where($tourist_to_check)->get();
+
+						$tourists_array[$tourist_number]['check_info']['exists'] = $tourists_in_db->isEmpty() ? false  : true;
+
+						if ($tourists_in_db->isNotEmpty()) {
+
+							$tourists_array[$tourist_number]['check_info']['to_choose'] = true;
+
+							if($tourists_in_db->count() == 1 ) {
+
+								$tour_info = self::LastTourInfo($tourists_in_db[0]); 
+
+								$tourists_array[$tourist_number]['check_info']['id'][$tourists_in_db[0]->id]['last_tour'] = $tour_info;
+
+							} else {
+
+								foreach ($tourists_in_db as $key => $tourist_in_db) {
+
+									$tour_info = self::LastTourInfo($tourist_in_db); 
+									
+									$tourists_array[$tourist_number]['check_info']['id'][$tourist_in_db->id]['last_tour'] = $tour_info;
+
+								}
+
+							}
+
+
+						}
 
 				}
 
@@ -413,6 +449,8 @@ class CheckRequest extends RequestVariables
 
 	public static function checkWhatToDo($tourists_and_documents) {
 
+// dump('$tourists_and_documents', $tourists_and_documents);
+
 		$Update = false;
 
 		$Exists = [];
@@ -453,7 +491,11 @@ class CheckRequest extends RequestVariables
 
 		} while(0);
 
+// dump($Update, $Exists);
+
 		$NoNew = !(in_array(false, $Exists));
+
+// dump($NoNew);
 
 		if($Update) { $return = 'update'; } else { $return  = $NoNew ? 'checkifsame': 'save'; }
 

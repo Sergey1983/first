@@ -36,10 +36,7 @@ $(document).ready(function(){
 		$('input[name="date_expire['+tourist_number+']['+doc_number+']"]').removeAttr('disabled');
 
 
-
-
-		$(id_dates).find('input').val('');
-
+		$(id_dates).find('input').val('').removeAttr('zagran_ne_gotov').removeAttr('readonly');
 
 
 
@@ -130,6 +127,7 @@ $(document).ready(function(){
 
 			}		 	
 
+
 			$(id).empty().append(
 
 						
@@ -145,6 +143,13 @@ $(document).ready(function(){
 
 
 				);
+
+			
+			if(value == 'Загран не готов') {
+
+				zagran_ne_gotov(tourist_number, doc_number);
+
+			}
 
 
 		} 
@@ -165,6 +170,49 @@ $(document).ready(function(){
 
 	}
 
+
+	// function zagran_ne_gotov(tourist_number, doc_number, msg=null) {
+
+
+
+
+	// 	$('input[name="doc_number['+tourist_number+']['+doc_number+']"]').attr('readonly', 'readonly').attr('zagran_ne_gotov', 'zagran_ne_gotov');
+
+	// 	$('input[name="date_issue['+tourist_number+']['+doc_number+']"]').val('1953-10-27').attr('readonly', 'readonly').attr('zagran_ne_gotov', 'zagran_ne_gotov');
+	// 	$('input[name="date_expire['+tourist_number+']['+doc_number+']"]').val('3000-01-01').attr('readonly', 'readonly').attr('zagran_ne_gotov', 'zagran_ne_gotov');
+
+	// 	// NOTE: Чтобы не удалялся аттрибут readonly, ввели спец аттрибут zagran_ne_gotov. В файле create_or_update_tour.js записали, чтобы это свойство не удалялось, когда 
+	// 	// мы нажимаем кнопку "Нет, вернуться к редактированию" $("*").find('input:not([zagran_ne_gotov]), textarea').attr("readonly", "").removeAttr('readonly');
+	// 	// if(msg != 'fill_all_fields') {
+
+	// 	// 	insert_zagran_ne_gotov_number(tourist_number, doc_number);
+
+	// 	// }
+
+	// }
+
+	// function insert_zagran_ne_gotov_number (tourist_number, doc_number) {
+
+	// 	$.ajax({
+
+	// 		type: 'post',
+	// 		url: '/zagran_ne_gotov_number',
+
+	// 	})
+
+	// 	.done(function (data) {
+
+	// 		$('input[name="doc_number['+tourist_number+']['+doc_number+']"]').val(data);
+
+	// 	})
+
+	// 	.fail(function() { 
+
+	// 		alert('Произошла ошибка!');
+
+	// 	})
+
+	// }
 
 
 })

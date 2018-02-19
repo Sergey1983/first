@@ -245,7 +245,7 @@
 
 				<tr>
 					<td>Номера</td>
-					<td>{{$tour->room}}</td>
+					<td>{!!nl2br($tour->room)!!}</td>
 				</tr>
 
 				<tr>

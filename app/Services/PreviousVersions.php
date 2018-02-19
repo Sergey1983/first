@@ -37,6 +37,8 @@ class PreviousVersions extends RequestVariables {
 
         RequestVariables::init();
 
+// dump('$tourists1', $tour->tourists);
+
 
             $version_last_saved = previous_tour_tourist::where('tour_id', $tour->id)->orderBy('this_version', 'desc')->first();
 
@@ -83,6 +85,8 @@ class PreviousVersions extends RequestVariables {
 
 
             $tourists = $tour->tourists;
+
+    // dump('$tourists2', $tourists);
 
             $tourists_array = $tourists->toArray();
 

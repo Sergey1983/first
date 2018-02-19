@@ -176,7 +176,7 @@ $(document).ready(function() {
 
 					'<div class="col-md-8">'+
 
-						'<select class="form-control choose-doc" name="doc_type['+i+'][0]"><option selected="selected" hidden="hidden" value="">Выберите док-т</option><option value="Загран. паспорт">Загран. паспорт</option><option value="Внутррос. паспорт">Внутррос. паспорт</option><option value="Св-во о рождении">Св-во о рождении</option><option value="Другой документ">Другой документ</option></select>'+
+						'<select class="form-control choose-doc" name="doc_type['+i+'][0]"><option selected="selected" hidden="hidden" value="">Выберите док-т</option><option value="Загран. паспорт">Загран. паспорт</option><option value="Внутррос. паспорт">Внутррос. паспорт</option><option value="Св-во о рождении">Св-во о рождении</option><option value="Другой документ">Другой документ</option><option value="Загран не готов">Загран не готов</option></select>'+
 
 						'</div>'+
 
@@ -250,7 +250,7 @@ $(document).ready(function() {
 
 					'<div class="col-md-8">'+
 
-						'<select class="form-control choose-doc" disabled="" name="doc_type['+i+'][1]"><option selected="selected" hidden="hidden" value="">Выберите док-т</option><option value="Загран. паспорт">Загран. паспорт</option><option value="Внутррос. паспорт">Внутррос. паспорт</option><option value="Св-во о рождении">Св-во о рождении</option><option value="Другой документ">Другой документ</option></select>'+
+						'<select class="form-control choose-doc" disabled="" name="doc_type['+i+'][1]"><option selected="selected" hidden="hidden" value="">Выберите док-т</option><option value="Загран. паспорт">Загран. паспорт</option><option value="Внутррос. паспорт">Внутррос. паспорт</option><option value="Св-во о рождении">Св-во о рождении</option><option value="Другой документ">Другой документ</option><option value="Загран не готов">Загран не готов</option></select>'+
 
 						'<div class="row text-right padding-right-15">'+
 						

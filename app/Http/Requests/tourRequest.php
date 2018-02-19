@@ -108,58 +108,56 @@ class tourRequest extends FormRequest
                 foreach ($doc_types as $doc_id => $value) {
 
 
-                      if($value == "Загран. паспорт" OR $value ==  "Внутррос. паспорт") {
 
-                        // $rules['doc_number.'.$tourist_id.'.'.$doc_id] = 'required|numeric';
-
-                        // $rules['doc_seria.'.$tourist_id.'.'.$doc_id] = ($value == "Загран. паспорт") 
-
-                        //                                                 ? 'required|digits:2' 
-
-                        //                                                 : 'required|digits:4';
-
-                            if($value ==  "Загран. паспорт") {
+                      if($value ==  "Загран. паспорт") {
 
 
-                              $rules['doc_number.'.$tourist_id.'.'.$doc_id] = 'required|numeric|max_zagran';
+                        $rules['doc_number.'.$tourist_id.'.'.$doc_id] = 'required|numeric|max_zagran';
 
-                              $rules['doc_seria.'.$tourist_id.'.'.$doc_id] = 'required|digits:2';
-
-
-                              if(isset($foreing_country)) {
-
-                                $for_pass_4_foreing_country_exists = true;
-
-                              }
-
-                            }
+                        $rules['doc_seria.'.$tourist_id.'.'.$doc_id] = 'required|digits:2';
 
 
+                        if(isset($foreing_country)) {
 
-                            if($value ==  "Внутррос. паспорт") {
+                          $for_pass_4_foreing_country_exists = true;
 
+                        }
 
-                              $rules['doc_number.'.$tourist_id.'.'.$doc_id] = 'required|numeric|max_rus_pass';
+                      }
 
-                              $rules['doc_seria.'.$tourist_id.'.'.$doc_id] = 'required|digits:4';
-
-                              if($tourist_id == request()->is_buyer) {
-
-                                  $rus_pass_for_buyer_exists = true;
-
-                                  $rules['who_issued.'.$tourist_id.'.'.$doc_id] = 'required:is_buyer,==,'.$tourist_id;
-                                  $rules['address_pass.'.$tourist_id.'.'.$doc_id] = 'required:is_buyer,==,'.$tourist_id;
-                                  $rules['address_real.'.$tourist_id.'.'.$doc_id] = 'required:is_buyer,==,'.$tourist_id;
-                              
-                              }
-
-                                $rules['date_expire.'.$tourist_id.'.'.$doc_id] = 'nullable';
-
-                            }
+                      if($value ==  "Загран не готов") {
 
 
-                      } 
-  
+                        if(isset($foreing_country)) {
+
+                          $for_pass_4_foreing_country_exists = true;
+
+                        }
+
+                      }
+
+
+                      elseif($value ==  "Внутррос. паспорт") {
+
+
+                        $rules['doc_number.'.$tourist_id.'.'.$doc_id] = 'required|numeric|max_rus_pass';
+
+                        $rules['doc_seria.'.$tourist_id.'.'.$doc_id] = 'required|digits:4';
+
+                        if($tourist_id == request()->is_buyer) {
+
+                            $rus_pass_for_buyer_exists = true;
+
+                            $rules['who_issued.'.$tourist_id.'.'.$doc_id] = 'required:is_buyer,==,'.$tourist_id;
+                            $rules['address_pass.'.$tourist_id.'.'.$doc_id] = 'required:is_buyer,==,'.$tourist_id;
+                            $rules['address_real.'.$tourist_id.'.'.$doc_id] = 'required:is_buyer,==,'.$tourist_id;
+                        
+                        }
+
+                          $rules['date_expire.'.$tourist_id.'.'.$doc_id] = 'nullable';
+
+                      }  
+
 
                       elseif($value == "Св-во о рождении"){
 
