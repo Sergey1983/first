@@ -5,7 +5,7 @@ $(document).ready(function () {
 
 	function alert_fadeout() {
 		
-			$('.alert').fadeOut(1000);
+			$('.alert').fadeOut(4000);
 
 	}
 

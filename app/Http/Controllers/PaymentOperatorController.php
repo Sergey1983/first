@@ -43,13 +43,17 @@ class PaymentOperatorController extends Controller
         $price = $tour->operator_price;
         $price_rub = $tour->operator_price_rub;
 
-        $checksum_rub = $payments->sum('pay_rub') + request()->pay_rub;
+		if($tour->currency == 'RUB') {
+        
+	        $checksum_rub = $payments->sum('pay_rub') + request()->pay_rub;
 
-        if($checksum_rub > $price_rub) {
+	        if($checksum_rub > $price_rub) {
 
-            $rules['pay_rub'] = 'toomuch';
+	            $rules['pay_rub'] = 'toomuch';
 
-        }
+	        }
+
+	    }
 
         if(isset(request()->pay)) {
 

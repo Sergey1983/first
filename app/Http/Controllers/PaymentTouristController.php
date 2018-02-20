@@ -53,11 +53,15 @@ class PaymentTouristController extends Controller
 
        $checksum_rub = $payments->sum('pay_rub') + request()->pay_rub;
 
-        if($checksum_rub > $price_rub) {
+		if($tour->currency == 'RUB') {
 
-            $rules['pay_rub'] = 'toomuch';
+	        if($checksum_rub > $price_rub) {
 
-        }
+	            $rules['pay_rub'] = 'toomuch';
+
+	        }
+
+	    }
 
         if(isset(request()->pay)) {
 
