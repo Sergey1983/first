@@ -49,31 +49,30 @@ class CheckRequest extends RequestVariables
 		$tourist_ids = [];
 
 		foreach ($tourists_array as $tourist_number => $tourist_from_request) {
-			
 
 			$documents_array[$tourist_number] = self::AddDocExistsStatus($documents_array[$tourist_number]);
 
 			$number_of_existing_docs = self::NumberOfExistingDocs($documents_array[$tourist_number]);
 
-
+// dump('$number_of_existing_docs', $number_of_existing_docs);
 
 			if($number_of_existing_docs > 0) { //Documents from request are found in DB
 
 
 				if ($number_of_existing_docs == 2) {
 
-				if(( $ids_or_true = self::TwoDocsBelongToSameTourist($documents_array[$tourist_number]) )!== true) {
+					if(( $ids_or_true = self::TwoDocsBelongToSameTourist($documents_array[$tourist_number]) )!== true) {
 
-					$fatal_error['fatal_error'] = true;
-					$fatal_error['type'] = 'diff_docs';
-					$fatal_error['message'] = 'Эти два документа принадлежат двум разным туристам. Туристу не могут принадлежать документы другого туриста!';
-					$fatal_error['tourist_number'] = $tourist_number;
-					$fatal_error['ids'] = $ids_or_true;
+						$fatal_error['fatal_error'] = true;
+						$fatal_error['type'] = 'diff_docs';
+						$fatal_error['message'] = 'Эти два документа принадлежат двум разным туристам. Туристу не могут принадлежать документы другого туриста!';
+						$fatal_error['tourist_number'] = $tourist_number;
+						$fatal_error['ids'] = $ids_or_true;
 
-					return $fatal_error;
+						return $fatal_error;
 
 
-					}
+						}
 
 				}
 
@@ -105,22 +104,23 @@ class CheckRequest extends RequestVariables
 				};
 
 
+				if(!empty($differences = self::TouristFromRequestIsDifferentFromTouristInDB($tourist_from_request, $tourist_id_in_db)))  
+
+				{
+
+					$tourists_array[$tourist_number]['check_info']['differences'] = $differences;
+
+					$tourists_array[$tourist_number]['check_info']['to_be_updated'] = true;
 
 
-					if(!empty($differences = self::TouristFromRequestIsDifferentFromTouristInDB($tourist_from_request, $tourist_id_in_db)))  {
-
-						$tourists_array[$tourist_number]['check_info']['differences'] = $differences;
-
-						$tourists_array[$tourist_number]['check_info']['to_be_updated'] = true;
-
-
-					} 
+				} 
 
 
 			} 
 
 
 			else { // No document from request is found in db
+
 
 
 				$tourist_to_check = array_filter($tourist_from_request, function($k) {return ($k != 'phone' AND $k !='email'); }, ARRAY_FILTER_USE_KEY);
@@ -198,10 +198,52 @@ class CheckRequest extends RequestVariables
 		}
 
 
+		//Let's check if there are docs in request which are the same:
+
+
+
+		foreach ($documents_array as $tourist_number1 => $docs_array1) {
+			
+			foreach ($docs_array1 as $doc_number1 => $doc_values1) {
+
+				$doc_type_and_number1 = $doc_values1['doc_type'].$doc_values1['doc_number'];
+
+				$documents_array2 = array_filter($documents_array, function($k) use($tourist_number1) {return ($k > $tourist_number1); }, ARRAY_FILTER_USE_KEY);
+
+					foreach($documents_array2 as $tourist_number2 => $docs_array2) {
+
+						foreach ($docs_array2 as $doc_number2 => $doc_values2) {
+							
+							$doc_type_and_number2 = $doc_values2['doc_type'].$doc_values2['doc_number'];
+
+							if ($doc_type_and_number1 === $doc_type_and_number2) {
+
+								$t1 = $tourist_number1+1;
+								$t2 = $tourist_number2+1;
+
+								$fatal_error['fatal_error'] = true;
+								$fatal_error['type'] = 'same_doc_type_and_number';
+								$fatal_error['message'] = ['Два одинаковых документа в заявке. У туриста под номером '.$t2.' вбит такой же документ!', 'Два одинаковых документа в заявке. У туриста под номером '.$t1.' вбит такой же документ!'];
+								$fatal_error['tourists_numbers'] = [$tourist_number1, $tourist_number2];
+
+								return $fatal_error;
+
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+
+
+
 		$to_return['tourists'] = $tourists_array;
 		$to_return['documents'] = $documents_array;
 
-// die();
+// dump('$to_return[documents]', $to_return['documents']);
 		return $to_return;
 	}
 
@@ -227,17 +269,26 @@ class CheckRequest extends RequestVariables
 
 								->orWhere('doc1', $existing_document->id)->first()) ) {
 
-							$doc_exists = $existing_document;
+								$doc_exists = $existing_document;
 
-
+							} else {
+								
+								$doc_in_Not_in_tour_tourist = true;
 							}
-						}
+						
+
+						} // End foreach
 
 
 					} else {
 
 						$doc_exists = $existing_documents[0];
+
+						$doc_in_Not_in_tour_tourist = empty(Tour_tourist::where('doc0', $existing_documents[0]->id)
+
+								->orWhere('doc1', $existing_documents[0]->id)->first());
 					}
+
 
 				} else {
 
@@ -253,73 +304,81 @@ class CheckRequest extends RequestVariables
 
 					$documents_array[$doc_id]['check_info']['id'] = $doc_exists->id;
 
-					// CHECK IF EXISTING DOCUMENTS FROM REQUEST NEED TO BE UPDATED: 
+
+				if($doc_in_Not_in_tour_tourist) {
+
+					$documents_array[$doc_id]['check_info']['doc_is_Not_in_tour_tourist'] = true;
+
+				} else {
+
+						// CHECK IF EXISTING DOCUMENTS FROM REQUEST NEED TO BE UPDATED: 
 
 
-					$found_difference = false;
+						$found_difference = false;
 
 
 
-					foreach(array_flip(parent::$key_doc_changable) as $key ) {
+						foreach(array_flip(parent::$key_doc_changable) as $key ) {
 
 
-						if(isset($doc_values[$key])) {
-// dump($doc_values[$key]);
-// dump($doc_exists->{$key});
+							if(isset($doc_values[$key])) {
 
-							if($found_difference = ($doc_values[$key] != $doc_exists->{$key})) {
+								if($found_difference = ($doc_values[$key] != $doc_exists->{$key})) {
 
+									break;
+								}
 
-								break;
 							}
+
+						}
+
+
+
+
+
+						if($found_difference)
+
+						{
+
+							$documents_array[$doc_id]['check_info']['to_be_updated'] = true;
+
+							$doc_in_db = array_intersect_key($doc_exists->toArray(), parent::$keys_document);
+
+							$differences = array_diff_assoc($doc_in_db, $doc_values);
+
+							if(in_array($doc_in_db['doc_type'], array("Внутррос. паспорт", "Св-во о рождении"))) {
+
+								unset($differences['date_expire']);
+							}
+
+
+							if(in_array($doc_in_db['doc_type'], array("Загран. паспорт", "Св-во о рождении", "Другой документ"))) {
+
+								unset($differences['who_issued']);
+								unset($differences['address_pass']);
+								unset($differences['address_real']);
+							}
+							//For situations where in DB there is 'who_issued' (or other fields) == null, we delete the null values.
+								// foreach ($differences as $key => $difference) {
+									
+								// 	if(is_null($difference)) {
+
+								// 		unset($differences[$key]);
+								// 	}
+								// }
+
+							$documents_array[$doc_id]['check_info']['differences'] = $differences;
 
 						}
 
 					}
 
-
-
-
-
-					if($found_difference)
-
-					{
-
-						$documents_array[$doc_id]['check_info']['to_be_updated'] = true;
-
-						$doc_in_db = array_intersect_key($doc_exists->toArray(), parent::$keys_document);
-
-						$differences = array_diff_assoc($doc_in_db, $doc_values);
-
-						if(in_array($doc_in_db['doc_type'], array("Внутррос. паспорт", "Св-во о рождении"))) {
-
-							unset($differences['date_expire']);
-						}
-
-
-						if(in_array($doc_in_db['doc_type'], array("Загран. паспорт", "Св-во о рождении", "Другой документ"))) {
-
-							unset($differences['who_issued']);
-							unset($differences['address_pass']);
-							unset($differences['address_real']);
-						}
-						//For situations where in DB there is 'who_issued' (or other fields) == null, we delete the null values.
-							// foreach ($differences as $key => $difference) {
-								
-							// 	if(is_null($difference)) {
-
-							// 		unset($differences[$key]);
-							// 	}
-							// }
-
-						$documents_array[$doc_id]['check_info']['differences'] = $differences;
-
-						}
-
 				}
 
 			}
 
+
+// dump('return $documents_array', $documents_array);
 			return $documents_array;
 
 	}
@@ -340,7 +399,9 @@ class CheckRequest extends RequestVariables
 
 			foreach ($documents_array as $doc_id => $doc_values) {
 
-				$number_of_existing_docs = ($doc_values['check_info']['exists'] == true) ? $number_of_existing_docs+=1 : $number_of_existing_docs;
+				$if = ($doc_values['check_info']['exists'] == true AND !isset($doc_values['check_info']['doc_is_Not_in_tour_tourist']) );
+
+				$number_of_existing_docs = ($if) ? $number_of_existing_docs+=1 : $number_of_existing_docs;
 
 			}
 
@@ -356,7 +417,16 @@ class CheckRequest extends RequestVariables
 
 		foreach ($documents_array as $key => $document_values) {
 			
-			if($document_values['check_info']['exists']!=false AND !is_null($document_values['check_info']['id'])) {
+			if(
+				$document_values['check_info']['exists']!=false
+
+				AND !is_null($document_values['check_info']['id']) 
+
+				AND !isset($document_values['check_info']['doc_is_Not_in_tour_tourist'])
+
+			   ) 
+
+			{
 
 				return Document::find($document_values['check_info']['id'])->tourist->id;
 
@@ -398,11 +468,23 @@ class CheckRequest extends RequestVariables
 
 	public static function TwoDocsBelongToSameTourist($documents_array) {
 
+		// foreach ($documents_array as $doc_array) {
+
+		// 	if(isset($doc_array['check_info']['doc_is_Not_in_tour_tourist'])){
+
+		// 		$docs_belong_to_same_tourist = true;
+
+		// 		return $docs_belong_to_same_tourist;
+		// 	}
+
+		// }
+
+
 		$tourist1 = Document::find($documents_array[0]['check_info']['id'])->tourist->id;
 
 		$tourist2 = Document::find($documents_array[1]['check_info']['id'])->tourist->id;		
 
-		$docs_belong_to_same_tourist =  ($tourist1 == $tourist2);
+		$docs_belong_to_same_tourist = ($tourist1 == $tourist2);
 
 		if (!$docs_belong_to_same_tourist) {
 
@@ -499,6 +581,8 @@ class CheckRequest extends RequestVariables
 
 		if($Update) { $return = 'update'; } else { $return  = $NoNew ? 'checkifsame': 'save'; }
 
+
+// dump('$return', $return);
 		return $return;
 
 	}

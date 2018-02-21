@@ -181,7 +181,8 @@ class ToursController extends Controller
             self::SaveTouristsAndDocuments($tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour, $action);
 
 // dump('$tour->tourists2', $tour->tourists);
-
+                // // Когда в предыдущей функции делается ->sync(), видимо, не успевает обновить relationship между моделями tour->tourist поэтому нужно инициировать $tour еще раз. Может это связано с тем, что у меня в таблице tour_tourists нет id...
+                // $tour = Tour::find($tour->id);
 
             PreviousVersions::createVersion($tour);
 // die();
@@ -198,9 +199,11 @@ class ToursController extends Controller
 
             }
 
+// dump('$checked_tourists_and_documents', $checked_tourists_and_documents);
 
         $check = CheckRequest::checkWhatToDo($checked_tourists_and_documents);
 
+// dump($check);
 
         switch($check) {
 
@@ -224,15 +227,16 @@ class ToursController extends Controller
 
                 }
 
+// dump('tour', $tour);
                 self::SaveTouristsAndDocuments($checked_tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour, $action);
 
 // dump('$tour->tourists2', $tour->tourists);
 
 
-                // Блядь, когда в предыдущей функции делается ->sync(), видимо, не успевает обновить relationship между моделями tour->tourist поэтому нужно инициировать $tour еще раз. Может это связано с тем, что у меня в таблице tour_tourists нет id...
+                // Когда в предыдущей функции делается ->sync(), видимо, не успевает обновить relationship между моделями tour->tourist поэтому нужно инициировать $tour еще раз. Может это связано с тем, что у меня в таблице tour_tourists нет id...
                 $tour = Tour::find($tour->id);
 
-                            // dump('tour->tourists2', $tour->tourists);
+// dump('tour->tourists2', $tour->tourists);
 
 
                 PreviousVersions::createVersion($tour);
@@ -264,6 +268,9 @@ class ToursController extends Controller
                     }
                     
                     self::SaveTouristsAndDocuments($checked_tourists_and_documents, $request_sorted['buyer'], $request_sorted['user'], $tour, $action);
+
+                    // Когда в предыдущей функции делается ->sync(), видимо, не успевает обновить relationship между моделями tour->tourist поэтому нужно инициировать $tour еще раз. Может это связано с тем, что у меня в таблице tour_tourists нет id...
+                    $tour = Tour::find($tour->id);
 
                     PreviousVersions::createVersion($tour);
 
@@ -340,15 +347,22 @@ class ToursController extends Controller
 
                 } else if($doc_values['check_info']['exists'] == true) {
 
+
                     $document = Document::find($doc_values['check_info']['id']);
+
 
                         if (isset($doc_values['check_info']['to_be_updated'])) {
 
-                        $document->update(self::unsetCheckInfo($doc_values));
-                        //Collecting ids of updated docs to update other tours where they are:
-                        $updated_docs_ids[] = $document->id;
+                            $document->update(self::unsetCheckInfo($doc_values));
+                            //Collecting ids of updated docs to update other tours where they are:
+                            $updated_docs_ids[] = $document->id;
 
-                        } 
+                        } else if (isset($doc_values['check_info']['doc_is_Not_in_tour_tourist'])) {
+
+// dump('$tourist->id', $tourist->id);
+
+                            $document->update(array_merge(['tourist_id' => $tourist->id], self::unsetCheckInfo($doc_values)));
+                    }
 
                 }
 

@@ -174,7 +174,7 @@ $(document).ready(function() {
 							if(data.type == 'diff_docs') {
 
 
-								$('[class*="inputs_'+data.tourist_number+'"]').append('<div class="row">'+
+								$('[class*="inputs_'+data.tourist_number+' padding-all-10"]').append('<div class="row">'+
 
 											'<div class="col-md-12">'+
 
@@ -195,13 +195,14 @@ $(document).ready(function() {
 
 
 
-							} else if(data.type == 'sameid') {
-
+							} else if(data.type == 'sameid' || data.type == 'same_doc_type_and_number') {
 
 								$.each(data.tourists_numbers, function (index, value) {
 
 
-								$('[class="inputs_'+data.tourists_numbers[index]+' padding"]').append('<div class="row">'+
+
+
+								$('[class="inputs_'+data.tourists_numbers[index]+' padding-all-10"]').append('<div class="row">'+
 
 											'<div class="col-md-12">'+
 
@@ -289,7 +290,7 @@ $(document).ready(function() {
 
 										'<div class="col-md-12">'+
 
-											'<div class="alert-validation">Такой документ есть в базе. Турист с таким документом имеет другие данные (см.выше). Уверены, что хотите их изменить?</div>'+
+											'<div class="alert-validation">Такой документ есть в базе и принадлежит другому туристу (см.выше). Если сохраните заявку, обновятся данные туриста в его прошлых заявках. Уверены, что хотите продолжить? (если не уверены - свяжитесь с главным менеджером, перед тем, как продолжить!)</div>'+
 
 										'</div>'+
 
