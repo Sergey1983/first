@@ -119,20 +119,19 @@ class CheckRequest extends RequestVariables
 			} 
 
 
-			else { // No document from request is found in db
+			else { // No document for tourist from request is found in db
 
 
 
 				$tourist_to_check = array_filter($tourist_from_request, function($k) {return ($k != 'phone' AND $k !='email'); }, ARRAY_FILTER_USE_KEY);
 
+				$tourist_already_exists_in_this_tour = false;
 
 				// Let's check if this tour exists:
 
 				if(!is_null($tour)) {
 
 					//Let's check if one of the tour's tourists has the same values as tourist in the request:
-
-					$tourist_exists_in_this_tour = false;
 
 					foreach($tour->tourists as $tourist) {
 
@@ -142,7 +141,7 @@ class CheckRequest extends RequestVariables
 
 						$tourist = array_filter($tourist, function($k) {return ($k != 'phone' AND $k !='email'); }, ARRAY_FILTER_USE_KEY);
 
-						if($tourist_exists_in_this_tour = $tourist == $tourist_to_check) {
+						if($tourist_already_exists_in_this_tour = $tourist == $tourist_to_check) {
 
 							$tourists_array[$tourist_number]['check_info']['exists'] = true;
 
@@ -152,12 +151,14 @@ class CheckRequest extends RequestVariables
 						}
 					}
 
-
-
 				} 
 
+// dump('$tourist_from_request', $tourist_from_request);
+// dump('$tourist_already_exists_in_this_tour', $tourist_already_exists_in_this_tour); 
 
-				else {
+				// If tour doesnt exist or if it does but tourist is new:
+
+				if(!$tourist_already_exists_in_this_tour) {
 
 
 						$tourists_in_db = Tourist::where($tourist_to_check)->get();
@@ -197,7 +198,7 @@ class CheckRequest extends RequestVariables
 
 		}
 
-
+// dump('$tourists_array', $tourists_array); die();
 		//Let's check if there are docs in request which are the same:
 
 
