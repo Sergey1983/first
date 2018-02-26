@@ -234,7 +234,7 @@ class FunctionsController extends Controller
 
         if(!is_null($request->created_from) OR !is_null($request->created_to)) {
 
-            $created_from = \Carbon\Carbon::createFromFormat('Y-m-d', $request->created_from); 
+            $created_from = \Carbon\Carbon::createFromFormat('Y-m-d', $request->created_from)->startOfDay(); 
             // $request->created_from;
     
 

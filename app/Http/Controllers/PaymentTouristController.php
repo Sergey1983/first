@@ -118,11 +118,32 @@ class PaymentTouristController extends Controller
 	}
 
 
-	public function list()
+	public function list(Request $request)
 	
 	{
+
+		if(isset($request->date_from) && isset($request->date_to)) {
+
+            $date_from = \Carbon\Carbon::createFromFormat('Y-m-d', $request->date_from)->startOfDay(); 
+
+            $date_to = \Carbon\Carbon::createFromFormat('Y-m-d', $request->date_to)->endOfDay();
+
+
+            $dates = 
+
+            [
+                ['created_at', '>=', $date_from],
+                ['created_at', '<=', $date_to]
+            ];
+
+        } else {
+
+			$dates = [];
+
+        }
+
 		
-		$tourist_payments = Payments_from_tourist::orderBy('created_at', 'desc')->paginate(30);
+		$tourist_payments = Payments_from_tourist::where($dates)->orderBy('created_at', 'desc')->paginate(30);
 
 
 		return view('Payment.Tourist.list', ['tourist_payments' => $tourist_payments]);

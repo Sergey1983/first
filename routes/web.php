@@ -112,6 +112,7 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::resource('pay_methods', 'PayMethodController');
 
 			Route::get('/admin/tourist_payments/all', ['as' => 'tourist_payments.index', 'uses' => 'PaymentTouristController@list']);
+			// Route::post('/admin/tourist_payments/all', ['as' => 'tourist_payments.index_post', 'uses' => 'PaymentTouristController@list']);
 
 		});
 

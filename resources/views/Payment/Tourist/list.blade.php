@@ -2,6 +2,39 @@
 
 @section('content')
 
+
+
+<div class="container-fluid margin-top-25">
+	
+
+			{!! Form::open(['method'=> "get", 'route' => ['tourist_payments.index']]) !!}
+
+
+		<div class="col-md-2">
+
+			{!! Form::date ('date_from', null, ['class'=>'form-control', 'id'=>'date_from', 'required'])!!}
+			
+		</div>
+
+		<div class="col-md-2">
+
+			{!! Form::date ('date_to', null, ['class'=>'form-control', 'id'=>'date_to', 'required'])!!}
+			
+		</div>
+
+		<div class="col-md-2 no-padding-right">
+
+			{!!Form::submit('Показать по датам', ['class' => 'btn btn-default'])!!}
+	
+			
+		</div>
+
+			{!! Form::close() !!}
+
+
+</div>
+
+
 <div class="container-fluid margin-top-25 ">
 
 	<div class="col-md-12">
@@ -46,9 +79,10 @@
 
 	</div>
 
+{{ $tourist_payments->links() }}
+
 </div>
 
-{{ $tourist_payments->links() }}
 
 
 
