@@ -31,4 +31,10 @@ class Payments_from_tourist extends Model
     	
     	}    
 
+       public function pay_method() {
+
+        return $this->belongsTo('App\PayMethod');
+      
+      }    
+
 }

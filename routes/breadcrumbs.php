@@ -39,7 +39,7 @@ Breadcrumbs::register('booking.edit', function ($breadcrumbs, $tour) {
 });
 
 
-//Главная > [Заявка] > Оплата туриста
+//Главная > [Заявка] > Оплаты туристов
 
 Breadcrumbs::register('payment_tourist.create', function ($breadcrumbs, $tour) {
 	$breadcrumbs->parent('tour.show', $tour);
@@ -257,3 +257,39 @@ Breadcrumbs::register('branches.edit', function ($breadcrumbs, $operator) {
 	$breadcrumbs->parent('branches.index');
     $breadcrumbs->push('Редактировать филиал', route('branches.edit', $operator));
 });
+
+
+//Главная > Панель админа > Оплаты
+
+Breadcrumbs::register('tourist_payments.index', function ($breadcrumbs) {
+
+	$breadcrumbs->parent('admin.start');
+    $breadcrumbs->push('Оплаты', route('tourist_payments.index'));
+});
+
+
+//Главная > Панель админа > Метод оплаты
+
+Breadcrumbs::register('pay_methods.index', function ($breadcrumbs) {
+
+	$breadcrumbs->parent('admin.start');
+    $breadcrumbs->push('Метод оплаты', route('pay_methods.index'));
+});
+
+
+//Главная > Панель админа > Создать Метод оплаты
+
+Breadcrumbs::register('pay_methods.create', function ($breadcrumbs) {
+
+	$breadcrumbs->parent('pay_methods.index');
+    $breadcrumbs->push('Создать метод оплаты', route('pay_methods.create'));
+});
+
+//Главная > Панель админа > Редактировать Метод оплаты
+
+Breadcrumbs::register('pay_methods.edit', function ($breadcrumbs, $airport) {
+
+	$breadcrumbs->parent('pay_methods.index');
+    $breadcrumbs->push('Редактировать метод оплаты', route('pay_methods.edit', $airport));
+});
+

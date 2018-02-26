@@ -117,4 +117,15 @@ class PaymentTouristController extends Controller
 
 	}
 
+
+	public function list()
+	
+	{
+		
+		$tourist_payments = Payments_from_tourist::orderBy('created_at', 'desc')->paginate(30);
+
+
+		return view('Payment.Tourist.list', ['tourist_payments' => $tourist_payments]);
+
+	}
 }

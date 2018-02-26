@@ -109,6 +109,9 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::resource('airports', 'AirportController');
 			Route::resource('operators', 'OperatorsController');
 			Route::resource('branches', 'BranchesController');
+			Route::resource('pay_methods', 'PayMethodController');
+
+			Route::get('/admin/tourist_payments/all', ['as' => 'tourist_payments.index', 'uses' => 'PaymentTouristController@list']);
 
 		});
 

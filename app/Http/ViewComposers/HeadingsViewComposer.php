@@ -84,9 +84,13 @@ class HeadingsViewComposer
 
                 'branches.index' => 'Список филиалов',
                 'branches.create' => 'Создать филиал',
-                'branches.edit' => 'Редактировать филиал',                
+                'branches.edit' => 'Редактировать филиал',   
 
+                'tourist_payments.index' => 'Оплаты туристов',
 
+                'pay_methods.index' => 'Список методов оплаты',
+                'pay_methods.create' => 'Создать метод оплаты',
+                'pay_methods.edit' => 'Редактировать метод оплаты',
 
             ]
         

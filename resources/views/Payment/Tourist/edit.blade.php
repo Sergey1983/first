@@ -100,6 +100,8 @@
 
 @endunless
 
+
+
 					 	<div class="form-group" id="pay_rub">
 
 
@@ -113,6 +115,19 @@
 
 						</div>
 
+
+					 	<div class="form-group" id="pay_method_id">
+
+
+							{!! Form::label('pay_method_id', 'Метод оплаты', ['class'=>'control-label  col-md-4'])!!}
+
+							<div class="col-md-4">
+
+						 		{!! Form::select('pay_method_id', $pay_methods, null, ['class'=>"form-control", 'id'=>'pay_method_id', 'required'] )  !!}
+
+						 	</div>
+
+						</div>
 
 
 
@@ -229,6 +244,7 @@
 						@endunless
 					<th>Менеджер</th>
 					<th>Время добавление</th>
+					<th>Метод оплаты</th>
 					<th></th>
 
 				</tr>
@@ -256,6 +272,8 @@
 						@endunless
 					<td>{{$payment->user->name}}</td>
 					<td>{{$payment->created_at}}</td>
+					<td>{{$payment->pay_method->name}}</td>
+
 					<td>
 
 					@if(!$payment->trashed())

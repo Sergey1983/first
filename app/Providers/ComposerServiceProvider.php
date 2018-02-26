@@ -28,6 +28,10 @@ public function boot()
             ['User.create', 'User.edit', 'Tours.CreateOrEdit.*', 'Tours.Index.tours_filters'], 'App\Http\ViewComposers\BranchesViewComposer'
         );
 
+        View::composer(
+            ['PayMethods.*', 'Payment.Tourist.*'], 'App\Http\ViewComposers\PayMethodViewComposer'
+        );
+
     }
 
     /**
