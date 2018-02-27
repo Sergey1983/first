@@ -40,7 +40,7 @@
 
 								<div class="col-md-6">
 
-									<div class="well well-sm" style="margin-bottom:0px;">{{$tour->operator_price_rub - $tour->payments_to_operator_rub_sum()}}</div>
+									<div class="well well-sm" style="margin-bottom:0px;">{{number_format($tour->operator_price_rub - $tour->payments_to_operator_rub_sum(), 2, '.', '')}}</div>
 
 							 	</div>
 
@@ -72,7 +72,7 @@
 
 							<div class="col-md-6">
 
-								<div class="well well-sm" style="margin-bottom:0px;">{{$tour->operator_price - $tour->payments_to_operator_sum()}}</div>
+								<div class="well well-sm" style="margin-bottom:0px;">{{number_format($tour->operator_price - $tour->payments_to_operator_sum(), 2, '.', '')}}</div>
 
 						 	</div>
 

@@ -94,30 +94,33 @@ class Tour extends Model
         return $this->hasMany('App\Payments_from_tourist');
     }
 
+            public function payments_from_tourists_sum() {
+
+                return $this->payments_from_tourists->sum('pay');
+            }
+
+            public function payments_from_tourists_rub_sum(){
+
+                return $this->payments_from_tourists->sum('pay_rub');
+            }
+
+
     public function payments_to_operator () {
 
         return $this->hasMany('App\Payments_to_operator');
     }
 
-            public function payments_to_operator_sum()
-            {
+            public function payments_to_operator_sum(){
+
                 return $this->payments_to_operator->sum('pay');
             }
 
-            public function payments_to_operator_rub_sum()
-            {
+            public function payments_to_operator_rub_sum(){
+                
                 return $this->payments_to_operator->sum('pay_rub');
             }
 
 
-            public function payments_from_tourists_sum()
-            {
-                return $this->payments_from_tourists->sum('pay');
-            }
 
-            public function payments_from_tourists_rub_sum()
-            {
-                return $this->payments_from_tourists->sum('pay_rub');
-            }
 
 }

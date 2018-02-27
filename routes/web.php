@@ -113,6 +113,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 			Route::get('/admin/tourist_payments/all', ['as' => 'tourist_payments.index', 'uses' => 'PaymentTouristController@list']);
 			// Route::post('/admin/tourist_payments/all', ['as' => 'tourist_payments.index_post', 'uses' => 'PaymentTouristController@list']);
+			Route::get('/accounting', ['as' => 'accounting.index', 'uses' => '\App\Services\Accounting@index']);
 
 		});
 

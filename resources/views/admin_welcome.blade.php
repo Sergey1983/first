@@ -6,11 +6,14 @@
 
 
   <div class="list-group">
-    <a href="{{route('tourist_payments.index')}}" class="list-group-item">Оплаты туристов</a>
+
+    <a href="{{route('accounting.index')}}" class="list-group-item">Бухгалтерия</a>
+    <a href="{{route('tourist_payments.index')}}" class="list-group-item">Оплаты туристов</a>    
 
   </div>
 
   <div class="list-group">
+    
     <a href="admin/user/all" class="list-group-item">Менеджеры</a>
     <a href="admin/templates" class="list-group-item">Шаблоны документов</a>
     <a href="{{route('airports.index')}}" class="list-group-item">Аэропорты</a>

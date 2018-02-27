@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Services\SortNullAlwaysLast;
 
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
+
 use Illuminate\Http\Request;
 
 use App\Http\Requests\check_docRequest;
@@ -418,32 +420,68 @@ class FunctionsController extends Controller
 
         $paginate = $request->paginate;
 
+
         if($user->permission !=0) {
 
 
             $branch = ! $user->isAdmin() ? array(['branch_id', $user->branch->id]) : $branch_from_request;
 
-            $tours = Tour::when($tourist_search, function($query) use ($tour_tourists_ids_array) {
 
-                return $query->whereIn('id', $tour_tourists_ids_array);
+            if($user->isAdmin()) {
 
-                })
+               
+               // Get all models as collection:
+
+               $collection = Tour::when($tourist_search, function($query) use ($tour_tourists_ids_array) {
+
+                    return $query->whereIn('id', $tour_tourists_ids_array);
+
+                    })
+
+                    ->where(array_merge($actuality, $created, $depart, $country, $operator, $ids, $hotel, $manager, $product))
+
+                    ->orderBy($sort_column, $sort_value)->get();
+
+                //Get current page:
+
+                $current_page = Paginator::resolveCurrentPage();
+
+                // Get items for current page (use values() method to reset the keys):
+
+                $items = $collection->slice(($current_page - 1) * $paginate, $paginate)->values();
+
+                $total = $collection->count();
+
+                // PAGINATE!!!:)
+
+                $tours = new Paginator($items, $total, $paginate, $current_page, ['path' => Paginator::resolveCurrentPath()]);
+
+                $tours_for_accounting = $collection;
+
+            } else {
+
+                $tours = Tour::when($tourist_search, function($query) use ($tour_tourists_ids_array) {
+
+                    return $query->whereIn('id', $tour_tourists_ids_array);
+
+                    })
 
 
 
-                // ->when($actuality_yes, function($query){
+                    // ->when($actuality_yes, function($query){
 
-                // return $query->whereIn('status', ['Бронирование', 'Подтверждено'])->OrwhereNull('status');
+                    // return $query->whereIn('status', ['Бронирование', 'Подтверждено'])->OrwhereNull('status');
 
-                // })
+                    // })
 
 
-                ->where(array_merge($actuality, $created, $depart, $country, $operator, $ids, $hotel, $manager, $product, $branch))
+                    ->where(array_merge($actuality, $created, $depart, $country, $operator, $ids, $hotel, $manager, $product, $branch))
 
-                ->orderBy($sort_column, $sort_value)
+                    ->orderBy($sort_column, $sort_value)
 
-                ->paginate($paginate);
+                    ->paginate($paginate);
 
+            }
 
         } else {
 
@@ -465,7 +503,54 @@ class FunctionsController extends Controller
         }
 
 
+        // FOR ACCOUNTING:
 
+
+        if($user->isAdmin()) {
+
+            $saldo_RUB = 0;
+            $saldo_USD = 0;
+            $saldo_EUR = 0;
+
+            foreach ($tours_for_accounting as $tour) {
+
+                if(!is_null($tour->operator_price_rub)) {
+
+                    $currency = self::getCurrency($tour);
+
+                    $operator_price = $tour->currency == 'RUB' ? $tour->operator_price_rub : $tour->operator_price;
+
+                    $debt_agency =  number_format($operator_price - $tour->payments_to_operator_sum(), 2, '.', '');
+
+                    $debt_customer = number_format($tour->price - $tour->payments_from_tourists_sum(), 2, '.', '');
+
+                    $saldo = $debt_agency - $debt_customer;
+
+                    $tour->saldo = $saldo.' '.$currency;
+
+                    $tour->debt_agency = $debt_agency.' '.$currency;
+
+                    $tour->debt_customer = $debt_customer.' '.$currency;
+
+                    ${'saldo_'.$tour->currency} += $saldo;
+
+
+                } else {
+
+                    $tour->saldo = null;
+
+                    $tour->debt_agency = null;
+
+                    $tour->debt_customer = null;
+
+                }
+
+            }
+
+
+        }
+
+        // END FOR ACCOUNTING
 
 
         foreach ($tours as $key => $tour) {
@@ -474,28 +559,8 @@ class FunctionsController extends Controller
 
             $tour->number_of_tourists = $tour->tourists_only_who_really_go->count();
 
-            switch($tour->currency) {
+            $currency = self::getCurrency($tour);
 
-                case "RUB":
-
-                    $currency = '&#x20bd';
-
-                break;
-
-                case "USD":
-
-                   $currency = '&#36';
-
-                break;
-
-                case "EUR":
-
-                    $currency = '&#8364';
-
-                break;
-
-
-            }
 
 
 // COMMISION: We put this in code before other money values, because $tour->operator_price_rub later is being added with ruble currency sign.
@@ -530,6 +595,7 @@ class FunctionsController extends Controller
 // COMMISION: end;
 
 
+
             $tour->debt = ($tour->price - $tour->payments_from_tourists_sum()).' '.$currency;
 
             $tour->price = number_format($tour->price, 0, '.', ' ').' '.$currency;
@@ -559,6 +625,7 @@ class FunctionsController extends Controller
 
 
 
+
             foreach ($tour->tour_tourist as $tourist) {
                 
                 if($tourist->is_buyer == 1) {
@@ -572,6 +639,15 @@ class FunctionsController extends Controller
 
             }
 
+
+        }
+
+
+        if($user->isAdmin()) {
+
+            $custom = collect(['tours_saldo_RUB' => $saldo_RUB.' '.'&#x20bd', 'tours_saldo_USD' => $saldo_USD.' '.'&#36', 'tours_saldo_EUR' => $saldo_EUR.' '.'&#8364']);
+
+            $tours = $custom->merge($tours);
 
         }
 
@@ -775,6 +851,35 @@ class FunctionsController extends Controller
 
     }
 
+
+
+    public static function getCurrency($tour) {
+
+            switch($tour->currency) {
+
+                case "RUB":
+
+                    $currency = '&#x20bd';
+
+                break;
+
+                case "USD":
+
+                   $currency = '&#36';
+
+                break;
+
+                case "EUR":
+
+                    $currency = '&#8364';
+
+                break;
+
+
+            }
+
+        return $currency;
+    }
 
 
 

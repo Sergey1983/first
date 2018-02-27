@@ -259,13 +259,6 @@ Breadcrumbs::register('branches.edit', function ($breadcrumbs, $operator) {
 });
 
 
-//Главная > Панель админа > Оплаты
-
-Breadcrumbs::register('tourist_payments.index', function ($breadcrumbs) {
-
-	$breadcrumbs->parent('admin.start');
-    $breadcrumbs->push('Оплаты', route('tourist_payments.index'));
-});
 
 
 //Главная > Панель админа > Метод оплаты
@@ -293,3 +286,21 @@ Breadcrumbs::register('pay_methods.edit', function ($breadcrumbs, $airport) {
     $breadcrumbs->push('Редактировать метод оплаты', route('pay_methods.edit', $airport));
 });
 
+
+
+//Главная > Панель админа > Оплаты
+
+Breadcrumbs::register('tourist_payments.index', function ($breadcrumbs) {
+
+	$breadcrumbs->parent('admin.start');
+    $breadcrumbs->push('Оплаты', route('tourist_payments.index'));
+});
+
+
+//Главная > Панель админа > Бухгалтерия
+
+Breadcrumbs::register('accounting.index', function ($breadcrumbs) {
+
+	$breadcrumbs->parent('admin.start');
+    $breadcrumbs->push('Бухгалтерия', route('accounting.index'));
+});
