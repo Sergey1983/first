@@ -37,7 +37,7 @@ $(document).ready(function () {
 
 
 
-	$('#date_depart, #created_at').on('click', function (){
+	$('#date_depart, #operator_full_pay').on('click', function (){
 
 		$('.sort').attr('active', 'not');
 		$(this).attr('active', 'active');

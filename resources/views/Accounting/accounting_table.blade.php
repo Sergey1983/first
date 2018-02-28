@@ -61,7 +61,7 @@
 				    <th style="word-break: break-word">Долг клиента </th>
 				    <th style="word-break: break-word">Долг агентства </th>
 				    <th>Сальдо</th>
-				    <th style="word-break: break-word">Срок оплаты</th>
+				    <th style="word-break: break-word" class="sort" id="operator_full_pay" active="not" next_sort="desc">Срок оплаты</th>
 				    <th></th>
 			  	</tr>
 

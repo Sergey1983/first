@@ -520,7 +520,9 @@ class FunctionsController extends Controller
 
                     $operator_price = $tour->currency == 'RUB' ? $tour->operator_price_rub : $tour->operator_price;
 
-                    $debt_agency =  number_format($operator_price - $tour->payments_to_operator_sum(), 2, '.', '');
+                    $payments_to_operator = $tour->currency == 'RUB' ? $tour->payments_to_operator_rub_sum() : $tour->payments_to_operator_sum();
+
+                    $debt_agency =  number_format($operator_price - $payments_to_operator, 2, '.', '');
 
                     $debt_customer = number_format($tour->price - $tour->payments_from_tourists_sum(), 2, '.', '');
 
@@ -576,10 +578,13 @@ class FunctionsController extends Controller
                                 $already_paid_to_opeartor = $tour->payments_to_operator_sum();
                             }
 
+                            // if($tour->id == '2034') {
+
+                            //     dd($operator_price, $already_paid_to_opeartor, gettype($operator_price), gettype($already_paid_to_opeartor), ($operator_price == (string)$already_paid_to_opeartor));
+                            // }
 
 
-
-            if(($tour->payments_from_tourists_rub_sum() != 0) AND ($operator_price  == $already_paid_to_opeartor) )
+            if(($tour->payments_from_tourists_rub_sum() != 0) AND ($operator_price == (string)$already_paid_to_opeartor) )
 
              {
 
