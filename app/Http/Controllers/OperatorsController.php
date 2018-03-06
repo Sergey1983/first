@@ -14,8 +14,9 @@ class OperatorsController extends Controller
      */
     public function index()
     {
+      setlocale(LC_COLLATE, 'ru_RU', 'ru_RU.utf8');
 
-        $operators = Operator::paginate(50);
+        $operators = Operator::OrderBy('name')->paginate(50);
 
         return view('Operators.index', compact('operators'));
     }

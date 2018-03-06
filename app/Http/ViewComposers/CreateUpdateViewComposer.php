@@ -34,8 +34,10 @@ class CreateUpdateViewComposer
      * @return void
      */
     public function __construct()
+
     {
         // Dependencies automatically resolved by service container...
+      setlocale(LC_COLLATE, 'ru_RU', 'ru_RU.utf8');
 
 
         $cities = Airport::where('country', 'Россия')->OrderBy('city')->pluck('city')->toArray();
