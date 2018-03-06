@@ -70,7 +70,7 @@ class CreateUpdateViewComposer
 
         $this->food_type = $food_type;
 
-        $operators = Operator::all()->pluck('name', 'name');
+        $operators = Operator::orderBy('name')->pluck('name', 'name');
 
         $this->operators = $operators;
 
