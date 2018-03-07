@@ -35,20 +35,21 @@ class TourSearchViewComposer
     public function __construct()
     {
         // Dependencies automatically resolved by service container...
+        setlocale(LC_COLLATE, 'ru_RU', 'ru_RU.utf8');
 
-
-        
+       
 
         $countries = Airport::all()->sortBy('country')->pluck('country')->unique()->toArray();
 
         $countries = array_combine($countries, $countries);
 
-
         $this->countries = $countries;
 
-        $operators = Operator::all()->pluck('name', 'name');
+
+        $operators = Operator::orderBy('name')->pluck('name', 'name');
 
         $this->operators = $operators;
+
 
         $managers = array_flip(User::all()->pluck('id', 'name')->toArray() );
 
