@@ -30,10 +30,12 @@ $(document).ready(function() {
 			
 			var div_to_delete  = $(this).parents('[class^="inputs_"]');
 
-			var number = Number($(this).parents('[class^="inputs_"]').attr('class').replace('inputs_', '').replace(' padding', ''));
+			var number = Number($(this).parents('[class^="inputs_"]').attr('class').replace('inputs_', '').replace(' padding-all-10', ''));
+
+			var number_of_tourists = Number($('[class^="inputs_"]').length);
 
 
-			if(number == 0) {
+			if(number == 0 && number_of_tourists == 1) {
 
 				alert("Нельзя удалить единственного туриста!");
 
@@ -48,7 +50,7 @@ $(document).ready(function() {
 
 			$.each(next_divs, function(index, div) {
 
-				$(div).prop('class', 'inputs_'+number+' padding');
+				$(div).prop('class', 'inputs_'+number+' padding-all-10');
 
 
 				$(div).find('select[id^="citizenship_"]').prop('id', 'citizenship_'+number+'');
