@@ -122,7 +122,7 @@ $(document).ready(function() {
 
 									'<tr>'+
 
-									    '<td>'+tourist.id+'</td>'+
+									    '<td>'+tourist.tourist_id+'</td>'+
 									    '<td id="lastName_'+j+'_'+m+'">'+tourist.lastName+'</td>'+
 									    '<td id="name_'+j+'_'+m+'">'+tourist.name+'</td>'+
 									    '<td id="patronymic_'+j+'_'+m+'">'+tourist.patronymic+'</td>'+

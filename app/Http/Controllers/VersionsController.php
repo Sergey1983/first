@@ -53,21 +53,21 @@ class VersionsController extends Controller
 
         foreach ($versions_collection as $version_instance) {
 
-                    
             $versions_array[$version_instance->this_version][] = array_filter($version_instance->toArray(), function($k) {
-                                                                                return $k != 'this_version';
-                                                                            }, ARRAY_FILTER_USE_KEY);
+                                                                                
 
+                                                                                return (($k != 'this_version') AND ($k != 'id'));
+
+
+                                                                            }, ARRAY_FILTER_USE_KEY);
             }        
 
-
-
+// dd( $versions_array);
 
         $i = 1;
 
 
         foreach ($versions_array as $this_version => $tourists_and_documents) {
-
 
        
             $return_array[$this_version]['tour'] = previous_tour::where([ ['tour_id',$tourists_and_documents[0]['tour_id'] ], ['version', $tourists_and_documents[0]['tour_version']] ])->first()->toArray();
@@ -90,6 +90,7 @@ class VersionsController extends Controller
             $return_array[$this_version]['user'] = User::find($tourists_and_documents[0]['user_id'])->name;
 
 
+// dd($return_array);
 
             foreach ($tourists_and_documents as $key => $tourist_and_documents) {
 
