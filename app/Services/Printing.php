@@ -149,7 +149,9 @@ class Printing
 
       // $visa
 
-      $visa = $tour->visa_add_people === 0 ? $tour->visa." для всех туристов" : $tour->visa_people;
+      $visa_tour = $tour->visa === 'Визовая поддержка' ? 'Визовая поддержка - подготовка документов для самостоятельной подачи на визу' : $tour->visa;
+
+      $visa = $tour->visa_add_people === 0 ? $visa_tour." для всех туристов" : $visa_tour." для ".$tour->visa_people;
 
       // $noexitinsurance
 
@@ -182,6 +184,7 @@ class Printing
 
       }
 
+      $bez_pereleta = ($tour->airport == '-') ? true : false;
 
       $manager = $tour->previous_tours->sortBy('created_at')->first()->user;
 
@@ -213,11 +216,11 @@ class Printing
 
         '$children' => $children,
 
-        '$country' => $tour->country,
+        '$country' => ($bez_pereleta) ? '' : $tour->country,
 
         '$currency' => $tour->currency,
 
-        '$airport' => $tour->airport.', ' .Airport::where('code', $tour->airport)->first()->city,
+        '$airport' => ($bez_pereleta) ? '' : $tour->airport.', ' .Airport::where('code', $tour->airport)->first()->city,
 
         '$date_depart' => RusMonth::convert(strftime('%d %B %Y', strtotime($tour->date_depart))),
 
@@ -241,7 +244,7 @@ class Printing
 
         '$noexit_insurance' => $noexit_insurance,
 
-        '$city_from' => $tour->city_from,
+        '$city_from' => ($bez_pereleta) ? 'Без перелета' : $tour->city_from,
 
         '$city_return' => $tour->city_return,
 

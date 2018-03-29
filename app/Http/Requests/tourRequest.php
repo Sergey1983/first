@@ -36,7 +36,8 @@ class tourRequest extends FormRequest
     {
 
 
-// dd(request()->all());      
+// dump(request()->all());      
+
       if(request()->allchecked == 'false') {
 
         $rules = 
@@ -202,11 +203,7 @@ class tourRequest extends FormRequest
 
 
 
-
-
-
-
-           foreach (request()->cancel_patronymic as  $id => $cancel_patronymic) {
+          foreach (request()->cancel_patronymic as  $id => $cancel_patronymic) {
 
               if($cancel_patronymic == 1) {
              
@@ -270,6 +267,7 @@ class tourRequest extends FormRequest
 
            $number_of_tourists = count(request()->name);
 
+
           if($number_of_tourists == 1){
 
             $rules['is_tourist'] = 'required|not_in:0';
@@ -310,9 +308,26 @@ class tourRequest extends FormRequest
       } else {
 
         $rules = [];
+
+          // Check that existing tourist id is choosen
+
+          if(isset(request()->check_info_tourists)) {
+
+            foreach (request()->check_info_tourists as $key_tourist => $values) {
+
+                if($values['exists'] == 'true') {
+
+                  $rules['check_info_tourists.'.$key_tourist.'.id'] = 'required';
+
+                }
+            
+            }
+          }
+
       }
 
 
+// dd($rules);
            return $rules;
 
     }
@@ -367,6 +382,7 @@ class tourRequest extends FormRequest
                 'price_rub.max' => 'Не больше чем 99999999 (если стоимость больше - бери деньги и беги в Казахстан!',
                 'price.numeric' => 'Цена - это число!',
                 'price_rub.numeric' => 'Цена - это число!',
+                'check_info_tourists.*.id.required' => 'Нужно выбрать!',
                 ];
 
       $update = request()->input('is_update');

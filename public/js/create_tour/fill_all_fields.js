@@ -102,6 +102,7 @@
 				    				// });
 
 				    			 } 
+				    			 
 				    			 else {
 
 				    				name.val(tour[property]).change();

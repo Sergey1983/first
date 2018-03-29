@@ -455,6 +455,7 @@ $(document).ready(function() {
 
 							var errors = data.responseJSON;
 
+console.log(errors);
 
 							///CHANGING ERROR PROPERTIES FROM 'name=name.1'-kind to 'name=name[1]'-kind
 
@@ -463,8 +464,9 @@ $(document).ready(function() {
 							    if (errors.hasOwnProperty(property)) {
 
 									if (property.includes('.')) {	
+console.log(property);
 
-									    errors[property.replace(/\./, "[").replace(/\./, "][").replace(/$/, "]")]=errors[property];
+									    errors[property.replace(/\./, "[").replace(/\./, "][").replace(/$/, "]")] = errors[property];
 								    	
 								    	delete errors[property];
 
@@ -475,7 +477,7 @@ $(document).ready(function() {
 							    }
 							}
 
-
+console.log(errors);
 							// Highlighting Tourists with passport-exists different-other-fields mistake ('Уже в базе')
 
 							var index; // undefined;
@@ -546,9 +548,6 @@ $(document).ready(function() {
 							    if (errors.hasOwnProperty(property)) {
 
 
-
-
-
 							    	if(property == 'is_tourist') {
 
 									$('[name="'+property+'"]:last').after('<p class="alert-validation">'+' '+errors[property]+'</p>');
@@ -581,6 +580,18 @@ $(document).ready(function() {
 										var tourist_id = property.replace('for_pas[', '').replace(']','');
 
 										$('[class*="inputs_'+tourist_id+'"]').append('<p class="alert-validation">'+errors[property]+'</p>');
+
+
+									}
+
+
+									else if (property.includes('check_info_tourists')) {
+
+										console.log(property);
+
+										var tourist_id = property.replace('check_info_tourists[', '').replace('][id]','');
+
+										$('#choose_tourist_'+tourist_id+'').append('<p class="alert-validation">'+errors[property]+'</p>');
 
 
 									}
