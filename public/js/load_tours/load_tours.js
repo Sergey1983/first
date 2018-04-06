@@ -144,7 +144,7 @@ $(document).ready(function () {
 								'<td>'+tour.price+'</td>'+
 								'<td>'+tour.price_rub+'</td>'+
 								'<td>'+tour.comission+'</td>'+
-								'<td class="text-center">'+tour.debt+'</td>'+
+								'<td class="text-center">'+tour.debt_customer+'</td>'+
 								'<td>'+tour.operator_price+'</td>'+
 								'<td>'+tour.operator_price_rub+'</td>'+
 								'<td><a class="btn btn-sm btn-info" href="/tours/'+tour.id+'"><span class="glyphicon glyphicon-eye-open"></span></a></td>'+

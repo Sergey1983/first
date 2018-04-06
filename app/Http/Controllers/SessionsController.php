@@ -14,11 +14,13 @@ class SessionsController extends Controller
     public function loginindex () {
 
         {
+// dd('hello');
             if(!Auth::check()) {
             
                 return view('welcome');
 
             } else {
+dd('hello');
 
                 return redirect()->route('home');
 
@@ -29,6 +31,7 @@ class SessionsController extends Controller
 
 
     public function login (Request $request) {
+
 
         if(array_key_exists('captcha', $request->all())) {
 
@@ -80,7 +83,6 @@ class SessionsController extends Controller
             return back()->withErrors(['message'=>'Неверные имя пользователя или пароль (а теперь еще и капчу надо вводить...)']);
 
         }  
-
 
 
         return redirect()->route('home');

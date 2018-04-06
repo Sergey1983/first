@@ -47,7 +47,7 @@ class PaymentOperatorController extends Controller
         
 	        $checksum_rub = $payments->sum('pay_rub') + request()->pay_rub;
 
-	        if($checksum_rub > $price_rub) {
+	        if(bccomp($checksum_rub, $price_rub) == 1) {
 
 	            $rules['pay_rub'] = 'toomuch';
 
@@ -59,7 +59,9 @@ class PaymentOperatorController extends Controller
 
             $checksum = $payments->sum('pay') + request()->pay;
 
-            if ($checksum > $price) {
+            // dd($checksum, $price, bccomp($checksum, $price));
+
+            if (bccomp($checksum, $price) == 1) {
 
                 $rules['pay'] = 'toomuchсur';
             }
