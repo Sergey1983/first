@@ -20,7 +20,7 @@ class SessionsController extends Controller
                 return view('welcome');
 
             } else {
-dd('hello');
+// dd('hello');
 
                 return redirect()->route('home');
 
