@@ -2,16 +2,17 @@
 
 
 
-      setlocale(LC_TIME, 'ru_RU');
+phpinfo();
 
-dd(setlocale(LC_ALL, ''));
-      $date_ru = strftime('%d %B %Y', strtotime('2018-01-31'));
+//       setlocale(LC_TIME, 'ru_RU');
 
-      dd($date_ru);
+// dd(setlocale(LC_ALL, ''));
+//       $date_ru = strftime('%d %B %Y', strtotime('2018-01-31'));
+
+//       dd($date_ru);
 
 ?>
 
 
-<?php
 
 
