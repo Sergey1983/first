@@ -39,6 +39,9 @@
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/check_return_city.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/cancel_patronymic.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/operator_full_pay.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/edit_tour/currency_rub_price_change.js') }}"></script>
+
+
 
 @endsection
 
