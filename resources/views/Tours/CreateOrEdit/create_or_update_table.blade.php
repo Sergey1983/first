@@ -14,6 +14,15 @@
 		{!! 
 			Form::macro('buttonSearch', function($value, $name, $type=null, $disabled=null) {
 
+		    return "<button type=$type name='$name' class='btn btn-default btn-grey' $disabled>$value<span class='glyphicon glyphicon-search'></span></button>";
+			});
+
+		!!}
+
+
+		{!! 
+			Form::macro('buttonSearchPass', function($value, $name, $type=null, $disabled=null) {
+
 		    return "<button type=$type name='$name' class='btn btn-default btn-grey col-md-8 col-md-offset-4' $disabled>$value<span> </span><span class='glyphicon glyphicon-search'></span></button>";
 			});
 
@@ -401,7 +410,7 @@
 
 					<div class="col-md-12">
 
-						{!! Form::buttonSearch('Найти по паспорту', 'check_doc_0', 'button') !!}
+						{!! Form::buttonSearchPass('Найти по паспорту', 'check_doc_0', 'button') !!}
 
 					</div>
 
