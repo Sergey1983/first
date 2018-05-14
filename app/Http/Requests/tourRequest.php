@@ -128,6 +128,7 @@ class tourRequest extends FormRequest
 
                       if($value ==  "Загран не готов") {
 
+                        $rules['doc_number.'.$tourist_id.'.'.$doc_id] = 'required|numeric';
 
                         if(isset($foreing_country)) {
 

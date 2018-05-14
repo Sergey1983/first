@@ -13,7 +13,8 @@
 
 		{!! 
 			Form::macro('buttonSearch', function($value, $name, $type=null, $disabled=null) {
-		    return "<button type=$type name='$name' class='btn btn-default btn-grey' $disabled>$value<span class='glyphicon glyphicon-search'></span></button>";
+
+		    return "<button type=$type name='$name' class='btn btn-default btn-grey col-md-8 col-md-offset-4' $disabled>$value<span> </span><span class='glyphicon glyphicon-search'></span></button>";
 			});
 
 		!!}
@@ -393,7 +394,30 @@
 
 				</div>
 
-				<div class='form-group col-md-3 no-margin-bottom no-padding-left'>
+
+
+
+				<div class="form-group col-md-3 no-margin-bottom no-padding-left">
+
+					<div class="col-md-12">
+
+						{!! Form::buttonSearch('Найти по паспорту', 'check_doc_0', 'button') !!}
+
+					</div>
+
+					<div class="col-md-12 no-padding-left text-right">
+
+						<small>Для поиска достаточно ввести только номер документа</small>
+							
+					</div>
+
+				</div>
+
+
+
+
+
+{{-- 				<div class='form-group col-md-3 no-margin-bottom no-padding-left'>
 
 					<div class="col-md-6 no-padding-left col-md-offset-6">
 
@@ -407,7 +431,7 @@
 							
 					</div>
 
-				</div>
+				</div> --}}
 
 
 

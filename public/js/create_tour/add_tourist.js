@@ -223,9 +223,9 @@ $(document).ready(function() {
 
 				'<div class="form-group col-md-3 no-margin-bottom no-padding-left">'+
 
-					'<div class="col-md-6 no-padding-left col-md-offset-6">'+
+					'<div class="col-md-12">'+
 
-						'<button type="button" name="check_doc_'+i+'" class="btn btn-default btn-grey">Найти по паспорту<span class="glyphicon glyphicon-search"></span></button>'+
+						'<button type="button" name="check_doc_'+i+'" class="btn btn-default btn-grey col-md-8 col-md-offset-4">Найти по паспорту<span> </span><span class="glyphicon glyphicon-search"></span></button>'+
 
 					'</div>'+
 					
