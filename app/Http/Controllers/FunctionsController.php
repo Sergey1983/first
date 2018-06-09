@@ -524,7 +524,6 @@ class FunctionsController extends Controller
 
                     $debt_agency =  number_format($operator_price - $payments_to_operator, 2, '.', '');
 
-
                     $debt_customer = number_format($tour->price - $tour->payments_from_tourists_sum(), 2, '.', '');
 
                     $saldo = $debt_agency - $debt_customer;
@@ -585,7 +584,9 @@ class FunctionsController extends Controller
                             // }
 
 
-            if(($tour->payments_from_tourists_rub_sum() != 0) AND ($operator_price == (string)$already_paid_to_opeartor) )
+            if(
+                ($tour->payments_from_tourists_rub_sum() != 0) AND ($operator_price == (string)$already_paid_to_opeartor) 
+              )
 
              {
 
@@ -602,8 +603,8 @@ class FunctionsController extends Controller
 
 
 
-            // $tour->debt = ($tour->price - $tour->payments_from_tourists_sum()).' '.$currency;
-
+            $tour->debt_customer = number_format($tour->price - $tour->payments_from_tourists_sum(), 2, '.', '');
+            
             $tour->price = number_format($tour->price, 0, '.', ' ').' '.$currency;
 
             $tour->price_rub = number_format($tour->price_rub, 0, '.', ' ').' &#x20bd';

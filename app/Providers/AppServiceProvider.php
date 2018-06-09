@@ -9,6 +9,7 @@ use \Validator;
 use App\Services\CustomValidator;
 use App\Services\TooMuchValidator;
 use App\Services\TooMuchcurValidator;
+use Illuminate\Support\Facades\Schema;
 
 
 use App\Tourist;
@@ -28,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
 
     {
+
+	Schema::defaultStringLength(191);
 
         $columns = Tourist::FieldsForValidation();
 

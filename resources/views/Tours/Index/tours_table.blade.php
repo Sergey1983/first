@@ -1,4 +1,4 @@
-<div class="row">
+
 
 	<div class="col-md-12">
 
@@ -26,7 +26,9 @@
 			  	</tr>
 			</thead>
 {{-- 			@foreach ($tours as $tour)
---}}			<tbody id="tbody_tours">
+--}}		
+
+	<tbody id="tbody_tours">
 {{-- 				
 				<tr>
 
@@ -42,7 +44,9 @@
 					Подробнее
 					</a></td>
 
-				</tr> --}}
+				</tr>
+
+ --}}
 
 			</tbody>
 
