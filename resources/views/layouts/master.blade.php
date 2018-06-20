@@ -175,6 +175,9 @@
 
 @yield('content')
 
+
+@if (Route::current()->getName() == 'home')
+
 <div align = "center">
 
 	<img src="{{ URL::asset('zabivaka2.jpg') }}" width="400" height="216"></img>
@@ -182,6 +185,8 @@
 
 
 </div>
+
+@endif
 
 </body>
 </html>
