@@ -143,9 +143,7 @@
 
 </div>
 
-<div align = "center">
 
-	<img src="{{ URL::asset('zabivaka.jpeg') }}" width="266" height="175"></img>
 
 <div class = 'container-fluid letter-spacing-035 heading-div'>
 
@@ -177,7 +175,13 @@
 
 @yield('content')
 
+<div align = "center">
 
+	<img src="{{ URL::asset('zabivaka2.jpg') }}" width="400" height="216"></img>
+	<p style="margin-top:5px">"Эй, привет!"</p>
+
+
+</div>
 
 </body>
 </html>
