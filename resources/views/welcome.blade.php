@@ -13,7 +13,13 @@
 
 	<div class="text-center margin-bottom-25"> 
 
-		<h3>За работу, друзья!:)</h3>
+		<h3>РОССИЯ - ЕГИПЕТ  3:1!!! :)))</h3>
+
+	</div>
+
+	<div class="text-center margin-bottom-25"> 
+
+		<img src="{{ URL::asset('picture.jpg') }}"></img>
 
 	</div>
 

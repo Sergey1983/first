@@ -143,6 +143,10 @@
 
 </div>
 
+<div align = "center">
+
+	<img src="{{ URL::asset('zabivaka.jpeg') }}" width="266" height="175"></img>
+
 <div class = 'container-fluid letter-spacing-035 heading-div'>
 
 	<h4>
