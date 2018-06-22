@@ -180,8 +180,8 @@
 
 <div align = "center">
 
-	<img src="{{ URL::asset('zabivaka2.jpg') }}" width="400" height="216"></img>
-	<p style="margin-top:5px">"Эй, привет!"</p>
+	<img src="{{ URL::asset('messi.jpeg') }}" width="400" height="216"></img>
+	<p style="margin-top:5px">"Какая боль, какая боль, Хорватия-Аргентина = 3:0!:)"</p>
 
 
 </div>
