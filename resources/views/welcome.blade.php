@@ -13,13 +13,13 @@
 
 	<div class="text-center margin-bottom-25"> 
 
-		<h3>Ну, посмеялись, и хватит!</h3>
-
+<!-- 		<h3>Ну, посмеялись, и хватит!</h3>
+ -->
 	</div>
 
 	<div class="text-center margin-bottom-25"> 
 
-		<img src="{{ URL::asset('plan.jpg') }}"></img>
+		<img src="{{ URL::asset('fifa.jpg') }}" width="280" height="168" style="border-radius: 5px"></img>
 
 	</div>
 
