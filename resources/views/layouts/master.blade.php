@@ -180,8 +180,8 @@
 
 <div align = "center">
 
-	<img src="{{ URL::asset('russia-urugway.jpg') }}" width="400" height="216"></img>
-	<p style="margin-top:5px">"Сегодня!"</p>
+	<img src="{{ URL::asset('urugway.jpg') }}" width="400" height="216"></img>
+	<p style="margin-top:5px">"Плачь, Дзюба, плачь!"</p>
 
 
 </div>
