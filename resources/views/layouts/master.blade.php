@@ -180,7 +180,7 @@
 
 <div align = "center">
 
-	<img src="{{ URL::asset('island.jpeg') }}" width="400" height="216"></img>
+	<img src="{{ URL::asset('island.jpeg') }}" width="342" height="205"></img>
 	<p style="margin-top:5px">"Поиграли и хватит! Поехали домой, ребята, в Исландию!"</p>
 
 
