@@ -180,8 +180,8 @@
 
 <div align = "center">
 
-	<img src="{{ URL::asset('island.jpeg') }}" width="342" height="205"></img>
-	<p style="margin-top:5px">"Поиграли и хватит! Поехали домой, ребята, в Исландию!"</p>
+	<img src="{{ URL::asset('turkey.jpg') }}" width="342" height="205" style="border-radius:5px"></img>
+	<p style="margin-top:5px">"Виста-тур Оренбург - мы продаем Мечту!"</p>
 
 
 </div>
