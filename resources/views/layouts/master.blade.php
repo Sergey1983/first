@@ -181,7 +181,7 @@
 <div align = "center">
 
 	<img src="{{ URL::asset('akinfeev.jpg') }}" width="342" height="205" style="border-radius:5px"></img>
-	<p style="margin-top:5px">"Ура-Ура-Ура!:)!"</p>
+	<p style="margin-top:5px">"Оле-Оле-Оле-Оле, Россия, Вперед!!!:)!"</p>
 
 
 </div>
