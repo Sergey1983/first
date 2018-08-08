@@ -11,7 +11,7 @@
             $("input[name='hidden_text").attr('value', $("input[name='text']").val());
 
 
-   			$("div").html($("#form_hidden").serialize());
+   			$("div").append('<br>', $("#form_hidden").serialize());
 
             }            
         );
