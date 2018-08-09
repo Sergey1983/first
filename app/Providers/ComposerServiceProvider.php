@@ -17,7 +17,7 @@ public function boot()
         );
 
         View::composer(
-            ['Tours.Index.tours_filters', 'Airports.create_or_update', 'Airports.index'], 'App\Http\ViewComposers\TourSearchViewComposer'
+            ['Tours.Index.tours_filters', 'Airports.create_or_update', 'Airports.index', 'Statistics.index', 'Statistics.statistics_for_one'], 'App\Http\ViewComposers\TourSearchViewComposer'
         );
 
         View::composer(

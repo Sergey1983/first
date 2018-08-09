@@ -13,7 +13,7 @@ class Payments_to_operator extends Model
     protected $dates = ['deleted_at'];
 
 
-       public function user() {
+      public function user() {
 
         return $this->belongsTo('App\User');
     	
@@ -25,7 +25,7 @@ class Payments_to_operator extends Model
         
       }  
 
-       public function tour() {
+      public function tour() {
 
         return $this->belongsTo('App\Tour');
     	

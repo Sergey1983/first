@@ -162,6 +162,10 @@
 	{{Illuminate\Support\Str::lower($tour_type_rus)}} тур
 @endisset
 
+@if(Route::current()->getName() == 'statistics.for_one')
+	{{$results['request']['key']}}
+@endif
+
 
 	</h4>
 

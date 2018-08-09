@@ -18,8 +18,9 @@ class CreateContractsTable extends Migration
 
             $table->integer('tour_id')->unsigned()->nullable();
             $table->foreign('tour_id')->references('id')
-            ->on('tours')->onDelete('cascade');
-
+            // ->on('tours')->onDelete('cascade');
+            ->on('tours')->onDelete('cascade')->onUpdate('cascade');
+            
             $table->string('doc_type');
             $table->integer('version_by_type');
             $table->integer('tour_version');

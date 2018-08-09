@@ -115,6 +115,10 @@ Route::group(['middleware' => 'auth'], function () {
 			// Route::post('/admin/tourist_payments/all', ['as' => 'tourist_payments.index_post', 'uses' => 'PaymentTouristController@list']);
 			Route::get('/accounting', ['as' => 'accounting.index', 'uses' => '\App\Services\Accounting@index']);
 
+			Route::get('/statistics', ['as' => 'statistics.index', 'uses' => 'StatisticsController@index']);
+			Route::get('/load_statistics', ['as' => 'statistics.load', 'uses' => 'StatisticsController@load_statistics']);
+			Route::get('/load_statistics_for_one', ['as' => 'statistics.for_one', 'uses' => 'StatisticsController@load_statistics_for_one']);
+
 		});
 
 	Route::post('/checkpassport_function', "FunctionsController@check_passport");

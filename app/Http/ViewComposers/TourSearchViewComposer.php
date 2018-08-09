@@ -10,8 +10,8 @@ use App\Airport;
 
 
 
-
 class TourSearchViewComposer
+
 {
     /**
      * The user repository implementation.
@@ -25,6 +25,7 @@ class TourSearchViewComposer
 
     protected $managers;
 
+    protected $report_types = ['operator' => 'Туроператоры', 'country' => 'Страны', 'user_id' => 'Менеджеры', 'city_from' => 'Город отправл.', 'tour_type' => 'По продуктам'];
 
     /**
      * Create a new profile composer.
@@ -33,12 +34,12 @@ class TourSearchViewComposer
      * @return void
      */
     public function __construct()
+    
     {
         // Dependencies automatically resolved by service container...
         setlocale(LC_COLLATE, 'ru_RU', 'ru_RU.utf8');
 
        
-
         $countries = Airport::all()->sortBy('country')->pluck('country')->unique()->toArray();
 
         $countries = array_combine($countries, $countries);
@@ -77,7 +78,9 @@ class TourSearchViewComposer
 
         'operators' => $this->operators,
 
-        'managers' => $this->managers
+        'managers' => $this->managers,
+
+        'report_types' => $this->report_types
 
         
         ];

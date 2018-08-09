@@ -304,3 +304,20 @@ Breadcrumbs::register('accounting.index', function ($breadcrumbs) {
 	$breadcrumbs->parent('admin.start');
     $breadcrumbs->push('Бухгалтерия', route('accounting.index'));
 });
+
+
+//Главная > Панель админа > Статистика
+
+Breadcrumbs::register('statistics.index', function ($breadcrumbs) {
+
+	$breadcrumbs->parent('admin.start');
+    $breadcrumbs->push('Статистика', route('statistics.index'));
+});
+
+//Главная > Панель админа > Статистика > Детализация статистики
+
+Breadcrumbs::register('statistics.for_one', function ($breadcrumbs) {
+
+	$breadcrumbs->parent('statistics.index');
+    $breadcrumbs->push('Детализация статистики', route('statistics.for_one'));
+});

@@ -91,6 +91,8 @@ class UserController extends Controller
 
             'branch_id' =>'required',
 
+            'password' => 'required|confirmed' 
+
             ];
 
         if (request('email') != $user->email) 

@@ -88,6 +88,8 @@ class HeadingsViewComposer
 
                 'tourist_payments.index' => 'Оплаты туристов',
                 'accounting.index' => 'Бухгалтерия',
+                'statistics.index' => 'Ложь, наглая ложь и... статистика!',
+                'statistics.for_one' => 'Детализация статистики',
 
                 'pay_methods.index' => 'Список методов оплаты',
                 'pay_methods.create' => 'Создать метод оплаты',

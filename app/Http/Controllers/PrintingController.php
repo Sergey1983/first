@@ -99,7 +99,6 @@ class PrintingController extends Controller
       \PhpOffice\PhpWord\Shared\Html::addHtml($section, $html);
 
 
-
         try {
 
 
@@ -129,7 +128,7 @@ class PrintingController extends Controller
 
             $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($objWriter, 'Word2007');
             
-            ob_clean();
+            // ob_clean();
             
             $objWriter->save(storage_path('app').'/contracts/'.$tour->id.'/'.$filename);
 

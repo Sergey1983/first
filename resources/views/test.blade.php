@@ -7,11 +7,11 @@
         $("#button").click(
             function () {
 
-            $("input[name='hidden_date").attr('value', $("input[name='date']").val());
-            $("input[name='hidden_text").attr('value', $("input[name='text']").val());
+            $("input[name='hidden_date']").val($("input[name='date']").val());
+            $("input[name='hidden_text']").val($("input[name='text']").val());
 
 
-   			$("div").append('<br>', $("#form_hidden").serialize());
+   			$("div").append('<br>', 'form_hidden.serialize(): ', $("#form_hidden").serialize(), '<br>','hidden_date.val() = ', $("[name='hidden_date']").val(), ' hidden_text.val() = ', $("[name='hidden_text']").val(), '<br><br>' );
 
             }            
         );

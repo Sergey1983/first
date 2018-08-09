@@ -106,57 +106,7 @@ class FunctionsController extends Controller
     }
 
 
-
-
-     public function load_tours(Request $request)
-
-     {
-     	
-        // return $request->all();
-
-        $user = auth()->user();
-
-        $tourist_search = false;
-
-        // $actuality_yes = false;
-
-
-        if(isset($request->tourist_name) OR isset($request->tourist_lastname)) {
-
-            $tourist_search = true;
-
-            $name = isset($request->tourist_name) ? [ ['name', 'like', '%'.$request->tourist_name.'%'] ] : [];
-            $last_name = isset($request->tourist_lastname) ? [ ['lastName', 'like', '%'.$request->tourist_lastname.'%'] ] : [];
-
-
-            $tourists = Tourist::where(array_merge($name, $last_name))->get(); 
-
-
-
-
-            $tour_tourists_ids_array = [];
-
-            if(!empty($tourists)) {
-
-                foreach ($tourists as $key => $tourist) {
-                
-                  $tour_tourists_ids_array =  array_merge($tour_tourists_ids_array, $tourist->tours->pluck('id')->toArray());
-
-                }
-
-            }
-
-
-        } else {
-
-            $tour_tourists_ids_array = [];
-
-        }
-
-
-
-
-
+    public function sort($request) {
 
         if(isset($request->sort_name)) {
 
@@ -171,6 +121,14 @@ class FunctionsController extends Controller
             $sort_value = 'desc';
 
         }
+
+        return ['column' => $sort_column, 'order' => $sort_value];
+    }
+
+
+
+    public function filters($request, $user) {
+
 
 
         if($request->actuality == "Да") {
@@ -198,60 +156,33 @@ class FunctionsController extends Controller
 
                         ];
 
-            // $status = ['Бронирование', 'Подтверждено', 'Отказ', 'Аннулировано'];
-
 
         } else if ($request->actuality == "Любые") {
 
                 $actuality = [];
 
-            // $status = ['Бронирование', 'Подтверждено', 'Отказ', 'Аннулировано'];
 
         }
-
-
-        // if(!is_null($request->created_from) OR !is_null($request->created_to)) {
-
-
-        //     $created_from =  \Carbon\Carbon::createFromFormat('Y-m-d', $request->created_from);
-
-        //     $created_to = \Carbon\Carbon::createFromFormat('Y-m-d', $request->created_to);
-
-        //     $created = 
-
-        //     [
-        //         ['created_at', '>=', $created_from],
-        //         ['created_at', '<=', $created_to]
-        //     ];
-
-
-        // } else {
-
-        //     $created = [];
-
-
-        // }
 
 
 
         if(!is_null($request->created_from) OR !is_null($request->created_to)) {
 
-            $created_from = \Carbon\Carbon::createFromFormat('Y-m-d', $request->created_from)->startOfDay(); 
-            // $request->created_from;
     
-
-            $created_to = \Carbon\Carbon::createFromFormat('Y-m-d', $request->created_to)->endOfDay();
-            // $created_to = $request->created_to;
-
             $created = [];
 
             if(!is_null($request->created_from)) {
+
+
+                $created_from = \Carbon\Carbon::createFromFormat('Y-m-d', $request->created_from)->startOfDay(); 
 
                 $created[] = ['created_at', '>=', $created_from];
 
             }
 
             if(!is_null($request->created_to)) {
+
+                $created_to = \Carbon\Carbon::createFromFormat('Y-m-d', $request->created_to)->endOfDay();
 
                 $created[] = ['created_at', '<=', $created_to];
 
@@ -268,19 +199,20 @@ class FunctionsController extends Controller
 
         if(!is_null($request->depart_from) OR !is_null($request->depart_to)) {
 
-            $depart_from = $request->depart_from;
-
-            $depart_to = $request->depart_to;
 
             $depart = [];
 
             if(!is_null($request->depart_from)) {
+
+                $depart_from = $request->depart_from;
 
                 $depart[] = ['date_depart', '>=', $depart_from];
 
             }
 
             if(!is_null($request->depart_to)) {
+
+                $depart_to = $request->depart_to;
 
                 $depart[] = ['date_depart', '<=', $depart_to];
 
@@ -294,18 +226,29 @@ class FunctionsController extends Controller
 
         }
 
+
+
         if(!is_null($request->ids_from) OR !is_null($request->ids_to)) {
 
+//            $ids = [];
 
-            $ids_from = $request->ids_from;
+            if(!is_null($request->ids_from)) {
+
+                $ids[] = array('id', '>=', $request->ids_from); 
+
+            }
+
+            if(!is_null($request->ids_to)) {
+
+                $ids[] = ['id', '<=', $request->ids_to];
+
+
+            }
+            
+/*           $ids_from = $request->ids_from;
 
             $ids_to = $request->ids_to;
 
-            // if(!empty($tour_tourists_ids_array)) {
-
-
-            //     $ids = 
-            // }
 
             $ids = 
 
@@ -313,6 +256,8 @@ class FunctionsController extends Controller
                 ['id', '>=', $ids_from],
                 ['id', '<=', $ids_to]
             ];
+
+            */
 
         } else {
 
@@ -395,39 +340,128 @@ class FunctionsController extends Controller
         }
 
 
+    if($user->permission !=0) {
 
-        if(!is_null($request->branch)) {
+        $iser_id= [];
 
-            $branch_from_request = [
+        if(!$user->isAdmin()) {
 
-                ['branch_id', $request->branch]
+            $branch = [['branch_id', $user->branch->id]];
 
-            ];
 
         } else {
 
-            $branch_from_request = [];
+            $branch = is_null($request->branch) ? [] : [['branch_id', $request->branch]];
+
         }
 
 
+    } else { 
 
-// dump(array_merge($actuality, $created, $depart, $country, $operator, $hotel, $manager ));
-// dump($tour_tourists_ids_array);
-// die();
-        // dd($actuality, $created);
+        $branch = [];
 
-        // dd(array_merge($actuality, $created, $depart, $country, $operator, $hotel, $manager, $product ));
+        $iser_id = [['user_id', $user->id]];
+
+    }
+
+
+        return array_merge($actuality, $created, $depart, $ids, $country, $operator, $hotel, $product, $manager, $branch, $iser_id);
+
+    }
+
+
+    public function commission ($tour) {
+
+        $commission = 0;
+
+        $a = 0;
+
+            if($tour->currency == 'RUB') {
+
+                    $operator_price = $tour->operator_price_rub;
+                    $already_paid_to_opeartor = $tour->payments_to_operator_rub_sum();
+
+                } else {
+
+                    $operator_price = $tour->operator_price;
+                    $already_paid_to_opeartor = $tour->payments_to_operator_sum();
+
+                }
+
+            if(
+                ($tour->payments_from_tourists_rub_sum() != 0) AND ($operator_price == (string)$already_paid_to_opeartor) 
+              )
+
+             {
+
+                $commission = round ( ( 1 - $tour->payments_to_operator_rub_sum() / $tour->payments_from_tourists_rub_sum() ) * 100, 2);
+        
+            } else {
+
+                $comission = "-";
+
+            }
+
+   return $commission;
+
+    }
+
+
+     public function load_tours(Request $request)
+
+     {
+     	
+        // return $request->all();
+
+        $user = auth()->user();
+
+        $tourist_search = false;
+
+        $actuality_yes = $request->actuality == "Да" ? true : false;
+
+        $sort = $this->sort($request);
+
+        $filters = $this->filters($request, $user); 
+
+
+        if(isset($request->tourist_name) OR isset($request->tourist_lastname)) {
+
+            $tourist_search = true;
+
+            $name = isset($request->tourist_name) ? [ ['name', 'like', '%'.$request->tourist_name.'%'] ] : [];
+            $last_name = isset($request->tourist_lastname) ? [ ['lastName', 'like', '%'.$request->tourist_lastname.'%'] ] : [];
+
+
+            $tourists = Tourist::where(array_merge($name, $last_name))->get(); 
+
+
+            $tour_tourists_ids_array = [];
+
+            if(!empty($tourists)) {
+
+                foreach ($tourists as $key => $tourist) {
+                
+                  $tour_tourists_ids_array =  array_merge($tour_tourists_ids_array, $tourist->tours->pluck('id')->toArray());
+
+                }
+
+            }
+
+
+        } else {
+
+            $tour_tourists_ids_array = [];
+
+        }
+
 
         $paginate = $request->paginate;
 
 
-        if($user->permission !=0) {
+        // if($user->permission !=0) {
 
 
-            $branch = ! $user->isAdmin() ? array(['branch_id', $user->branch->id]) : $branch_from_request;
-
-
-            if($user->isAdmin()) {
+        //     if($user->isAdmin()) {
 
                
                // Get all models as collection:
@@ -438,9 +472,10 @@ class FunctionsController extends Controller
 
                     })
 
-                    ->where(array_merge($actuality, $created, $depart, $country, $operator, $ids, $hotel, $manager, $product))
+                    ->where($filters)
 
-                    ->orderBy($sort_column, $sort_value)->get();
+                    ->orderBy($sort['column'], $sort['order'])->get();
+
 
                 //Get current page:
 
@@ -458,49 +493,41 @@ class FunctionsController extends Controller
 
                 $tours_for_accounting = $collection;
 
-            } else {
+        //     } else {
 
-                $tours = Tour::when($tourist_search, function($query) use ($tour_tourists_ids_array) {
+        //         $tours = Tour::when($tourist_search, function($query) use ($tour_tourists_ids_array) {
 
-                    return $query->whereIn('id', $tour_tourists_ids_array);
+        //             return $query->whereIn('id', $tour_tourists_ids_array);
 
-                    })
-
-
-
-                    // ->when($actuality_yes, function($query){
-
-                    // return $query->whereIn('status', ['Бронирование', 'Подтверждено'])->OrwhereNull('status');
-
-                    // })
+        //             })
 
 
-                    ->where(array_merge($actuality, $created, $depart, $country, $operator, $ids, $hotel, $manager, $product, $branch))
+        //             ->where($filters)
 
-                    ->orderBy($sort_column, $sort_value)
+        //             ->orderBy($sort['column'], $sort['value'])
 
-                    ->paginate($paginate);
+        //             ->paginate($paginate);
 
-            }
+        //     }
 
-        } else {
+        // } else {
 
 
 
-            $tours = Tour::when($tourist_search, function($query) use ($tour_tourists_ids_array) {
+        //     $tours = Tour::when($tourist_search, function($query) use ($tour_tourists_ids_array) {
 
-                return $query->whereIn('id', $tour_tourists_ids_array);
+        //         return $query->whereIn('id', $tour_tourists_ids_array);
 
-                })
+        //         })
 
-                ->where(array_merge($actuality, $created, $depart, $country, $operator, $ids, $hotel, $manager, $product, array(['user_id', $user->id])))
+        //         ->where(array_merge($filters, array(['user_id', $user->id])))
 
-                ->orderBy($sort_column, $sort_value)
+        //         ->orderBy($sort['column'], $sort['value'])
 
-                ->paginate($paginate);
+        //         ->paginate($paginate);
 
 
-        }
+        // }
 
 
         // FOR ACCOUNTING:
@@ -555,6 +582,7 @@ class FunctionsController extends Controller
         // END FOR ACCOUNTING
 
 
+
         foreach ($tours as $key => $tour) {
             
             $tour->user_name = $tour->user->name;
@@ -567,37 +595,8 @@ class FunctionsController extends Controller
 
 // COMMISION: We put this in code before other money values, because $tour->operator_price_rub later is being added with ruble currency sign.
 
-                            if($tour->currency == 'RUB') {
+            $tour->comission = $this->commission($tour);
 
-                                $operator_price = $tour->operator_price_rub;
-                                $already_paid_to_opeartor = $tour->payments_to_operator_rub_sum();
-
-                            } else {
-
-                                $operator_price = $tour->operator_price;
-                                $already_paid_to_opeartor = $tour->payments_to_operator_sum();
-                            }
-
-                            // if($tour->id == '2034') {
-
-                            //     dd($operator_price, $already_paid_to_opeartor, gettype($operator_price), gettype($already_paid_to_opeartor), ($operator_price == (string)$already_paid_to_opeartor));
-                            // }
-
-
-            if(
-                ($tour->payments_from_tourists_rub_sum() != 0) AND ($operator_price == (string)$already_paid_to_opeartor) 
-              )
-
-             {
-
-                $tour->comission = round ( ( 1 - $tour->payments_to_operator_rub_sum() / $tour->payments_from_tourists_rub_sum() ) * 100, 2);
-        
-
-            } else {
-
-                $tour->comission = "-";
-
-            }
 
 // COMMISION: end;
 

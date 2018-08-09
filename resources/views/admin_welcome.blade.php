@@ -8,7 +8,9 @@
   <div class="list-group">
 
     <a href="{{route('accounting.index')}}" class="list-group-item">Бухгалтерия</a>
-    <a href="{{route('tourist_payments.index')}}" class="list-group-item">Оплаты туристов</a>    
+    <a href="{{route('statistics.index')}}" class="list-group-item">Статистика</a>    
+    <a href="{{route('tourist_payments.index')}}" class="list-group-item">Оплаты туристов</a> 
+
 
   </div>
 
