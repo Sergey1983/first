@@ -10,7 +10,7 @@
 
 </div>
 
-<script type="text/javascript" src="{{ URL::asset('js/Statistics/load_statistics.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/statistics/load_statistics.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/load_tours/tooltip.js') }}"></script>
 
 
