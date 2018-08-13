@@ -52,20 +52,24 @@ $(document).ready(function() {
 				var number_of_tourists = Object.keys(tourists).length;
 
 
-				if (tour.date_hotel ==0 ) {
 					
 					var date_hotel = new Date(tour.date_depart);
 
-					date_hotel.setDate(date_hotel.getDate() + 1);
+					if (tour.date_hotel == 0 ) {
+
+						date_hotel.setDate(date_hotel.getDate() + 1);
+
+					}
+
 
 					var dd = date_hotel.getDate();
 					dd = (dd < 10) ? '0' + dd : dd;
 					var mm = date_hotel.getMonth() + 1;
+					mm = (mm < 10) ? '0' + mm : mm;
 					var yyyy = date_hotel.getFullYear();
 
-					var date_hotel = dd + '-'+ mm + '-'+ yyyy;				
+					var date_hotel = yyyy + '-'+ mm + '-'+dd ;				
 
-				}
 
 
 

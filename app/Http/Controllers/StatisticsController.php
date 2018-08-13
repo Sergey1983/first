@@ -60,7 +60,7 @@ class StatisticsController extends Controller {
 
 		$filters = $func->filters($request, auth()->user());
 
-		$tours = Tour::where($filters)->get();
+		$tours = Tour::where(array_merge($filters, [['status', '<>', 'Аннулировано']]))->get();
 
 
 		$tours_result = $tours->map(function($tour, $key) use($func) {
@@ -119,12 +119,10 @@ class StatisticsController extends Controller {
 		$func = new Func;
 
 		$filters = $func->filters($request, auth()->user());
-
-
-		
+	
 		$sort = $func->sort($request);
 
-		$tours = Tour::where($filters)->get()->groupBy($request->report_type);
+		$tours = Tour::where(array_merge($filters, [['status', '<>', 'Аннулировано']]))->get()->groupBy($request->report_type);
 
 
 		$tours_result = $tours->map(function($item, $key){

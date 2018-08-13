@@ -92,6 +92,13 @@ class PaymentTouristController extends Controller
 
 		$request['pay'] = isset($request['pay']) ? $request['pay'] : $request['pay_rub'];
 
+		if($request['pay_method_id'] == 3) {
+
+			$tour->is_credit = 1;
+
+			$tour->save();
+		}
+
 		Payments_from_tourist::create(array_merge(['tour_id'=>$tour->id, 'user_id'=>$user->id], $request));
 
 

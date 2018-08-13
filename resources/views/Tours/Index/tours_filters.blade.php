@@ -1,7 +1,7 @@
 
 	<div class="row">
 
-		<div class="col-md-11">
+		<div class="col-md-12">
 
 			{!! Form::open(['id'=>'search', 'class'=>'form', 'hidden'=>'hidden']) !!}
 	{{-- 	{!! Form::select ('actuality', ['Да'=>'Да', 'Нет' => 'Нет', 'Любые'=> 'Любые'], null, ['class'=>"form-control"])!!}

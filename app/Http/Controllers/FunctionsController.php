@@ -364,7 +364,6 @@ class FunctionsController extends Controller
 
     }
 
-
         return array_merge($actuality, $created, $depart, $ids, $country, $operator, $hotel, $product, $manager, $branch, $iser_id);
 
     }
@@ -476,7 +475,6 @@ class FunctionsController extends Controller
 
                     ->orderBy($sort['column'], $sort['order'])->get();
 
-
                 //Get current page:
 
                 $current_page = Paginator::resolveCurrentPage();
@@ -585,7 +583,7 @@ class FunctionsController extends Controller
 
         foreach ($tours as $key => $tour) {
             
-            $tour->user_name = $tour->user->name;
+            $tour->user_name = $tour->user_created();
 
             $tour->number_of_tourists = $tour->tourists_only_who_really_go->count();
 

@@ -20,7 +20,7 @@
 
 	<tbody id="tbody_stats">
 
-		<? $number_of_tours = 0; ?>
+		@php $number_of_tours = 0; @endphp
 
 		@foreach($results as $key => $line) 
 
@@ -40,7 +40,7 @@
 				    <td>{{$line['commission']}}</td>
 				</tr>
 
-				<? $number_of_tours += 1; ?>
+				@php $number_of_tours += 1; @endphp
 
 			@endif
 

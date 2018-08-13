@@ -13,6 +13,8 @@ $(document).ready(function() {
 
 			$('#visa_add_people_div').remove();
 
+			$('#visa_people_form_group').remove();
+
 			$('#visa_div').append(
 
 			'<div class="row" id="visa_add_people_div">'+
@@ -25,7 +27,11 @@ $(document).ready(function() {
 
 			'</div>');
 
+
 		} else {
+
+
+			$('#visa_people_form_group').remove();
 
 			$('#visa_add_people_div').remove();
 

@@ -153,6 +153,8 @@ class Printing
 
       $visa = $tour->visa_add_people === 0 ? $visa_tour." для всех туристов" : $visa_tour." для ".$tour->visa_people;
 
+// dd($tour->visa, $tour->visa_add_people);
+
       // $noexitinsurance
 
       $noexit_insurance = $tour->noexit_insurance_add_people===0 ? $tour->noexit_insurance : $tour->noexit_insurance_people;
@@ -234,7 +236,7 @@ class Printing
 
         '$food' => $tour->food_type,
 
-        '$sightseeing' => empty($tour->sightseeing) ? "___" : $tour->sightseeing,
+        '$sightseeing' => empty($tour->sightseeing) ? "___" : nl2br($tour->sightseeing) ,
 
         '$transfer' => $tour->transfer,
 
@@ -292,6 +294,8 @@ class Printing
 
 
       $template = str_replace($from, $to, $template);
+
+// dd($template);
 
    return $template;
 

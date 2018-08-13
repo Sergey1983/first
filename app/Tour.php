@@ -47,6 +47,11 @@ class Tour extends Model
 
     }
 
+    public function user_created() {
+
+       return $this->previous_tours->isNotEmpty() ? $this->previous_tours->sortby('created_at')->first()->user->name : $this->user->name;
+    }
+
     public function branch() {
 
         return $this->belongsTo('App\Branch');

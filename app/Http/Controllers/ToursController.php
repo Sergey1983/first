@@ -92,7 +92,8 @@ class ToursController extends Controller
     
     {
 
-        $user = $tour->users;
+        $user = $tour->user;
+
 
         $tour_type = Printing::tour_type_reverse($tour->tour_type);
 

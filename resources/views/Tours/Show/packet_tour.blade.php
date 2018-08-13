@@ -31,12 +31,7 @@
 
 					<tr>
 						<td>Менеджер создавший</td>
-						<td>{{
-						$tour->previous_tours->isNotEmpty() ? 
-						$tour->previous_tours->sortby('created_at')->first()->user->name :
-						$tour->user->name  
-						}}
-						</td>
+						<td>{{$tour->user_created()}}</td>
 					</tr>
 
 					<tr>
@@ -113,8 +108,8 @@
 						}
 						
 						@endphp
-
-						<td>{{!is_null($tour->operator_price_rub) ? $debt_operator : 'Заявка ещё не подтверждена' }}
+						<td>{{$tour->operator_price_rub - $tour->payments_to_operator_rub_sum()}}
+{{!is_null($tour->operator_price_rub) ? $debt_operator : 'Заявка ещё не подтверждена' }}
 </td>
 					</tr>
 
@@ -206,8 +201,11 @@
 						@php
 						$date_depart = strtotime($tour->date_depart);
 						@endphp
-					<td>{{RusMonth::convert(strftime('%d %B %Y', $date_depart))}}</td>
-				</tr>
+
+					<td>{{strftime('%d %B %Y', $date_depart)}}</td>
+
+{{-- 					<td>{{RusMonth::convert(strftime('%d %B %Y', $date_depart))}}</td>
+ --}}				</tr>
 
 
 				<tr>
@@ -215,9 +213,9 @@
 						@php
 						$date_hotel = $tour->date_hotel == 0 ? $date_depart : strtotime("+1 days", $date_depart);
 						@endphp
-
-					<td>{{ RusMonth::convert(strftime('%d %B %Y', $date_hotel)) }}</td>
-				</tr>
+						<td>{{strftime('%d %B %Y', $date_hotel)}}</td>
+{{-- 					<td>{{ RusMonth::convert(strftime('%d %B %Y', $date_hotel)) }}</td>
+ --}}				</tr>
 
 				<tr>
 					<td>Ночей в отеле</td>

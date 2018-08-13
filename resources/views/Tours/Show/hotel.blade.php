@@ -32,12 +32,7 @@
 
 					<tr>
 						<td>Менеджер создавший</td>
-						<td>{{
-						$tour->previous_tours->isNotEmpty() ? 
-						$tour->previous_tours->sortby('created_at')->first()->user->name :
-						$tour->user->name  
-						}}
-						</td>
+						<td>{{$tour->user_created()}}</td>
 					</tr>
 
 					<tr>

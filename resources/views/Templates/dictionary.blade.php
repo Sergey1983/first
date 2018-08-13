@@ -115,7 +115,7 @@
 
                 <div>
 
-                    Переменную '$branch_details' нельзя закрывать в тэги.
+                    Переменные '$branch_details', '$operator', '$sightseeing', '$extra_info' нельзя закрывать в тэги.
                     т.е. правильно:
                     <pre style="text-align: left">
                     {{htmlentities('
