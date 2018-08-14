@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Tour;
 use App\Tourists;
 use App\User;
+use App\Operator;
 
 use App\Http\Controllers\FunctionsController as Func;
 
@@ -85,6 +86,8 @@ class StatisticsController extends Controller {
 
 		$func = new Func;
 
+		if($request->report_type == 'operator') { $request->key = Operator::where('name', $request->key)->first()->id; }
+
 		$request->{$request->report_type} = $request->key;
 
 		$filters = $func->filters($request, auth()->user());
@@ -92,7 +95,6 @@ class StatisticsController extends Controller {
 		$tours = Tour::where(array_merge($filters, [['status', '<>', 'Аннулировано']]))->get();
 
 		$tours_result = $tours->map(function($tour, $key) use($func) {
-
 
 
 			return ['id' => $tour->id, 'number_of_tourists' => $tour->tourists_only_who_really_go()->count(), 'created_at' => $tour->created_at->toDateString(), 'date_depart' => $tour->date_depart, 'tourist_price' => (float)$tour->price_rub, 'operator_price' => (float)$tour->operator_price_rub, 'debt_to_operator' => $tour->operator_price_rub - $tour->payments_to_operator_rub_sum(), 'planned_profit' => $tour->price_rub - $tour->operator_price_rub, 'real_profit' => $this->real_profit($tour), 'commission' => $func->commission($tour)];
@@ -184,11 +186,13 @@ class StatisticsController extends Controller {
 
 		});
 
-		if($request->report_type == 'user_id') {
+		if(in_array($request->report_type, ['user_id', 'operator'])) {
+
+			$model = $request->report_type == 'user_id' ? new User : new Operator;
 
 			foreach ($tours_result as $key => $value) {
 				
-				$name = User::find($key)->name;
+				$name = $model::find($key)->name;
 
 				$new_tours_result[$name] = $value;
 			}

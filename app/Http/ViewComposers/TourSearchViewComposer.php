@@ -47,7 +47,7 @@ class TourSearchViewComposer
         $this->countries = $countries;
 
 
-        $operators = Operator::orderBy('name')->pluck('name', 'name');
+        $operators = Operator::orderBy('name')->pluck('name', 'id');
 
         $this->operators = $operators;
 

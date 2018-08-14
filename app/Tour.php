@@ -90,7 +90,7 @@ class Tour extends Model
 
      public function operator_model () {
 
-    return $this->hasOne('App\Operator', 'name', 'operator');
+    return $this->hasOne('App\Operator', 'id', 'operator');
     
     }
 

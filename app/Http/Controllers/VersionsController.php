@@ -14,6 +14,8 @@ use App\User;
 
 use App\Airport;
 
+use App\Operator;
+
 use App\Document;
 
 use App\Branch;
@@ -62,7 +64,6 @@ class VersionsController extends Controller
                                                                             }, ARRAY_FILTER_USE_KEY);
             }        
 
-// dd( $versions_array);
 
         $i = 1;
 
@@ -405,6 +406,9 @@ class VersionsController extends Controller
 
         foreach ($return_array as $key => $version) {
 
+               
+            $return_array[$key]['tour']['operator'] = Operator::find($version['tour']['operator'])->name;
+
             foreach ($version['tourists'] as $key_t => $tourist) {
 
                 if ($tourist['patronymic'] == null ) { $return_array[$key]['tourists'][$key_t]['patronymic'] = '&nbsp';}
@@ -426,6 +430,7 @@ class VersionsController extends Controller
    
            
         }
+
 
 return $return_array;
 

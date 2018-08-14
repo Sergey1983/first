@@ -51,17 +51,6 @@ class CreateUpdateViewComposer
 
         $countries = array_combine($countries, $countries);
 
-        // usort($countries, 'App\Services\SortNullAlwaysLast::cmp');
-
-        // foreach ($countries as $key => $value) {
-
-        //     $country = $value['country'];
-
-        //     unset($countries[$key]);
-
-        //     $countries[$country] = $country;
-            
-        // }
         
 
         $this->countries = $countries;
@@ -70,7 +59,7 @@ class CreateUpdateViewComposer
 
         $this->food_type = $food_type;
 
-        $operators = Operator::orderBy('name')->pluck('name', 'name');
+        $operators = Operator::orderBy('name')->pluck('name', 'id');
 
         $this->operators = $operators;
 

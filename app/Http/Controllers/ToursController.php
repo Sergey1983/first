@@ -42,6 +42,8 @@ use App\Events\TouristUpdated;
 
 use App\Listeners\ExtractUpdatedTourist;
 
+use App\Operator;
+
 use Event;
 
 
@@ -94,6 +96,7 @@ class ToursController extends Controller
 
         $user = $tour->user;
 
+        $tour->operator = $tour->operator_model->name;
 
         $tour_type = Printing::tour_type_reverse($tour->tour_type);
 

@@ -22,6 +22,8 @@ use App\Country;
 
 use App\Document;
 
+use App\Operator;
+
 
 class FunctionsController extends Controller
 
@@ -30,9 +32,6 @@ class FunctionsController extends Controller
 
     {
 
-        // dump($request->all());
-
-
         $doc_number = $request->doc_number;
 
         $doc_type = $request->doc_type;
@@ -40,17 +39,7 @@ class FunctionsController extends Controller
         $number = $request->tourist_number;
 
 
-
-        // dump($request->tourist_number);
-        // dump($number);
-        // dump(is_null($request->tourist_number));
-
-
         $tourist_number = $request->tourist_number;
-
-        // dump($tourist_number);
-
-        // die();
 
         $document = Document::where([['doc_type', '=', $doc_type], ['doc_number', '=', $doc_number]])->first();
 
@@ -598,7 +587,7 @@ class FunctionsController extends Controller
 
 // COMMISION: end;
 
-
+            $tour->operator = $tour->operator_model->name;
 
             $tour->debt_customer = number_format($tour->price - $tour->payments_from_tourists_sum(), 2, '.', '');
             
