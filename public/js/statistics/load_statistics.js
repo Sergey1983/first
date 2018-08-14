@@ -24,21 +24,7 @@ $(document).ready(function () {
 	});
 
 
-	// $(document).on('click', '[href*="load_tours_function"]', function (event) {
 
-	// 	event.preventDefault();
-
-
-	// 	// var fulllink = $(this).attr('href');	
-
-	// 	// var link = fulllink.substr(fulllink.lastIndexOf('/') + 1);
-
-	// 	var link = $(this).attr('href');
-		
-	// 	load_table(link);
-
-
-	// });
 
 
 
@@ -93,33 +79,44 @@ $(document).ready(function () {
 
 				tbody.empty();
 
-				if('totals' in data) {
-
-					display_one(data);
-
-				}
-
-
 				$.each(data, function (key, i) {
 
+				if(key != 'totals') {
+
+					var row = 	'<tr>'+
+									'<td class = "key" id="'+key+'"><a href="load_statistics_for_one?'+searchdata + '&key=' + key +'">'+key+'</a></td>'+
+									'<td>'+i.number_of_tourists+'</td>'+
+									'<td>'+i.number_of_tours+'</td>'+
+									'<td>'+i.total_tourist_price+'</td>'+
+									'<td>'+i.paid_to_operator+'</td>'+
+									'<td>'+i.debt_to_operator+'</td>'+
+									'<td>'+i.planned_profit+'</td>'+
+									'<td>'+i.real_profit+'</td>'+
+									'<td>'+i.total_commission+'</td>'+
+									'<td>'+i.arpu+'</td>'+
+									'<td>'+i.check+'</td>'+
+								'</tr>';
+
+					} else {
+
+					var row = 	'<tr>'+
+									'<td><strong>Всего</td>'+
+									'<td><strong>'+i.number_of_tourists+'</td>'+
+									'<td><strong>'+i.number_of_tours+'</td>'+
+									'<td><strong>'+i.total_tourist_price+'</td>'+
+									'<td><strong>'+i.paid_to_operator+'</td>'+
+									'<td><strong>'+i.debt_to_operator+'</td>'+
+									'<td><strong>'+i.planned_profit+'</td>'+
+									'<td><strong>'+i.real_profit+'</td>'+
+									'<td><strong>'+i.total_commission+'</td>'+
+									'<td><strong>'+i.arpu+'</td>'+
+									'<td><strong>'+i.check+'</td>'+
+								'</tr>';
 
 
-					$("#tbody_stats").append(
-						'<tr>'+
-								'<td class = "key" id="'+key+'"><a href="load_statistics_for_one?'+searchdata + '&key=' + key +'">'+key+'</a></td>'+
-								'<td>'+i.number_of_tourists+'</td>'+
-								'<td>'+i.number_of_tours+'</td>'+
-								'<td>'+i.total_tourist_price+'</td>'+
-								'<td>'+i.paid_to_operator+'</td>'+
-								'<td>'+i.debt_to_operator+'</td>'+
-								'<td>'+i.planned_profit+'</td>'+
-								'<td>'+i.real_profit+'</td>'+
-								'<td>'+i.total_commission+'</td>'+
-								'<td>'+i.arpu+'</td>'+
-								'<td>'+i.check+'</td>'+
-						'</tr>'
+					}
 
-						);
+					$("#tbody_stats").append(row);
 
 
 				});
@@ -134,19 +131,6 @@ $(document).ready(function () {
 			});
 
 
-			// ajax.done(function(){
-
-
-			// 	$('.key').on('click', function (){
-
-			// 			key = $(this).attr('id');
-
-			// 			load_table('/load_statistics_for_one', key);
-
-
-			// 	});
-
-			// });
 
 	}
 
@@ -162,12 +146,7 @@ $(document).ready(function () {
 		var depart_to = $("input[name='depart_to_f']").val();
 		var report_type	= $("select[name='report_type_f']").val();
 
-		// if(iteration !== null) {
 
-		// 	$('#search').find('[selected="selected"]').removeAttr('selected');
-		// 	$('#search').find('input').removeAttr('value');
-
-		// }
 
 
 
