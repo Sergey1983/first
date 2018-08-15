@@ -19,8 +19,6 @@ class PaymentTouristController extends Controller
 
 	{
 		
-		// $tour = Tour::find($id);
-
 		return view('Payment.Tourist.edit', compact('tour'));
 
 	}
@@ -28,13 +26,12 @@ class PaymentTouristController extends Controller
 	public function create_with_deleted(Tour $tour)
 	{
 
-		// $tour = Tour::find($id);
 
 		session()->flash('with_deleted', 'true');
 
 		return redirect()->route('payment_tourist.create', ['id' => $tour->id]);
 
-		// view('payment.tourist.edit', compact('tour'));
+
 
 	}
 

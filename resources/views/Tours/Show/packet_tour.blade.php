@@ -108,8 +108,7 @@
 						}
 						
 						@endphp
-						<td>{{$tour->operator_price_rub - $tour->payments_to_operator_rub_sum()}}
-{{!is_null($tour->operator_price_rub) ? $debt_operator : 'Заявка ещё не подтверждена' }}
+						<td>{{!is_null($tour->operator_price_rub) ? $debt_operator : 'Заявка ещё не подтверждена' }}
 </td>
 					</tr>
 
