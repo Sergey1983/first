@@ -29,7 +29,8 @@ class StatisticsController extends Controller {
 
 	public function real_profit ($tour) {
 
-		if($tour->payments_from_tourists_sum() == round($tour->price) && $tour->payments_to_operator_sum() == $tour->operator_price && $tour->status == 'Подтверждено') 
+
+		if(round($tour->payments_from_tourists_sum()) == round($tour->price) && round($tour->payments_to_operator_sum()) == round($tour->operator_price) && $tour->status == 'Подтверждено') 
 		
 		{
 
@@ -95,7 +96,6 @@ class StatisticsController extends Controller {
 		$tours = Tour::where(array_merge($filters, [['status', '<>', 'Аннулировано']]))->get();
 
 		$tours_result = $tours->map(function($tour, $key) use($func) {
-
 
 			return ['id' => $tour->id, 'number_of_tourists' => $tour->tourists_only_who_really_go()->count(), 'created_at' => $tour->created_at->toDateString(), 'date_depart' => $tour->date_depart, 'tourist_price' => (float)$tour->price_rub, 'operator_price' => (float)$tour->operator_price_rub, 'debt_to_operator' => $tour->operator_price_rub - $tour->payments_to_operator_rub_sum(), 'planned_profit' => $tour->price_rub - $tour->operator_price_rub, 'real_profit' => $this->real_profit($tour), 'commission' => $func->commission($tour)];
 
