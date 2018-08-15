@@ -38,41 +38,90 @@ class FunctionsController extends Controller
 
         $number = $request->tourist_number;
 
-
         $tourist_number = $request->tourist_number;
 
-        $document = Document::where([['doc_type', '=', $doc_type], ['doc_number', '=', $doc_number]])->first();
+        $document0 = Document::where([['doc_type', '=', $doc_type], ['doc_number', '=', $doc_number]])->first();
 
-
-
-
-    	if(!$document) {
+    	if(!$document0) {
             
            return 'not found';
 
         }
 
+        $tourist = $document0->tourist;
+
+// dump('document0', $document0);
+
+        $tour_tourist = $tourist->tour_tourist->sortByDesc('created_at');
+
+// dump('$tour_tourist', $tour_tourist);
+
+        $document1 = null;
+
+        $tour_tourist->each(function ($item, $key) use ($document0, &$document1){
+
+            for($i = 0; $i <2; $i++) {
+
+                $doc = $item->{"document$i"}; 
+
+                // dump($i, $doc);
+
+                if($doc !== null) {
+
+                    // dump('doc_id', $doc->id, 'document0->id', $document0->id, $doc->id != $document0->id, $doc->type, $document0->type, $doc->type != $document0->type );
+
+                    if($doc->id != $document0->id && $doc->doc_type != $document0->doc_type) {
+
+                        $document1 = $doc;
+
+                        // dump('doc', $doc, 'document1', $document1);
+
+                        return false;
+                    }
+                }
+            }
+
+        });
+
+
+// dd('document1', $document1, 'document0', $document0);
+
         $not_needed_keys = array_flip(['id', 'created_at', 'updated_at', 'tourist_id', 'user_id']);
 
+        $document0['relations'] = [];
 
-        $document_array = array_diff_key($document->toArray(), $not_needed_keys);
+        $tourist['relations'] = [];
 
-        $tourist_array = array_diff_key($document->tourist->toArray(), $not_needed_keys);
 
-        
+        $number_of_docs = is_null($document1) ? 1 : 2;
 
-        if($document_array['seria'] != 0) {
 
-            $document_array['doc_seria'] =  substr($document_array['doc_number'], 0, $document_array['seria']);
 
-            $document_array['doc_number'] = substr($document_array['doc_number'], $document_array['seria']);
+        for($i = 0; $i < $number_of_docs; $i ++) {
 
-          }
+            // dump("document$i", ${"document$i"});
 
-        unset($document_array['seria']);
+            $documents_array[$i] = array_diff_key(${"document$i"}->toArray(), $not_needed_keys);
+
+           
+
+            if($documents_array[$i]['seria'] != 0) {
+
+                $documents_array[$i]['doc_seria'] =  substr($documents_array[$i]['doc_number'], 0, $documents_array[$i]['seria']);
+
+                $documents_array[$i]['doc_number'] = substr($documents_array[$i]['doc_number'], $documents_array[$i]['seria']);
+
+              }
+
+            unset($documents_array[$i]['seria']);
+
+        }
+
 
         $array_to_return = [];
 
+        
+        $tourist_array = array_diff_key($tourist->toArray(), $not_needed_keys);
 
         foreach ($tourist_array as $key => $value) {
 
@@ -82,15 +131,18 @@ class FunctionsController extends Controller
 
 
 
-        
-        foreach ($document_array as $key => $value) {
-            
-            $array_to_return[$key.'['.$tourist_number.'][0]'] = $value;
+        foreach ($documents_array as $key => $document_array) {
+                
+            foreach ($document_array as $doc_key => $value) {
+                
+                $array_to_return[$doc_key.'['.$tourist_number.']['.$key.']'] = $value;
+
+            }
 
         }
 
 
-        return $array_to_return;
+        return array_merge($array_to_return, ['number' => $tourist_number]);
             	
     }
 
@@ -769,8 +821,7 @@ class FunctionsController extends Controller
 
             if($need_buyer)
 
-            {
-                if($tourist['pivot']['is_buyer'] == 1  ) {
+            {                if($tourist['pivot']['is_buyer'] == 1  ) {
 
                     $tour_tourists_docs_array['is_buyer'] = $i;
                     $tour_tourists_docs_array['is_tourist'] = $tourist['pivot']['is_tourist'];

@@ -65,23 +65,38 @@ $(document).ready(function() {
 
 			if(data != 'not found') {
 
-			for (var property in data) {
 
-				if (data.hasOwnProperty(property)) {
+				var number = data.number;
 
-					if(property.includes('citizenship') && data[property] != 'Россия') {
+				if(data.hasOwnProperty('doc_type['+number+'][1]') ){
 
-						number = property.replace('citizenship[', '').replace(']', '');
+					$('#add_doc_2_'+number+'').trigger('click');
 
-						$('#change_citezenship_'+number+'').trigger('click');
+					$("[name='doc_type["+number+"][1]']").val(data['doc_type['+number+'][1]']).trigger('change');
 
-					}
+					if(data['doc_type['+number+'][1]'] === "Внутррос. паспорт") {
 
-					 $("[name='"+property+"']").val(data[property]);					
-
+				    	$("[name='doc_type["+number+"][1]]").val("Внутррос. паспорт").trigger('change');
 					}
 
 				}
+
+				for (var property in data) {
+
+					if (data.hasOwnProperty(property)) {
+
+						if(property.includes('citizenship') && data[property] != 'Россия') {
+
+
+							$('#change_citezenship_'+number+'').trigger('click');
+
+						}
+
+						 $("[name='"+property+"']").val(data[property]);					
+
+						}
+
+					}
 
 			} else { 
 

@@ -274,7 +274,7 @@ class CheckRequest extends RequestVariables
 
 							} else {
 								
-								$doc_in_Not_in_tour_tourist = true;
+								$doc_is_Not_in_tour_tourist = true;
 							}
 						
 
@@ -285,7 +285,7 @@ class CheckRequest extends RequestVariables
 
 						$doc_exists = $existing_documents[0];
 
-						$doc_in_Not_in_tour_tourist = empty(Tour_tourist::where('doc0', $existing_documents[0]->id)
+						$doc_is_Not_in_tour_tourist = empty(Tour_tourist::where('doc0', $existing_documents[0]->id)
 
 								->orWhere('doc1', $existing_documents[0]->id)->first());
 					}
@@ -306,7 +306,7 @@ class CheckRequest extends RequestVariables
 					$documents_array[$doc_id]['check_info']['id'] = $doc_exists->id;
 
 
-				if($doc_in_Not_in_tour_tourist) {
+				if($doc_is_Not_in_tour_tourist) {
 
 					$documents_array[$doc_id]['check_info']['doc_is_Not_in_tour_tourist'] = true;
 
@@ -379,7 +379,6 @@ class CheckRequest extends RequestVariables
 			}
 
 
-// dump('return $documents_array', $documents_array);
 			return $documents_array;
 
 	}

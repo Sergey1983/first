@@ -38,16 +38,19 @@ class Tourist extends Model
 
 	}
 
+    public function tour_tourist() {
+
+      return $this->hasMany('App\Tour_tourist');
+
+    }
+
 
     public function previous_versions_of_tourist() {
 
     	return $this->hasMany('App\previous_tourist');
     }
 
-    // public function versionsTourist() {
 
-    // 	return $this->hasMany('App\previous_tourist');
-    // }
 
 
      public function documents()
