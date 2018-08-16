@@ -127,7 +127,7 @@ $(document).ready(function () {
 								'<td class="text-center">'+tour.debt_customer+'</td>'+
 								'<td class="text-center">'+tour.debt_agency+'</td>'+
 								'<td class="text-center">'+tour.saldo+'</td>'+
-								'<td class="text-center">'+toMmDdYy(tour.operator_full_pay)+'</td>'+
+								'<td class="text-center">'+toMmDdYy(tour.pay_date)+'</td>'+
 								'<td><a class="btn btn-sm btn-info" href="/tours/'+tour.id+'"><span class="glyphicon glyphicon-eye-open"></span></a></td>'+
 						'</tr>'
 

@@ -27,7 +27,7 @@
 								{!! Form::hidden('city_return_add', 0)!!}
 						 		{!! Form::hidden('city_return', 'АвиаТур')!!}
 						 		{!! Form::hidden('airport', 'AVIA')  !!} --}}
-								{!! Form::hidden('operator', 'АвиаТур') !!}
+								{!! Form::hidden('operator', '44') !!}
 								{!! Form::hidden('nights', 0) !!}
 {{-- 								{!! Form::hidden('date_depart', '1900-11-21') !!}
  --}}								{!! Form::hidden('date_hotel', 0) !!}

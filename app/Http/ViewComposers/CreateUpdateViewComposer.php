@@ -27,6 +27,7 @@ class CreateUpdateViewComposer
     protected $operators;
 
 
+
     /**
      * Create a new profile composer.
      *

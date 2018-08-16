@@ -580,13 +580,16 @@ class FunctionsController extends Controller
 
             foreach ($tours_for_accounting as $tour) {
 
+            $payments_to_operator = $tour->currency == 'RUB' ? $tour->payments_to_operator_rub_sum() : $tour->payments_to_operator_sum();
+
+            $tour->pay_date = $payments_to_operator == 0 ? $tour->operator_part_pay : $tour->operator_part_pay;
+
+
                 if(!is_null($tour->operator_price_rub)) {
 
                     $currency = self::getCurrency($tour);
 
                     $operator_price = $tour->currency == 'RUB' ? $tour->operator_price_rub : $tour->operator_price;
-
-                    $payments_to_operator = $tour->currency == 'RUB' ? $tour->payments_to_operator_rub_sum() : $tour->payments_to_operator_sum();
 
                     $debt_agency =  number_format($operator_price - $payments_to_operator, 2, '.', '');
 
@@ -611,7 +614,10 @@ class FunctionsController extends Controller
 
                     $tour->debt_customer = null;
 
+
                 }
+
+
 
             }
 
@@ -619,7 +625,6 @@ class FunctionsController extends Controller
         }
 
         // END FOR ACCOUNTING
-
 
 
         foreach ($tours as $key => $tour) {
@@ -638,6 +643,7 @@ class FunctionsController extends Controller
 
 
 // COMMISION: end;
+
 
             $tour->operator = $tour->operator_model->name;
 
