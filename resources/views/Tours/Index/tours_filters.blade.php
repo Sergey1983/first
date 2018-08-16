@@ -72,7 +72,7 @@
 
 					 		<div class="col-md-6 medium-label">
 
-								<medium>Только неаннулированные</medium>		 			
+								<medium>Скрыть аннулированные</medium>		 			
 
 					 		</div>
 

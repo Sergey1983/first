@@ -326,9 +326,8 @@ class FunctionsController extends Controller
 
         if($user !== 'statistics') {
 
-            if($user->permission !=0) {
 
-                $iser_id= [];
+            if($user->permission !=0) {
 
                 if(!$user->isAdmin()) {
 
@@ -344,7 +343,7 @@ class FunctionsController extends Controller
 
             } else { 
 
-                $iser_id = [['user_id', $user->id]];
+                $user_id = [['user_id', $user->id]];
 
             }
 
