@@ -6,6 +6,8 @@
 			{!! Form::open(['id'=>'search', 'class'=>'form', 'hidden'=>'hidden']) !!}
 	
 				{!! Form::text ('actuality', null, [ 'class'=>"form-control"])!!}
+				{!! Form::text ('status', 'Да', [ 'class'=>"form-control"])!!}
+
 				{!! Form::date ('created_from', null, ['class'=>'form-control'])!!}
 				{!! Form::date ('created_to', null, ['class'=>'form-control'])!!}
 				{!! Form::date ('depart_from', null, ['class'=>'form-control'])!!}

@@ -55,7 +55,7 @@
 							
 							<div class="col-md-12 no-padding-right">
 								
-								{!! Form::select ('report_type_f', $report_types, 'Туроператоры' , [ $results['request']['report_type'], 'class'=>"form-control", 'disabled'])!!}
+								{!! Form::select ('report_type_f', $report_types, $results['request']['report_type'], ['class'=>"form-control", 'disabled'])!!}
 
 							</div>
 

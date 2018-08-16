@@ -7,6 +7,8 @@
 	{{-- 	{!! Form::select ('actuality', ['Да'=>'Да', 'Нет' => 'Нет', 'Любые'=> 'Любые'], null, ['class'=>"form-control"])!!}
 	 --}}
 				{!! Form::text ('actuality', null, [ 'class'=>"form-control"])!!}
+				{!! Form::text ('status', null, [ 'class'=>"form-control"])!!}
+
 				{!! Form::date ('created_from', null, ['class'=>'form-control'])!!}
 				{!! Form::date ('created_to', null, ['class'=>'form-control'])!!}
 				{!! Form::date ('depart_from', null, ['class'=>'form-control'])!!}
@@ -62,14 +64,19 @@
 
 					 	<div class="form-group">
 
-					 		<div class="col-md-12 medium-label">
+					 		<div class="col-md-6 medium-label">
 
 								<medium>Актуальные</medium>		 			
 
 					 		</div>
 
+					 		<div class="col-md-6 medium-label">
 
-							<div class="btn-group btn-group-md col-md-12" data-toggle="buttons">
+								<medium>Только неаннулированные</medium>		 			
+
+					 		</div>
+
+							<div class="btn-group btn-group-md col-md-6" data-toggle="buttons">
 
 							      <label class="btn btn-primary active">
 							    
@@ -90,7 +97,23 @@
 							      </label>
 							</div>
 
+							<div class="btn-group btn-group-md col-md-6" data-toggle="buttons">
+
+							      <label class="btn btn-primary active">
+							    
+							        <input type="radio" name="status_f" value="Да" checked="checked">Да
+							    
+							      </label>
+							    
+							      <label class="btn btn-primary">
+							    
+							        <input type="radio" name="status_f" value="Нет">Нет
+							    
+							      </label>
+							    
+							</div>
 						</div>
+
 
 						<div class='form-group'>
 

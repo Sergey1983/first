@@ -170,48 +170,58 @@ class FunctionsController extends Controller
 
     public function filters($request, $user) {
 
+        $actuality = [];
+        $status = [];
+        $created = [];
+        $depart = [];
+        $ids = [];
+        $country = [];
+        $operator = [];
+        $hotel = [];
+        $product = [];
+        $manager = [];
+        $branch = [];
+        $user_id = [];
+        $city_from = [];
+        $tour_type = [];
+
+
 
 
         if($request->actuality == "Да") {
 
-            $actuality = 
-
-                        [
-
-                ['date_depart', '>=', date("Y-m-d H:i:s")],
-
-                        ];
+            $actuality =  [['date_depart', '>=', date("Y-m-d H:i:s")]];
 
             $actuality_yes = true;
-
-            // $status = ['Бронирование', 'Подтверждено'];
 
 
         } else if ($request->actuality == "Нет") {
 
-            $actuality =
-
-                        [
-
-                ['date_depart', '<=', date("Y-m-d H:i:s") ]
-
-                        ];
+            $actuality =[['date_depart', '<=', date("Y-m-d H:i:s") ]];
 
 
-        } else if ($request->actuality == "Любые") {
+        } 
+        // else if ($request->actuality == "Любые") {
 
-                $actuality = [];
+        //         $actuality = [];
 
+
+        // }
+
+
+
+       if($request->status == "Да") {
+
+            $status =[['status', '<>', 'Аннулировано']];
 
         }
+
 
 
 
         if(!is_null($request->created_from) OR !is_null($request->created_to)) {
 
     
-            $created = [];
-
             if(!is_null($request->created_from)) {
 
 
@@ -230,18 +240,11 @@ class FunctionsController extends Controller
             }
 
 
-        } else {
-
-            $created = [];
-
-
-        }
+        } 
 
 
         if(!is_null($request->depart_from) OR !is_null($request->depart_to)) {
 
-
-            $depart = [];
 
             if(!is_null($request->depart_from)) {
 
@@ -260,22 +263,16 @@ class FunctionsController extends Controller
             }
 
 
-        } else {
-
-            $depart = [];
-
-
-        }
+        } 
 
 
 
         if(!is_null($request->ids_from) OR !is_null($request->ids_to)) {
 
-//            $ids = [];
 
             if(!is_null($request->ids_from)) {
 
-                $ids[] = array('id', '>=', $request->ids_from); 
+                $ids[] = ['id', '>=', $request->ids_from]; 
 
             }
 
@@ -286,126 +283,93 @@ class FunctionsController extends Controller
 
             }
             
-/*           $ids_from = $request->ids_from;
-
-            $ids_to = $request->ids_to;
-
-
-            $ids = 
-
-            [
-                ['id', '>=', $ids_from],
-                ['id', '<=', $ids_to]
-            ];
-
-            */
-
-        } else {
-
-            $ids = [];
-
 
         }
 
 
-
         if(!is_null($request->country)) {
 
-            $country = [
+            $country = [['country', $request->country]];
 
-                ['country', $request->country]
-
-            ];
-
-        } else {
-
-            $country = [];
         }
 
 
 
         if(!is_null($request->operator)) {
 
-            $operator = [
+            $operator = [['operator', $request->operator]];
 
-                ['operator', $request->operator]
-
-            ];
-
-        } else {
-
-            $operator = [];
-        }
+        } 
 
 
 
         if(!is_null($request->hotel)) {
 
-            $hotel = [
+            $hotel = [['hotel', 'like', '%'.$request->hotel.'%']];
 
-                ['hotel', 'like', '%'.$request->hotel.'%']
-
-            ];
-
-        } else {
-
-            $hotel = [];
-        }
+        } 
 
 
         if(!is_null($request->product)) {
 
-            $product = [
+            $product = [['tour_type', $request->product]];
 
-                ['tour_type', $request->product]
-
-            ];
-
-        } else {
-
-            $product = [];
-        }
+        } 
 
 
         if(!is_null($request->manager)) {
 
-            $manager = [
+            $manager = [['user_id', $request->manager]];
 
-                ['user_id', $request->manager]
+        } 
 
-            ];
+
+        if($user !== 'statistics') {
+
+            if($user->permission !=0) {
+
+                $iser_id= [];
+
+                if(!$user->isAdmin()) {
+
+                    $branch = [['branch_id', $user->branch->id]];
+
+
+                } else {
+
+                    $branch = is_null($request->branch) ? [] : [['branch_id', $request->branch]];
+
+                }
+
+
+            } else { 
+
+                $iser_id = [['user_id', $user->id]];
+
+            }
 
         } else {
 
-            $manager = [];
-        }
+            if(!is_null($request->user_id)) {
+            
+                $user_id = [['user_id', $request->user_id]];
 
-
-    if($user->permission !=0) {
-
-        $iser_id= [];
-
-        if(!$user->isAdmin()) {
-
-            $branch = [['branch_id', $user->branch->id]];
-
-
-        } else {
-
-            $branch = is_null($request->branch) ? [] : [['branch_id', $request->branch]];
+            }
 
         }
 
 
-    } else { 
+        if(!is_null($request->city_from)) {
 
-        $branch = [];
+            $city_from = [['city_from', $request->city_from]];
+        }
 
-        $iser_id = [['user_id', $user->id]];
+        if(!is_null($request->tour_type)) {
 
-    }
+            $tour_type = [['tour_type', $request->tour_type]];
+        }
 
-        return array_merge($actuality, $created, $depart, $ids, $country, $operator, $hotel, $product, $manager, $branch, $iser_id);
+        return array_merge($actuality, $status, $created, $depart, $ids, $country, $operator, $hotel, $product, $manager, $branch, $user_id, $city_from, $tour_type);
 
     }
 

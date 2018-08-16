@@ -87,13 +87,27 @@ class StatisticsController extends Controller {
 
 		$func = new Func;
 
-		if($request->report_type == 'operator') { $request->key = Operator::where('name', $request->key)->first()->id; }
 
-		$request->{$request->report_type} = $request->key;
 
-		$filters = $func->filters($request, auth()->user());
 
-		$tours = Tour::where(array_merge($filters, [['status', '<>', 'Аннулировано']]))->get();
+		if(in_array($request->report_type, ['user_id', 'operator'])) {
+
+			$model = $request->report_type == 'user_id' ? new User : new Operator;
+				
+			$request->key = $model::where('name', $request->key)->first()->id;
+
+		}
+
+		$request[$request->report_type] = $request->key;
+
+// dump($request->all());
+
+
+		$filters = $func->filters($request, 'statistics');
+
+// dd($filters);
+
+		$tours = Tour::where(array_merge($filters))->get();
 
 		$tours_result = $tours->map(function($tour, $key) use($func) {
 
@@ -113,6 +127,8 @@ class StatisticsController extends Controller {
 			}
 
 		}
+
+		// dd($tours);
 
 		return view('Statistics.statistics_for_one')->with('results', $tours);
 
