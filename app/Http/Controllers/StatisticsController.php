@@ -30,7 +30,7 @@ class StatisticsController extends Controller {
 	public function real_profit ($tour) {
 
 
-		if(round($tour->payments_from_tourists_sum()) == round($tour->price) && round($tour->payments_to_operator_sum()) == round($tour->operator_price) && $tour->status == 'Подтверждено') 
+		if(round($tour->payments_from_tourists_sum()) == round((float)$tour->price) && round($tour->payments_to_operator_sum()) == round((float)$tour->operator_price) && $tour->status == 'Подтверждено') 
 		
 		{
 

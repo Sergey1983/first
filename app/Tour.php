@@ -11,12 +11,6 @@ class Tour extends Model
 	use Excludable;
 
 
-
-    protected $casts = [
-
-        'operator_price' => 'float'
-    ];
-
     public function tourists() {
 
    		return $this->belongsToMany('App\Tourist')->withPivot('is_buyer', 'is_tourist', 'user_id', 'doc0', 'doc1')
