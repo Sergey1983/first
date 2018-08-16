@@ -80,39 +80,17 @@ $(document).ready(function () {
 				
 				console.log(data);
 
-				// var prev_url = data.prev_page_url == null ? null : getAndDecrementLastNumber(data.prev_page_url);
-				// var next_url = data.next_page_url == null ? null : getAndIncrementLastNumber(data.next_page_url, data.last_page);
-
-				// console.log(prev_url,next_url);
-
-				// $('[aria-label="Previous"]').attr('href', prev_url);
-				// $('[aria-label="Next"]').attr('href', next_url);
 
 
 				$('[aria-label="Previous"]').attr('href', data.prev_page_url );
 				$('[aria-label="Next"]').attr('href', data.next_page_url);
 
-				
-				// $('[aria-label="Previous"]').attr('href', data.current_page == 1 ? null : '../load_tours_function?page='+data.current_page+'');
-				// $('[aria-label="Next"]').attr('href', data.current_page == data.last_page ? null : '../load_tours_function?page='+data.current_page+'');
-
-				// var thead = $('#load_tours_table_thead');
 				var tbody = $('#tbody_tours');
 
 				tbody.empty();
 
 				$('pagination[class="pagination"]').find('li').not(':first').not(':last').remove();
 
-				// var pagination_li = $('pagination[class="pagination"]').find('li');
-
-				// var pagination_li_count = pagination_li.length;
-
-				// // pagination_li.filter(function(i){
-
-				// // 	return i >1 && i <pagination_li;
-
-				// // }).remove();
-				//leaves only "Previous" and "Next" li-s
 
 				var from = data.current_page;
 
@@ -150,7 +128,6 @@ $(document).ready(function () {
 								'<td><a class="btn btn-sm btn-info" href="/tours/'+tour.id+'"><span class="glyphicon glyphicon-eye-open"></span></a></td>'+
 						'</tr>'
 
-//test
 						);
 
 

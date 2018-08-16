@@ -1,5 +1,4 @@
 
-
 	<div class="col-md-12">
 
 		<table class='table table-striped table-hover table-responsive no-margin-bottom'>
