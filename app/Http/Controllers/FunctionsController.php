@@ -24,6 +24,8 @@ use App\Document;
 
 use App\Operator;
 
+use App\Sample;
+
 
 class FunctionsController extends Controller
 
@@ -168,7 +170,7 @@ class FunctionsController extends Controller
 
 
 
-    public function filters($request, $user) {
+    public function filters($request, $user, &$hide_cancelled = null) {
 
         $actuality = [];
         $status = [];
@@ -201,6 +203,7 @@ class FunctionsController extends Controller
 
 
         } 
+
         // else if ($request->actuality == "Любые") {
 
         //         $actuality = [];
@@ -210,9 +213,9 @@ class FunctionsController extends Controller
 
 
 
-       if($request->status == "Да") {
+       if($request->status == "Нет") {
 
-            $status =[['status', '<>', 'Аннулировано']];
+            $hide_cancelled = false;
 
         }
 
@@ -405,7 +408,7 @@ class FunctionsController extends Controller
 
             }
 
-   return $commission;
+    return $commission;
 
     }
 
@@ -414,7 +417,7 @@ class FunctionsController extends Controller
 
      {
      	
-        // return $request->all();
+
 
         $user = auth()->user();
 
@@ -422,9 +425,11 @@ class FunctionsController extends Controller
 
         $actuality_yes = $request->actuality == "Да" ? true : false;
 
+        $hide_cancelled = true;
+
         $sort = $this->sort($request);
 
-        $filters = $this->filters($request, $user); 
+        $filters = $this->filters($request, $user, $hide_cancelled); 
 
 
         if(isset($request->tourist_name) OR isset($request->tourist_lastname)) {
@@ -475,9 +480,22 @@ class FunctionsController extends Controller
 
                     })
 
+
+                    ->when($hide_cancelled, function($query){
+
+                        return $query->where(function($query) {
+                                
+                                $query->where('status', '<>', 'Аннулировано')
+                                ->orwhereNull('status');
+
+                                });
+
+                    })
+
                     ->where($filters)
 
                     ->orderBy($sort['column'], $sort['order'])->get();
+
 
                 //Get current page:
 
