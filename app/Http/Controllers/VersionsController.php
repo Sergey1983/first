@@ -91,7 +91,6 @@ class VersionsController extends Controller
             $return_array[$this_version]['user'] = User::find($tourists_and_documents[0]['user_id'])->name;
 
 
-// dd($return_array);
 
             foreach ($tourists_and_documents as $key => $tourist_and_documents) {
 
@@ -128,7 +127,6 @@ class VersionsController extends Controller
 
                 $_this = $return_array[$this_version];
                 $_previous = $return_array[$this_version-1];
-
 
 
                 if(count($_this['tourists']) != count($_previous['tourists'])) {
@@ -399,9 +397,6 @@ class VersionsController extends Controller
 
 
         }
-
-// die();
-
 
 
         foreach ($return_array as $key => $version) {

@@ -22,8 +22,6 @@ class SortRequest extends RequestVariables
 
         $request_array = request()->all();
 
-// dd($request_array);
-
         $number_of_tourists = count(request()->name);
 
         $request_sorted = [];
@@ -98,15 +96,6 @@ class SortRequest extends RequestVariables
 
 
 
-        // foreach ($tourists_array as $property => $values) {
-
-        //         for ($i=0; $i<$number_of_tourists; $i++) {
-
-        //             $request_sorted['tourists'][$i][$property] = $values[$i];
-
-        //             }
-
-        // }
         
 
         if(isset($check_info_tourists)) {

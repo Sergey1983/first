@@ -26,19 +26,20 @@ class TourAccessMiddleware
         $tour = $request->tour;
 
 
-
         if(($user->permission !=1) && ($tour->user->id != $user->id)) {
 
             return redirect('/');
-
         }
+
 
         elseif((!$user->isAdmin()) && ($tour->branch != $user->branch)) {
 
+            if($tour->user->id != $user->id) {
+
             return redirect('/');
 
+            }
         }
-
 
         return $next($request);
     }
