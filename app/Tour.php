@@ -53,6 +53,25 @@ class Tour extends Model
        return $this->previous_tours->isNotEmpty() ? $this->previous_tours->sortby('created_at')->first()->user->name : $this->user->name;
     }
 
+    public function is_user_diff() {
+
+        if ($this->previous_tours->isNotEmpty()) {
+
+            if($this->user_id != $this->previous_tours->sortby('created_at')->first()->user_id) {
+
+                return [$this->id, $this->user_id, $this->previous_tours->sortby('created_at')->first()->user_id];
+            }
+        }
+    }
+
+    public function change_user_id() {
+
+        $this->user_id = $this->previous_tours->sortby('created_at')->first()->user_id;
+
+        $this->save();
+
+    }
+
     public function branch() {
 
         return $this->belongsTo('App\Branch');
