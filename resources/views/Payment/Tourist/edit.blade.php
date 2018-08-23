@@ -3,26 +3,23 @@
 @section('content')
 
 <script type="text/javascript" src="{{ URL::asset('js/various/alert_fadeout.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/payment_tourist/pay_fullfil.js ') }}"></script>
 
-
-{{-- <div class="container-fluid text-center margin-bottom-10">
-	
-	<h3>Внести оплату от туриста</h3>
-
-</div>
-
-<div class="container-fluid"> --}}
 
 
 @php
 
-	$currency = strtoupper($tour->currency)
+	$currency = strtoupper($tour->currency);
+
+	$url = $request->create == true ? '/tours/'.$tour->id.'/pay_tourist?&create=true' : '/tours/'.$tour->id.'/pay_tourist';
 
 @endphp
 
+
 		<div class="col-md-6 margin-top-25">
-	
-			{!!Form::open(['id' => 'payment_tourist', 'class' =>'form-horizontal'])!!}
+
+
+ 			{!!Form::open(['url' => $url, 'id' => 'payment_tourist', 'class' =>'form-horizontal']) !!}
 
 
 					 	<div class="form-group">
@@ -32,7 +29,7 @@
 
 							<div class="col-md-4">
 
-								<div class="well well-sm" style="margin-bottom:0px;">{{$tour->price}}</div>
+								<div class="well well-sm" style="margin-bottom:0px;" id="price">{{$tour->price}}</div>
 
 						 	</div>
 
@@ -60,7 +57,7 @@
 
 							<div class="col-md-4">
 
-								<div class="well well-sm" style="margin-bottom:0px;">{{$tour->price_rub}}</div>
+								<div class="well well-sm" style="margin-bottom:0px;" id="price_rub">{{$tour->price_rub}}</div>
 
 						 	</div>
 
@@ -102,6 +99,22 @@
 
 
 
+@php
+
+$create_and_credit = $tour->is_credit == 1 && $request->create == true;
+
+$first_payment = $create_and_credit ? $tour->first_payment : null;
+
+$pay_methods = $create_and_credit ? [3 => "Кредит"] : $pay_methods;
+
+$pay_method = $create_and_credit ? 3 : null;
+
+$readonly =  $create_and_credit ? 'readonly' : null;
+
+
+@endphp
+
+
 					 	<div class="form-group" id="pay_rub">
 
 
@@ -109,7 +122,15 @@
 
 							<div class="col-md-4">
 
+{{-- 								@if($tour->is_credit == 1 && $request->create == true) 
+ --}}
+						 		{!! Form::text('pay_rub', $first_payment, ['placeholder' =>  'Введите сумму в рублях', 'class'=>"form-control", 'id'=>'pay_rub', 'required', $readonly] )  !!}
+{{-- 
+						 		@else
+
 						 		{!! Form::text('pay_rub', null, ['placeholder' =>  'Введите сумму в рублях', 'class'=>"form-control", 'id'=>'pay_rub', 'required'] )  !!}
+
+						 		@endif --}}
 
 						 	</div>
 
@@ -123,7 +144,7 @@
 
 							<div class="col-md-4">
 
-						 		{!! Form::select('pay_method_id', $pay_methods, null, ['class'=>"form-control", 'id'=>'pay_method_id', 'required'] )  !!}
+						 		{!! Form::select('pay_method_id', $pay_methods, $pay_method, ['class'=>"form-control", 'id'=>'pay_method_id', 'required', $readonly] )  !!}
 
 						 	</div>
 

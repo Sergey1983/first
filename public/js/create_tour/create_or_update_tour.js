@@ -28,7 +28,6 @@ $(document).ready(function() {
 
 					event.preventDefault();
 
-
 					create_or_update(event.data.value); 
 
 					// console.log('verb after function', verb);
@@ -146,14 +145,17 @@ $(document).ready(function() {
 
 							console.log(data);
 
-						if(data == 'success')	{
+						// if(data == 'success')	{
+
+						if(data.hasOwnProperty('success')) {
 
 							if(action == 'create') {
 							
-								window.location.href = '/tours';
+								// window.location.href = '/tours';
+								window.location.href = "/tours/"+data.tour_id+"/pay_tourist?&create=true";
+
 
 							} else if( action == 'update') {
-
 
 								window.location.href = "/tours/"+id+"";
 
@@ -198,8 +200,6 @@ $(document).ready(function() {
 							} else if(data.type == 'sameid' || data.type == 'same_doc_type_and_number') {
 
 								$.each(data.tourists_numbers, function (index, value) {
-
-
 
 
 								$('[class="inputs_'+data.tourists_numbers[index]+' padding-all-10"]').append('<div class="row">'+

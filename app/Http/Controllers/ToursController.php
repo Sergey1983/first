@@ -191,9 +191,9 @@ class ToursController extends Controller
             // // PreviousVersions::createVersion($tour);
             // PreviousVersions::createVersion($tour, $request_sorted['user']);        
 
-            self::save_or_update($action, $request_sorted, $is_tour_no_updates, $tour, $tourists_and_documents);
+            return self::save_or_update($action, $request_sorted, $is_tour_no_updates, $tour, $tourists_and_documents);
 
-            return 'success';
+            // return 'success';
 
         } else {
 
@@ -244,9 +244,9 @@ class ToursController extends Controller
                 // // PreviousVersions::createVersion($tour);
                 // PreviousVersions::createVersion($tour, $request_sorted['user']);    
 
-                    self::save_or_update($action, $request_sorted, $is_tour_no_updates, $tour, $checked_tourists_and_documents);
+                    return self::save_or_update($action, $request_sorted, $is_tour_no_updates, $tour, $checked_tourists_and_documents);
 
-                    return 'success';
+                    // return 'success';
 
                 break;
 
@@ -280,10 +280,9 @@ class ToursController extends Controller
                       //   // PreviousVersions::createVersion($tour);
                       //   PreviousVersions::createVersion($tour, $request_sorted['user']); 
 
-                        self::save_or_update($action, $request_sorted, $is_tour_no_updates, $tour, $checked_tourists_and_documents);
+                        return self::save_or_update($action, $request_sorted, $is_tour_no_updates, $tour, $checked_tourists_and_documents);
 
-
-                        return 'success';
+                        // return 'success';
 
                     } else {
 
@@ -332,7 +331,10 @@ class ToursController extends Controller
             //  Когда в предыдущей функции делается ->sync(), видимо, не успевает обновить relationship между моделями tour->tourist поэтому нужно инициировать $tour еще раз. Может это связано с тем, что у меня в таблице tour_tourists нет id...
             $tour = Tour::find($tour->id);
 
-            PreviousVersions::createVersion($tour, $request_sorted['user']['user_id']);           
+            PreviousVersions::createVersion($tour, $request_sorted['user']['user_id']);  
+
+            return ['success' => true, 'tour_id' => $tour->id];
+
 
 
     }

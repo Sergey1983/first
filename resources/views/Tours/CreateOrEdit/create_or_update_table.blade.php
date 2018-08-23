@@ -1,12 +1,4 @@
-{{-- <div class="container-fluid">
 
-	<div class="row">
-
-		<h2 class='col-md-12 text-center'>{{$verb}}: {{$tour_type_rus}} тур. @if($verb == 'Обновить') Заявка  @endif</h2>
-
-	</div>
-
-</div> --}}
 
 
 <span id="id" hidden="">@isset($tour){{$tour->id}}@endisset</span>
@@ -595,8 +587,8 @@
 
 </div>
 
-{{-- 
 
+{{-- 
 <script type="text/javascript">
 
 
@@ -670,7 +662,6 @@ function airport() {
 }
 
 
-</script>
+</script> --}}
 
 
- --}}

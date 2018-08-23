@@ -190,6 +190,68 @@ class Printing
 
       $manager = $tour->previous_tours->sortBy('created_at')->first()->user;
 
+        // dd();
+      
+      if($tour->payments_from_tourists->isEmpty()) {
+
+        return 'Нет платежей от туриста, договор нельзя напечатать!';
+      }
+      $first_payment = $tour->payments_from_tourists->first()->pay_rub;
+
+
+
+      if($tour->is_credit) {
+
+        $left_to_pay = $tour->price_rub - $first_payment;
+
+        $avans = 'Аванс: '.PHP_EOL .'<strong>'.number_format($first_payment, '0', '', ' ').'</strong> рублей.'.PHP_EOL.' Прописью: <strong>'.$f->format($first_payment).' рублей.</strong> '.PHP_EOL;
+
+        $doplata = 'Доплата в '.$tour->bank. ':'.PHP_EOL.' <strong>'.$left_to_pay. '</strong> рублей. '.PHP_EOL.' Прописью: <strong>'. $f->format($left_to_pay).' рублей</strong>'.PHP_EOL.'сумма';
+
+      } else {
+
+        $left_to_pay = $tour->price - $tour->payments_from_tourists_sum();
+
+        switch($tour->currency) {
+
+          case('USD'): $cur = 'доллару США';
+          case('EUR'): $cur = 'евро';
+          case('RUB'): $cur = 'рубль';
+
+        }
+
+        $avans = 'Аванс: '.PHP_EOL .'<strong>'.number_format($first_payment, '0', '', ' ').'</strong> руб.'.PHP_EOL.' Прописью: <strong>'.$f->format($first_payment).' руб.</strong> '.PHP_EOL;
+
+        switch ($cur) {
+
+          case 'рубль':
+
+              $doplata = 'Доплата: <strong>'.PHP_EOL.
+
+              $left_to_pay.'</strong> руб.'.PHP_EOL.
+
+              'Прописью: <strong>'. $f->format($left_to_pay).'</strong> руб.'.PHP_EOL.'сумма';
+
+
+            break;
+          
+          default:
+      
+              $doplata = 'Доплата: <strong>'.PHP_EOL.
+
+              $left_to_pay.'</strong> у.е.,'.PHP_EOL.
+
+              'одна условная единица равна одному '. $cur . ' по курсу туроператора на день оплаты'. PHP_EOL. 
+
+              'Прописью: <strong>'. $f->format($left_to_pay).'</strong> у.е.'.PHP_EOL.'сумма';
+
+            break;
+        }
+
+
+
+      }
+
       $dictionary = [
 
         '$id' => $tour->id,
@@ -284,7 +346,11 @@ class Printing
 
         '$managerPatronymic' => $manager->patronymic,
 
-        '$branch_details' => nl2br($tour->branch->details)
+        '$branch_details' => nl2br($tour->branch->details), 
+
+        '$doplata' => nl2br($doplata), 
+
+        '$avans' => nl2br($avans)
 
       ];
 

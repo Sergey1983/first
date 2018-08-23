@@ -15,11 +15,11 @@ use Validator;
 class PaymentTouristController extends Controller
 {
     
-	public function create(Tour $tour)
+	public function create(Tour $tour, Request $request)
 
 	{
 		
-		return view('Payment.Tourist.edit', compact('tour'));
+		return view('Payment.Tourist.edit', compact('tour', 'request'));
 
 	}
 
@@ -40,6 +40,19 @@ class PaymentTouristController extends Controller
 	public function store(paymentRequest $request, Tour $tour)
 
 	{
+
+		$route = 'payment_tourist.create';
+		$parameters = ['id' => $tour->id];
+
+		//If payments is added instantly after CREATING a tour;
+
+		if(isset($request->create) && $request->create == true) {
+
+			$route = 'contract.show';
+			$parameters= array_merge($parameters, ['doc_type' => 'contract']);
+
+		} 
+
 
 		$rules = [];
 
@@ -85,6 +98,8 @@ class PaymentTouristController extends Controller
 
         $user = auth()->user();
 
+
+
 		$request = $request->toArray();
 
 		$request['pay'] = isset($request['pay']) ? $request['pay'] : $request['pay_rub'];
@@ -96,10 +111,15 @@ class PaymentTouristController extends Controller
 			$tour->save();
 		}
 
+
+
+
+		unset($request['create']);
+
 		Payments_from_tourist::create(array_merge(['tour_id'=>$tour->id, 'user_id'=>$user->id], $request));
 
 
-		return redirect()->route('payment_tourist.create', ['id' => $tour->id]);
+		return redirect()->route($route, $parameters);
 
 
 	}

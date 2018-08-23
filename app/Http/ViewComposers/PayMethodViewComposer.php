@@ -29,6 +29,7 @@ class PayMethodViewComposer
         
         $this->pay_methods = $pay_methods;
 
+
         // dd($this->branches);
 
     }
