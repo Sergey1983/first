@@ -103,7 +103,9 @@
 
 $create_and_credit = $tour->is_credit == 1 && $request->create == true;
 
-$first_payment = $create_and_credit ? $tour->first_payment : null;
+$tour_first_payment = $tour->first_payment === null ? 0 : $tour->first_payment;
+
+$first_payment = $create_and_credit ? $tour_first_payment : null;
 
 $pay_methods = $create_and_credit ? [3 => "Кредит"] : $pay_methods;
 
@@ -296,7 +298,7 @@ $readonly =  $create_and_credit ? 'readonly' : null;
 						@endunless
 					<td>{{$payment->user->name}}</td>
 						@unless($tour->currency == 'RUB')
-							<td>{{number_format($payment->pay_rub / $payment->pay, '2', ',', ' ')}}</td>
+							<td>{{$payment->pay != 0 ? number_format($payment->pay_rub / $payment->pay, '2', ',', ' ') : '-'}}</td>
 						@endunless
 					<td>{{$payment->created_at}}</td>
 					<td>{{$payment->pay_method->name}}</td>
