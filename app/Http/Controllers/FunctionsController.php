@@ -418,7 +418,6 @@ class FunctionsController extends Controller
      {
      	
 
-
         $user = auth()->user();
 
         $tourist_search = false;
@@ -565,7 +564,6 @@ class FunctionsController extends Controller
 
             $tour->pay_date = $payments_to_operator == 0 ? $tour->operator_part_pay : $tour->operator_part_pay;
 
-
                 if(!is_null($tour->operator_price_rub)) {
 
                     $currency = self::getCurrency($tour);
@@ -674,6 +672,17 @@ class FunctionsController extends Controller
 
         }
 
+        // SOrt by pay_date if it's accounting (pay_date can be bot 'operator_full_pay' and 'operator_part_pay' so the sorting when getting tours from DB makes no sense)
+
+        // if($sort['column'] == 'operator_full_pay') {
+
+        //     $sort_method = $sort['order'] == 'asc' ? 'sortBy' : 'sortByDesc';
+
+        //     $tours->{$sort_method}('pay_date');
+        // }
+
+
+
 
         if($user->isAdmin()) {
 
@@ -682,6 +691,10 @@ class FunctionsController extends Controller
             $tours = $custom->merge($tours);
 
         }
+
+
+
+
 
 
         return $tours;
