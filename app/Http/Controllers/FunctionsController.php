@@ -416,7 +416,7 @@ class FunctionsController extends Controller
      public function load_tours(Request $request)
 
      {
-     	
+    	
 
         $user = auth()->user();
 
@@ -510,6 +510,7 @@ class FunctionsController extends Controller
 
                 $tours = new Paginator($items, $total, $paginate, $current_page, ['path' => Paginator::resolveCurrentPath()]);
 
+
                 $tours_for_accounting = $collection;
 
         //     } else {
@@ -552,6 +553,7 @@ class FunctionsController extends Controller
         // FOR ACCOUNTING:
 
 
+
         if($user->isAdmin()) {
 
             $saldo_RUB = 0;
@@ -562,7 +564,9 @@ class FunctionsController extends Controller
 
             $payments_to_operator = $tour->currency == 'RUB' ? $tour->payments_to_operator_rub_sum() : $tour->payments_to_operator_sum();
 
-            $tour->pay_date = $payments_to_operator == 0 ? $tour->operator_part_pay : $tour->operator_part_pay;
+
+            $tour->pay_date = $payments_to_operator == 0 ? $tour->operator_part_pay : $tour->operator_full_pay;
+
 
                 if(!is_null($tour->operator_price_rub)) {
 
@@ -601,7 +605,26 @@ class FunctionsController extends Controller
             }
 
 
+        //Sort by pay_date if it's accounting (pay_date can be bot 'operator_full_pay' and 'operator_part_pay' so the sorting when getting tours from DB makes no sense)
+
+            if($sort['column'] == 'operator_full_pay') {
+
+                $sort_method = $sort['order'] == 'asc' ? 'sortBy' : 'sortByDesc';
+
+                $collection = $collection->filter(function($value, $key){ return $value->pay_date !== null; });
+
+                $collection->{$sort_method}('pay_date');
+
+
+            }
+
+
+
         }
+
+
+// dd($collection->pluck('pay_date'));
+
 
         // END FOR ACCOUNTING
 
@@ -672,14 +695,7 @@ class FunctionsController extends Controller
 
         }
 
-        // SOrt by pay_date if it's accounting (pay_date can be bot 'operator_full_pay' and 'operator_part_pay' so the sorting when getting tours from DB makes no sense)
 
-        // if($sort['column'] == 'operator_full_pay') {
-
-        //     $sort_method = $sort['order'] == 'asc' ? 'sortBy' : 'sortByDesc';
-
-        //     $tours->{$sort_method}('pay_date');
-        // }
 
 
 
@@ -694,6 +710,7 @@ class FunctionsController extends Controller
 
 
 
+// dd($tours->sortBy('operator_full_pay')->pluck('operator_full_pay'));
 
 
 
