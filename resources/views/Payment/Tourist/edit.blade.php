@@ -264,6 +264,9 @@ $readonly =  $create_and_credit ? 'readonly' : null;
 							<th>Сумма в RUB</th>
 						@endunless
 					<th>Менеджер</th>
+						@unless($tour->currency == 'RUB')
+							<th>Курс</th>
+						@endunless
 					<th>Время добавление</th>
 					<th>Метод оплаты</th>
 					<th></th>
@@ -292,6 +295,9 @@ $readonly =  $create_and_credit ? 'readonly' : null;
 							<td>{{$payment->pay_rub}}</td>
 						@endunless
 					<td>{{$payment->user->name}}</td>
+						@unless($tour->currency == 'RUB')
+							<td>{{number_format($payment->pay_rub / $payment->pay, '2', ',', ' ')}}</td>
+						@endunless
 					<td>{{$payment->created_at}}</td>
 					<td>{{$payment->pay_method->name}}</td>
 
