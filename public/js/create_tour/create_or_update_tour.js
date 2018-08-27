@@ -20,6 +20,9 @@ $(document).ready(function() {
 
 					create_or_update(event.data.value); 
 
+					disable_button_for_three_secs();
+
+
 
 				});
 
@@ -33,6 +36,7 @@ $(document).ready(function() {
 					// console.log('verb after function', verb);
 
 				});
+
 
 
 
@@ -150,6 +154,8 @@ $(document).ready(function() {
 						if(data.hasOwnProperty('success')) {
 
 							if(action == 'create') {
+
+								$('#submit_button').attr("disabled", "");
 							
 								// window.location.href = '/tours';
 								window.location.href = "/tours/"+data.tour_id+"/pay_tourist?&create=true";

@@ -36,7 +36,7 @@
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/mouse_over_dis_docs.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/cancel_patronymic.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/operator_full_pay.js') }}"></script>
-
+<script type="text/javascript" src="{{ URL::asset('js/create_tour/disable_button_for_three_secs.js') }}"></script>
 
 
 @endsection

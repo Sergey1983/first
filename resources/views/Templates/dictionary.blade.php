@@ -89,6 +89,8 @@
                 <tr><td>$managerName</td><td>Менедежер: имя</td></tr>
                 <tr><td>$managerLastName</td><td>Менедежер: фамилия</td></tr>
                 <tr><td>$managerPatronymic</td><td>Менедежер: отчество</td></tr>
+                <tr><td>$avans</td><td>Аванс</td></tr>
+                <tr><td>$doplata</td><td>Доплата ёпта</td></tr>
             </tbody>
 
           </table>
@@ -115,7 +117,7 @@
 
                 <div>
 
-                    Переменные '$branch_details', '$operator', '$sightseeing', '$extra_info' нельзя закрывать в тэги.
+                    Переменные '$branch_details', '$operator', '$sightseeing', '$extra_info', '$avans', '$doplata' нельзя закрывать в тэги.
                     т.е. правильно:
                     <pre style="text-align: left">
                     {{htmlentities('
