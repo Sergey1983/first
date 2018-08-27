@@ -33,7 +33,7 @@ $(document).ready(function() {
 
 					create_or_update(event.data.value); 
 
-					// console.log('verb after function', verb);
+					disable_button_for_three_secs();
 
 				});
 
