@@ -20,7 +20,7 @@ $(document).ready(function() {
 
 					create_or_update(event.data.value); 
 
-					disable_button_for_three_secs();
+					disable_button_for_three_secs($('#submit_button'));
 
 
 
@@ -33,7 +33,7 @@ $(document).ready(function() {
 
 					create_or_update(event.data.value); 
 
-					disable_button_for_three_secs();
+					disable_button_for_three_secs($('#update_button'));
 
 				});
 
