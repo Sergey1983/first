@@ -44,6 +44,8 @@
 
 								<div class="well well-sm" style="margin-bottom:0px;">{{number_format($tour->price - $tour->payments_from_tourists_sum(), 2, '.', '')}}</div>
 
+{{-- 								<div class="well well-sm" style="margin-bottom:0px;">{{$tour->price - $tour->payments_from_tourists_sum()}}</div>
+ --}}
 						 	</div>
 
 						</div>
