@@ -650,7 +650,7 @@ class FunctionsController extends Controller
 
                     $buyer = Tourist::find($tourist->tourist_id);
 
-                    $tour->buyer = $buyer->lastName.' '.substr($buyer->name, 0, 2).'.';
+                    $tour->buyer = $buyer->lastName.' '.substr($buyer->name, 0, 2).'. '.substr($buyer->patronymic, 0, 2).'.';
 
                 }
 

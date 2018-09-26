@@ -51,6 +51,7 @@
 				    <th>Валюта</th>
 				    <th>Cумма</th>
 				    <th>Сумма в рублях</th>
+				    <th>Курс</th>
 				    <th>Метод оплаты</th>
 			  	</tr>
 
@@ -62,11 +63,12 @@
 				<tr>
 				    <td>{{ $payment->created_at }}</td>
 				    <td><a href="/tours/{{ $payment->tour_id }}">{{ $payment->tour_id }}</a></td>
-				    <td>{{ $payment->tour->buyer[0]->lastName }} {{substr($payment->tour->buyer[0]->name, 0, 2)}}.</td>
+				    <td>{{ $payment->tour->buyer[0]->lastName }} {{substr($payment->tour->buyer[0]->name, 0, 2)}}. {{substr($payment->tour->buyer[0]->patronymic, 0, 2)}}.</td>
 				    <td>{{ $payment->user->name }}</td>
 				    <td>{{ $payment->tour->currency }}</td>
 				    <td>{{ $payment->pay }}</td>
 				    <td>{{ $payment->pay_rub }}</td>
+				    <td>{{ $payment->pay ? number_format($payment->pay_rub / $payment->pay, 2, ',', ' ') : '-' }}</td>
 				    <td>{{ $payment->pay_method->name }}</td>
 
 			  	</tr>
