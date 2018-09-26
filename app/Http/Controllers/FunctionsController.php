@@ -495,59 +495,8 @@ class FunctionsController extends Controller
 
                     ->orderBy($sort['column'], $sort['order'])->get();
 
+        $tours_for_accounting = $collection;
 
-                //Get current page:
-
-                $current_page = Paginator::resolveCurrentPage();
-
-                // Get items for current page (use values() method to reset the keys):
-
-                $items = $collection->slice(($current_page - 1) * $paginate, $paginate)->values();
-
-                $total = $collection->count();
-
-                // PAGINATE!!!:)
-
-                $tours = new Paginator($items, $total, $paginate, $current_page, ['path' => Paginator::resolveCurrentPath()]);
-
-
-                $tours_for_accounting = $collection;
-
-        //     } else {
-
-        //         $tours = Tour::when($tourist_search, function($query) use ($tour_tourists_ids_array) {
-
-        //             return $query->whereIn('id', $tour_tourists_ids_array);
-
-        //             })
-
-
-        //             ->where($filters)
-
-        //             ->orderBy($sort['column'], $sort['value'])
-
-        //             ->paginate($paginate);
-
-        //     }
-
-        // } else {
-
-
-
-        //     $tours = Tour::when($tourist_search, function($query) use ($tour_tourists_ids_array) {
-
-        //         return $query->whereIn('id', $tour_tourists_ids_array);
-
-        //         })
-
-        //         ->where(array_merge($filters, array(['user_id', $user->id])))
-
-        //         ->orderBy($sort['column'], $sort['value'])
-
-        //         ->paginate($paginate);
-
-
-        // }
 
 
         // FOR ACCOUNTING:
@@ -605,7 +554,7 @@ class FunctionsController extends Controller
             }
 
 
-        //Sort by pay_date if it's accounting (pay_date can be bot 'operator_full_pay' and 'operator_part_pay' so the sorting when getting tours from DB makes no sense)
+        //Sort by pay_date if it's accounting (pay_date can be both 'operator_full_pay' and 'operator_part_pay' so the sorting when getting tours from DB makes no sense)
 
             if($sort['column'] == 'operator_full_pay') {
 
@@ -613,8 +562,7 @@ class FunctionsController extends Controller
 
                 $collection = $collection->filter(function($value, $key){ return $value->pay_date !== null; });
 
-                $collection->{$sort_method}('pay_date');
-
+                $collection = $collection->{$sort_method}('pay_date');
 
             }
 
@@ -622,11 +570,27 @@ class FunctionsController extends Controller
 
         }
 
+        // END FOR ACCOUNTING;
 
-// dd($collection->pluck('pay_date'));
 
 
-        // END FOR ACCOUNTING
+//PAGINATION
+
+        //Get current page:
+
+        $current_page = Paginator::resolveCurrentPage();
+
+        // Get items for current page (use values() method to reset the keys):
+
+        $items = $collection->slice(($current_page - 1) * $paginate, $paginate)->values();
+
+        $total = $collection->count();
+
+        $tours = new Paginator($items, $total, $paginate, $current_page, ['path' => Paginator::resolveCurrentPath()]);
+
+
+
+//END PAGINATION;
 
 
         foreach ($tours as $key => $tour) {
@@ -709,10 +673,7 @@ class FunctionsController extends Controller
         }
 
 
-
-// dd($tours->sortBy('operator_full_pay')->pluck('operator_full_pay'));
-
-
+// dd($tours);
 
         return $tours;
 
