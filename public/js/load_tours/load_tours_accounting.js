@@ -116,6 +116,7 @@ $(document).ready(function () {
 					$("#tbody_tours").append(
 						'<tr>'+
 								'<td>'+tour.id+'</td>'+
+								'<td>'+tour.status+'</td>'+
 								'<td>'+toMmDdYy(tour.date_depart)+'</td>'+
 								'<td>'+tour.operator_code+'</td>'+
 								'<td>'+tour.operator.substr(0,9)+'</td>'+
@@ -153,7 +154,8 @@ $(document).ready(function () {
 	function serch_form_fullfill(iteration=null) {
 		
 		var actuality = $("input[name='actuality_f']:checked").val();
-		
+		var status = $("input[name='status_f']:checked").val();
+
 		// console.log(actuality);
 		var created_from = $("input[name='created_from_f']").val();
 		var created_to = $("input[name='created_to_f']").val();
@@ -183,6 +185,8 @@ $(document).ready(function () {
 
 		// $("select[name='actuality'] option[value='"+actuality+"']").attr('selected', 'selected');
 		$("input[name='actuality']").attr('value', actuality);
+		$("input[name='status']").attr('value', status);
+
 		$("input[name='created_from']").attr('value', created_from);
 		$("input[name='created_to']").attr('value', created_to);
 		$("input[name='ids_from']").attr('value', ids_from);

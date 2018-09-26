@@ -212,7 +212,6 @@ class FunctionsController extends Controller
         // }
 
 
-
        if($request->status == "Нет") {
 
             $hide_cancelled = false;
@@ -485,6 +484,7 @@ class FunctionsController extends Controller
                         return $query->where(function($query) {
                                 
                                 $query->where('status', '<>', 'Аннулировано')
+
                                 ->orwhereNull('status');
 
                                 });
@@ -498,6 +498,7 @@ class FunctionsController extends Controller
         $tours_for_accounting = $collection;
 
 
+// dd(array_column($collection->toArray(), 'status', 'id'));
 
         // FOR ACCOUNTING:
 

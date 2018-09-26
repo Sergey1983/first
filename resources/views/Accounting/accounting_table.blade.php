@@ -50,6 +50,7 @@
 				<tr>
 
 				    <th>№</th>
+				    <th>Статус</th>
 				    <th class="sort" id="date_depart" active="not" next_sort="desc">Вылет</th>
 				    <th>№ брони</th>
 				    <th>Оператор</th>
