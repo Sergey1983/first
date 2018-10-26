@@ -182,13 +182,13 @@
 
 @if (Route::current()->getName() == 'home')
 
-<!-- <div align = "center">
+{{-- <div align = "center">
 
 	<img src="{{ URL::asset('akinfeev.jpg') }}" width="342" height="205" style="border-radius:5px"></img>
 	<p style="margin-top:5px">"Оле-Оле-Оле-Оле, Россия, Вперед!!!:)!"</p>
 
 
-</div> -->
+</div> --}}
 
 @endif
 
