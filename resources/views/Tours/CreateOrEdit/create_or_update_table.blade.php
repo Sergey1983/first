@@ -1,6 +1,5 @@
 
 
-
 <span id="id" hidden="">@isset($tour){{$tour->id}}@endisset</span>
 
 		{!! 

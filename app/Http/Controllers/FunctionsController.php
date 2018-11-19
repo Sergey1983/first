@@ -751,7 +751,9 @@ class FunctionsController extends Controller
             $tour = Tour::find($id);
 
 
-            $tour_array = collect($tour)->except(['id', 'user_id', 'updated_at', 'created_at'])->toArray();
+            // $tour_array = collect($tour)->except(['id', 'user_id', 'updated_at', 'created_at'])->toArray();
+
+            $tour_array = collect($tour)->except(['id', 'user_id', 'updated_at'])->toArray();
 
             $tour_tourists = $tour->tourists->toArray();
 

@@ -2,6 +2,8 @@
 
 @section ('content')
 
+<span id="tour_created_at" hidden="">@isset($tour){{$tour->created_at}}@endisset</span>
+
 @include('Tours.CreateOrEdit.create_or_update_table', ['verb' =>'Обновить', 'button' =>'update_button', 'is_update'=> 1])
 
 <script type="text/javascript" src="{{ URL::asset('js/create_tour/initial_functions.js') }}"></script>

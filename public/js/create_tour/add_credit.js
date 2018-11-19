@@ -23,7 +23,7 @@ $(document).ready(function () {
 
 						 	'<div class="form-group" id="bank">'+
 								
-								'<label for="bank" class="control-label col-md-4">Первый взнос</label>'+
+								'<label for="bank" class="control-label col-md-4">Банк</label>'+
 
 								'<div class="col-md-8">'+
 
