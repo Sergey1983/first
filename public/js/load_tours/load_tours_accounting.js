@@ -172,6 +172,8 @@ $(document).ready(function () {
 		var tourist_name = $("input[name='tourist_name_f']").val();
 		var tourist_lastname = $("input[name='tourist_lastname_f']").val();
 		var branch = $("select[name='branch_f']").val();
+		var accounting_no_debt = $("input[name='accounting_no_debt_f']:checked").val();
+
 
 
 		if(iteration == null) {
@@ -206,6 +208,7 @@ $(document).ready(function () {
 		$("input[name='tourist_name']").attr('value', tourist_name);
 		$("input[name='tourist_lastname']").attr('value', tourist_lastname);
 		$("input[name='branch']").attr('value', branch);
+		$("input[name='accounting_no_debt']").attr('value', accounting_no_debt);
 
 
 	}

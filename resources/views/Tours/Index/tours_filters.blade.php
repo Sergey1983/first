@@ -1,6 +1,7 @@
 
 	<div class="row">
 
+
 		<div class="col-md-12">
 
 			{!! Form::open(['id'=>'search', 'class'=>'form', 'hidden'=>'hidden']) !!}
@@ -37,6 +38,9 @@
 				{!! Form::text ('tourist_name', null , [ 'class'=>"form-control"])!!}
 				{!! Form::text ('tourist_lastname', null , [ 'class'=>"form-control"])!!}
 				{!! Form::text ('branch', null , [ 'class'=>"form-control"])!!}
+				{!! Form::text ('accounting_no_debt', null , [ 'class'=>"form-control"])!!}
+
+
 
 
 			{!! Form::close() !!}
@@ -112,6 +116,7 @@
 							      </label>
 							    
 							</div>
+
 						</div>
 
 
@@ -153,7 +158,35 @@
 						</div>
 
 
+@isset($accounting)
+					 	<div class="form-group">
 
+					 		<div class="col-md-12 medium-label">
+
+								<medium>Скрыть заявки без долгов</medium>		 			
+
+					 		</div>
+
+
+							<div class="btn-group btn-group-md col-md-12" data-toggle="buttons">
+
+							      <label class="btn btn-primary active">
+							    
+							        <input type="radio" name="accounting_no_debt_f" value="Да" checked="">Да
+							    
+							      </label>
+							    
+							      <label class="btn btn-primary">
+							    
+							        <input type="radio" name="accounting_no_debt_f" value="Нет" >Нет
+							    
+							      </label>
+							    
+							</div>
+							
+						</div>
+
+@endisset
 					</div>
 
 

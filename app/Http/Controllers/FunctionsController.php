@@ -188,18 +188,16 @@ class FunctionsController extends Controller
         $tour_type = [];
 
 
-
-
         if($request->actuality == "Да") {
 
-            $actuality =  [['date_depart', '>=', date("Y-m-d H:i:s")]];
+            $actuality =  [['date_depart', '>=', date("Y-m-d 00:00:00")]];
 
             $actuality_yes = true;
 
 
         } else if ($request->actuality == "Нет") {
 
-            $actuality =[['date_depart', '<=', date("Y-m-d H:i:s") ]];
+            $actuality =[['date_depart', '<=', date("Y-m-d 00:00:00") ]];
 
 
         } 
@@ -416,7 +414,6 @@ class FunctionsController extends Controller
 
      {
     	
-
         $user = auth()->user();
 
         $tourist_search = false;
@@ -510,45 +507,60 @@ class FunctionsController extends Controller
             $saldo_USD = 0;
             $saldo_EUR = 0;
 
-            foreach ($tours_for_accounting as $tour) {
-
-            $payments_to_operator = $tour->currency == 'RUB' ? $tour->payments_to_operator_rub_sum() : $tour->payments_to_operator_sum();
+            foreach ($tours_for_accounting as $key => $tour) {
 
 
-            $tour->pay_date = $payments_to_operator == 0 ? $tour->operator_part_pay : $tour->operator_full_pay;
+
+                $payments_to_operator = $tour->currency == 'RUB' ? $tour->payments_to_operator_rub_sum() : $tour->payments_to_operator_sum();
 
 
-                if(!is_null($tour->operator_price_rub)) {
-
-                    $currency = self::getCurrency($tour);
-
-                    $operator_price = $tour->currency == 'RUB' ? $tour->operator_price_rub : $tour->operator_price;
-
-                    $debt_agency =  number_format($operator_price - $payments_to_operator, 2, '.', '');
-
-                    $debt_customer = number_format($tour->price - $tour->payments_from_tourists_sum(), 2, '.', '');
-
-                    $saldo = $debt_agency - $debt_customer;
-
-                    $tour->saldo = $saldo.' '.$currency;
-
-                    $tour->debt_agency = $debt_agency.' '.$currency;
-
-                    $tour->debt_customer = $debt_customer.' '.$currency;
-
-                    ${'saldo_'.$tour->currency} += $saldo;
+                $tour->pay_date = $payments_to_operator == 0 ? $tour->operator_part_pay : $tour->operator_full_pay;
 
 
-                } else {
+                    if(!is_null($tour->operator_price_rub)) {
 
-                    $tour->saldo = null;
+                        $currency = self::getCurrency($tour);
 
-                    $tour->debt_agency = null;
+                        $operator_price = $tour->currency == 'RUB' ? $tour->operator_price_rub : $tour->operator_price;
 
-                    $tour->debt_customer = null;
+                        $debt_agency =  number_format($operator_price - $payments_to_operator, 2, '.', '');
+
+                        $debt_customer = number_format($tour->price - $tour->payments_from_tourists_sum(), 2, '.', '');
 
 
-                }
+                        if($request->accounting_no_debt == 'Да') {
+
+                            if($debt_agency == 0.00 && $debt_customer == 0.00) {
+                            
+                             unset($tours_for_accounting[$key]);
+
+                             continue;
+
+                            }
+                        
+                        }  
+
+                        $saldo = $debt_agency - $debt_customer;
+
+                        $tour->saldo = $saldo.' '.$currency;
+
+                        $tour->debt_agency = $debt_agency.' '.$currency;
+
+                        $tour->debt_customer = $debt_customer.' '.$currency;
+
+                        ${'saldo_'.$tour->currency} += $saldo;
+
+
+                    } else {
+
+                        $tour->saldo = null;
+
+                        $tour->debt_agency = null;
+
+                        $tour->debt_customer = null;
+
+
+                    }
 
 
 

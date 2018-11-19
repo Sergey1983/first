@@ -9,7 +9,7 @@ class Accounting
 
     public static function index() {
 
-            return view('Accounting.accounting');
+            return view('Accounting.accounting')->with('accounting', true);
 
   }
 
