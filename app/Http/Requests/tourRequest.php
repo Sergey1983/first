@@ -54,6 +54,7 @@ class tourRequest extends FormRequest
             'food_type' => 'required',
             'currency' => 'required',
             'price_rub' => 'required|regex: /^\d+(\.\d+)?$/|numeric|max:99999999',
+            'is_credit' => 'required',
             'transfer' => 'required',
             'noexit_insurance' => 'required',
             'med_insurance' => 'required',

@@ -2,11 +2,12 @@ $(document).ready(function () {
 
 	console.log("add_credit.js loaded");
 
-	$('#is_credit').change(function(){
+	$('select[name="is_credit"]').change(function(){
 
-		if(this.checked) {
 
-			$('div[id$="price_rub"]').after(
+		if(this.value == 1) {
+
+			$('div[id$="is_credit"]').after(
 
 						 	'<div class="form-group" id="first_payment">'+
 

@@ -287,25 +287,28 @@
 
 						 		{!! Form::text('price_rub', null, ['placeholder' =>  'Округляйте сумму', 'class'=>"form-control", 'id'=>'price_rub'] )  !!}
 
-								<div class="row ">
+						 	</div>
 
-									<div class="col-md-12 text-right">	
+						</div>
+
 @php 
 
 	$checked = ( (isset($tour)) && ($tour->is_credit == 1)) ? true : false
 
 @endphp
-									
-									<small>Тур преобретается в кредит {!! Form::checkbox ('is_credit', 1, $checked, ['id'=>'is_credit'])!!}</small>
 
-									</div>
+					 	<div class="form-group" id="is_credit">
 
-								</div>
+							{!! Form::label('is_credit', 'Тур преобретается в кредит', ['class'=>'control-label col-md-4'])!!}
 
-						 	</div>
+							<div class="col-md-8">
+
+
+ 								{!! Form::select('is_credit', [0 => 'нет', 1 => 'да'], $checked, ['placeholder' =>  'Не выбрано', 'class'=>"form-control", 'id'=>'is_credit'])!!}
+
+ 							</div>
 
 						</div>
-
 
 @if($checked)
 
