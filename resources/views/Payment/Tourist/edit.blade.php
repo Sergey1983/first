@@ -109,7 +109,7 @@ $tour_first_payment = $tour->first_payment === null ? 0 : $tour->first_payment;
 
 $first_payment = $create_and_credit ? $tour_first_payment : null;
 
-$pay_methods = $create_and_credit ? [3 => "Кредит"] : $pay_methods;
+// $pay_methods = $create_and_credit ? [3 => "Кредит"] : $pay_methods;
 
 $pay_method = $create_and_credit ? 3 : null;
 
@@ -148,7 +148,7 @@ $readonly =  $create_and_credit ? 'readonly' : null;
 
 							<div class="col-md-4">
 
-						 		{!! Form::select('pay_method_id', $pay_methods, $pay_method, ['class'=>"form-control", 'id'=>'pay_method_id', 'required', $readonly] )  !!}
+						 		{!! Form::select('pay_method_id', $pay_methods, $pay_method, ['class'=>"form-control", 'id'=>'pay_method_id', 'required' /*, $readonly */] )  !!}
 
 						 	</div>
 
