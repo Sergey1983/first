@@ -50,6 +50,7 @@ class tourRequest extends FormRequest
             'nights' => 'required',
             'date_depart' => 'required|date_format:Y-m-d|after_or_equal:today',
             'hotel' => 'required',
+            'date_hotel' => 'required',
             'room' => 'required',
             'food_type' => 'required',
             'currency' => 'required',

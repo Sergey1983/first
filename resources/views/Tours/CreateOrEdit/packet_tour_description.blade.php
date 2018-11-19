@@ -141,23 +141,26 @@
 
 								{!! Form::date ('date_depart', null, ['class'=>'form-control', 'id'=>'date_depart'])!!}
 
-								<div class="row ">
 
+						 	</div>
 
-									<div class="col-md-12 text-right">	
+						</div>
 
 @php 
 
 	$checked = ( (isset($tour)) && ($tour->date_hotel == 1)) ? true : false
 
 @endphp
-									
-									<small>Заселение в отель на день позже {!! Form::checkbox ('date_hotel', 1, $checked, ['id'=>'date_hotel'])!!}</small>
 
-									</div>
 
-								</div>
 
+					 	<div class="form-group">
+							
+							{!! Form::label('date_hotel', 'Заселение на день позже', ['class'=>'control-label col-md-4'])!!}
+
+							<div class="col-md-8">
+
+ 								{!! Form::select('date_hotel', [0 => 'нет', 1 => 'да'], $checked, ['placeholder' =>  'Не выбрано', 'class'=>"form-control", 'id'=>'date_hotel'])!!}
 
 						 	</div>
 
