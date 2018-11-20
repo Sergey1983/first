@@ -48,7 +48,8 @@ class tourRequest extends FormRequest
             'airport' => 'required',
             'operator' => 'required',
             'nights' => 'required',
-            'date_depart' => 'required|date_format:Y-m-d|after_or_equal:today',
+            /* 'date_depart' => 'required|date_format:Y-m-d|after_or_equal:today', */
+            'date_depart' => 'required|date_format:Y-m-d',
             'hotel' => 'required',
             'date_hotel' => 'required',
             'room' => 'required',
@@ -371,7 +372,7 @@ class tourRequest extends FormRequest
                 'for_pas.*' => 'Для данного тура нужен загранпаспорт!',
                 'doc_type.*.*not_in' => "При поездках по России не требуется!",       
                 'is_tourist.*not_in' => "Должен быть хотя бы 1 турист!",                
-                'date_depart.*after_or_equal' => 'Равно или позже сегодня!',
+                // 'date_depart.*after_or_equal' => 'Равно или позже сегодня!',
                 '*.required' => 'Введите значение!',
                 'date_depart.date_format' => 'Формат даты дд.мм.гггг!',
                 'operator_full_pay.date_format' => 'Формат даты дд.мм.гггг!',
