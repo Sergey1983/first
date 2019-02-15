@@ -100,7 +100,7 @@ class Printing
       //$first_manager
 
 
-      setlocale(LC_ALL, 'ru_RU', 'ru_RU.utf8');
+      setlocale(LC_ALL, 'ru_RU.utf8', 'ru_RU');
 
       $offset = 0;
 
@@ -370,7 +370,7 @@ class Printing
 
     public static function process_tourists($tour, $tourists_tr) {
 
-      setlocale(LC_TIME, 'ru_RU');
+      setlocale(LC_TIME, 'ru_RU.utf8', 'ru_RU');
 
       $tourists = $tour->tourists_only_who_really_go;
 

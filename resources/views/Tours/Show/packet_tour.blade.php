@@ -1,5 +1,5 @@
 @php 
-      setlocale(LC_TIME, 'ru_RU', 'ru_RU.utf8');
+      setlocale(LC_TIME, 'ru_RU.utf8', 'ru_RU');
       use App\Services\RusMonth;
 
 @endphp
@@ -114,11 +114,11 @@
 
 					<tr>
 						<td>Оплата в кредит?</td>
-						<td>{{($tour->first_payment==null) ? 'Нет': 'Да'}}</td>
+						<td>{{($tour->first_payment===null) ? 'Нет': 'Да'}}</td>
 					</tr>
 
 
-@unless($tour->first_payment==null)
+@unless($tour->first_payment===null)
 
 					<tr>
 						<td>Первый взнос за кредит</td>

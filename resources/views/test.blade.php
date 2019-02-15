@@ -20,16 +20,6 @@
 <body>
 
 
-
-
-
-<form id="calculator">
-  <input type="text" name="digit1">
-  <input type="text" name="digit2">
-  <input type="submit" value ="Посчитать">
-  Результат: <span id="result"></span>
-</form>
-
 {{phpinfo()}}
 </body>
 
@@ -51,6 +41,3 @@ $(document).ready(function () {
 });
 
 </script>
-
-{{-- <? 
-phpinfo(); --}}

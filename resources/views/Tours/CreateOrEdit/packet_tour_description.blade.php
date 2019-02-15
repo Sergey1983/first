@@ -312,7 +312,7 @@
  							</div>
 
 						</div>
-
+{{-- 
 @if($checked)
 
 						<div class="form-group" id="first_payment">
@@ -351,7 +351,7 @@
 						</div>
 
 
-@endif
+@endif --}}
 
 
 					 	<div class="form-group">

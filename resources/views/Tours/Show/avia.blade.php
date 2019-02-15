@@ -115,11 +115,11 @@
 				<tr>
 					<td>Оплата в кредит?</td>
 {{-- 					{{dd($tour->is_credit)}}
- --}}					<td>{{($tour->is_credit == 0) ? 'Нет': 'Да'}}</td>
+ --}}					<td>{{($tour->is_credit === 0) ? 'Нет': 'Да'}}</td>
 				</tr>
 
 
-@unless($tour->first_payment==null)
+@unless($tour->first_payment===null)
 
 				<tr>
 					<td>Первый взнос за кредит</td>

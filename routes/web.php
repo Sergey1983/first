@@ -1,6 +1,5 @@
 <?php
 
-Route::get('/test', function () {return view('test'); });
 
 Route::get('generate-docx', 'HomeController@generateDocx');
 
@@ -37,6 +36,7 @@ Route::get('refresh_captcha', 'SessionsController@refresh_captcha');
 
 Route::group(['middleware' => 'auth'], function () {
 
+	Route::get('/test', function () {return view('test'); });
 	Route::get('/tours', ['as' => 'home', 'uses' => 'ToursController@index']);
 	Route::get('/tours/create/{tour_type}', ['as' => 'tour.create', 'uses' => 'ToursController@create']);	
 	Route::post('/tours/create', ['as' => 'tour.store', 'uses' => 'ToursController@store']);

@@ -26,25 +26,25 @@ class SortRequest extends RequestVariables
 
         $request_sorted = [];
 
+
         $request_sorted['tour'] = array_intersect_key($request_array, parent::$keys_tour);
 
-            $request_sorted['tour']['tour_type'] = $request->tour_type;
-            $request_sorted['tour']['price'] = $request->price?: $request->price_rub;
-            $request_sorted['tour']['first_payment'] = $request->first_payment ?: null;
-            $request_sorted['tour']['bank'] = $request->bank ?: null;
-            $request_sorted['tour']['noexit_insurance_people'] = $request->noexit_insurance_people ?: null;
-            $request_sorted['tour']['visa_people'] = $request->visa_people ?: null;
-            $request_sorted['tour']['visa_add_people'] = $request->visa_add_people ?: 0;
-            $request_sorted['tour']['date_hotel'] = $request->date_hotel ?: 0;
-            $request_sorted['tour']['add_rooms'] = $request->add_rooms ?: 0;
-            $request_sorted['tour']['change_food_type'] = $request->change_food_type ?: 0;
-            $request_sorted['tour']['is_credit'] = $request->is_credit ?: 0;
-            $request_sorted['tour']['first_payment'] = $request->first_payment ?: null;
-            $request_sorted['tour']['bank'] = $request->bank ?: null;
-            $request_sorted['tour']['noexit_insurance_add_people'] = $request->noexit_insurance_add_people ?: 0;
-            $request_sorted['tour']['change_sightseeing'] = $request->change_sightseeing ?: 0;
-            $request_sorted['tour']['add_source'] = $request->add_source ?: 0;
-            $request_sorted['tour']['extra_info'] = $request->extra_info ?: null;
+        $request_sorted['tour']['tour_type'] = $request->tour_type;
+        $request_sorted['tour']['price'] = $request->price?: $request->price_rub;
+        $request_sorted['tour']['first_payment'] = ($request->first_payment === null) ? null : floatval($request->first_payment);
+
+        $request_sorted['tour']['bank'] = $request->bank ?: null;
+        $request_sorted['tour']['noexit_insurance_people'] = $request->noexit_insurance_people ?: null;
+        $request_sorted['tour']['visa_people'] = $request->visa_people ?: null;
+        $request_sorted['tour']['visa_add_people'] = $request->visa_add_people ?: 0;
+        $request_sorted['tour']['date_hotel'] = $request->date_hotel ?: 0;
+        $request_sorted['tour']['add_rooms'] = $request->add_rooms ?: 0;
+        $request_sorted['tour']['change_food_type'] = $request->change_food_type ?: 0;
+        $request_sorted['tour']['is_credit'] = $request->is_credit ?: 0;
+        $request_sorted['tour']['noexit_insurance_add_people'] = $request->noexit_insurance_add_people ?: 0;
+        $request_sorted['tour']['change_sightseeing'] = $request->change_sightseeing ?: 0;
+        $request_sorted['tour']['add_source'] = $request->add_source ?: 0;
+        $request_sorted['tour']['extra_info'] = $request->extra_info ?: null;
 
 
         if($request_array['allchecked']=='true') {
@@ -52,7 +52,6 @@ class SortRequest extends RequestVariables
             $request_sorted['allchecked'] = true;
 
         }
-        
 
         $tourists_array =  array_intersect_key($request_array, parent::$keys_tourist);
 
