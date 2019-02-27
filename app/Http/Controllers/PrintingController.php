@@ -92,7 +92,7 @@ class PrintingController extends Controller
       'width' => 100 * 50,
       ));
         $table->addRow();
-        $cell = $table->addCell()->addText("Турагент ".$manager."______________");
+        $cell = $table->addCell()->addText("Агент ".$manager."______________");
         $cell = $table->addCell()->addText("Заказчик ".$buyer."______________", array('bold'=>false), array('align'=>'right'));
 
 
